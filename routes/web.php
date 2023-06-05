@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TireController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TireManufactureController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +33,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource("tire", TireController::class);
+Route::resource("unit", UnitController::class);
+Route::resource("dashboard", DashboardController::class);
+Route::resource("tiremanufacture", TireManufactureController::class);
 require __DIR__ . '/auth.php';
