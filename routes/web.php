@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::resource("tire", TireController::class);
+Route::middleware(['auth', 'role:superadmin'])->group(function () {
+    Route::resource("tire", TireController::class);
+});
 require __DIR__ . '/auth.php';
