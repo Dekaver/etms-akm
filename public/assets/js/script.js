@@ -599,7 +599,7 @@ $(document).ready(function(){
 		'</div>' +
 	'</div>' +
 	'</div>' +
-    $("body").append(right_side_views);
+    // $("body").append(right_side_views);
 
 	// Sidebar Visible
 	
@@ -867,7 +867,7 @@ $(document).ready(function(){
 		 	'</div>' +
 	  	'</div>';
 
-$("body").append(customize_link);
+// $("body").append(customize_link);
 
 $('.add-setting').on("click", function (e) {
 	e.preventDefault();
