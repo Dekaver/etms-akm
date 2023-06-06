@@ -5,6 +5,8 @@ use App\Http\Controllers\TireController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TireManufactureController;
+use App\Http\Controllers\TirePatternController;
+use App\Http\Controllers\TireSizeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,4 +38,6 @@ Route::resource("tire", TireController::class);
 Route::resource("unit", UnitController::class);
 Route::resource("dashboard", DashboardController::class);
 Route::resource("tiremanufacture", TireManufactureController::class);
+Route::resource("tirepattern", TirePatternController::class);
+Route::resource("tiresize", TireSizeController::class);
 require __DIR__ . '/auth.php';

@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Manufacture</h4>
+            <h4>Tire Pattern</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Manufacture</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tire Pattern</li>
                 </ol>
             </nav>
         </div>
@@ -19,6 +19,12 @@
         <div class="card-body">
             <div class="table-top">
                 <div class="search-set">
+                    <div class="search-path">
+                        <a class="btn btn-filter" id="filter_search">
+                            <img src="assets/img/icons/filter.svg" alt="img">
+                            <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                        </a>
+                    </div>
                     <div class="search-input">
                         <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
                     </div>
@@ -37,6 +43,41 @@
                     </ul>
                 </div>
             </div>
+            <!-- /Filter -->
+            <div class="card mb-0" id="filter_inputs">
+                <div class="card-body pb-0">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <select class="select">
+                                            <option>Choose Manufacture</option>
+                                            <option>AELOUS</option>
+                                            <option>ADVANCE</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <select class="select">
+                                            <option>Choose Pattern</option>
+                                            <option>GL665A</option>
+                                            <option>GL690A</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Filter -->
             <div class="table-responsive">
                 <table class="table  datanew">
                     <thead>
@@ -48,7 +89,9 @@
                                 </label>
                             </th>
                             <th>ID</th>
-                            <th>Name</th>
+                            <th>Tire Manufacture</th>
+                            <th>Pattern</th>
+                            <th>Type Pattern</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -60,8 +103,10 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>PT001</td>
+                            <td>01</td>
                             <td>AELOUS</td>
+                            <td>GL665A</td>
+                            <td>RIB</td>
                             <td>
                                 <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
@@ -78,8 +123,10 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>PT002</td>
+                            <td>02</td>
                             <td>ADVANCE</td>
+                            <td>GL690A</td>
+                            <td>LUG</td>
                             <td>
                                 <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
@@ -96,8 +143,10 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>PT003</td>
+                            <td>03</td>
                             <td>BFGOODRICH</td>
+                            <td>GL992A</td>
+                            <td>MIX</td>
                             <td>
                                 <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
@@ -117,7 +166,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Manufacture </h5>
+                    <h5 class="modal-title">Add Pattern </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -125,9 +174,31 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
+                            <div class="form-group ">
+                                <label>Tire Manufacture</label>
+                                <select class="select">
+                                    <option>Choose Manufacture</option>
+                                    <option> AELOUS</option>
+                                    <option> ADVANCE</option>
+                                    <option> BFGOODRICH</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <div class="form-group">
-                                <label>Name<span class="manitory">*</span></label>
+                                <label>Pattern<span class="manitory">*</span></label>
                                 <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-0">
+                                <label>Type Pattern</label>
+                                <select class="select">
+                                    <option>Choose Manufacture</option>
+                                    <option> Lug</option>
+                                    <option> Mix</option>
+                                    <option> Rib</option>
+                                </select>
                             </div>
                         </div>
                     </div>

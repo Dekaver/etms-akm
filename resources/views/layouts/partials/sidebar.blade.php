@@ -19,8 +19,8 @@
                             Data Tire</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="/tiremanufacture">Tire Manufacture</a></li>
-                        <li><a href="">Tire Pattern</a></li>
-                        <li><a href="">Tire Size</a></li>
+                        <li><a href="/tirepattern">Tire Pattern</a></li>
+                        <li><a href="/tiresize">Tire Size</a></li>
                         <li><a href="">Tire Compound</a></li>
                         <li><a href="">Tire Status</a></li>
                         <li><a href="">Tire Damage</a></li>
