@@ -509,6 +509,52 @@ $(document).ready(function () {
             return false;
         });
     })();
+'<div class="sidebar-layout">' +
+	'<div class="sidebar-content">' +
+		'<div class="sidebar-top">' +
+			'<div class="container-fluid">' +
+				'<div class="row align-items-center">' +
+					'<div class="col-xl-6 col-sm-6 col-12">' +
+						'<div class="sidebar-logo">' +
+							'<a href="index" class="logo">' +
+								'<img src="assets/img/logo.png" alt="Logo" class="img-flex">' +
+							'</a>' +
+						'</div>' +
+					'</div>' +
+					'<div class="col-xl-6 col-sm-6 col-12">' +
+						'<a class="btn-closed" href="javascript:void(0);"><img class="img-fliud" src="assets/img/icons/sidebar-delete-icon.svg" alt="demo"></a>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' +
+		'<div class="container-fluid">' +
+			'<div class="row align-items-center">' +
+				'<h5 class="sidebar-title">Choose layout</h5>' +
+				'<div class="col-xl-12 col-sm-6 col-12">' +
+					'<div class="sidebar-image align-center">' +
+						'<img class="img-fliud" src="assets/img/demo-one.png" alt="demo">' +
+					'</div>' +
+					'<div class="row">' +
+						'<div class="col-lg-6 layout">' +
+							'<h5 class="layout-title">Dark Mode</h5>' +
+						'</div>' +
+						'<div class="col-lg-6 layout dark-mode">' +
+							'<label class="toggle-switch" for="notification_switch3">' +
+							'<span>' +
+							'<input type="checkbox" class="toggle-switch-input" id="notification_switch3">' +
+							'<span class="toggle-switch-label ms-auto">' +
+							'	<span class="toggle-switch-indicator"></span>' +
+							'</span>' +
+							'</span>' +
+							' </label>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' +
+	'</div>' +
+	'</div>' +
+    // $("body").append(right_side_views);
 
     // Mail important
 
@@ -627,6 +673,7 @@ $(document).ready(function () {
         s.preventDefault();
         $('.siderbar-view').addClass('show-sidebar');
     });
+// $("body").append(customize_link);
 
     $('.btn-closed').on("click", function (s) {
         s.preventDefault();
@@ -867,7 +914,7 @@ $(document).ready(function () {
         '</div>' +
         '</div>';
 
-    $("body").append(customize_link);
+    // $("body").append(customize_link);
 
     $('.add-setting').on("click", function (e) {
         e.preventDefault();

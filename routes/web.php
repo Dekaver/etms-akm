@@ -8,6 +8,17 @@ use App\Http\Controllers\TireManufactureController;
 use App\Http\Controllers\TirePatternController;
 use App\Http\Controllers\TireSizeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TireCompoundController;
+use App\Http\Controllers\TireStatusController;
+use App\Http\Controllers\TireDamageController;
+use App\Http\Controllers\TireMasterController;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\UnitStatusController;
+use App\Http\Controllers\UnitModelController;
+use App\Http\Controllers\TireMovementController;
+use App\Http\Controllers\TireDisposisiController;
+use App\Http\Controllers\TireRepairController;
+use App\Http\Controllers\TireRunningController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,4 +54,17 @@ Route::resource("dashboard", DashboardController::class);
 Route::resource("tiremanufacture", TireManufactureController::class);
 Route::resource("tirepattern", TirePatternController::class);
 Route::resource("tiresize", TireSizeController::class);
+Route::resource("tirecompound", TireCompoundController::class);
+Route::resource("tirestatus", TireStatusController::class);
+Route::resource("tiredamage", TireDamageController::class);
+Route::resource("tiremaster", TireMasterController::class);
+
+Route::resource("site", SiteController::class);
+Route::resource("unitstatus", UnitStatusController::class);
+Route::resource("unitmodel", UnitModelController::class);
+Route::resource("unit", UnitController::class);
+Route::resource("tiremovement", TireMovementController::class);
+Route::resource("tiredisposisi", TireDisposisiController::class);
+Route::resource("tirerepair", TireRepairController::class);
+Route::resource("tirerunning", TireRunningController::class);
 require __DIR__ . '/auth.php';

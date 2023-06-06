@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Unit;
+use App\Models\TireRepair;
 use Illuminate\Http\Request;
 
-class UnitController extends Controller
+class TireRepairController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view("admin.data.unit");
-        //
+        return view("admin.data.tirerepair");
     }
 
     /**
@@ -35,7 +34,7 @@ class UnitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Unit $unit)
+    public function show(TireRepair $tireRepair)
     {
         //
     }
@@ -43,7 +42,7 @@ class UnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Unit $unit)
+    public function edit(TireRepair $tireRepair)
     {
         //
     }
@@ -51,7 +50,7 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Unit $unit)
+    public function update(Request $request, TireRepair $tireRepair)
     {
         //
     }
@@ -59,7 +58,7 @@ class UnitController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Unit $unit)
+    public function destroy(TireRepair $tireRepair)
     {
         //
     }

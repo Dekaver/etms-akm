@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Size</h4>
+            <h4>Unit Model</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Data Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Size</li>
+                    <li class="breadcrumb-item"><a href="#">Data</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Unit Model</li>
                 </ol>
             </nav>
         </div>
@@ -98,13 +98,13 @@
                                 </label>
                             </th>
                             <th>Brand</th>
-                            <th>Size</th>
-                            <th>Pattern</th>
-                            <th>Type Pattern</th>
-                            <th>OTD</th>
-                            <th>Rec. Pressure</th>
-                            <th>Target Lifetime</th>
-                            <th>Price</th>
+                            <th>Unit Model</th>
+                            <th>Model Type</th>
+                            <th>Tire Size</th>
+                            <th>Tire Quantity</th>
+                            <th>Axle 2 Tire</th>
+                            <th>Axle 4 Tire</th>
+                            <th>Axle 8 Tire</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -116,14 +116,14 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>AELOUS</td>
-                            <td>27.00R</td>
-                            <td>GL690A</td>
-                            <td>LUG</td>
-                            <td>92</td>
-                            <td>80</td>
-                            <td>12000</td>
-                            <td>-</td>
+                            <td>SCANIA</td>
+                            <td>P360 LA 6X6</td>
+                            <td>Prime Mover</td>
+                            <td>12.002R</td>
+                            <td>10</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>2</td>
                             <td>
                                 <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
@@ -140,14 +140,14 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>ADVANCE</td>
-                            <td>21.02R</td>
-                            <td>GL992A</td>
-                            <td>MIX</td>
-                            <td>91</td>
-                            <td>90</td>
-                            <td>11000</td>
-                            <td>-</td>
+                            <td>PRU</td>
+                            <td>P460 LA 6X6</td>
+                            <td>TRAILER</td>
+                            <td>12.402R</td>
+                            <td>16</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>2</td>
                             <td>
                                 <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
@@ -164,14 +164,14 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>BRIDGESTONE</td>
-                            <td>29.23R</td>
-                            <td>GL665A</td>
-                            <td>RIB</td>
-                            <td>95</td>
-                            <td>90</td>
-                            <td>14000</td>
-                            <td>-</td>
+                            <td>VOLVO</td>
+                            <td>SDT 115</td>
+                            <td>DOLLY</td>
+                            <td>12.004RD</td>
+                            <td>12</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>2</td>
                             <td>
                                 <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
@@ -191,50 +191,84 @@
         <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Size </h5>
+                    <h5 class="modal-title">Add Unit Model </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
-                                <label>Size</label>
+                                <label>Brand</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label>Unit Model</label>
                                 <input type="text">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group mb-0">
-                                <label>Tire Pattern</label>
+                                <label>Model Type</label>
                                 <select class="select">
-                                    <option>Choose Pattern</option>
-                                    <option> ADVANCE</option>
-                                    <option> AELOUS</option>
+                                    <option>Choose Model</option>
+                                    <option> Prime Mover</option>
+                                    <option> Trailer</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-4">
+                            <div class="form-group mb-0">
+                                <label>Tire Size</label>
+                                <select class="select">
+                                    <option>Choose Size</option>
+                                    <option> -</option>
+                                    <option> -</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
                             <div class="form-group">
-                                <label>OTD</label>
+                                <label>Tire Qty</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Axle 2 Tire</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Axle 4 Tire</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Axle 8 Tire</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Load Distribution</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <label>Empty Weight Info</label>
                                 <input type="text">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Rec. Pressure</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Target Lifetime</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Price</label>
+                                <label>Standar Load Capacity</label>
                                 <input type="text">
                             </div>
                         </div>
