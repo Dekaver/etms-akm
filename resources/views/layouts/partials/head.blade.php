@@ -17,6 +17,9 @@
     <!-- Toatr CSS -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toatr.css') }}">
 
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
     <!-- Animation CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
 

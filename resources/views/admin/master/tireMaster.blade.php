@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Size</h4>
+            <h4>Tire Master</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Size</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tire Master</li>
                 </ol>
             </nav>
         </div>
@@ -49,7 +49,25 @@
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="row">
-                                <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <select class="select">
+                                            <option>Choose Site</option>
+                                            <option>-</option>
+                                            <option>-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <select class="select">
+                                            <option>Choose Size</option>
+                                            <option>-</option>
+                                            <option>-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-12">
                                     <div class="form-group">
                                         <select class="select">
                                             <option>Choose Pattern</option>
@@ -58,19 +76,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="col-lg-2 col-sm-6 col-12">
                                     <div class="form-group">
                                         <select class="select">
-                                            <option>Choose Brand</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Size</option>
+                                            <option>Choose Status</option>
                                             <option>-</option>
                                             <option>-</option>
                                         </select>
@@ -97,14 +106,14 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Brand</th>
+                            <th>Site</th>
+                            <th>Serial Number</th>
                             <th>Size</th>
                             <th>Pattern</th>
-                            <th>Type Pattern</th>
-                            <th>OTD</th>
-                            <th>Rec. Pressure</th>
-                            <th>Target Lifetime</th>
-                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Lifetime</th>
+                            <th>RTD</th>
+                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -116,16 +125,16 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>AELOUS</td>
-                            <td>27.00R</td>
+                            <td>SENYIUR</td>
+                            <td>0N0289394JA</td>
+                            <td>12.099R</td>
                             <td>GL690A</td>
-                            <td>LUG</td>
-                            <td>92</td>
-                            <td>80</td>
+                            <td>Running</td>
                             <td>12000</td>
-                            <td>-</td>
+                            <td>5</td>
+                            <td>19 Juni 2023</td>
                             <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
+                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
                                 </a>
                                 <a class="confirm-text" href="javascript:void(0);">
@@ -140,40 +149,16 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>ADVANCE</td>
-                            <td>21.02R</td>
-                            <td>GL992A</td>
-                            <td>MIX</td>
-                            <td>91</td>
-                            <td>90</td>
-                            <td>11000</td>
-                            <td>-</td>
+                            <td>KARIANGAU</td>
+                            <td>0J2048931</td>
+                            <td>22.02R</td>
+                            <td>GL660A</td>
+                            <td>Running</td>
+                            <td>16000</td>
+                            <td>10</td>
+                            <td>20 Juni 2023</td>
                             <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>BRIDGESTONE</td>
-                            <td>29.23R</td>
-                            <td>GL665A</td>
-                            <td>RIB</td>
-                            <td>95</td>
-                            <td>90</td>
-                            <td>14000</td>
-                            <td>-</td>
-                            <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
+                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
                                 </a>
                                 <a class="confirm-text" href="javascript:void(0);">
@@ -191,7 +176,7 @@
         <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Size </h5>
+                    <h5 class="modal-title">Add Tire </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -199,43 +184,72 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-4">
-                            <div class="form-group">
-                                <label>Size</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-4">
                             <div class="form-group mb-0">
-                                <label>Tire Pattern</label>
+                                <label>Site</label>
                                 <select class="select">
-                                    <option>Choose Pattern</option>
-                                    <option> ADVANCE</option>
-                                    <option> AELOUS</option>
+                                    <option>Choose Site</option>
+                                    <option> 1</option>
+                                    <option> 2</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>OTD</label>
+                                <label>Serial Number</label>
                                 <input type="text">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Rec. Pressure</label>
+                                <label>Size</label>
+                                <select class="select">
+                                    <option>Choose Size</option>
+                                    <option> 1</option>
+                                    <option> 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Compound</label>
+                                <select class="select">
+                                    <option>Choose Compound</option>
+                                    <option> 1</option>
+                                    <option> 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select class="select">
+                                    <option>Choose Status</option>
+                                    <option> 1</option>
+                                    <option> 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Tire Lifetime</label>
                                 <input type="text">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Target Lifetime</label>
+                                <label>RTD</label>
                                 <input type="text">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Price</label>
-                                <input type="text">
+                                <label>Quotation Date </label>
+                                <div class="input-groupicon">
+                                    <input type="text" placeholder="DD-MM-YYYY" class="datetimepicker">
+                                    <div class="addonset">
+                                        <img src="assets/img/icons/calendars.svg" alt="img">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
