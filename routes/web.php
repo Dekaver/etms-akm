@@ -43,11 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("unit", UnitController::class);
     Route::resource("dashboard", DashboardController::class);
     Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
+    Route::resource("tirepattern", TirePatternController::class);
+    Route::resource("tiresize", TireSizeController::class);
 });
-Route::resource("user", UserController::class);
-Route::resource("unit", UnitController::class);
-Route::resource("dashboard", DashboardController::class);
-Route::resource("tiremanufacture", TireManufactureController::class);
-Route::resource("tirepattern", TirePatternController::class);
-Route::resource("tiresize", TireSizeController::class);
 require __DIR__ . '/auth.php';
