@@ -5,6 +5,8 @@ use App\Http\Controllers\TireController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TireManufactureController;
+use App\Http\Controllers\TirePatternController;
+use App\Http\Controllers\TireSizeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -42,8 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("dashboard", DashboardController::class);
     Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
 });
-Route::get("/run", function () {
-    // Permission::create(['name' => 'TIRE_MANUFACTURE']);
-    auth()->user()->givePermissionTo('TIRE_MANUFACTURE');
-});
+Route::resource("user", UserController::class);
+Route::resource("unit", UnitController::class);
+Route::resource("dashboard", DashboardController::class);
+Route::resource("tiremanufacture", TireManufactureController::class);
+Route::resource("tirepattern", TirePatternController::class);
+Route::resource("tiresize", TireSizeController::class);
 require __DIR__ . '/auth.php';
