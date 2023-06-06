@@ -5,6 +5,7 @@ use App\Http\Controllers\TireController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TireManufactureController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::resource("tire", TireController::class);
 });
+Route::resource("user", UserController::class);
 Route::resource("unit", UnitController::class);
 Route::resource("dashboard", DashboardController::class);
 Route::resource("tiremanufacture", TireManufactureController::class);
