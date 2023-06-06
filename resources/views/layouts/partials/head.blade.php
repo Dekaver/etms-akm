@@ -13,7 +13,9 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-
+    
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
     <!-- Animation CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
 

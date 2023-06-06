@@ -7,6 +7,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TireManufactureController;
 use App\Http\Controllers\TirePatternController;
 use App\Http\Controllers\TireSizeController;
+use App\Http\Controllers\TireCompoundController;
+use App\Http\Controllers\TireStatusController;
+use App\Http\Controllers\TireDamageController;
+use App\Http\Controllers\TireMasterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,4 +44,8 @@ Route::resource("dashboard", DashboardController::class);
 Route::resource("tiremanufacture", TireManufactureController::class);
 Route::resource("tirepattern", TirePatternController::class);
 Route::resource("tiresize", TireSizeController::class);
+Route::resource("tirecompound", TireCompoundController::class);
+Route::resource("tirestatus", TireStatusController::class);
+Route::resource("tiredamage", TireDamageController::class);
+Route::resource("tiremaster", TireMasterController::class);
 require __DIR__ . '/auth.php';

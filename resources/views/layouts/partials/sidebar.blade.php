@@ -21,10 +21,10 @@
                         <li><a href="/tiremanufacture">Tire Manufacture</a></li>
                         <li><a href="/tirepattern">Tire Pattern</a></li>
                         <li><a href="/tiresize">Tire Size</a></li>
-                        <li><a href="">Tire Compound</a></li>
-                        <li><a href="">Tire Status</a></li>
-                        <li><a href="">Tire Damage</a></li>
-                        <li><a href="">Tire Data Master</a></li>
+                        <li><a href="/tirecompound">Tire Compound</a></li>
+                        <li><a href="/tirestatus">Tire Status</a></li>
+                        <li><a href="/tiredamage">Tire Damage</a></li>
+                        <li><a href="/tiremaster">Tire Data Master</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Size</h4>
+            <h4>Tire Damage</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Size</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tire Damage</li>
                 </ol>
             </nav>
         </div>
@@ -52,7 +52,7 @@
                                 <div class="col-lg-3 col-sm-6 col-12">
                                     <div class="form-group">
                                         <select class="select">
-                                            <option>Choose Pattern</option>
+                                            <option>Choose Damage</option>
                                             <option>-</option>
                                             <option>-</option>
                                         </select>
@@ -61,16 +61,7 @@
                                 <div class="col-lg-3 col-sm-6 col-12">
                                     <div class="form-group">
                                         <select class="select">
-                                            <option>Choose Brand</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Size</option>
+                                            <option>Choose Cause</option>
                                             <option>-</option>
                                             <option>-</option>
                                         </select>
@@ -97,14 +88,10 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </th>
-                            <th>Brand</th>
-                            <th>Size</th>
-                            <th>Pattern</th>
-                            <th>Type Pattern</th>
-                            <th>OTD</th>
-                            <th>Rec. Pressure</th>
-                            <th>Target Lifetime</th>
-                            <th>Price</th>
+                            <th>ID</th>
+                            <th>Damage</th>
+                            <th>Cause</th>
+                            <th>Rating</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -116,16 +103,12 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>AELOUS</td>
-                            <td>27.00R</td>
-                            <td>GL690A</td>
-                            <td>LUG</td>
-                            <td>92</td>
-                            <td>80</td>
-                            <td>12000</td>
+                            <td>01</td>
+                            <td>BEAD FATIQUE</td>
+                            <td>OPERATIONAL</td>
                             <td>-</td>
                             <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
+                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
                                 </a>
                                 <a class="confirm-text" href="javascript:void(0);">
@@ -140,16 +123,12 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>ADVANCE</td>
-                            <td>21.02R</td>
-                            <td>GL992A</td>
-                            <td>MIX</td>
-                            <td>91</td>
-                            <td>90</td>
-                            <td>11000</td>
+                            <td>02</td>
+                            <td>SIDEWALL CUT</td>
+                            <td>MAINTENANCE</td>
                             <td>-</td>
                             <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
+                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
                                 </a>
                                 <a class="confirm-text" href="javascript:void(0);">
@@ -164,16 +143,12 @@
                                     <span class="checkmarks"></span>
                                 </label>
                             </td>
-                            <td>BRIDGESTONE</td>
-                            <td>29.23R</td>
-                            <td>GL665A</td>
-                            <td>RIB</td>
-                            <td>95</td>
-                            <td>90</td>
-                            <td>14000</td>
+                            <td>03</td>
+                            <td>TREAD SEPARATION</td>
+                            <td>OPERATIONAL</td>
                             <td>-</td>
                             <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
+                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
                                     <img src="assets/img/icons/edit.svg" alt="img">
                                 </a>
                                 <a class="confirm-text" href="javascript:void(0);">
@@ -188,53 +163,35 @@
     </div>
     <!-- add Modal -->
     <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Size </h5>
+                    <h5 class="modal-title">Add Damage </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-12">
                             <div class="form-group">
-                                <label>Size</label>
+                                <label>Damage</label>
                                 <input type="text">
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="form-group mb-0">
-                                <label>Tire Pattern</label>
+                        <div class="col-12">
+                            <div class="form-group ">
+                                <label>Cause</label>
                                 <select class="select">
-                                    <option>Choose Pattern</option>
-                                    <option> ADVANCE</option>
-                                    <option> AELOUS</option>
+                                    <option>Choose Cause</option>
+                                    <option> OPERATIONAL</option>
+                                    <option> MAINTENANCE</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12">
                             <div class="form-group">
-                                <label>OTD</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Rec. Pressure</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Target Lifetime</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Price</label>
+                                <label>Rating</label>
                                 <input type="text">
                             </div>
                         </div>
