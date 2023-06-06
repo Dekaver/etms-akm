@@ -32,11 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::middleware(['auth', 'role:superadmin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::resource("tire", TireController::class);
+    Route::resource("user", UserController::class);
+    Route::get("user/{id}/permission", [UserController::class, "indexPermission"])->name('user.permission.index');
+    Route::post("user/{id}/permission/", [UserController::class, "updatePermission"])->name('user.permission.update');
+    Route::resource("unit", UnitController::class);
+    Route::resource("dashboard", DashboardController::class);
+    Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
 });
-Route::resource("user", UserController::class);
-Route::resource("unit", UnitController::class);
-Route::resource("dashboard", DashboardController::class);
-Route::resource("tiremanufacture", TireManufactureController::class);
 require __DIR__ . '/auth.php';

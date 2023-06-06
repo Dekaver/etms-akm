@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\DataTables\UsersDataTable;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -28,6 +30,9 @@ class UserController extends Controller
                                                     data-action='" . route('user.destroy', $row->id) . "'
                                                     data-message='$row->name'>
                                     <img src='assets/img/icons/delete.svg' alt='img'>
+                                </a>
+                                <a class='me-3' href='" . route('user.index') . "/$row->id/permission'>
+                                    <img src='assets/img/icons/settings.svg' alt='img'>
                                 </a>";
                     return $actionBtn;
                 })
@@ -99,6 +104,24 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         User::findOrFail($id)->delete();
+
+        return redirect()->back();
+    }
+
+    public function indexPermission(string $id)
+    {
+        $user = User::findOrFail($id);
+        $permissions = Permission::all();
+        $roles = Role::all();
+
+        return view("admin.users.permission", compact('user', 'permissions', 'roles'));
+    }
+
+    public function updatePermission(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        $user->syncRoles([$request->role]);
+        $user->syncPermissions($request->permission);
 
         return redirect()->back();
     }
