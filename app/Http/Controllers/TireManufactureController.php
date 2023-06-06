@@ -3,16 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\TireManufacture;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class TireManufactureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("admin.master.tiremanufacture");
+        $company = auth()->user()->company;
+
+        if ($request->ajax()) {
+            $data = TireManufacture::where('id_company', $company->id);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = "<a class='me-3 text-warning' href='#'
+                                    data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
+                                    <img src='assets/img/icons/edit.svg' alt='img'>
+                                </a>
+                                <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
+                                                    data-bs-target='#deleteModal' data-id='$row->id'
+                                                    data-action='" . route('tiremanufacture.destroy', $row->id) . "'
+                                                    data-message='$row->name'>
+                                    <img src='assets/img/icons/delete.svg' alt='img'>
+                                </a>
+                                <a class='me-3' href='" . route('tiremanufacture.index') . "/$row->id/permission'>
+                                    <img src='assets/img/icons/settings.svg' alt='img'>
+                                </a>";
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view("admin.master.tiremanufacture.index");
     }
 
     /**
@@ -20,7 +47,7 @@ class TireManufactureController extends Controller
      */
     public function create()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -28,13 +55,21 @@ class TireManufactureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $company = auth()->user()->company;
+
+        TireManufacture::create([
+            "name" => $request->name,
+            "id_company" => $company->id,
+        ]);
+
+        return redirect()->back()->with("success", "Created Tire Manufacture");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(TireManufacture $tireManufacture)
+    public function show(TireManufacture $tiremanufacture)
     {
         //
     }
@@ -42,24 +77,29 @@ class TireManufactureController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TireManufacture $tireManufacture)
+    public function edit(TireManufacture $tiremanufacture)
     {
-        //
+
+        return $tiremanufacture;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TireManufacture $tireManufacture)
+    public function update(Request $request, TireManufacture $tiremanufacture)
     {
-        //
+        $tiremanufacture->name = $request->name;
+        $tiremanufacture->save();
+
+        return redirect()->back()->with("success", "Updated Tire Manufacture");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TireManufacture $tireManufacture)
+    public function destroy(TireManufacture $tiremanufacture)
     {
-        //
+        $tiremanufacture->delete();
+        return redirect()->back()->with("success", "Deleted Tire Manufacture $tiremanufacture->name");
     }
 }
