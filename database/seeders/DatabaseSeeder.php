@@ -28,15 +28,19 @@ class DatabaseSeeder extends Seeder
 
 
         Permission::create(['name' => 'MANAJEMEN_USER']);
+        Permission::create(['name' => 'DEMO']);
 
         $role = Role::create(['name' => 'superadmin']);
         $role->givePermissionTo('MANAJEMEN_USER');
 
-        $role_a = Role::create(['name' => 'admin_a']);
-        $role_a->givePermissionTo('MANAJEMEN_USER');
+        $roleuser = Role::create(['name' => 'user']);
+        $roleuser->givePermissionTo('MANAJEMEN_USER');
 
-        $role_b = Role::create(['name' => 'admin_b']);
-        $role_b->givePermissionTo('MANAJEMEN_USER');
+        $rolenew = Role::create(['name' => 'new']);
+        $rolenew->givePermissionTo('DEMO');
+
+        $role_a = Role::create(['name' => 'customeradmin']);
+        $role_a->givePermissionTo('MANAJEMEN_USER');
 
         $user = \App\Models\User::factory()->create([
             'name' => 'superadmin',
@@ -56,7 +60,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin_b@gmail.com',
             'company_id' => $company2->id
         ]);
-        $user_b->assignRole($role_b);
+        $user_b->assignRole($role_a);
 
 
     }
