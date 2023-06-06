@@ -30,9 +30,6 @@ class TireManufactureController extends Controller
                                                     data-action='" . route('tiremanufacture.destroy', $row->id) . "'
                                                     data-message='$row->name'>
                                     <img src='assets/img/icons/delete.svg' alt='img'>
-                                </a>
-                                <a class='me-3' href='" . route('tiremanufacture.index') . "/$row->id/permission'>
-                                    <img src='assets/img/icons/settings.svg' alt='img'>
                                 </a>";
                     return $actionBtn;
                 })
