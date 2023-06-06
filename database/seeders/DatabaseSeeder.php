@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Company;
+use App\Models\UserCompany;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -49,6 +51,26 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin_b@gmail.com',
         ]);
         $user_b->assignRole($role_b);
+
+        $company1 = Company::factory()->create();
+        $company2 = Company::factory()->create();
+        $company3 = Company::factory()->create();
+
+        $company_all = Company::all();
+        foreach ($company_all as $key => $item) {
+            UserCompany::create([
+                "user_id" => $user->id,
+                "company_id" => $item->id,
+            ]);
+        }
+        UserCompany::create([
+            "user_id" => $user_a->id,
+            "company_id" => $company1->id,
+        ]);
+        UserCompany::create([
+            "user_id" => $user_b->id,
+            "company_id" => $company2->id,
+        ]);
 
 
     }
