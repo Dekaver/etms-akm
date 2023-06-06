@@ -154,7 +154,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input name="new_password" type="password">
+                                    <input name="password" type="password">
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                             name: 'name'
                         },
                         {
-                            data: 'name',
+                            data: 'email',
                             name: 'email'
                         },
                         {

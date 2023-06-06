@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\UsersDataTable;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -62,7 +61,7 @@ class UserController extends Controller
             'password' => bcrypt($request->new_password),
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with("success", "Created New User");
     }
 
     /**
@@ -95,7 +94,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        return redirect()->back();
+        return redirect()->back()->with("success", "Update New User");
     }
 
     /**
@@ -123,6 +122,6 @@ class UserController extends Controller
         $user->syncRoles([$request->role]);
         $user->syncPermissions($request->permission);
 
-        return redirect()->back();
+        return redirect()->back()->with("success", "Deleted User");
     }
 }
