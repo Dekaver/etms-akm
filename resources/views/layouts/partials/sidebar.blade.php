@@ -31,14 +31,14 @@
                     <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span>
                             Data</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="">Site</a></li>
-                        <li><a href="">Unit Status</a></li>
-                        <li><a href="">Unit Model</a></li>
-                        <li><a href="">Data Unit</a></li>
-                        <li><a href="">Tire Movement</a></li>
-                        <li><a href="">Tire Disposisi</a></li>
-                        <li><a href="">Tire Repair</a></li>
-                        <li><a href="">Tire Running Unit</a></li>
+                        <li><a href="/site">Site</a></li>
+                        <li><a href="/unitstatus">Unit Status</a></li>
+                        <li><a href="/unitmodel">Unit Model</a></li>
+                        <li><a href="/unit">Data Unit</a></li>
+                        <li><a href="/tiremovement">Tire Movement</a></li>
+                        <li><a href="/tiredisposisi">Tire Disposisi</a></li>
+                        <li><a href="/tirerepair">Tire Repair</a></li>
+                        <li><a href="/tirerunning">Tire Running Unit</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
