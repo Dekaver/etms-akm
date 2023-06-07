@@ -17,7 +17,7 @@ class TireManufactureController extends Controller
         $company = auth()->user()->company;
 
         if ($request->ajax()) {
-            $data = TireManufacture::where('id_company', $company->id);
+            $data = TireManufacture::where('company_id', $company->id);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -57,7 +57,7 @@ class TireManufactureController extends Controller
 
         TireManufacture::create([
             "name" => $request->name,
-            "id_company" => $company->id,
+            "company_id" => $company->id,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Manufacture");

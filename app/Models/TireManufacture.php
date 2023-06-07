@@ -11,6 +11,6 @@ class TireManufacture extends Model
 
     protected $fillable = [
         "name",
-        "id_company",
+        "company_id",
     ];
 }

@@ -12,9 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sites', function (Blueprint $table) {
-            $table->id();
+            $table->engine = "MyISAM";
+            $table->integer("id")->unsigned();
+            $table->integer("company_id")->unsigned();
+            $table->string("name");
             $table->timestamps();
+            $table->primary(array("id", "company_id"));
         });
+
+        DB::statement('ALTER TABLE sites MODIFY id INTEGER NOT NULL AUTO_INCREMENT');
     }
 
     /**

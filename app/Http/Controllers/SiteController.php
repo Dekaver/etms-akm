@@ -4,15 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class SiteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("admin.data.site");
+        $company = auth()->user()->company;
+
+        if ($request->ajax()) {
+            $data = Site::where('company_id', $company->id);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = "<a class='me-3 text-warning' href='#'
+                                    data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
+                                    <img src='assets/img/icons/edit.svg' alt='img'>
+                                </a>
+                                <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
+                                                    data-bs-target='#deleteModal' data-id='$row->id'
+                                                    data-action='" . route('site.destroy', $row->id) . "'
+                                                    data-message='$row->name'>
+                                    <img src='assets/img/icons/delete.svg' alt='img'>
+                                </a>";
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view("admin.master.site.index");
     }
 
     /**
@@ -28,7 +51,15 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = auth()->user()->company;
+
+        Site::create([
+            "name" => $request->site,
+            "company_id" => $company->id,
+
+        ]);
+
+        return redirect()->back()->with("success", "Created Site");
     }
 
     /**
@@ -44,7 +75,7 @@ class SiteController extends Controller
      */
     public function edit(Site $site)
     {
-        //
+        return $site;
     }
 
     /**
@@ -52,7 +83,10 @@ class SiteController extends Controller
      */
     public function update(Request $request, Site $site)
     {
-        //
+        $site->name = $request->site;
+        $site->save();
+
+        return redirect()->back()->with("success", "Update Site");
     }
 
     /**
@@ -60,6 +94,7 @@ class SiteController extends Controller
      */
     public function destroy(Site $site)
     {
-        //
+        $site->delete();
+        return redirect()->back()->with("success", "Deleted Site");
     }
 }
