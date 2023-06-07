@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TireController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
@@ -20,7 +22,6 @@ use App\Http\Controllers\TireDisposisiController;
 use App\Http\Controllers\TireRepairController;
 use App\Http\Controllers\TireRunningController;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("unit", UnitController::class);
     Route::resource("dashboard", DashboardController::class);
     Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
-    Route::resource("tirepattern", TirePatternController::class);
+    Route::resource("tirepattern", TirePatternController::class)->middleware("permission:TIRE_PATTERN");
     Route::resource("tiresize", TireSizeController::class);
     Route::resource("tirecompound", TireCompoundController::class);
     Route::resource("tirestatus", TireStatusController::class);
@@ -70,4 +71,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("tirerepair", TireRepairController::class);
     Route::resource("tirerunning", TireRunningController::class);
 });
+Route::resource("permission", PermissionController::class);
+Route::resource("role", RoleController::class);
 require __DIR__ . '/auth.php';

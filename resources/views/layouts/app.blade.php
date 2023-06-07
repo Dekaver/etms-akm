@@ -58,6 +58,9 @@
             modal.find('form').attr('action', action);
             modal.find('#message').html(message);
         });
+        $(document).ready(function() {
+            $('select[multiple="multiple"]').select2();
+        });
     </script>
 </body>
 
