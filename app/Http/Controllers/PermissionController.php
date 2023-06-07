@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Site;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
 
-class SiteController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $company = auth()->user()->company;
-
         if ($request->ajax()) {
-            $data = Site::where('company_id', $company->id);
+            $data = Permission::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -26,7 +24,7 @@ class SiteController extends Controller
                                 </a>
                                 <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
                                                     data-bs-target='#deleteModal' data-id='$row->id'
-                                                    data-action='" . route('site.destroy', $row->id) . "'
+                                                    data-action='" . route('permission.destroy', $row->id) . "'
                                                     data-message='$row->name'>
                                     <img src='assets/img/icons/delete.svg' alt='img'>
                                 </a>";
@@ -35,7 +33,7 @@ class SiteController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.site.index");
+        return view('admin.master.permission.index');
     }
 
     /**
@@ -51,21 +49,20 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        $company = auth()->user()->company;
-
-        Site::create([
-            "name" => $request->site,
-            "company_id" => $company->id,
-
+        $request->validate([
+            "name" => "required"
+        ]);
+        Permission::create([
+            "name" => $request->name,
         ]);
 
-        return redirect()->back()->with("success", "Created Site");
+        return redirect()->back()->with("success", "Created Permission");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Site $site)
+    public function show(Permission $permission)
     {
         //
     }
@@ -73,28 +70,32 @@ class SiteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Site $site)
+    public function edit(Permission $permission)
     {
-        return $site;
+        return $permission;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Site $site)
+    public function update(Request $request, Permission $permission)
     {
-        $site->name = $request->site;
-        $site->save();
+        $request->validate([
+            "name" => "required"
+        ]);
+        $permission->name = $request->name;
+        $permission->save();
 
-        return redirect()->back()->with("success", "Update Site");
+        return redirect()->back()->with("success", "Updated Permission");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Site $site)
+    public function destroy(Permission $permission)
     {
-        $site->delete();
-        return redirect()->back()->with("success", "Deleted Site");
+        $permission->delete();
+
+        return redirect()->back()->with("success", "Deleted permission");
     }
 }

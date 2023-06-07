@@ -41,8 +41,8 @@
 <script>
     @if (session()->has('success'))
         toastr.success(
-            "<strong>Success</strong> {{ session('success') }}",
-            "Progress Bar", {
+            "{{ session('success') }}",
+            "Success", {
                 closeButton: !0,
                 tapToDismiss: !1,
                 progressBar: !0
@@ -50,8 +50,8 @@
         )
     @elseif (session()->has('info'))
         toastr.info(
-            "<strong>Info</strong> {{ session('info') }}",
-            "Progress Bar", {
+            "{{ session('info') }}",
+            "Info", {
                 closeButton: !0,
                 tapToDismiss: !1,
                 progressBar: !0
@@ -59,8 +59,8 @@
         )
     @elseif (session()->has('warning'))
         toastr.warning(
-            "<strong>Warning</strong> {{ session('warning') }}",
-            "Progress Bar", {
+            "{{ session('warning') }}",
+            "Warning", {
                 closeButton: !0,
                 tapToDismiss: !1,
                 progressBar: !0
@@ -68,13 +68,27 @@
         )
     @elseif (session()->has('error'))
         toastr.error(
-            "<strong>Error</strong> {{ session('error') }}",
-            "Progress Bar", {
+            "{{ session('error') }}",
+            "Error", {
                 closeButton: !0,
                 tapToDismiss: !1,
                 progressBar: !0
             }
         )
+    @elseif ($errors->any())
+        @foreach ($errors->all() as $error)
+            toastr.error(
+                "{{ $error }}",
+                "Error", {
+                    showMethod: "slideDown",
+                    hideMethod: "slideUp",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    tapToDismiss: !0,
+                    progressBar: !0
+                }
+            )
+        @endforeach
     @endif
 </script>
 @stack('js')

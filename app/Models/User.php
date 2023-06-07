@@ -51,5 +51,25 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
+    public function site()
+    {
+        return $this->hasOneThrough(
+            Site::class,
+            UserSite::class,
+            "user_id",
+            "id",
+            "id",
+            "site_id",
+        );
+    }
+
+    public function userSite()
+    {
+        return $this->hasmany(
+            UserSite::class,
+            "user_id",
+        );
+    }
+
 
 }

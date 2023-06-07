@@ -1,4 +1,15 @@
 <x-app-layout>
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Dashboard {{ auth()->user()->company->name ?? '' }} - {{ auth()->user()->site->name ?? '' }}</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">{{ auth()->user()->name }}</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg col-sm-6 col-12 d-flex">
             <div class="dash-count">

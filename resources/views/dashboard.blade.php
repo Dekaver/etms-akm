@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
 
     <div class="row">
         <div class="col-lg-3 col-sm-6 col-12">
@@ -141,7 +136,8 @@
                 <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                     <h4 class="card-title mb-0">Recently Added Products</h4>
                     <div class="dropdown">
-                        <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
+                        <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false"
+                            class="dropset">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
