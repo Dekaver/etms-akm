@@ -15,7 +15,7 @@ class TireSizeController extends Controller
     public function index(Request $request)
     {
         $company = auth()->user()->company;
-        $tirepattern = TirePattern::where('company_id', $company->id)->get();
+        $tirepattern = TirePattern::with("manufacture")->where('company_id', $company->id)->get();
         if ($request->ajax()) {
             $data = TireSize::where('company_id', $company->id);
             return DataTables::of($data)
@@ -25,6 +25,12 @@ class TireSizeController extends Controller
                 })
                 ->addColumn('manufacture', function ($row) {
                     return $row->tire_pattern->manufacture->name;
+                })
+                ->addColumn('manufacture_pattern', function ($row) {
+                    return "{$row->tire_pattern->type_pattern}-{$row->tire_pattern->manufacture->name}-{$row->tire_pattern->pattern}";
+                })
+                ->addColumn('type', function ($row) {
+                    return $row->tire_pattern->type_pattern;
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'

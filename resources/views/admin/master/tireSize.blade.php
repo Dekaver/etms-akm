@@ -100,6 +100,7 @@
                             <th>Size</th>
                             <th>Manufacture</th>
                             <th>Pattern</th>
+                            <th>Type Pattern</th>
                             <th>OTD</th>
                             <th>Rec. Pressure</th>
                             <th>Target Lifetime</th>
@@ -119,7 +120,7 @@
             <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Size </h5>
+                        <h5 class="modal-title">Form Size </h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -138,7 +139,8 @@
                                     <select class="select" name="tire_pattern_id">
                                         <option>Choose pattern</option>
                                         @foreach ($tirepattern as $item)
-                                            <option value="{{ $item->id }}">{{ $item->pattern }}</option>
+                                            <option value="{{ $item->id }}">[{{ $item->type_pattern }}]
+                                                {{ $item->pattern }} - {{ $item->manufacture->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -201,6 +203,10 @@
                         {
                             data: 'pattern',
                             name: 'pattern'
+                        },
+                        {
+                            data: 'type',
+                            name: 'type'
                         },
                         {
                             data: 'otd',
