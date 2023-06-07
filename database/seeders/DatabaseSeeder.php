@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Company;
+use App\Models\TireSupplier;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -62,6 +63,11 @@ class DatabaseSeeder extends Seeder
         ]);
         $user_b->assignRole($role_a);
 
-
+        TireSupplier::create([
+            "name" => "AKM",
+            "email" => "akm@gmail.com",
+            "phone" => "08235234223",
+            "address" => "jl. kilang Semar bakpia",
+        ]);
     }
 }
