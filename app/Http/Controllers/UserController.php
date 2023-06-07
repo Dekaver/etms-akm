@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -112,8 +113,9 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $permissions = Permission::all();
         $roles = Role::all();
+        $sites = Site::where("company_id", $user->company_id)->get();
 
-        return view("admin.users.permission", compact('user', 'permissions', 'roles'));
+        return view("admin.users.permission", compact('user', 'permissions', 'roles', 'sites'));
     }
 
     public function updatePermission(Request $request, string $id)
@@ -121,7 +123,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->syncRoles([$request->role]);
         $user->syncPermissions($request->permission);
+        // dd($user->userSite());
+        if ($request->site_id) {
+            $user->userSite()->delete();
+            $user->userSite()->create([
+                "site_id" => $request->site_id,
+            ]);
+        }
 
-        return redirect()->back()->with("success", "Deleted User");
+        return redirect()->back()->with("success", "Update Permission User");
     }
 }
