@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TireDamage extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "damage",
+        "cause",
+        "rating",
+        "company_id",
+    ];
 }
