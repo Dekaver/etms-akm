@@ -11,7 +11,7 @@
             </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#addmodal"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
+            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
         </div>
     </div>
 
@@ -79,135 +79,135 @@
             </div>
             <!-- /Filter -->
             <div class="table-responsive">
-                <table class="table  datanew">
+                <table class="table data-table">
                     <thead>
                         <tr>
-                            <th width="5%">
-                                <label class="checkboxs">
-                                    <input type="checkbox" id="select-all">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </th>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Tire Manufacture</th>
                             <th>Pattern</th>
                             <th>Type Pattern</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>01</td>
-                            <td>AELOUS</td>
-                            <td>GL665A</td>
-                            <td>RIB</td>
-                            <td>
-                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>02</td>
-                            <td>ADVANCE</td>
-                            <td>GL690A</td>
-                            <td>LUG</td>
-                            <td>
-                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>03</td>
-                            <td>BFGOODRICH</td>
-                            <td>GL992A</td>
-                            <td>MIX</td>
-                            <td>
-                                <a class="me-3" data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
     <!-- add Modal -->
-    <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Pattern </h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group ">
-                                <label>Tire Manufacture</label>
-                                <select class="select">
-                                    <option>Choose Manufacture</option>
-                                    <option> AELOUS</option>
-                                    <option> ADVANCE</option>
-                                    <option> BFGOODRICH</option>
-                                </select>
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <form method="POST">
+            @csrf
+            @method('PUT')
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Form Pattern </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group ">
+                                    <label>Tire Manufacture</label>
+                                    <select class="select" name="tire_manufacture_id">
+                                        <option>Choose Manufacture</option>
+                                        @foreach ($tiremanufacture as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Pattern<span class="manitory">*</span></label>
-                                <input type="text">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Pattern<span class="manitory">*</span></label>
+                                    <input type="text" name="pattern">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group mb-0">
-                                <label>Type Pattern</label>
-                                <select class="select">
-                                    <option>Choose Manufacture</option>
-                                    <option> Lug</option>
-                                    <option> Mix</option>
-                                    <option> Rib</option>
-                                </select>
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <label>Type Pattern</label>
+                                    <select class="select" name="type_pattern">
+                                        <option>Choose Manufacture</option>
+                                        <option> Lug</option>
+                                        <option> Mix</option>
+                                        <option> Rib</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-submit">Save</button>
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-submit">Save</button>
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
+    @push('js')
+        <script type="text/javascript">
+            $(function() {
+                var table = $('table.data-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('tirepattern.index') }}",
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'tire_manufacture_id',
+                            name: 'tire_manufacture_id'
+                        },
+                        {
+                            data: 'pattern',
+                            name: 'pattern'
+                        },
+                        {
+                            data: 'type_pattern',
+                            name: 'type_pattern'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+
+
+            });
+
+            $('#form-modal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var post = button.data('post');
+                var modal = $(this)
+                if (post == 'new') {
+                    modal.find('input[name="_method"]').val('POST');
+                    modal.find('form').attr('action', `{{ route('tirepattern.store') }}`)
+                } else {
+                    var id = button.data('id');
+                    $.ajax({
+                        method: "GET",
+                        url: `{{ route('tirepattern.index') }}/${id}/edit`
+                    }).done(function(response) {
+                        modal.find('input[name="pattern"]').val(response.pattern).trigger('change');
+                        modal.find('select[name="type_pattern"]').val(response.type_pattern).trigger('change');
+                        modal.find('select[name="tire_manufacture_id"]').val(response.tire_manufacture_id).trigger('change');
+                        console.log(response.tire_manufacture_id);
+                        modal.find('input[name="_method"]').val('PUT');
+                    });
+                    modal.find('form').attr('action', `{{ route('tirepattern.index') }}/${id}`)
+                }
+            });
+            $('#form-modal').on('hide.bs.modal', function(event) {
+                $(this).find('form')[0].reset();
+            });
+        </script>
+    @endpush
 </x-app-layout>

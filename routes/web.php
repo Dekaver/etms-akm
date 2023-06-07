@@ -53,7 +53,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post("user/{id}/permission/", [UserController::class, "updatePermission"])->name('user.permission.update');
     Route::resource("unit", UnitController::class);
     Route::resource("dashboard", DashboardController::class);
-    Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
+    // Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
+    Route::resource("tiremanufacture", TireManufactureController::class);
     Route::resource("tirepattern", TirePatternController::class);
     Route::resource("tiresize", TireSizeController::class);
     Route::resource("tirecompound", TireCompoundController::class);

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class TirePattern extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+        'id_company',
+        'pattern',
+        'type_pattern',
+        'tire_manufacture_id',
+    ];
 }
