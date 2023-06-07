@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Site;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
-class SiteController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $company = auth()->user()->company;
-
+        $permission = Permission::all();
         if ($request->ajax()) {
-            $data = Site::where('company_id', $company->id);
+            $data = Role::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -26,7 +26,7 @@ class SiteController extends Controller
                                 </a>
                                 <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
                                                     data-bs-target='#deleteModal' data-id='$row->id'
-                                                    data-action='" . route('site.destroy', $row->id) . "'
+                                                    data-action='" . route('role.destroy', $row->id) . "'
                                                     data-message='$row->name'>
                                     <img src='assets/img/icons/delete.svg' alt='img'>
                                 </a>";
@@ -35,7 +35,7 @@ class SiteController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.site.index");
+        return view('admin.master.role.index', compact("permission"));
     }
 
     /**
@@ -51,21 +51,19 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        $company = auth()->user()->company;
-
-        Site::create([
-            "name" => $request->site,
-            "company_id" => $company->id,
-
+        $role = Role::create([
+            "name" => $request->name,
         ]);
 
-        return redirect()->back()->with("success", "Created Site");
+        $role->syncPermissions($request->permission);
+
+        return redirect()->back()->with("success", "Created New Role");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Site $site)
+    public function show(Role $role)
     {
         //
     }
@@ -73,28 +71,31 @@ class SiteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Site $site)
+    public function edit(Role $role)
     {
-        return $site;
+        return $role;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Site $site)
+    public function update(Request $request, Role $role)
     {
-        $site->name = $request->site;
-        $site->save();
+        $role->name = $request->name;
+        $role->save();
 
-        return redirect()->back()->with("success", "Update Site");
+        $role->syncPermissions($request->permission);
+
+        return redirect()->back()->with("success", "Updated Role");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Site $site)
+    public function destroy(Role $role)
     {
-        $site->delete();
-        return redirect()->back()->with("success", "Deleted Site");
+        $role->delete();
+
+        return redirect()->back()->with("success", "Deleted Role");
     }
 }

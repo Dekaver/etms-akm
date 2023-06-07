@@ -31,6 +31,19 @@
                     </div>
                 </div>
                 <hr>
+                <h5>Site</h5>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <select name="site_id" class="form-select">
+                            <option value="">-- Select --</option>
+                            @foreach ($sites as $item)
+                                <option value="{{ $item->id }}" @selected(($user->site->id ?? null) == $item->id)>{{ $item->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <hr>
                 <h5>Permission</h5>
                 <div class="form-group row">
                     <div class="col-md-12">
