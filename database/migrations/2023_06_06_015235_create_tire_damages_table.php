@@ -12,9 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tire_damages', function (Blueprint $table) {
-            $table->id();
+            $table->engine = "MyISAM";
+            $table->integer("id")->unsigned();
+            $table->integer("company_id")->unsigned();
+            $table->string("damage");
+            $table->string("cause");
+            $table->string("rating");
             $table->timestamps();
+            $table->primary(array("id", "company_id"));
         });
+
+        DB::statement('ALTER TABLE tire_damages MODIFY id INTEGER NOT NULL AUTO_INCREMENT');
+
     }
 
     /**
