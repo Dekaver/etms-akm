@@ -11,7 +11,8 @@
             </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
+            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
+                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
         </div>
     </div>
 
@@ -32,13 +33,16 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
+                                    src="assets/img/icons/pdf.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
+                                    src="assets/img/icons/excel.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
+                                    src="assets/img/icons/printer.svg" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -78,7 +82,8 @@
                                 </div>
                                 <div class="col-lg-1 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
+                                                alt="img"></a>
                                     </div>
                                 </div>
                             </div>
@@ -92,10 +97,9 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            {{-- <th>Manufacture</th> --}}
                             <th>Size</th>
+                            <th>Manufacture</th>
                             <th>Pattern</th>
-                            {{-- <th>Type Pattern</th> --}}
                             <th>OTD</th>
                             <th>Rec. Pressure</th>
                             <th>Target Lifetime</th>
@@ -134,7 +138,7 @@
                                     <select class="select" name="tire_pattern_id">
                                         <option>Choose pattern</option>
                                         @foreach ($tirepattern as $item)
-                                            <option value="{{$item->id}}">{{$item->pattern}}</option>
+                                            <option value="{{ $item->id }}">{{ $item->pattern }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -191,8 +195,12 @@
                             name: 'size'
                         },
                         {
-                            data: 'tire_pattern_id',
-                            name: 'tire_pattern_id'
+                            data: 'manufacture',
+                            name: 'manufacture'
+                        },
+                        {
+                            data: 'pattern',
+                            name: 'pattern'
                         },
                         {
                             data: 'otd',
@@ -232,10 +240,13 @@
                         url: `{{ route('tiresize.index') }}/${id}/edit`
                     }).done(function(response) {
                         modal.find('input[name="size"]').val(response.size).trigger('change');
-                        modal.find('select[name="tire_pattern_id"]').val(response.tire_pattern_id).trigger('change');
+                        modal.find('select[name="tire_pattern_id"]').val(response.tire_pattern_id).trigger(
+                            'change');
                         modal.find('input[name="otd"]').val(response.otd).trigger('change');
-                        modal.find('input[name="recomended_pressure"]').val(response.recomended_pressure).trigger('change');
-                        modal.find('input[name="target_lifetime"]').val(response.target_lifetime).trigger('change');
+                        modal.find('input[name="recomended_pressure"]').val(response.recomended_pressure)
+                            .trigger('change');
+                        modal.find('input[name="target_lifetime"]').val(response.target_lifetime).trigger(
+                            'change');
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('tiresize.index') }}/${id}`)

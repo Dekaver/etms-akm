@@ -11,15 +11,11 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('tire_manufactures', function (Blueprint $table) {
-            $table->engine = "MyISAM";
-            $table->integer("id")->unsigned();
-            $table->integer("company_id")->unsigned();
+            $table->id();
+            $table->foreignId("company_id")->constrained("companies");
             $table->string("name");
             $table->timestamps();
-            $table->primary(array("id", "company_id"));
         });
-
-        DB::statement('ALTER TABLE tire_manufactures MODIFY id INTEGER NOT NULL AUTO_INCREMENT');
     }
 
     /**

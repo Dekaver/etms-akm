@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Company;
+use App\Models\TireManufacture;
 use App\Models\TireSupplier;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
         $user = \App\Models\User::factory()->create([
             'name' => 'superadmin',
             'email' => 'superadmin@gmail.com',
+            'company_id' => $company1->id
         ]);
         $user->assignRole($role);
 
@@ -68,6 +70,11 @@ class DatabaseSeeder extends Seeder
             "email" => "akm@gmail.com",
             "phone" => "08235234223",
             "address" => "jl. kilang Semar bakpia",
+        ]);
+
+        TireManufacture::create([
+            "name" => "Advanced",
+            "company_id" => 1,
         ]);
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TireSize extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
         'company_id',
         'size',
         'tire_pattern_id',
@@ -16,4 +16,9 @@ class TireSize extends Model
         'recomended_pressure',
         'target_lifetime',
     ];
+
+    public function tire_pattern()
+    {
+        return $this->belongsTo(TirePattern::class);
+    }
 }

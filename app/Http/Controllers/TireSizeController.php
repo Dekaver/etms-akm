@@ -15,11 +15,17 @@ class TireSizeController extends Controller
     public function index(Request $request)
     {
         $company = auth()->user()->company;
-        $tirepattern = TirePattern::where('id_company', $company->id)->get();
+        $tirepattern = TirePattern::where('company_id', $company->id)->get();
         if ($request->ajax()) {
             $data = TireSize::where('company_id', $company->id);
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('pattern', function ($row) {
+                    return $row->tire_pattern->pattern;
+                })
+                ->addColumn('manufacture', function ($row) {
+                    return $row->tire_pattern->manufacture->name;
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
@@ -36,7 +42,7 @@ class TireSizeController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tiresize",compact('tirepattern'));
+        return view("admin.master.tiresize", compact('tirepattern'));
     }
 
     /**
@@ -56,10 +62,10 @@ class TireSizeController extends Controller
         TireSize::create([
             'company_id' => $company->id,
             'size' => $request->size,
-            'tire_pattern_id'=>$request->tire_pattern_id,
-            'otd'=>$request->otd,
-            'recomended_pressure'=>$request->recomended_pressure,
-            'target_lifetime'=>$request->target_lifetime,
+            'tire_pattern_id' => $request->tire_pattern_id,
+            'otd' => $request->otd,
+            'recomended_pressure' => $request->recomended_pressure,
+            'target_lifetime' => $request->target_lifetime,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Size");

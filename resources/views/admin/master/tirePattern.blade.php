@@ -11,7 +11,8 @@
             </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
+            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
+                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
         </div>
     </div>
 
@@ -32,13 +33,16 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
+                                    src="assets/img/icons/pdf.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
+                                    src="assets/img/icons/excel.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
+                                    src="assets/img/icons/printer.svg" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -69,7 +73,8 @@
                                 </div>
                                 <div class="col-lg-1 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
+                                                alt="img"></a>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +119,7 @@
                                     <select class="select" name="tire_manufacture_id">
                                         <option>Choose Manufacture</option>
                                         @foreach ($tiremanufacture as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -160,8 +165,8 @@
                             searchable: false
                         },
                         {
-                            data: 'tire_manufacture_id',
-                            name: 'tire_manufacture_id'
+                            data: 'manufacture_name',
+                            name: 'manufacture_name'
                         },
                         {
                             data: 'pattern',
@@ -198,7 +203,8 @@
                     }).done(function(response) {
                         modal.find('input[name="pattern"]').val(response.pattern).trigger('change');
                         modal.find('select[name="type_pattern"]').val(response.type_pattern).trigger('change');
-                        modal.find('select[name="tire_manufacture_id"]').val(response.tire_manufacture_id).trigger('change');
+                        modal.find('select[name="tire_manufacture_id"]').val(response.tire_manufacture_id)
+                            .trigger('change');
                         console.log(response.tire_manufacture_id);
                         modal.find('input[name="_method"]').val('PUT');
                     });
