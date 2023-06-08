@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Company;
+use App\Models\Site;
 use App\Models\TireManufacture;
 use App\Models\TireSupplier;
 use Illuminate\Database\Seeder;
@@ -29,8 +30,13 @@ class DatabaseSeeder extends Seeder
         $company3 = Company::factory()->create();
 
 
+        Permission::create(['name' => 'TIRE_MANUFACTURE']);
         Permission::create(['name' => 'MANAJEMEN_USER']);
         Permission::create(['name' => 'DEMO']);
+        $site = Site::create([
+            "name" => "site A",
+            "company_id" => $company1->id,
+        ]);
 
         $role = Role::create(['name' => 'superadmin']);
         $role->givePermissionTo('MANAJEMEN_USER');
@@ -57,6 +63,11 @@ class DatabaseSeeder extends Seeder
             'company_id' => $company1->id
         ]);
         $user_a->assignRole($role_a);
+        $user_a->syncPermissions("TIRE_MANUFACTURE");
+
+        $user_a->userSite()->create([
+            "site_id" => $site->id,
+        ]);
 
         $user_b = \App\Models\User::factory()->create([
             'name' => 'admin_b',

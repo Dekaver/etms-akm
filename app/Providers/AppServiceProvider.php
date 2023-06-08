@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Permission;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,5 +31,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superadmin') ? true : null;
         });
+        $permissions = Permission::all();
+        foreach ($permissions as $key => $permission) {
+            Gate::define($permission->name, function (User $user) use ($permission) {
+                return $user->hasPermissionTo($permission->name) ? true : null;
+            });
+        }
+
     }
 }
