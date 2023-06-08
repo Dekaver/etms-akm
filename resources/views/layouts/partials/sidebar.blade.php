@@ -20,13 +20,20 @@
                             alt="img"><span>
                             Data Tire</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/tiremanufacture">Tire Manufacture</a></li>
-                        <li><a href="/tirepattern">Tire Pattern</a></li>
-                        <li><a href="/tiresize">Tire Size</a></li>
-                        <li><a href="/tirecompound">Tire Compound</a></li>
-                        <li><a href="/tirestatus">Tire Status</a></li>
-                        <li><a href="/tiredamage">Tire Damage</a></li>
-                        <li><a href="/tiremaster">Tire Data Master</a></li>
+                        @can('TIRE_MANUFACTURE')
+                            <li>
+                                <a href="/tiremanufacture"
+                                    class="{{ Request::routeIs('tiremanufacture.*') ? 'active' : '' }}">
+                                    Tire Manufacture
+                                </a>
+                            </li>
+                        @endcan
+                        <li><a href="/tirepattern" class="{{ Request::routeIs('tirepattern.*') ? 'active' : '' }}">Tire Pattern</a></li>
+                        <li><a href="/tiresize" class="{{ Request::routeIs('tiresize.*') ? 'active' : '' }}">Tire Size</a></li>
+                        <li><a href="/tirecompound" class="{{ Request::routeIs('tirecompound.*') ? 'active' : '' }}">Tire Compound</a></li>
+                        <li><a href="/tirestatus" class="{{ Request::routeIs('tirestatus.*') ? 'active' : '' }}">Tire Status</a></li>
+                        <li><a href="/tiredamage" class="{{ Request::routeIs('tiredamage.*') ? 'active' : '' }}">Tire Damage</a></li>
+                        <li><a href="/tiremaster" class="{{ Request::routeIs('tiremaster.*') ? 'active' : '' }}">Tire Data Master</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -34,14 +41,14 @@
                             alt="img"><span>
                             Data</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/site">Site</a></li>
-                        <li><a href="/unitstatus">Unit Status</a></li>
-                        <li><a href="/unitmodel">Unit Model</a></li>
-                        <li><a href="/unit">Data Unit</a></li>
-                        <li><a href="/tiremovement">Tire Movement</a></li>
-                        <li><a href="/tiredisposisi">Tire Disposisi</a></li>
-                        <li><a href="/tirerepair">Tire Repair</a></li>
-                        <li><a href="/tirerunning">Tire Running Unit</a></li>
+                        <li><a href="/site" class="{{ Request::routeIs('site.*') ? 'active' : '' }}">Site</a></li>
+                        <li><a href="/unitstatus" class="{{ Request::routeIs('unitstatus.*') ? 'active' : '' }}">Unit Status</a></li>
+                        <li><a href="/unitmodel" class="{{ Request::routeIs('unitmodel.*') ? 'active' : '' }}">Unit Model</a></li>
+                        <li><a href="/unit" class="{{ Request::routeIs('unit.*') ? 'active' : '' }}">Data Unit</a></li>
+                        <li><a href="/tiremovement" class="{{ Request::routeIs('tiremovement.*') ? 'active' : '' }}">Tire Movement</a></li>
+                        <li><a href="/tiredisposisi" class="{{ Request::routeIs('tiredisposisi.*') ? 'active' : '' }}">Tire Disposisi</a></li>
+                        <li><a href="/tirerepair" class="{{ Request::routeIs('tirerepair.*') ? 'active' : '' }}">Tire Repair</a></li>
+                        <li><a href="/tirerunning" class="{{ Request::routeIs('tirerunning.*') ? 'active' : '' }}">Tire Running Unit</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
