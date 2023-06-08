@@ -14,10 +14,11 @@ return new class extends Migration {
             $table->id();
             $table->foreignId("company_id")->constrained("companies");
             $table->foreignId("unit_model_id")->constrained("unit_models");
-            $table->foreignId("unit_status")->constrained("unit_statuses");
-            $table->foreignId("site")->constrained("sites");
+            $table->foreignId("unit_status_id")->constrained("unit_statuses");
+            $table->foreignId("site_id")->constrained("sites");
             $table->string("unit_number");
             $table->string("head");
+            $table->enum("jenis", ["km", "hm"]);
             $table->integer("km");
             $table->integer("hm");
             $table->unique(["company_id", "unit_number"]);
