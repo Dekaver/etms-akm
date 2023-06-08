@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("unit_model")->constrained("unit_models");
-            $table->foreignId("unit_status")->constrained("unit_statuss");
+            $table->foreignId("unit_model_id")->constrained("unit_models");
+            $table->foreignId("unit_status")->constrained("unit_statuses");
             $table->foreignId("site")->constrained("sites");
             $table->string("unit_number");
             $table->string("head");
