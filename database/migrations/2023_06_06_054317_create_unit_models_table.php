@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->tinyInteger("axle_8_tire");
             $table->string("informasi_berat_kosong")->nullable();
             $table->string("distribusi_beban")->nullable();
+            $table->string("standar_load_capacity")->nullable();
             $table->boolean("has_head")->default(false);
             $table->boolean("has_tail")->default(false);
             $table->timestamps();

@@ -17,7 +17,7 @@ class UnitModelController extends Controller
         $company = auth()->user()->company;
         $tiresize = TireSize::with("tire_pattern")->with("tire_pattern.manufacture")->where('company_id', $company->id)->get();
         if ($request->ajax()) {
-            $data = TireSize::where('company_id', $company->id);
+            $data = UnitModel::where('company_id', $company->id);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('tire_size', function ($row) {
@@ -30,7 +30,7 @@ class UnitModelController extends Controller
                                 </a>
                                 <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
                                                     data-bs-target='#deleteModal' data-id='$row->id'
-                                                    data-action='" . route('unit_model.destroy', $row->id) . "'
+                                                    data-action='" . route('unitmodel.destroy', $row->id) . "'
                                                     data-message='$row->name'>
                                     <img src='assets/img/icons/delete.svg' alt='img'>
                                 </a>";
@@ -55,13 +55,31 @@ class UnitModelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = auth()->user()->company;
+
+        UnitModel::create([
+            "company_id" => $company->id,
+            "tire_size_id" => $request->tire_size_id,
+            "brand" => $request->brand,
+            "model" => $request->model,
+            "type" => $request->type,
+            "tire_qty" => $request->tire_qty,
+            "axle_2_tire" => $request->axle_2_tire,
+            "axle_4_tire" => $request->axle_4_tire,
+            "axle_8_tire" => $request->axle_8_tire,
+            "informasi_berat_kosong" => $request->informasi_berat_kosong,
+            "distribusi_beban" => $request->distribusi_beban,
+            "standar_load_capacity" => $request->standar_load_capacity,
+        ]);
+
+        return redirect()->back()->with("success", "Created Unit Model");
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(UnitModel $unitModel)
+    public function show(UnitModel $unitmodel)
     {
         //
     }
@@ -69,24 +87,39 @@ class UnitModelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UnitModel $unitModel)
+    public function edit(UnitModel $unitmodel)
     {
-        //
+        return $unitmodel;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UnitModel $unitModel)
+    public function update(Request $request, UnitModel $unitmodel)
     {
-        //
+
+        $unitmodel->tire_size_id = $request->tire_size_id;
+        $unitmodel->brand = $request->brand;
+        $unitmodel->model = $request->model;
+        $unitmodel->type = $request->type;
+        $unitmodel->tire_qty = $request->tire_qty;
+        $unitmodel->axle_2_tire = $request->axle_2_tire;
+        $unitmodel->axle_4_tire = $request->axle_4_tire;
+        $unitmodel->axle_8_tire = $request->axle_8_tire;
+        $unitmodel->distribusi_beban = $request->distribusi_beban;
+        $unitmodel->informasi_berat_kosong = $request->informasi_berat_kosong;
+        $unitmodel->standar_load_capacity = $request->standar_load_capacity;
+        $unitmodel->save();
+
+        return redirect()->back()->with("success", "Updated Unit Model");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UnitModel $unitModel)
+    public function destroy(UnitModel $unitmodel)
     {
-        //
+        $unitmodel->delete();
+        return redirect()->back()->with("success", "Deleted Unit Model $unitmodel->model");
     }
 }
