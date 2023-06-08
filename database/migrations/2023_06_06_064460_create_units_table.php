@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,7 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("company_id")->constrained("companies");
             $table->foreignId("unit_model_id")->constrained("unit_models");
             $table->foreignId("unit_status")->constrained("unit_statuses");
             $table->foreignId("site")->constrained("sites");
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("head");
             $table->integer("km");
             $table->integer("hm");
+            $table->unique(["company_id", "unit_number"]);
             $table->timestamps();
         });
     }
