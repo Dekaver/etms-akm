@@ -9,6 +9,7 @@ use App\Models\TireCompound;
 use App\Models\TireSize;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 class TireMasterController extends Controller
 {
@@ -23,7 +24,7 @@ class TireMasterController extends Controller
         $tirecompound = TireCompound::where('company_id', $company->id)->get();
         $tirestatus = TireStatus::where('company_id', $company->id)->get();
         if ($request->ajax()) {
-            $data = TireSize::where('company_id', $company->id);
+            $data = TireMaster::where('company_id', $company->id);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -57,8 +58,11 @@ class TireMasterController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
+
         $company = auth()->user()->company;
+        $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
+
         TireMaster::create([
             'company_id' => $company->id,
             'site_id' => $request->site_id,
@@ -68,7 +72,7 @@ class TireMasterController extends Controller
             'tire_status_id'=>$request->tire_status_id,
             'lifetime'=>$request->lifetime,
             'rtd'=>$request->rtd,
-            'date'=>$request->date,
+            'date'=>$date,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Master");
@@ -95,6 +99,8 @@ class TireMasterController extends Controller
      */
     public function update(Request $request, TireMaster $tiremaster)
     {
+        $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
+
         $tiremaster->site_id = $request->site_id;
         $tiremaster->serial_number = $request->serial_number;
         $tiremaster->tire_size_id = $request->tire_size_id;
@@ -102,7 +108,7 @@ class TireMasterController extends Controller
         $tiremaster->tire_status_id = $request->tire_status_id;
         $tiremaster->lifetime = $request->lifetime;
         $tiremaster->rtd = $request->rtd;
-        $tiremaster->date = $request->date;
+        $tiremaster->date = $date;
         $tiremaster->save();
 
         return redirect()->back()->with("success", "Updated Tire Master");
@@ -114,6 +120,6 @@ class TireMasterController extends Controller
     public function destroy(TireMaster $tiremaster)
     {
         $tiremaster->delete();
-        return redirect()->back()->with("success", "Deleted Tire Master $tiremaster->size");
+        return redirect()->back()->with("success", "Deleted Tire Master $tiremaster->serial_number");
     }
 }

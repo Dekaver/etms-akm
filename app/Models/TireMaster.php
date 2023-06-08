@@ -9,6 +9,7 @@ class TireMaster extends Model
 {
     use HasFactory;
     protected $fillable=[
+        'company_id',
         'site_id',
         'serial_number',
         'tire_size_id',

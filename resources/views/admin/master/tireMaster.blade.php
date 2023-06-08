@@ -100,10 +100,11 @@
                 <table class="table data-table">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Site</th>
                             <th>Serial Number</th>
                             <th>Size</th>
-                            <th>Pattern</th>
+                            {{-- <th>Pattern</th> --}}
                             <th>Status</th>
                             <th>Lifetime</th>
                             <th>RTD</th>
@@ -206,7 +207,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-submit">Save</button>
+                        <button type="submit" class="btn btn-submit">Save</button>
                         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -238,10 +239,10 @@
                             data: 'tire_size_id',
                             name: 'tire_size_id'
                         },
-                        {
-                            data: 'tire_pattern_id',
-                            name: 'tire_pattern_id'
-                        },
+                        // {
+                        //     data: 'tire_pattern_id',
+                        //     name: 'tire_pattern_id'
+                        // },
                         {
                             data: 'tire_status_id',
                             name: 'tire_status_id'
@@ -283,13 +284,13 @@
                         method: "GET",
                         url: `{{ route('tiremaster.index') }}/${id}/edit`
                     }).done(function(response) {
-                        modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger('change');
+                        modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
                         modal.find('input[name="serial_number"]').val(response.serial_number).trigger('change');
                         modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger('change');
-                        modal.find('select[name="tire_pattern_id"]').val(response.tire_pattern_id).trigger('change');
+                        modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id).trigger('change');
                         modal.find('select[name="tire_status_id"]').val(response.tire_status_id).trigger('change');
-                        modal.find('input[name="rtd"]').val(response.rtd).trigger('change');
                         modal.find('input[name="lifetime"]').val(response.lifetime).trigger('change');
+                        modal.find('input[name="rtd"]').val(response.rtd).trigger('change');
                         modal.find('input[name="date"]').val(response.date).trigger('change');
                         modal.find('input[name="_method"]').val('PUT');
                     });
