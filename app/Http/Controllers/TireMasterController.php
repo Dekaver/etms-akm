@@ -3,16 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\TireMaster;
+use App\Models\Site;
+use App\Models\TireStatus;
+use App\Models\TireCompound;
+use App\Models\TireSize;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class TireMasterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("admin.master.tiremaster");
+        $company = auth()->user()->company;
+        $site = Site::where('company_id', $company->id)->get();
+        $tiresize = TireSize::where('company_id', $company->id)->get();
+        $tirecompound = TireCompound::where('company_id', $company->id)->get();
+        $tirestatus = TireStatus::where('company_id', $company->id)->get();
+        if ($request->ajax()) {
+            $data = TireSize::where('company_id', $company->id);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $actionBtn = "<a class='me-3 text-warning' href='#'
+                                    data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
+                                    <img src='assets/img/icons/edit.svg' alt='img'>
+                                </a>
+                                <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
+                                                    data-bs-target='#deleteModal' data-id='$row->id'
+                                                    data-action='" . route('tiremaster.destroy', $row->id) . "'
+                                                    data-message='$row->name'>
+                                    <img src='assets/img/icons/delete.svg' alt='img'>
+                                </a>";
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view("admin.master.tiremaster",compact('site','tiresize','tirecompound','tirestatus'));
     }
 
     /**
@@ -28,7 +58,20 @@ class TireMasterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = auth()->user()->company;
+        TireMaster::create([
+            'company_id' => $company->id,
+            'site_id' => $request->site_id,
+            'serial_number' => $request->serial_number,
+            'tire_size_id' => $request->tire_size_id,
+            'tire_compound_id'=>$request->tire_compound_id,
+            'tire_status_id'=>$request->tire_status_id,
+            'lifetime'=>$request->lifetime,
+            'rtd'=>$request->rtd,
+            'date'=>$request->date,
+        ]);
+
+        return redirect()->back()->with("success", "Created Tire Master");
     }
 
     /**
@@ -42,24 +85,35 @@ class TireMasterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TireMaster $tireMaster)
+    public function edit(TireMaster $tiremaster)
     {
-        //
+        return $tiremaster;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TireMaster $tireMaster)
+    public function update(Request $request, TireMaster $tiremaster)
     {
-        //
+        $tiremaster->site_id = $request->site_id;
+        $tiremaster->serial_number = $request->serial_number;
+        $tiremaster->tire_size_id = $request->tire_size_id;
+        $tiremaster->tire_compound_id = $request->tire_compound_id;
+        $tiremaster->tire_status_id = $request->tire_status_id;
+        $tiremaster->lifetime = $request->lifetime;
+        $tiremaster->rtd = $request->rtd;
+        $tiremaster->date = $request->date;
+        $tiremaster->save();
+
+        return redirect()->back()->with("success", "Updated Tire Master");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TireMaster $tireMaster)
+    public function destroy(TireMaster $tiremaster)
     {
-        //
+        $tiremaster->delete();
+        return redirect()->back()->with("success", "Deleted Tire Master $tiremaster->size");
     }
 }
