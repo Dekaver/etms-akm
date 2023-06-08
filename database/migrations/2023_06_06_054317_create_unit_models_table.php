@@ -12,13 +12,19 @@ return new class extends Migration {
     {
         Schema::create('unit_models', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("company_id")->constrained("companies");
             $table->foreignId("tire_size_id")->constrained("tire_sizes");
             $table->string('brand')->nullable();
-            $table->string("model_unit");
+            $table->string("model");
+            $table->string("type");
             $table->tinyInteger("tire_qty");
             $table->tinyInteger("axle_2_tire");
             $table->tinyInteger("axle_4_tire");
             $table->tinyInteger("axle_8_tire");
+            $table->string("informasi_berat_kosong")->nullable();
+            $table->string("distribusi_beban")->nullable();
+            $table->boolean("has_head")->default(false);
+            $table->boolean("has_tail")->default(false);
             $table->timestamps();
         });
     }

@@ -108,80 +108,6 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>SCANIA</td>
-                            <td>P360 LA 6X6</td>
-                            <td>Prime Mover</td>
-                            <td>12.002R</td>
-                            <td>10</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>PRU</td>
-                            <td>P460 LA 6X6</td>
-                            <td>TRAILER</td>
-                            <td>12.402R</td>
-                            <td>16</td>
-                            <td>0</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="checkboxs">
-                                    <input type="checkbox">
-                                    <span class="checkmarks"></span>
-                                </label>
-                            </td>
-                            <td>VOLVO</td>
-                            <td>SDT 115</td>
-                            <td>DOLLY</td>
-                            <td>12.004RD</td>
-                            <td>12</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>2</td>
-                            <td>
-                                <a class="me-3"  data-bs-toggle="modal" data-bs-target="#addmodal" href="editproduct.html">
-                                    <img src="assets/img/icons/edit.svg" alt="img">
-                                </a>
-                                <a class="confirm-text" href="javascript:void(0);">
-                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -224,9 +150,10 @@
                             <div class="form-group mb-0">
                                 <label>Tire Size</label>
                                 <select class="select">
-                                    <option>Choose Size</option>
-                                    <option> -</option>
-                                    <option> -</option>
+                                    <option value="">Choose Size</option>
+                                    @foreach ($tiresize as $item)
+                                    <option value="{{ $item->id }}">Choose Size</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
