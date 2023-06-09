@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
 use App\Models\TireMovement;
 use Illuminate\Http\Request;
 
@@ -42,9 +43,10 @@ class TireMovementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TireMovement $tireMovement)
+    public function edit(string $tiremovement)
     {
-        //
+
+        return view("admin.data.tiremovementedit", compact("tiremovement"));
     }
 
     /**
