@@ -129,4 +129,164 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class=" modal-xl modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tire Inspection</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Unit number</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Prime Mover</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>SMU</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3"> 
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3"> 
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3"> 
+                            <div class="form-group">
+                                <label>Shift</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3"> 
+                            <div class="form-group">
+                                <label>Tyre Man</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="col-3"> 
+                            <div class="form-group">
+                                <label>Driver</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="overflow-x: scroll; white-space:nowrap">
+                        <table class="table datascroll">
+                            <thead>
+                                <tr>
+                                    <th>Pos</th>
+                                    <th>Serial Number</th>
+                                    <th>HM</th>
+                                    <th>KM</th>
+                                    <th>Pressure</th>
+                                    <th>Dept Thread</th>
+                                    <th>Tire</th>
+                                    <th>Tube</th>
+                                    <th>Flap</th>
+                                    <th>Rim</th>
+                                    <th>T.Pentil</th>
+                                    <th>Remark</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>023424989</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Baik</option>
+                                                <option>Buruk</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Baik</option>
+                                                <option>Buruk</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Baik</option>
+                                                <option>Buruk</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Baik</option>
+                                                <option>Buruk</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Baik</option>
+                                                <option>Buruk</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-submit">Save</button>
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

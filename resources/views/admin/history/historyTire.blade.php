@@ -101,17 +101,32 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Site</th>
                             <th>Serial Number</th>
                             <th>Size</th>
-                            {{-- <th>Pattern</th> --}}
+                            <th>Pattern</th>
+                            <th>Compound</th>
                             <th>Status</th>
                             <th>Lifetime</th>
                             <th>RTD</th>
-                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>9928947382</td>
+                            <td>29.00TR</td>
+                            <td>Paten1</td>
+                            <td>Compon1</td>
+                            <td>status1</td>
+                            <td>900</td>
+                            <td>90</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-warning text-white">TIRE INSPECT</a>
+                                <a href="#" class="btn btn-sm btn-primary text-white">TIRE MOVEMENT</a>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -134,12 +149,12 @@
                             <div class="col-4">
                                 <div class="form-group mb-0">
                                     <label>Site</label>
-                                    <select class="select" name="site_id" required>
+                                    {{-- <select class="select" name="site_id" required>
                                         <option>Choose Site</option>
                                         @foreach ($site as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-4">
@@ -151,34 +166,34 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Size</label>
-                                    <select class="select" name="tire_size_id" required>
+                                    {{-- <select class="select" name="tire_size_id" required>
                                         <option>Choose Size</option>
                                         @foreach ($tiresize as $item2)
                                             <option value="{{$item2->id}}">{{$item2->size}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Compound</label>
-                                    <select class="select" name="tire_compound_id" required>
+                                    {{-- <select class="select" name="tire_compound_id" required>
                                         <option>Choose Compound</option>
                                         @foreach ($tirecompound as $item3)
                                             <option value="{{$item3->id}}">{{$item3->compound}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Status</label>
-                                    <select class="select" name="tire_status_id" required>
+                                    {{-- <select class="select" name="tire_status_id" required>
                                         <option>Choose Status</option>
                                         @foreach ($tirestatus as $item4)
                                             <option value="{{$item4->id}}">{{$item4->status}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-4">
@@ -214,92 +229,4 @@
             </div>
         </form>
     </div>
-    @push('js')
-        <script type="text/javascript">
-            $(function() {
-                var table = $('table.data-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('tiremaster.index') }}",
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'site_id',
-                            name: 'site_id'
-                        },
-                        {
-                            data: 'serial_number',
-                            name: 'serial_number'
-                        },
-                        {
-                            data: 'tire_size_id',
-                            name: 'tire_size_id'
-                        },
-                        // {
-                        //     data: 'tire_pattern_id',
-                        //     name: 'tire_pattern_id'
-                        // },
-                        {
-                            data: 'tire_status_id',
-                            name: 'tire_status_id'
-                        },
-                        {
-                            data: 'lifetime',
-                            name: 'lifetime'
-                        },
-                        {
-                            data: 'rtd',
-                            name: 'rtd'
-                        },
-                        {
-                            data: 'date',
-                            name: 'date'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
-                    ]
-                });
-
-
-            });
-
-            $('#form-modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var post = button.data('post');
-                var modal = $(this)
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('tiremaster.store') }}`)
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ route('tiremaster.index') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
-                        modal.find('input[name="serial_number"]').val(response.serial_number).trigger('change');
-                        modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger('change');
-                        modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id).trigger('change');
-                        modal.find('select[name="tire_status_id"]').val(response.tire_status_id).trigger('change');
-                        modal.find('input[name="lifetime"]').val(response.lifetime).trigger('change');
-                        modal.find('input[name="rtd"]').val(response.rtd).trigger('change');
-                        modal.find('input[name="date"]').val(response.date).trigger('change');
-                        modal.find('input[name="_method"]').val('PUT');
-                    });
-                    modal.find('form').attr('action', `{{ route('tiremaster.index') }}/${id}`)
-                }
-            });
-            $('#form-modal').on('hide.bs.modal', function(event) {
-                $(this).find('form')[0].reset();
-            });
-        </script>
-    @endpush
 </x-app-layout>

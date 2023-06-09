@@ -5154,7 +5154,10 @@ span.select2-container.select2-container--default.select2-container--open {
   font-weight: 600;
   border-bottom: 0;
 }
-
+.table.datascroll th,
+.table.datascroll td {
+  min-width: 200px;
+}
 .table-height {
   min-height: 300px;
 }

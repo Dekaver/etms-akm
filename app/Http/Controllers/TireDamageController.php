@@ -51,6 +51,11 @@ class TireDamageController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "damage" => "required",
+            "cause" => "required",
+            "rating" => "required"
+        ]);
         $company = auth()->user()->company;
 
         TireDamage::create([
@@ -85,6 +90,12 @@ class TireDamageController extends Controller
      */
     public function update(Request $request, TireDamage $tiredamage)
     {
+        $request->validate([
+            "damage" => "required",
+            "cause" => "required",
+            "rating" => "required"
+        ]);
+        
         $tiredamage->damage = $request->damage;
         $tiredamage->cause = $request->cause;
         $tiredamage->rating = $request->rating;

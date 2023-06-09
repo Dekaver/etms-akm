@@ -55,6 +55,11 @@ class TirePatternController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "pattern" => "required",
+            "type_pattern" => "required",
+            "tire_manufacture_id" => "required"
+        ]);
         $company = auth()->user()->company;
         TirePattern::create([
             'company_id' => $company->id,
@@ -87,6 +92,11 @@ class TirePatternController extends Controller
      */
     public function update(Request $request, TirePattern $tirepattern)
     {
+        $request->validate([
+            "pattern" => "required",
+            "type_pattern" => "required",
+            "tire_manufacture_id" => "required"
+        ]);
         $tirepattern->pattern = $request->pattern;
         $tirepattern->type_pattern = $request->type_pattern;
         $tirepattern->tire_manufacture_id = $request->tire_manufacture_id;

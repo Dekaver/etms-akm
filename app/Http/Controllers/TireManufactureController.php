@@ -52,7 +52,9 @@ class TireManufactureController extends Controller
      */
     public function store(Request $request)
     {
-
+        $request->validate([
+            "name" => "required"
+        ]);
         $company = auth()->user()->company;
 
         TireManufacture::create([
@@ -85,6 +87,9 @@ class TireManufactureController extends Controller
      */
     public function update(Request $request, TireManufacture $tiremanufacture)
     {
+        $request->validate([
+            "name" => "required"
+        ]);
         $tiremanufacture->name = $request->name;
         $tiremanufacture->save();
 

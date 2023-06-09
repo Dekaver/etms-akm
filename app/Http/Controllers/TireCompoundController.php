@@ -51,6 +51,9 @@ class TireCompoundController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "compound" => "required"
+        ]);
         $company = auth()->user()->company;
 
         TireCompound::create([
@@ -82,6 +85,9 @@ class TireCompoundController extends Controller
      */
     public function update(Request $request, TireCompound $tirecompound)
     {
+        $request->validate([
+            "compound" => "required"
+        ]);
         $tirecompound->compound = $request->compound;
         $tirecompound->save();
 

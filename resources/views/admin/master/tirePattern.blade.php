@@ -116,8 +116,8 @@
                             <div class="col-12">
                                 <div class="form-group ">
                                     <label>Tire Manufacture</label>
-                                    <select class="select" name="tire_manufacture_id">
-                                        <option>Choose Manufacture</option>
+                                    <select class="select" name="tire_manufacture_id" required>
+                                        <option selected disabled>Choose Manufacture</option>
                                         @foreach ($tiremanufacture as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
@@ -127,14 +127,14 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Pattern<span class="manitory">*</span></label>
-                                    <input type="text" name="pattern">
+                                    <input type="text" name="pattern" required>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group mb-0">
                                     <label>Type Pattern</label>
-                                    <select class="select" name="type_pattern">
-                                        <option>Choose Manufacture</option>
+                                    <select class="select" name="type_pattern" required>
+                                        <option selected disabled>Choose Manufacture</option>
                                         <option> Lug</option>
                                         <option> Mix</option>
                                         <option> Rib</option>

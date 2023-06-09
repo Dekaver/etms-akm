@@ -51,6 +51,9 @@ class TireStatusController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "status" => "required"
+        ]);
         $company = auth()->user()->company;
 
         TireStatus::create([
@@ -82,6 +85,9 @@ class TireStatusController extends Controller
      */
     public function update(Request $request, TireStatus $tirestatus)
     {
+        $request->validate([
+            "status" => "required"
+        ]);
         $tirestatus->status = $request->status;
         $tirestatus->save();
 

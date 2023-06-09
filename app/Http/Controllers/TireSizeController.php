@@ -64,6 +64,15 @@ class TireSizeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "pattern" => "required",
+            "size" => "required",
+            "tire_pattern_id" => "required",
+            "otd" => "required",
+            "recomended_pressure" => "required",
+            "target_lifetime" => "required"
+        ]);
+
         $company = auth()->user()->company;
         TireSize::create([
             'company_id' => $company->id,
@@ -98,6 +107,14 @@ class TireSizeController extends Controller
      */
     public function update(Request $request, TireSize $tiresize)
     {
+        $request->validate([
+            "pattern" => "required",
+            "size" => "required",
+            "tire_pattern_id" => "required",
+            "otd" => "required",
+            "recomended_pressure" => "required",
+            "target_lifetime" => "required"
+        ]);
         $tiresize->size = $request->size;
         $tiresize->tire_pattern_id = $request->tire_pattern_id;
         $tiresize->otd = $request->otd;
