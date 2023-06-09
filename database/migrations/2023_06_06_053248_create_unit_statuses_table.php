@@ -13,7 +13,8 @@ return new class extends Migration {
         Schema::create('unit_statuses', function (Blueprint $table) {
             $table->id();
             $table->foreignId("company_id")->constrained("companies");
-            $table->string("name");
+            $table->string("status_code");
+            $table->string("description");
             $table->timestamps();
         });
     }

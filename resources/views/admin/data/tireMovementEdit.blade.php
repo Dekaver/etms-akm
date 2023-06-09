@@ -1,4 +1,71 @@
 <x-app-layout>
+
+    @push('css')
+        <link rel="stylesheet" href="{{ asset('assets/css/scrollable.css') }}">
+        <style>
+            <style>.invalid-data {
+                border: 1px solid red;
+            }
+
+            .draggable,
+            .draggableUnit {
+                width: 90px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position-x: center;
+                height: 150px;
+                z-index: 2;
+            }
+
+            .tire {
+                width: 110px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 110px;
+            }
+
+            .draggableInventory {
+                width: 90px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position-x: center;
+                height: 150px;
+                z-index: 2;
+            }
+
+            .axle {
+                width: 110px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 110px;
+            }
+
+            .card.droppable .card-body {
+                padding: 0px;
+                text-align: center;
+            }
+
+            .droppable,
+            .droppableInstall {
+                display: flex;
+                width: 90px;
+                align-items: center;
+                justify-content: center;
+                border-radius: 5%;
+                height: 150px;
+                border: 1px black solid;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .form-group label {
+                margin-bottom: 0px;
+            }
+        </style>
+    @endpush
+
     <div class="page-header">
         <div class="page-title">
             <h4>Tire Movement</h4>
@@ -11,305 +78,230 @@
             </nav>
         </div>
     </div>
-    
+
     <div class="card">
-        <div class="card-body">      
+        <div class="card-body">
             <h5>Tire Movement Update</h5>
             <div class="row">
                 <div class="col-sm-12">
-                </div>			
+                </div>
             </div>
         </div>
     </div>
-
     <div class="card">
-        <div class="card-body px-5 py-4">      
+        <div class="card-body px-5 py-4">
             <div class="row gap gap-4">
-                <div class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                <div
+                    class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
                     <i class="text-primary fa-solid fa-box-archive display-3  mb-2"></i>
                     <h4 class="fw-bold text-primary">SPARE</h4>
-                </div>		
-                <div class="rounded col-sm border border-info bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                </div>
+                <div
+                    class="rounded col-sm border border-info bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
                     <i class="text-info fa-solid fa-gear display-3  mb-2"></i>
                     <h4 class="fw-bold text-info">REPAIR</h4>
-                </div>		
-                <div class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                </div>
+                <div
+                    class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
                     <i class="text-secondary fa-solid fa-circle-dot display-3  mb-2"></i>
                     <h4 class="fw-bold text-secondary">RETHREAD</h4>
-                </div>		
-                <div class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                </div>
+                <div
+                    class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
                     <i class="text-danger fa-solid fa-trash-can display-3  mb-2"></i>
                     <h4 class="fw-bold text-danger">SCRAP</h4>
-                </div>		
+                </div>
                 {{-- <div class="rounded col-sm border border-warning bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
                     <i class="text-warning fa-solid fa-square-exclamation display-3  mb-2"></i>
                     <h4 class="fw-bold text-warning">INSPECT</h4>
                 </div>		 --}}
             </div>
-            <div class="row">
+            @php
+                $position = 0;
+                $position2 = 0;
+            @endphp
+            <div class="row mt-4">
                 <div class="col-8 py-4 px-3">
-                    <div class="row justify-content-center align-items-end mb-5">
-                        <div class="col-auto">
-                            <div class="pt-2 text-end">
-                                <p class="fs-6 mb-0 fw-bold">SN</p>
-                                <p class="fs-6 mb-0 ">Lifetime</p>
-                                <p class="fs-6 mb-0 ">Brand</p>
-                                <p class="fs-6 mb-0 ">RTD</p>
-                                <p class="fs-6 mb-0 ">Size</p>
+                    {{-- AXLE 2 TIRE --}}
+                    @for ($i = 0; $i < $unit_model->axle_2_tire; $i++)
+                        <div class="row justify-content-center align-items-end mb-5">
+                            <div class="col-auto">
+                                <div class="pt-2 text-end">
+                                    <p class="fs-6 mb-0 fw-bold">SN</p>
+                                    <p class="fs-6 mb-0 ">Lifetime</p>
+                                    <p class="fs-6 mb-0 ">Brand</p>
+                                    <p class="fs-6 mb-0 ">RTD</p>
+                                    <p class="fs-6 mb-0 ">Size</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">1</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">2</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm" style="align-self: center;">
-                            <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">3</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">4</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center align-items-end mb-5">
-                        <div class="col-auto">
-                            <div class="pt-2 text-end">
-                                <p class="fs-6 mb-0 fw-bold">SN</p>
-                                <p class="fs-6 mb-0 ">Lifetime</p>
-                                <p class="fs-6 mb-0 ">Brand</p>
-                                <p class="fs-6 mb-0 ">RTD</p>
-                                <p class="fs-6 mb-0 ">Size</p>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">1</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">2</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm" style="align-self: center;">
-                            <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">3</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">4</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center align-items-end mb-5">
-                        <div class="col-auto">
-                            <div class="pt-2 text-end">
-                                <p class="fs-6 mb-0 fw-bold">SN</p>
-                                <p class="fs-6 mb-0 ">Lifetime</p>
-                                <p class="fs-6 mb-0 ">Brand</p>
-                                <p class="fs-6 mb-0 ">RTD</p>
-                                <p class="fs-6 mb-0 ">Size</p>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">1</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">2</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm" style="align-self: center;">
-                            <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">3</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div class="col-sm">
-                            <figure>
-                                <h4 class="text-center fw-bold">4</h4>
-                                <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <figcaption class="pt-2">
-                                    <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                    <p class="fs-6 mb-0">2909</p>
-                                    <p class="fs-6 mb-0">Repair</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                    <p class="fs-6 mb-0">15</p>
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-3">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
-                                </div>
-                                <div class="col-9">
-                                    <p>SN 1L02902384</p>
-                                    <div class="row">
-                                        <div class="col-auto">
-                                            <p class="mb-0">lifetime</p>
-                                            <p class="mb-0">Brand</p>
-                                            <p class="mb-0">RTD</p>
-                                            <p class="mb-0">Size</p>
-                                            <p class="mb-0">Pattern</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <p class="mb-0">290009</p>
-                                            <p class="mb-0">advance</p>
-                                            <p class="mb-0">15</p>
-                                            <p class="mb-0">12.00R</p>
-                                            <p class="mb-0">GL909- LUG</p>
+                            <div class="col-sm"></div>
+                            <div class="col-sm">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                        {{-- <div class="draggableUnit"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
+                                            data-lifetime="{{ $tire->lifetime }}">
+                                        </div> --}}
+                                        <div class="droppableInstall">
+                                            NULL
                                         </div>
                                     </div>
+                                    <figcaption class="pt-2">
+                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
+                                        <p class="fs-6 mb-0">2909</p>
+                                        <p class="fs-6 mb-0">Repair</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm" style="align-self: center;">
+                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
+                            </div>
+                            <div class="col-sm">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                        <div class="draggableUnit"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
+                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                        </div>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
+                                        <p class="fs-6 mb-0">2909</p>
+                                        <p class="fs-6 mb-0">Repair</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm"></div>
+                        </div>
+                    @endfor
+
+                    {{-- AXLE 4 TIRE --}}
+                    @for ($i = 0; $i < $unit_model->axle_4_tire; $i++)
+                        <div class="row justify-content-center align-items-end mb-5">
+                            <div class="col-auto">
+                                <div class="pt-2 text-end">
+                                    <p class="fs-6 mb-0 fw-bold">SN</p>
+                                    <p class="fs-6 mb-0 ">Lifetime</p>
+                                    <p class="fs-6 mb-0 ">Brand</p>
+                                    <p class="fs-6 mb-0 ">RTD</p>
+                                    <p class="fs-6 mb-0 ">Size</p>
                                 </div>
                             </div>
+                            <div class="col-sm">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                        <div class="draggableUnit"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
+                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                        </div>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
+                                        <p class="fs-6 mb-0">2909</p>
+                                        <p class="fs-6 mb-0">Repair</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                        <div class="draggableUnit"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
+                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                        </div>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
+                                        <p class="fs-6 mb-0">2909</p>
+                                        <p class="fs-6 mb-0">Repair</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm" style="align-self: center;">
+                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
+                            </div>
+                            <div class="col-sm">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                        <div class="draggableUnit"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
+                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                        </div>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
+                                        <p class="fs-6 mb-0">2909</p>
+                                        <p class="fs-6 mb-0">Repair</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                        <div class="draggableUnit"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
+                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                        </div>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
+                                        <p class="fs-6 mb-0">2909</p>
+                                        <p class="fs-6 mb-0">Repair</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                        <p class="fs-6 mb-0">15</p>
+                                    </figcaption>
+                                </figure>
+                            </div>
                         </div>
-                        <div class="col-12">
+                    @endfor
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="text" placeholder="Search"
+                                        aria-label="Search" id="searchTire" autofocus>
+                                    <a class="input-group-text" href="#">
+                                        <i class="search"> Cari</i></a>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-3">
-                                    <img src="https://imgtr.ee/images/2023/06/08/punvc.png" alt="">
+                                    <div class="draggableInventory"
+                                        style="background-image: url({{ asset('assets/img/tire.png') }});">
+                                    </div>
                                 </div>
                                 <div class="col-9">
                                     <p>SN 1L02902384</p>
@@ -344,4 +336,429 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="removeTireModal" tabindex="-1" role="dialog"
+        aria-labelledby="removeTireModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form method="POST" class="needs-validation" action="{{ url('tire-remove') }}" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeTireModalLabel">Edit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="unit_number" value="{{ $unit->unit_number }}">
+                        <table>
+                            <tr>
+                                <th>Remove Tire from Unit</th>
+                                <td>:</td>
+                                <td>{{ $unit->unit_number }}</td>
+                            </tr>
+                            <tr>
+                                <th>Jenis</th>
+                                <td>:</td>
+                                <td><input class="form-control" type="text" name="type_measure"
+                                        value="{{ $unit->jenis }}" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>HM/KM unit last update</th>
+                                <td>:</td>
+                                @if (strtolower($unit->jenis) == 'hm')
+                                    <td><input type="text" class="form-control" name="hm"
+                                            value="{{ $unit->hm }}" readonly></td>
+                                @else
+                                    <td><input type="text" class="form-control" name="hm"
+                                            value="{{ $unit->km }}" readonly></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <th>Position</th>
+                                <td>:</td>
+                                <td><input type="text" class="form-control" name="position" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>Tire Serial Number</th>
+                                <td>:</td>
+                                <td><input type="text" class="form-control" name="tire_serial_number" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>RTD</th>
+                                <td>:</td>
+                                <td><input type="text" class="form-control" name="rtd" readonly></td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Tire SMU Remove</label>
+                                @if (strtolower($unit->jenis) == 'hm')
+                                    <input type="text" class="form-control" name="hm_actual"
+                                        value="{{ $unit->hm }}" required>
+                                    <input type="hidden" name="hm_actual_check" value="{{ $unit->hm }}">
+                                    <input type="hidden" class="form-control" name="lifetime"
+                                        value="{{ $unit->hm }}">
+                                @else
+                                    <input type="text" class="form-control" name="hm_actual"
+                                        value="{{ $unit->km }}" required>
+                                    <input type="hidden" name="hm_actual_check" value="{{ $unit->km }}">
+                                    <input type="hidden" class="form-control" name="lifetime"
+                                        value="{{ $unit->km }}">
+                                @endif
+                                <div class="text-danger d-none" id="display_error_hm">
+                                    <p>HM/KM Tidak Boleh kurang dari sebelumnya</p>
+                                </div>
+                                <div class="invalid-feedback">Please fill a hour meter.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Tire RTD Remove</label>
+                                <input type="text" name="rtd" class="form-control" required>
+                                <div class="invalid-feedback">Please fill a remaining tread depth.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Tire Damage</label>
+                                <select class="form-control" name="tire_damage_id" required>
+                                    <option value="">Pilih Tire Damage</option>
+                                    @foreach ($tire_damage as $item)
+                                        <option value="{{ $item->id }}">{{ $item->damage_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Tire Status</label>
+                                <select class="form-control" name="tire_status_id" required>
+                                    <option value="">Pilih Tire Status</option>
+                                    @foreach ($tire_status as $item)
+                                        <option value="{{ $item->id }}">{{ $item->status }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Date Start</label>
+                                <input type="date" name="start_date" class="form-control" required
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                <div class="invalid-feedback">Please fill a date Start.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Date End</label>
+                                <input type="date" name="finish_date" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                <div class="invalid-feedback">Please fill a date end.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Start install</label>
+                                <input type="time" name="start" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a start remove.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">End install</label>
+                                <input type="time" name="end" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a end remove.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Start Breakdown</label>
+                                <input type="date" name="start_breakdown" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                <div class="invalid-feedback">Please fill a start breakdown.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Status Breakdown</label>
+                                <select name="status_breakdown" id="" required class="form-control">
+                                    <option value="">Pilih Status Breakdown</option>
+                                    <option value="Rotasi">Rotasi</option>
+                                    <option value="Matching">Matching</option>
+                                    <option value="Backlogrepair">Backlogrepair</option>
+                                    <option value="Unschedule">Unschedule</option>
+                                </select>
+                                <div class="invalid-feedback">Please fill a status breakdown.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Lokasi Breakdown</label>
+                                <select name="lokasi_breakdown" id="" required class="form-control">
+                                    <option value="">Pilih Lokasi</option>
+                                    <option value="Rotasi">Workshop</option>
+                                    <option value="Matching">Lapangan</option>
+
+                                </select>
+                                <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">PIC Leader</label>
+                            <input type="text" name="pic" class="form-control" required>
+                            <div class="invalid-feedback">Please fill a pic leader.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">PIC Man Power</label>
+                            <input type="text" name="pic_man_power" class="form-control" required>
+                            <div class="invalid-feedback">Please fill a pic man power.</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="installTireModal" tabindex="-1" role="dialog"
+        aria-labelledby="installTireModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form method="POST" class="needs-validation" action="{{ url('tire-install') }}" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="installTireModalLabel">Edit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="unit_number" value="{{ $unit->unit_number }}">
+                        <input type="hidden" name="lifetime">
+                        @csrf
+                        <table>
+                            <tr>
+                                <th>Install Tire to Unit</th>
+                                <td>:</td>
+                                <td>{{ $unit->unit_number }}</td>
+                            </tr>
+                            <tr>
+                                <th>SMU unit last update</th>
+                                <td>:</td>
+                                <td><input class="form-control" type="text" name="hm"
+                                        value="{{ strtolower($unit->jenis) == 'hm' ? $unit->hm : $unit->km }}"
+                                        readonly></td>
+                            </tr>
+                            <tr>
+                                <th>Jenis</th>
+                                <td>:</td>
+                                <td><input class="form-control" type="text" name="type_measure"
+                                        value="{{ $unit->jenis }}" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>Position</th>
+                                <td>:</td>
+                                <td><input class="form-control" type="text" name="position" readonly></td>
+                            </tr>
+                        </table>
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="">Tire</label>
+                            <select class="form-control" name='tire_serial_number' required>
+                                <option value="">Choose Tire</option>
+                                @foreach ($tire_inventory as $item)
+                                    <option value="{{ $item->serial_number }}">{{ $item->serial_number }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Explaination</label>
+                            <input type="text" name="explaination" class="form-control" required>
+                            <div class="invalid-feedback">Please fill a explaination.</div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Date Start</label>
+                                <input type="date" name="date" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                <div class="invalid-feedback">Please fill a date start.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Date End</label>
+                                <input type="date" name="end_date" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                <div class="invalid-feedback">Please fill a date end.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Start install</label>
+                                <input type="time" name="start" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a start remove.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">End install</label>
+                                <input type="time" name="end" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a end remove.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="">Start Breakdown</label>
+                                <input type="date" name="start_breakdown" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                <div class="invalid-feedback">Please fill a start breakdown.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Status Breakdown</label>
+                                <select name="status_breakdown" id="" required class="form-control">
+                                    <option value="">Pilih Status Breakdown</option>
+                                    <option value="Rotasi">Rotasi</option>
+                                    <option value="Matching">Matching</option>
+                                    <option value="Backlogrepair">Backlogrepair</option>
+                                    <option value="Unschedule">Unschedule</option>
+                                </select>
+                                <div class="invalid-feedback">Please fill a status breakdown.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Lokasi Breakdown</label>
+                                <select name="lokasi_breakdown" id="" required class="form-control">
+                                    <option value="">Pilih Lokasi</option>
+                                    <option value="Rotasi">Workshop</option>
+                                    <option value="Matching">Lapangan</option>
+
+                                </select>
+                                <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">PIC Leader</label>
+                                <input type="text" name="pic" class="form-control" required>
+                                <div class="invalid-feedback">Please fill a pic leader.</div>
+                            </div>
+                            <div class="form-group  col-md-6">
+                                <label for="">PIC Man Power</label>
+                                <input type="text" name="pic_man_power" class="form-control" required>
+                                <div class="invalid-feedback">Please fill a pic man power.</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @push('js')
+        <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
+        <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
+        <script>
+            $(function() {
+                var myModalInstall = new bootstrap.Modal(document.getElementById('installTireModal'), {
+                    keyboard: false
+                });
+                var myModalRemove = new bootstrap.Modal(document.getElementById('removeTireModal'), {
+                    keyboard: false
+                });
+                console.log($(".draggableUnit").draggable());
+
+                $(".draggableUnit").draggable({
+                    cursor: "move",
+                    revert: true,
+                    snap: ".droppableSpare",
+                    zIndex: 10,
+                });
+
+                $(".draggableInventory").draggable({
+                    cursor: "move",
+                    appendTo: '.page-body',
+                    // containment: 'window',
+                    revert: true,
+                    snap: ".droppableInstall",
+
+
+                });
+                $(".droppableInstall").droppable({
+                    accept: '.draggableInventory',
+                    drop: function(e, ui) {
+                        var position = $(e.target).data('position');
+                        var lifetime = ui.draggable.data('lifetime');
+                        var id = ui.draggable.data('id');
+                        $('#installTireModal').find('select[name="tire_serial_number"]').val(id);
+                        $('#installTireModal').find('input[name="position"]').val(position);
+                        $('#installTireModal').find('input[name="lifetime"]').val(lifetime);
+                        myModalInstall.show();
+                    }
+                });
+
+                $(".droppable").droppable({
+                    accept: '.draggableUnit',
+                    drop: function(e, ui) {
+                        var status = $(e.target).data('jenis');
+                        var id = ui.draggable.data('id');
+                        var position = ui.draggable.data('position');
+                        var lifetime = ui.draggable.data('lifetime');
+                        var sn = ui.draggable.data('sn');
+                        var rtd = ui.draggable.data('rtd');
+                        let hm_unit_actual = $('#removeTireModal').find(`input[name="hm_actual_check"]`)
+                            .val()
+                        // let
+                        $('#removeTireModal').find('input[name="hm_actual"]').keyup(function() {
+                            let value_now = this.value
+                            if (parseInt(value_now) < hm_unit_actual) {
+                                $('#removeTireModal').find('input[name="hm_actual"]').css(
+                                    'border-color', 'red');
+                                $('#display_error_hm').removeClass("d-none")
+                                // $('#removeTireModal').find('input[name="hm_actual"]').addClass("invalid-data");
+                                // $('#afieldID').addClass("error");
+
+                            } else {
+                                // alert('kurang dari hm_unit sebelumnya')
+                                $('#removeTireModal').find('input[name="hm_actual"]').css(
+                                    'border-color', '');
+                                $('#display_error_hm').addClass("d-none")
+                            }
+                            // alert(hm_unit_actual)
+
+                        });
+                        // if (parseInt($(`select[name="tire_damage_id`]").val()) > 99) {
+                        // //do something
+                        // }
+                        if (status == "Spare") {
+                            $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                false);
+                        } else {
+                            $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                true);
+                        }
+                        $('#removeTireModal').find(`select option`).attr('selected', false);
+                        $('#removeTireModal').find(`select option:contains('${status}')`).attr('selected',
+                            true);
+                        $('#removeTireModal').find('input[name="position"]').val(position);
+                        $('#removeTireModal').find('input[name="tire_serial_number"]').val(sn);
+                        $('#removeTireModal').find('input[name="rtd"]').val(rtd);
+                        $('#removeTireModal').find('input[name="rtd_remove"]').val(rtd);
+                        myModalRemove.show();
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable({
+                    scrollX: true
+                });
+            });
+
+            $('#searchTire').on('keyup', function() {
+                var val = $(this).val().toLowerCase().split(" ");
+                $('#list-tire .w-full').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1);
+                });
+            });
+        </script>
+    @endpush
+
 </x-app-layout>

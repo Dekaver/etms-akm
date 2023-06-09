@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TireMaster extends Model
 {
     use HasFactory;
-    protected $fillable=[
+
+    protected $table = "tires";
+    protected $fillable = [
         'company_id',
         'site_id',
         'serial_number',
@@ -19,4 +21,29 @@ class TireMaster extends Model
         'lifetime',
         'date',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    public function tire_size()
+    {
+        return $this->belongsTo(TireSize::class);
+    }
+
+    public function tire_compound()
+    {
+        return $this->belongsTo(TireCompound::class);
+    }
+
+    public function tire_status()
+    {
+        return $this->belongsTo(TireStatus::class);
+    }
 }

@@ -201,7 +201,7 @@
                         method: "GET",
                         url: `{{ route('tirepattern.index') }}/${id}/edit`
                     }).done(function(response) {
-                        modal.find('input[name="pattern"]').val(response.pattern).trigger('change');
+                        modal.find('input[name="pattern"]').val(response.pattern);
                         modal.find('select[name="type_pattern"]').val(response.type_pattern).trigger('change');
                         modal.find('select[name="tire_manufacture_id"]').val(response.tire_manufacture_id)
                             .trigger('change');
@@ -213,6 +213,8 @@
             });
             $('#form-modal').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
+                $(this).find('select[name="type_pattern"]').trigger("change")
+                $(this).find('select[name="tire_manufacture_id"]').trigger("change")
             });
         </script>
     @endpush
