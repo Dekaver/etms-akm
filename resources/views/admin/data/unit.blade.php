@@ -100,7 +100,6 @@
                             <th>Site</th>
                             <th>Unit Code</th>
                             <th>Unit Model</th>
-                            <th>Type</th>
                             <th>HM/KM</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -166,20 +165,17 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div class="form-group mb-0">
-                                    <label>Type</label>
-                                    <select class="select" name="type">
-                                        <option value="">Choose Type</option>
-                                        <option value="km">KM</option>
-                                        <option value="hm">HM</option>
-                                    </select>
+                                <div class="form-group">
+                                    <label>HM</label>
+                                    <input class="form-control" min="0" type="number" value="0"
+                                        name="hm">
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
-                                    <label>Value</label>
+                                    <label>KM</label>
                                     <input class="form-control" min="0" type="number" value="0"
-                                        name="value">
+                                        name="km">
                                 </div>
                             </div>
                         </div>
@@ -217,10 +213,6 @@
                         {
                             data: 'model',
                             name: 'model'
-                        },
-                        {
-                            data: 'jenis',
-                            name: 'jenis'
                         },
                         {
                             data: 'value',
@@ -261,12 +253,8 @@
                         modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
                         modal.find('select[name="unit_status_id"]').val(response.unit_status_id)
                             .trigger('change');
-                        modal.find('select[name="type"]').val(response.jenis).trigger('change');
-                        if (response.jenis == "hm") {
-                            modal.find('input[name="value"]').val(response.hm);
-                        } else {
-                            modal.find('input[name="value"]').val(response.km);
-                        }
+                        modal.find('input[name="hm"]').val(response.hm);
+                        modal.find('input[name="km"]').val(response.km);
 
                         modal.find('input[name="_method"]').val('PUT');
                     });
@@ -278,7 +266,6 @@
                 $(this).find('select[name="unit_model"]').trigger('change');
                 $(this).find('select[name="site_id"]').trigger('change');
                 $(this).find('select[name="unit_status_id"]').trigger('change');
-                $(this).find('select[name="type"]').trigger('change');
             });
         </script>
     @endpush

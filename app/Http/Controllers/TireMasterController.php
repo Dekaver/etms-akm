@@ -27,6 +27,15 @@ class TireMasterController extends Controller
             $data = TireMaster::where('company_id', $company->id);
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn("size", function ($row) {
+                    return $row->tire_size->size;
+                })
+                ->addColumn("site", function ($row) {
+                    return $row->site->name;
+                })
+                ->addColumn("status", function ($row) {
+                    return $row->tire_status->status;
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
@@ -43,7 +52,7 @@ class TireMasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tiremaster",compact('site','tiresize','tirecompound','tirestatus'));
+        return view("admin.master.tiremaster", compact('site', 'tiresize', 'tirecompound', 'tirestatus'));
     }
 
     /**
@@ -58,7 +67,7 @@ class TireMasterController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {   
+    {
 
         $company = auth()->user()->company;
         $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
@@ -68,11 +77,11 @@ class TireMasterController extends Controller
             'site_id' => $request->site_id,
             'serial_number' => $request->serial_number,
             'tire_size_id' => $request->tire_size_id,
-            'tire_compound_id'=>$request->tire_compound_id,
-            'tire_status_id'=>$request->tire_status_id,
-            'lifetime'=>$request->lifetime,
-            'rtd'=>$request->rtd,
-            'date'=>$date,
+            'tire_compound_id' => $request->tire_compound_id,
+            'tire_status_id' => $request->tire_status_id,
+            'lifetime' => $request->lifetime,
+            'rtd' => $request->rtd,
+            'date' => $date,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Master");

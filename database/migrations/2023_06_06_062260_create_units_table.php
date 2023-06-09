@@ -17,8 +17,7 @@ return new class extends Migration {
             $table->foreignId("unit_status_id")->constrained("unit_statuses");
             $table->foreignId("site_id")->constrained("sites");
             $table->string("unit_number");
-            $table->string("head");
-            $table->enum("jenis", ["km", "hm"]);
+            $table->string("head")->nullable();
             $table->integer("km");
             $table->integer("hm");
             $table->unique(["company_id", "unit_number"]);
