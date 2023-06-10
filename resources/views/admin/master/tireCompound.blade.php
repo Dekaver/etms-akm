@@ -68,7 +68,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="compound">
+                                    <input type="text" name="compound" required>
                                 </div>
                             </div>
                         </div>

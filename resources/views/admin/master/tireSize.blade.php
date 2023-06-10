@@ -130,13 +130,13 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Size</label>
-                                    <input type="text" name="size">
+                                    <input type="text" name="size" required>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group mb-0">
                                     <label>Tire Pattern</label>
-                                    <select class="select" name="tire_pattern_id">
+                                    <select class="select" name="tire_pattern_id" required>
                                         <option>Choose pattern</option>
                                         @foreach ($tirepattern as $item)
                                             <option value="{{ $item->id }}">[{{ $item->type_pattern }}]
@@ -148,19 +148,19 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>OTD</label>
-                                    <input type="text" name="otd">
+                                    <input type="text" name="otd" required>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Rec. Pressure</label>
-                                    <input type="text" name="recomended_pressure">
+                                    <input type="text" name="recomended_pressure" required>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Target Lifetime</label>
-                                    <input type="text" name="target_lifetime">
+                                    <input type="text" name="target_lifetime" required>
                                 </div>
                             </div>
                             {{-- <div class="col-4">

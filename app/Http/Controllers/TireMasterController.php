@@ -69,6 +69,17 @@ class TireMasterController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            "site_id" => "required",
+            "serial_number" => "required",
+            "tire_size_id" => "required",
+            "tire_compound_id" => "required",
+            "tire_status_id" => "required",
+            "lifetime" => "required",
+            "rtd" => "required",
+            "date" => "required"
+        ]);
+
         $company = auth()->user()->company;
         $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 
@@ -109,6 +120,16 @@ class TireMasterController extends Controller
      */
     public function update(Request $request, TireMaster $tiremaster)
     {
+        $request->validate([
+            "site_id" => "required",
+            "serial_number" => "required",
+            "tire_size_id" => "required",
+            "tire_compound_id" => "required",
+            "tire_status_id" => "required",
+            "lifetime" => "required",
+            "rtd" => "required",
+            "date" => "required"
+        ]);
         $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 
         $tiremaster->site_id = $request->site_id;

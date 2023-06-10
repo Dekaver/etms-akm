@@ -68,7 +68,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="status">
+                                    <input type="text" name="status" required>
                                 </div>
                             </div>
                         </div>

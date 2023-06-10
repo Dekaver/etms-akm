@@ -10,10 +10,6 @@
                 </ol>
             </nav>
         </div>
-        <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
-                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
-        </div>
     </div>
 
     <div class="card">
@@ -33,16 +29,13 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="assets/img/icons/pdf.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
-                                    src="assets/img/icons/excel.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
-                                    src="assets/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -65,7 +58,7 @@
                                 <div class="col-lg-2 col-sm-6 col-12">
                                     <div class="form-group">
                                         <select class="select">
-                                            <option>Choose Size</option>
+                                            <option>Choose Month</option>
                                             <option>-</option>
                                             <option>-</option>
                                         </select>
@@ -74,16 +67,7 @@
                                 <div class="col-lg-2 col-sm-6 col-12">
                                     <div class="form-group">
                                         <select class="select">
-                                            <option>Choose Pattern</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Status</option>
+                                            <option>Choose Years</option>
                                             <option>-</option>
                                             <option>-</option>
                                         </select>
@@ -91,8 +75,7 @@
                                 </div>
                                 <div class="col-lg-1 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
+                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
                                     </div>
                                 </div>
                             </div>
@@ -101,22 +84,153 @@
                 </div>
             </div>
             <!-- /Filter -->
+            <p>
+                <span class="me-2">V: INSPECTION</span>
+                <span class="me-2">R: REMOVE</span>
+                <span class="me-2">I: INSTALL</span>
+            </p>
             <div class="table-responsive">
                 <table class="table data-table">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Site</th>
-                            <th>Serial Number</th>
-                            <th>Size</th>
-                            {{-- <th>Pattern</th> --}}
-                            <th>Status</th>
-                            <th>Lifetime</th>
-                            <th>RTD</th>
-                            <th>Date</th>
-                            <th>Action</th>
+                            <th>Unit</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                            <th>13</th>
+                            <th>14</th>
+                            <th>15</th>
+                            <th>16</th>
+                            <th>17</th>
+                            <th>18</th>
+                            <th>19</th>
+                            <th>20</th>
+                            <th>21</th>
+                            <th>22</th>
+                            <th>23</th>
+                            <th>24</th>
+                            <th>25</th>
+                            <th>26</th>
+                            <th>27</th>
+                            <th>28</th>
+                            <th>29</th>
+                            <th>30</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr>
+                            <td>SM001</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>V</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>SM001</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>V</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>1</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>1</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -139,12 +253,12 @@
                             <div class="col-4">
                                 <div class="form-group mb-0">
                                     <label>Site</label>
-                                    <select class="select" name="site_id" required>
+                                    {{-- <select class="select" name="site_id" required>
                                         <option>Choose Site</option>
                                         @foreach ($site as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-4">
@@ -156,34 +270,34 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Size</label>
-                                    <select class="select" name="tire_size_id" required>
+                                    {{-- <select class="select" name="tire_size_id" required>
                                         <option>Choose Size</option>
                                         @foreach ($tiresize as $item2)
-                                            <option value="{{ $item2->id }}">{{ $item2->size }}</option>
+                                            <option value="{{$item2->id}}">{{$item2->size}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Compound</label>
-                                    <select class="select" name="tire_compound_id" required>
+                                    {{-- <select class="select" name="tire_compound_id" required>
                                         <option>Choose Compound</option>
                                         @foreach ($tirecompound as $item3)
-                                            <option value="{{ $item3->id }}">{{ $item3->compound }}</option>
+                                            <option value="{{$item3->id}}">{{$item3->compound}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Status</label>
-                                    <select class="select" name="tire_status_id" required>
+                                    {{-- <select class="select" name="tire_status_id" required>
                                         <option>Choose Status</option>
                                         @foreach ($tirestatus as $item4)
-                                            <option value="{{ $item4->id }}">{{ $item4->status }}</option>
+                                            <option value="{{$item4->id}}">{{$item4->status}}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-4">
@@ -219,98 +333,4 @@
             </div>
         </form>
     </div>
-    @push('js')
-        <script type="text/javascript">
-            $(function() {
-                var table = $('table.data-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('tiremaster.index') }}",
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'site',
-                            name: 'site'
-                        },
-                        {
-                            data: 'serial_number',
-                            name: 'serial_number'
-                        },
-                        {
-                            data: 'size',
-                            name: 'size'
-                        },
-                        // {
-                        //     data: 'tire_pattern_id',
-                        //     name: 'tire_pattern_id'
-                        // },
-                        {
-                            data: 'status',
-                            name: 'status'
-                        },
-                        {
-                            data: 'lifetime_hm',
-                            name: 'lifetime_hm'
-                        },
-                        {
-                            data: 'rtd',
-                            name: 'rtd'
-                        },
-                        {
-                            data: 'date',
-                            name: 'date'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
-                    ]
-                });
-
-
-            });
-
-            $('#form-modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var post = button.data('post');
-                var modal = $(this)
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('tiremaster.store') }}`)
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ route('tiremaster.index') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
-                        modal.find('input[name="serial_number"]').val(response.serial_number).trigger('change');
-                        modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger('change');
-                        modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id).trigger(
-                            'change');
-                        modal.find('select[name="tire_status_id"]').val(response.tire_status_id).trigger(
-                            'change');
-                        modal.find('input[name="lifetime"]').val(response.lifetime).trigger('change');
-                        modal.find('input[name="rtd"]').val(response.rtd).trigger('change');
-                        modal.find('input[name="date"]').val(response.date).trigger('change');
-                        modal.find('input[name="_method"]').val('PUT');
-                    });
-                    modal.find('form').attr('action', `{{ route('tiremaster.index') }}/${id}`)
-                }
-            });
-            $('#form-modal').on('hide.bs.modal', function(event) {
-                $(this).find('form')[0].reset();
-                $(this).find('select[name="site_id"]').trigger("change");
-                $(this).find('select[name="tire_size_id"]').trigger("change");
-                $(this).find('select[name="tire_compound_id"]').trigger("change");
-                $(this).find('select[name="tire_status_id"]').trigger("change");
-            });
-        </script>
-    @endpush
 </x-app-layout>

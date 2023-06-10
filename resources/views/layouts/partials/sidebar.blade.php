@@ -65,8 +65,8 @@
                             alt="img"><span>
                             Data History</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="">Tire Movement</a></li>
-                        <li><a href="">Daily Inspect Report</a></li>
+                        <li><a href="/historytire">Tire Movement</a></li>
+                        <li><a href="/dailyinspect">Daily Inspect Report</a></li>
                     </ul>
                 </li>
             </ul>

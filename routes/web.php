@@ -21,6 +21,8 @@ use App\Http\Controllers\TireMovementController;
 use App\Http\Controllers\TireDisposisiController;
 use App\Http\Controllers\TireRepairController;
 use App\Http\Controllers\TireRunningController;
+use App\Http\Controllers\DailyInspectController;
+use App\Http\Controllers\HistoryTireController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +74,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("tiredisposisi", TireDisposisiController::class);
     Route::resource("tirerepair", TireRepairController::class);
     Route::resource("tirerunning", TireRunningController::class);
+
+    Route::resource("dailyinspect", DailyInspectController::class);
+    Route::resource("historytire", HistoryTireController::class);
 });
 Route::resource("permission", PermissionController::class);
 Route::resource("role", RoleController::class);
