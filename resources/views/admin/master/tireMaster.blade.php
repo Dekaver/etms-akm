@@ -254,8 +254,8 @@
                             name: 'status'
                         },
                         {
-                            data: 'lifetime',
-                            name: 'lifetime'
+                            data: 'lifetime_hm',
+                            name: 'lifetime_hm'
                         },
                         {
                             data: 'rtd',

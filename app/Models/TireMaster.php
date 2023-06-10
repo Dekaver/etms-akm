@@ -18,7 +18,8 @@ class TireMaster extends Model
         'tire_compound_id',
         'tire_status_id',
         'rtd',
-        'lifetime',
+        'lifetime_km',
+        'lifetime_hm',
         'date',
     ];
 

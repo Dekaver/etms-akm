@@ -79,7 +79,8 @@ class TireMasterController extends Controller
             'tire_size_id' => $request->tire_size_id,
             'tire_compound_id' => $request->tire_compound_id,
             'tire_status_id' => $request->tire_status_id,
-            'lifetime' => $request->lifetime,
+            'lifetime_km' => 0,
+            'lifetime_hm' => $request->lifetime,
             'rtd' => $request->rtd,
             'date' => $date,
         ]);
@@ -115,7 +116,7 @@ class TireMasterController extends Controller
         $tiremaster->tire_size_id = $request->tire_size_id;
         $tiremaster->tire_compound_id = $request->tire_compound_id;
         $tiremaster->tire_status_id = $request->tire_status_id;
-        $tiremaster->lifetime = $request->lifetime;
+        $tiremaster->lifetime_hm = $request->lifetime;
         $tiremaster->rtd = $request->rtd;
         $tiremaster->date = $date;
         $tiremaster->save();

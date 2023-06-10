@@ -66,7 +66,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("unitstatus", UnitStatusController::class);
     Route::resource("unitmodel", UnitModelController::class);
     Route::resource("unit", UnitController::class);
-    Route::resource("tiremovement", TireMovementController::class);
+
+    Route::resource("tirerunning", TireRunningController::class);
+
     Route::resource("tiredisposisi", TireDisposisiController::class);
     Route::resource("tirerepair", TireRepairController::class);
     Route::resource("tirerunning", TireRunningController::class);

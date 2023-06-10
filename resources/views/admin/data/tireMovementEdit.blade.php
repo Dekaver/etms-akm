@@ -92,22 +92,22 @@
         <div class="card-body px-5 py-4">
             <div class="row gap gap-4">
                 <div
-                    class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                    class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
                     <i class="text-primary fa-solid fa-box-archive display-3  mb-2"></i>
                     <h4 class="fw-bold text-primary">SPARE</h4>
                 </div>
                 <div
-                    class="rounded col-sm border border-info bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                    class="rounded col-sm border border-info bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
                     <i class="text-info fa-solid fa-gear display-3  mb-2"></i>
                     <h4 class="fw-bold text-info">REPAIR</h4>
                 </div>
                 <div
-                    class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                    class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
                     <i class="text-secondary fa-solid fa-circle-dot display-3  mb-2"></i>
                     <h4 class="fw-bold text-secondary">RETHREAD</h4>
                 </div>
                 <div
-                    class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
+                    class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
                     <i class="text-danger fa-solid fa-trash-can display-3  mb-2"></i>
                     <h4 class="fw-bold text-danger">SCRAP</h4>
                 </div>
@@ -145,7 +145,7 @@
                                             data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
                                             data-lifetime="{{ $tire->lifetime }}">
                                         </div> --}}
-                                        <div class="droppableInstall">
+                                        <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                     </div>
@@ -238,7 +238,8 @@
                                 </figure>
                             </div>
                             <div class="col-sm" style="align-self: center;">
-                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
+                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4"
+                                    alt="">
                             </div>
                             <div class="col-sm">
                                 <figure>
@@ -297,39 +298,46 @@
                                         <i class="search"> Cari</i></a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="draggableInventory"
-                                        style="background-image: url({{ asset('assets/img/tire.png') }});">
-                                    </div>
-                                </div>
-                                <div class="col-9">
-                                    <p>SN 1L02902384</p>
-                                    <div class="row">
-                                        <div class="col-auto">
-                                            <p class="mb-0">lifetime</p>
-                                            <p class="mb-0">Brand</p>
-                                            <p class="mb-0">RTD</p>
-                                            <p class="mb-0">Size</p>
-                                            <p class="mb-0">Pattern</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                            <p class="mb-0">:</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <p class="mb-0">290009</p>
-                                            <p class="mb-0">advance</p>
-                                            <p class="mb-0">15</p>
-                                            <p class="mb-0">12.00R</p>
-                                            <p class="mb-0">GL909- LUG</p>
+                            @foreach ($tire_inventory as $tire)
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="draggableInventory"
+                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                            data-id="{{ $tire->id }}" data-lifetime="{{ $tire->lifetime_km }}"
+                                            data-lifetime="{{ $tire->lifetime_hm }}">
                                         </div>
                                     </div>
+                                    <div class="col-9">
+                                        <p>{{ $tire->serial_number }}</p>
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                <p class="mb-0">lifetime</p>
+                                                <p class="mb-0">Brand</p>
+                                                <p class="mb-0">RTD</p>
+                                                <p class="mb-0">Size</p>
+                                                <p class="mb-0">Pattern</p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p class="mb-0">:</p>
+                                                <p class="mb-0">:</p>
+                                                <p class="mb-0">:</p>
+                                                <p class="mb-0">:</p>
+                                                <p class="mb-0">:</p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p class="mb-0">{{ $tire->lifetime ?? '-' }}</p>
+                                                <p class="mb-0">
+                                                    {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}</p>
+                                                <p class="mb-0">{{ $tire->rtd ?? '-' }}</p>
+                                                <p class="mb-0">{{ $tire->tire_size->size ?? '-' }}</p>
+                                                <p class="mb-0">{{ $tire->tire_size->tire_pattern->pattern ?? '-' }}
+                                                    -
+                                                    {{ $tire->tire_size->tire_pattern->type_pattern ?? '-' }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -496,15 +504,17 @@
                                 <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="">PIC Leader</label>
-                            <input type="text" name="pic" class="form-control" required>
-                            <div class="invalid-feedback">Please fill a pic leader.</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">PIC Man Power</label>
-                            <input type="text" name="pic_man_power" class="form-control" required>
-                            <div class="invalid-feedback">Please fill a pic man power.</div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">PIC Leader</label>
+                                <input type="text" name="pic" class="form-control" required>
+                                <div class="invalid-feedback">Please fill a pic leader.</div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="">PIC Man Power</label>
+                                <input type="text" name="pic_man_power" class="form-control" required>
+                                <div class="invalid-feedback">Please fill a pic man power.</div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -519,10 +529,10 @@
     <div class="modal fade" id="installTireModal" tabindex="-1" role="dialog"
         aria-labelledby="installTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form method="POST" class="needs-validation" action="{{ url('tire-install') }}" novalidate>
+            <form method="POST" class="needs-validation" action="{{ route('tirerunning.store') }}" novalidate>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="installTireModalLabel">Edit</h5>
+                        <h5 class="modal-title" id="installTireModalLabel">Install Tire</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -563,7 +573,7 @@
                             <select class="form-control" name='tire_serial_number' required>
                                 <option value="">Choose Tire</option>
                                 @foreach ($tire_inventory as $item)
-                                    <option value="{{ $item->serial_number }}">{{ $item->serial_number }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->serial_number }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -574,59 +584,16 @@
                         </div>
                         <div class="row">
                             <div class="form-group col">
-                                <label for="">Date Start</label>
-                                <input type="date" name="date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
-                                <div class="invalid-feedback">Please fill a date start.</div>
+                                <label for="">Start Install</label>
+                                <input type="datetime-local" name="date" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a time start.</div>
                             </div>
                             <div class="form-group col">
-                                <label for="">Date End</label>
-                                <input type="date" name="end_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
-                                <div class="invalid-feedback">Please fill a date end.</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="">Start install</label>
-                                <input type="time" name="start" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
-                                <div class="invalid-feedback">Please fill a start remove.</div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="">End install</label>
-                                <input type="time" name="end" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
-                                <div class="invalid-feedback">Please fill a end remove.</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="">Start Breakdown</label>
-                                <input type="date" name="start_breakdown" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
-                                <div class="invalid-feedback">Please fill a start breakdown.</div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="">Status Breakdown</label>
-                                <select name="status_breakdown" id="" required class="form-control">
-                                    <option value="">Pilih Status Breakdown</option>
-                                    <option value="Rotasi">Rotasi</option>
-                                    <option value="Matching">Matching</option>
-                                    <option value="Backlogrepair">Backlogrepair</option>
-                                    <option value="Unschedule">Unschedule</option>
-                                </select>
-                                <div class="invalid-feedback">Please fill a status breakdown.</div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="">Lokasi Breakdown</label>
-                                <select name="lokasi_breakdown" id="" required class="form-control">
-                                    <option value="">Pilih Lokasi</option>
-                                    <option value="Rotasi">Workshop</option>
-                                    <option value="Matching">Lapangan</option>
-
-                                </select>
-                                <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
+                                <label for="">End Install</label>
+                                <input type="datetime-local" name="end_date" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
                         </div>
                         <div class="row">

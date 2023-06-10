@@ -158,12 +158,36 @@ class DatabaseSeeder extends Seeder
             "company_id" => 1,
             'site_id' => 1,
             'tire_supplier_id' => 1,
+            'serial_number' => "A344F",
+            'tire_size_id' => 1,
+            'tire_compound_id' => 1,
+            'tire_status_id' => 1,
+            'rtd' => 45,
+            'lifetime_hm' => 10212,
+            'date' => "2023-06-08",
+        ]);
+        TireMaster::create([
+            "company_id" => 1,
+            'site_id' => 1,
+            'tire_supplier_id' => 1,
             'serial_number' => "A344D",
             'tire_size_id' => 1,
             'tire_compound_id' => 1,
             'tire_status_id' => 1,
             'rtd' => 45,
-            'lifetime' => 10212,
+            'lifetime_hm' => 10212,
+            'date' => "2023-06-08",
+        ]);
+        TireMaster::create([
+            "company_id" => 1,
+            'site_id' => 1,
+            'tire_supplier_id' => 1,
+            'serial_number' => "A344C",
+            'tire_size_id' => 1,
+            'tire_compound_id' => 1,
+            'tire_status_id' => 1,
+            'rtd' => 45,
+            'lifetime_hm' => 10212,
             'date' => "2023-06-08",
         ]);
 
