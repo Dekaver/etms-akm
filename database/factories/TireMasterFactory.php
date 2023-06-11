@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tire>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TireMaster>
  */
 class TireMasterFactory extends Factory
 {
@@ -23,7 +23,7 @@ class TireMasterFactory extends Factory
             'serial_number' => strtoupper(fake()->lexify("???????")),
             'tire_size_id' => $this->faker->randomElement([1, 2, 3, 4, 5, 6]),
             'tire_compound_id' => $this->faker->randomElement([1, 2, 3, 4]),
-            'tire_status_id' => $this->faker->randomElement([1, 2, 3, 4, 5, 6]),
+            'tire_status_id' => $this->faker->randomElement([1, 2, 5]),
             'tire_damage_id' => $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
             'rtd' => $this->faker->randomNumber(2),
             'lifetime_km' => $this->faker->randomNumber(4),

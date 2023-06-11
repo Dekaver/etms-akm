@@ -15,6 +15,7 @@ class TireSize extends Model
         'otd',
         'recomended_pressure',
         'target_lifetime',
+        'price',
     ];
 
     public function tire_pattern()

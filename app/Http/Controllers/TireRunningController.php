@@ -34,7 +34,7 @@ class TireRunningController extends Controller
                     return $row->unit_status->status_code;
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = "<a class='me-3 text-warning' href='" . route('tiremovement.edit', $row->id) . "'>
+                    $actionBtn = "<a class='me-3 text-warning' href='" . route('tirerunning.edit', $row->id) . "'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
                                 </a>";
                     return $actionBtn;

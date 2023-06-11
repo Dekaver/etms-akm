@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\HistoryDailyInspectController;
 use App\Http\Controllers\HistoryTireMovementController;
 use App\Http\Controllers\PermissionController;
@@ -83,4 +84,27 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::resource("permission", PermissionController::class);
 Route::resource("role", RoleController::class);
+
+
+Route::get('grafik-check-pressure-hd', [GrafikController::class, 'checkPressureHd']);
+Route::get('grafik-check-rtd', [GrafikController::class, 'checkRTD']);
+Route::get('grafik-check-pressure-support', [GrafikController::class, 'checkPressureSupport']);
+Route::get('grafik-tire-inflation', [GrafikController::class, 'tireInflation']);
+Route::get('grafik-tire-inventory', [GrafikController::class, 'tireInventory']);
+Route::get('grafik-tire-consumption-by-unit', [GrafikController::class, 'tireConsumptionByModelUnit']);
+Route::get('grafik-tire-cost-perhm', [GrafikController::class, 'tireCostPerHM']);
+Route::get('grafik-tire-cost-perkm', [GrafikController::class, 'tireCostPerKM']);
+Route::get('grafik-tire-cost-per-hm-by-pattern', [GrafikController::class, 'tireCostPerHMByPattern']);
+Route::get('grafik-tire-cost-per-km-by-pattern', [GrafikController::class, 'tireCostPerKMByPattern']);
+Route::get('grafik-tire-scrap-injury', [GrafikController::class, 'tireScrapInjury']);
+Route::get('grafik-tire-scrap-injury-cause', [GrafikController::class, 'tireScrapInjuryCause']);
+Route::get('grafik-tire-runnning-conditional-hm', [GrafikController::class, 'tireRunningConditionalHm']);
+Route::get('grafik-brand-usage', [GrafikController::class, 'brandUsage']);
+Route::get('grafik-tire-lifetime-average', [GrafikController::class, 'tireLifetimeAverage']);
+Route::get('tire-performance', [DashboardController::class, 'tirePerformance']);
+Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
+Route::get('tire-scrap', [DashboardController::class, 'tireScrap']);
+
+
 require __DIR__ . '/auth.php';
+

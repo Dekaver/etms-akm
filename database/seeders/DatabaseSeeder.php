@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Company;
+use App\Models\HistoryTireMovement;
 use App\Models\Site;
 use App\Models\TireCompound;
 use App\Models\TireDamage;
@@ -208,13 +209,32 @@ class DatabaseSeeder extends Seeder
                     "start_date" => \Carbon\Carbon::now(),
                     "end_date" => \Carbon\Carbon::now(),
                     "pic" => fake()->name(),
-                    "pic_man_power" => fake()->firstName(),
+                    "pic_man_power" => fake()->firstNameMale(),
                     "desc" => "install"
                 ]);
                 $tire->tire_status_id = 6;
                 $tire->save();
 
-
+                HistoryTireMovement::create(
+                    [
+                        "user_id" => 1,
+                        "company_id" => 1,
+                        "site_id" => 1,
+                        "unit" => $value->unit_number,
+                        "tire" => $tire->serial_number,
+                        "position" => $i + 1,
+                        "status" => "RUNNING",
+                        "km_unit_install" => $value->km,
+                        "hm_unit_install" => $value->hm,
+                        "pic" => fake()->firstNameMale(),
+                        "pic_man_power" => fake()->firstNameMale(),
+                        "des" => "Install",
+                        "km_tire_install" => $tire->lifetime_km,
+                        "hm_tire_install" => $tire->lifetime_km,
+                        "start_date" => \Carbon\Carbon::now(),
+                        "end_date" => \Carbon\Carbon::now()
+                    ]
+                );
             }
         }
 

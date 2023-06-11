@@ -18,7 +18,7 @@ class TireDamageFactory extends Factory
     {
         return [
             'company_id' => 1,
-            'damage' => $this->faker->firstNameMale(),
+            'damage' => $this->faker->unique()->firstNameMale(),
             "cause" => $this->faker->randomElement(["Operational", "Maintenance", "Normal"]),
             "rating" => "A",
         ];

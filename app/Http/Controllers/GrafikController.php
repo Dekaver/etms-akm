@@ -598,11 +598,11 @@ class GrafikController extends Controller
         }
 
         foreach ($tire_sizes as $key => $size) {
-            $history = Tire::leftJoin(DB::raw("(select max(id) as id, tire_serial_number from history_tire_movements group by tire_serial_number) as sl"), function ($q) {
-                $q->on('sl.tire_serial_number', '=', 'tires.serial_number');
+            $history = Tire::leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+                $q->on('sl.tire', '=', 'tires.serial_number');
             });
             $history = $history->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
-            $history = $history->whereNotNull('tires.lifetime')->whereNull('tires.deleted_at')->whereHas('tire_size', function ($q) use ($size) {
+            $history = $history->whereNotNull('tires.lifetime_hm')->whereHas('tire_size', function ($q) use ($size) {
                 $q->where('size', $size);
             });
             $history = $history->where('tires.tire_status_id', 1);
@@ -610,12 +610,12 @@ class GrafikController extends Controller
             if ($tahun) {
                 if ($month) {
                     if ($week) {
-                        $history = $history->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges_week[$week][0]}", "$tahun-$month-{$ranges_week[$week][1]}"]);
+                        $history = $history->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges_week[$week][0]}", "$tahun-$month-{$ranges_week[$week][1]}"]);
                     } else {
-                        $history = $history->whereMonth('history_tire_movements.date', $month);
+                        $history = $history->whereMonth('history_tire_movements.start_date', $month);
                     }
                 } else {
-                    $history = $history->whereYear('history_tire_movements.date', $tahun);
+                    $history = $history->whereYear('history_tire_movements.start_date', $tahun);
                 }
             }
 
@@ -925,12 +925,12 @@ class GrafikController extends Controller
             if ($tahun) {
                 if ($month) {
                     if ($week) {
-                        $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                        $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                     } else {
-                        $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                        $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                     }
                 } else {
-                    $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                    $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
                 }
             }
             if ($model_type) {
@@ -1050,12 +1050,12 @@ class GrafikController extends Controller
             if ($tahun) {
                 if ($month) {
                     if ($week) {
-                        $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                        $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                     } else {
-                        $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                        $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                     }
                 } else {
-                    $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                    $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
                 }
             }
             if ($model_type) {
@@ -1167,25 +1167,24 @@ class GrafikController extends Controller
         foreach ($site as $key => $item) {
             $tire = Tire::select('tire_patterns.pattern', 'tire_manufactures.name', 'tire_patterns.type_pattern')
                 ->selectRaw('AVG(tire_sizes.price) as harga')
-                ->selectRaw('AVG(tires.lifetime) as avg_lifetime')
+                ->selectRaw('AVG(tires.lifetime_hm) as avg_lifetime')
                 ->join('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id')
                 ->join('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->join('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
-                ->leftJoin(DB::raw("(select max(id) as id, tire_serial_number from history_tire_movements group by tire_serial_number) as sl"), function ($q) {
-                    $q->on('sl.tire_serial_number', '=', 'tires.serial_number');
+                ->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+                    $q->on('sl.tire', '=', 'tires.serial_number');
                 })
                 ->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id')
-                ->where('tires.type_measure', 'hm')
                 ->where('tires.site_id', $item->id);
             if ($tahun) {
                 if ($month) {
                     if ($week) {
-                        $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                        $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                     } else {
-                        $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                        $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                     }
                 } else {
-                    $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                    $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
                 }
             }
 
@@ -1291,25 +1290,24 @@ class GrafikController extends Controller
         foreach ($site as $key => $item) {
             $tire = Tire::select('tire_patterns.pattern', 'tire_manufactures.name', 'tire_patterns.type_pattern')
                 ->selectRaw('AVG(tire_sizes.price) as harga')
-                ->selectRaw('AVG(tires.lifetime) as avg_lifetime')
+                ->selectRaw('AVG(tires.lifetime_km) as avg_lifetime')
                 ->join('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id')
                 ->join('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->join('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
-                ->leftJoin(DB::raw("(select max(id) as id, tite from history_tire_movements group by tite) as sl"), function ($q) {
-                    $q->on('sl.tite', '=', 'tires.serial_number');
+                ->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+                    $q->on('sl.tire', '=', 'tires.serial_number');
                 })
-                ->where('tires.type_measure', 'km')
                 ->where('tires.site_id', $item->id);
             $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
             if ($tahun) {
                 if ($month) {
                     if ($week) {
-                        $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                        $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                     } else {
-                        $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                        $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                     }
                 } else {
-                    $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                    $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
                 }
             }
             // if($model_type){
@@ -1417,8 +1415,8 @@ class GrafikController extends Controller
         $tire = Tire::select('tire_damages.cause')
             ->selectRaw('COUNT(tire_damages.cause) as total')
             ->join('tire_damages', 'tires.tire_damage_id', '=', 'tire_damages.id')
-            ->leftJoin(DB::raw("(select max(id) as id, tire_serial_number from history_tire_movements group by tire_serial_number) as sl"), function ($q) {
-                $q->on('sl.tire_serial_number', '=', 'tires.serial_number');
+            ->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+                $q->on('sl.tire', '=', 'tires.serial_number');
             });
         $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
         if ($model_type) {
@@ -1437,12 +1435,12 @@ class GrafikController extends Controller
         if ($tahun) {
             if ($month) {
                 if ($week) {
-                    $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                 } else {
-                    $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                 }
             } else {
-                $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
             }
         }
         $tire = $tire->whereHas('tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_pattern, $tire_size) {
@@ -1544,10 +1542,10 @@ class GrafikController extends Controller
         $data['value'] = [];
         $data['max'] = 0;
         // foreach ($site as $key => $item) {
-        $tire = Tire::select('tire_damages.damage_name')
-            ->selectRaw('COUNT(tire_damages.damage_name) as total')
-            ->leftJoin(DB::raw("(select max(id) as id, tire_serial_number from history_tire_movements group by tire_serial_number) as sl"), function ($q) {
-                $q->on('sl.tire_serial_number', '=', 'tires.serial_number');
+        $tire = Tire::select('tire_damages.damage')
+            ->selectRaw('COUNT(tire_damages.damage) as total')
+            ->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+                $q->on('sl.tire', '=', 'tires.serial_number');
             })
             ->join('tire_damages', 'tires.tire_damage_id', '=', 'tire_damages.id');
 
@@ -1567,12 +1565,12 @@ class GrafikController extends Controller
         if ($tahun) {
             if ($month) {
                 if ($week) {
-                    $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                 } else {
-                    $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                 }
             } else {
-                $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
             }
         }
         $tire = $tire->whereHas('tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_pattern, $tire_size) {
@@ -1598,11 +1596,11 @@ class GrafikController extends Controller
             ->whereHas('tire_status', function ($query) {
                 $query->where('status', 'scrap');
             })
-            ->groupBy('tire_damages.damage_name')
+            ->groupBy('tire_damages.damage')
             ->get();
 
         foreach ($tire as $key => $value) {
-            $data['damage'][] = $value->damage_name;
+            $data['damage'][] = $value->damage;
             $data['value'][] = $value->total;
         }
         // }
@@ -1666,18 +1664,18 @@ class GrafikController extends Controller
         if ($tahun) {
             if ($month) {
                 if ($week) {
-                    $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges_week[$week][0]}", "$tahun-$month-{$ranges_week[$week][1]}"]);
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges_week[$week][0]}", "$tahun-$month-{$ranges_week[$week][1]}"]);
                 } else {
-                    $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                 }
             } else {
-                $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
             }
         }
         // if ($tahun) {
-        //     $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+        //     $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
         //     if ($month) {
-        //         $tire = $tire->whereMonth('history_tire_movements.date', $month);
+        //         $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
         //     }
         // }
         if ($site_name) {
@@ -1750,12 +1748,12 @@ class GrafikController extends Controller
         if ($tahun) {
             if ($month) {
                 if ($week) {
-                    $tire = $tire->whereBetween('history_tire_movements.date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
                 } else {
-                    $tire = $tire->whereMonth('history_tire_movements.date', $month);
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
                 }
             } else {
-                $tire = $tire->whereYear('history_tire_movements.date', $tahun);
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
             }
         }
 

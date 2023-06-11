@@ -23,6 +23,7 @@ class TireSizeFactory extends Factory
             'otd' => 80,
             'recomended_pressure' => 120,
             'target_lifetime' => 10000,
+            'price' => $this->faker->numberBetween(800000, 2000000),
         ];
     }
 }
