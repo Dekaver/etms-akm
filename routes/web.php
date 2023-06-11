@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("tirerunning", TireRunningController::class);
     Route::resource("dailyinspect", DailyInspectController::class);
 
-    Route::resource("historytire", HistoryDailyInspectController::class);
+    Route::resource("historytire", HistoryTireController::class);
     Route::resource("historytiremovement", HistoryTireMovementController::class);
     Route::get("tiremovement/{tire}/history", [HistoryTireMovementController::class, 'tiremovement'])->name('history.tiremovement');
     Route::get("tireinspect/{tire}/history", [HistoryTireMovementController::class, 'tireinspect'])->name('history.tireinspect');

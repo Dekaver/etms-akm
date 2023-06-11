@@ -41,6 +41,11 @@ class Unit extends Model
         return $this->hasMany(DailyInspect::class);
     }
 
+    public function history_tire_movement()
+    {
+        return $this->hasMany(HistoryTireMovement::class, "unit", "unit_number");
+    }
+
     public function inspectionLastUpdate(): Attribute
     {
         return Attribute::make(

@@ -24,6 +24,10 @@ class DailyInspect extends Model
         "date",
     ];
 
+    protected $casts = [
+        "date" => "date:Y-m-d"
+    ];
+
     function tire(){
         return $this->belongsTo(TireMaster::class, "tire_id", "id");
     }
