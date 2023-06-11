@@ -186,7 +186,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-submit">Save</button>
+                        <button type="submit" class="btn btn-submit">Save</button>
                         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
