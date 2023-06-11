@@ -31,4 +31,14 @@ class HistoryTireMovement extends Model
         "start_date",
         "end_date"
     ];
+
+    public function tire_number()
+    {
+        return $this->belongsTo(Tiremaster::class, "tire", "serial_number");
+    }
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
 }

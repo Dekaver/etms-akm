@@ -92,7 +92,7 @@ class TireRunningController extends Controller
                         "unit" => $unit->unit_number,
                         "tire" => $tire->serial_number,
                         "position" => $request->position,
-                        "status" => "running",
+                        "status" => "RUNNING",
                         "km_unit_install" => $unit->km,
                         "hm_unit_install" => $unit->hm,
                         "pic" => $request->pic,

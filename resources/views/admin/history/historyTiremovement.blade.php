@@ -6,7 +6,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                     <li class="breadcrumb-item" aria-current="page">History</li>
-                    <li class="breadcrumb-item active" aria-current="page">History Tire</li>
+                    <li class="breadcrumb-item active" aria-current="page">Inspect Tire</li>
                 </ol>
             </nav>
         </div>
@@ -18,27 +18,28 @@
                 <div class="search-set">
                     <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
-                            <img src="assets/img/icons/filter.svg" alt="img">
-                            <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                            <img src="{{ asset('assets/img/icons/filter.svg') }}" alt="img">
+                            <span><img src="{{ asset('assets/img/icons/closes.svg') }}" alt="img"></span>
                         </a>
                     </div>
                     <div class="search-input">
-                        <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+                        <a class="btn btn-searchset"><img src="{{ asset('assets/img/icons/search-white.svg') }}"
+                                alt="img"></a>
                     </div>
                 </div>
                 <div class="wordset">
                     <ul>
                         <li>
                             <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="assets/img/icons/pdf.svg" alt="img"></a>
+                                    src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img"></a>
                         </li>
                         <li>
                             <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
-                                    src="assets/img/icons/excel.svg" alt="img"></a>
+                                    src="{{ asset('assets/img/icons/excel.svg') }}" alt="img"></a>
                         </li>
                         <li>
                             <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
-                                    src="assets/img/icons/printer.svg" alt="img"></a>
+                                    src="{{ asset('assets/img/icons/printer.svg') }}" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -103,13 +104,16 @@
                         <tr>
                             <th>No</th>
                             <th>Serial Number</th>
-                            <th>Size</th>
-                            <th>Pattern</th>
-                            <th>Compound</th>
                             <th>Status</th>
-                            <th>Lifetime</th>
+                            <th>Site</th>
+                            <th>Unit</th>
+                            <th>HM Unit</th>
+                            <th>KM Unit</th>
+                            <th>HM Tire</th>
+                            <th>KM Tire</th>
                             <th>RTD</th>
-                            <th>Action</th>
+                            <th>PIC</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
 
@@ -124,7 +128,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('historytiremovement.index') }}",
+                    ajax: "{{ route('history.tiremovement', $tire->id) }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -132,38 +136,48 @@
                             searchable: false
                         },
                         {
-                            data: 'serial_number',
-                            name: 'serial_number'
-                        },
-                        {
-                            data: 'size',
-                            name: 'size'
-                        },
-                        {
-                            data: 'pattern',
-                            name: 'pattern'
-                        },
-                        {
-                            data: 'compound',
-                            name: 'compound'
+                            data: 'tire',
+                            name: 'tire'
                         },
                         {
                             data: 'status',
                             name: 'status'
                         },
                         {
-                            data: 'lifetime_hm',
-                            name: 'lifetime_hm'
+                            data: 'site',
+                            name: 'site'
+                        },
+                        {
+                            data: 'unit',
+                            name: 'unit'
+                        },
+                        {
+                            data: 'unit_hm',
+                            name: 'unit_hm'
+                        },
+                        {
+                            data: 'unit_km',
+                            name: 'unit_km'
+                        },
+                        {
+                            data: 'tire_hm',
+                            name: 'rire_hm'
+                        },
+                        {
+                            data: 'tire_km',
+                            name: 'rire_km'
                         },
                         {
                             data: 'rtd',
                             name: 'rtd'
                         },
                         {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
+                            data: 'pic',
+                            name: 'pic'
+                        },
+                        {
+                            data: 'start_date',
+                            name: 'start_date'
                         },
                     ]
                 });

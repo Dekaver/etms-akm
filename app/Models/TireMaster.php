@@ -65,4 +65,14 @@ class TireMaster extends Model
     {
         return $this->hasOne(TireRunning::class, "tire_id", "id");
     }
+
+    public function history_tire_movement()
+    {
+        return $this->hasMany(HistoryTireMovement::class, "tire", "serial_number");
+    }
+
+    public function daily_inspect()
+    {
+        return $this->hasMany(DailyInspect::class, "tire_id", "id");
+    }
 }

@@ -23,4 +23,20 @@ class DailyInspect extends Model
         "lifetime_km",
         "date",
     ];
+
+    function tire(){
+        return $this->belongsTo(TireMaster::class, "tire_id", "id");
+    }
+
+    function site(){
+        return $this->belongsTo(Site::class);
+    }
+
+    function unit(){
+        return $this->belongsTo(Unit::class);
+    }
+
+    function tire_damage(){
+        return $this->belongsTo(TireDamage::class);
+    }
 }

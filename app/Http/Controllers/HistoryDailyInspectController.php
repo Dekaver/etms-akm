@@ -12,7 +12,7 @@ class HistoryDailyInspectController extends Controller
      */
     public function index()
     {
-        //
+        return view("admin.history.historydailyInspect");
     }
 
     /**
