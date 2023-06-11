@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tire_movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("tire_running_id")->constrained("tire_runnings");
+            $table->foreignId("tire_running_id")->constrained("tire_runnings")->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('hm')->default(0);
             $table->integer('km')->default(0);
             $table->integer('hm_actual')->default(0);

@@ -16,8 +16,16 @@ return new class extends Migration {
             $table->foreignId("tire_size_id")->constrained("tire_sizes");
             $table->foreignId("tire_compound_id")->constrained("tire_compounds");
             $table->foreignId("tire_status_id")->constrained("tire_statuses");
+            $table->unsignedBigInteger('tire_damage_id')->nullable();
+            $table->foreign('tire_damage_id')->references('id')->on('tire_damages');
             $table->integer("lifetime_km")->default(0);
             $table->integer("lifetime_hm")->default(0);
+            $table->integer("lifetime_retread_km")->default(0);
+            $table->integer("lifetime_retread_hm")->default(0);
+            $table->integer("lifetime_repair_km")->default(0);
+            $table->integer("lifetime_repair_hm")->default(0);
+            $table->boolean("is_repair")->default(false);
+            $table->boolean("is_retread")->default(false);
             $table->tinyInteger("rtd");
             $table->date("date");
             $table->timestamps();

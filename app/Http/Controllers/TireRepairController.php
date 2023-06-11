@@ -12,6 +12,7 @@ class TireRepairController extends Controller
      */
     public function index()
     {
+        $tire
         return view("admin.data.tirerepair");
     }
 

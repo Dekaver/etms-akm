@@ -113,15 +113,27 @@ class DatabaseSeeder extends Seeder
 
         TireStatus::create([
             'company_id' => 1,
-            "status" => 'new'
+            "status" => 'NEW'
         ]);
         TireStatus::create([
             'company_id' => 1,
-            "status" => 'running'
+            "status" => 'SPARE'
         ]);
         TireStatus::create([
             'company_id' => 1,
-            "status" => 'spare'
+            "status" => 'REPAIR'
+        ]);
+        TireStatus::create([
+            'company_id' => 1,
+            "status" => 'RETREAD'
+        ]);
+        TireStatus::create([
+            'company_id' => 1,
+            "status" => 'SCRAP'
+        ]);
+        TireStatus::create([
+            'company_id' => 1,
+            "status" => 'RUNNING'
         ]);
 
         UnitStatus::create([

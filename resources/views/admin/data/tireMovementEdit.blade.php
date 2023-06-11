@@ -91,23 +91,23 @@
     <div class="card">
         <div class="card-body px-5 py-4">
             <div class="row gap gap-4">
-                <div
-                    class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
+                <div class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
+                    data-jenis="SPARE">
                     <i class="text-primary fa-solid fa-box-archive display-3  mb-2"></i>
                     <h4 class="fw-bold text-primary">SPARE</h4>
                 </div>
-                <div
-                    class="rounded col-sm border border-info bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
+                <div class="rounded col-sm border border-info bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
+                    data-jenis="REPAIR">
                     <i class="text-info fa-solid fa-gear display-3  mb-2"></i>
                     <h4 class="fw-bold text-info">REPAIR</h4>
                 </div>
-                <div
-                    class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
+                <div class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
+                    data-jenis="RETHREAD">
                     <i class="text-secondary fa-solid fa-circle-dot display-3  mb-2"></i>
                     <h4 class="fw-bold text-secondary">RETHREAD</h4>
                 </div>
-                <div
-                    class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable">
+                <div class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
+                    data-jenis="SCRAP">
                     <i class="text-danger fa-solid fa-trash-can display-3  mb-2"></i>
                     <h4 class="fw-bold text-danger">SCRAP</h4>
                 </div>
@@ -129,33 +129,44 @@
                                 <div class="pt-2 text-end">
                                     <p class="fs-6 mb-0 fw-bold">SN</p>
                                     <p class="fs-6 mb-0 ">Lifetime</p>
-                                    <p class="fs-6 mb-0 ">Brand</p>
+                                    <p class="fs-6 mb-0 ">repair</p>
+                                    <p class="fs-6 mb-0 ">Retread</p>
                                     <p class="fs-6 mb-0 ">RTD</p>
-                                    <p class="fs-6 mb-0 ">Size</p>
                                 </div>
                             </div>
                             <div class="col-sm"></div>
                             <div class="col-sm">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                        {{-- <div class="draggableUnit"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
-                                            data-lifetime="{{ $tire->lifetime }}">
-                                        </div> --}}
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                        <p class="fs-6 mb-0">2909</p>
-                                        <p class="fs-6 mb-0">Repair</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                    </figcaption>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                        </figcaption>
+                                    @endif
                                 </figure>
                             </div>
                             <div class="col-sm" style="align-self: center;">
@@ -164,21 +175,35 @@
                             <div class="col-sm">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                        <div class="draggableUnit"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
-                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                        <p class="fs-6 mb-0">2909</p>
-                                        <p class="fs-6 mb-0">Repair</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                    </figcaption>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                        </figcaption>
+                                    @endif
                                 </figure>
                             </div>
                             <div class="col-sm"></div>
@@ -200,41 +225,69 @@
                             <div class="col-sm">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                        <div class="draggableUnit"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
-                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                        <p class="fs-6 mb-0">2909</p>
-                                        <p class="fs-6 mb-0">Repair</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                    </figcaption>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                        </figcaption>
+                                    @endif
                                 </figure>
                             </div>
                             <div class="col-sm">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                        <div class="draggableUnit"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
-                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                        <p class="fs-6 mb-0">2909</p>
-                                        <p class="fs-6 mb-0">Repair</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                    </figcaption>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                        </figcaption>
+                                    @endif
                                 </figure>
                             </div>
                             <div class="col-sm" style="align-self: center;">
@@ -244,41 +297,69 @@
                             <div class="col-sm">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                        <div class="draggableUnit"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
-                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                        <p class="fs-6 mb-0">2909</p>
-                                        <p class="fs-6 mb-0">Repair</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                    </figcaption>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                        </figcaption>
+                                    @endif
                                 </figure>
                             </div>
                             <div class="col-sm">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                        <div class="draggableUnit"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            {{-- data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                            data-rtd="{{ $tire->rtd }}" data-sn="{{ $tire->serial_number }}"
-                                            data-lifetime="{{ $tire->lifetime }}" --}}>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <p class="fs-6 mb-0 fw-bold">2920302JDA</p>
-                                        <p class="fs-6 mb-0">2909</p>
-                                        <p class="fs-6 mb-0">Repair</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                        <p class="fs-6 mb-0">15</p>
-                                    </figcaption>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class="fs-6 mb-0 fw-bold">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                            <p class="fs-6 mb-0">-</p>
+                                        </figcaption>
+                                    @endif
                                 </figure>
                             </div>
                         </div>
@@ -348,76 +429,74 @@
     <div class="modal fade" id="removeTireModal" tabindex="-1" role="dialog"
         aria-labelledby="removeTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form method="POST" class="needs-validation" action="{{ url('tire-remove') }}" novalidate>
+            <form method="POST" action="/tirerunning/1">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="removeTireModalLabel">Edit</h5>
+                        <h5 class="modal-title" id="removeTireModalLabel">Remove Tire</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         @csrf
-                        <input type="hidden" name="unit_number" value="{{ $unit->unit_number }}">
-                        <table>
+                        @method('DELETE')
+                        <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                        <table class="w-100">
                             <tr>
                                 <th>Remove Tire from Unit</th>
                                 <td>:</td>
-                                <td>{{ $unit->unit_number }}</td>
+                                <td><input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="unit"
+                                        value="{{ $unit->unit_number }}" readonly></td>
                             </tr>
                             <tr>
-                                <th>Jenis</th>
+                                <th>HM unit last update</th>
                                 <td>:</td>
-                                <td><input class="form-control" type="text" name="type_measure"
-                                        value="{{ $unit->jenis }}" readonly></td>
-                            </tr>
-                            <tr>
-                                <th>HM/KM unit last update</th>
+                                <td><input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="hm"
+                                        value="{{ $unit->hm }}" readonly></td>
+                                <th>KM unit last update</th>
                                 <td>:</td>
-                                @if (strtolower($unit->jenis) == 'hm')
-                                    <td><input type="text" class="form-control" name="hm"
-                                            value="{{ $unit->hm }}" readonly></td>
-                                @else
-                                    <td><input type="text" class="form-control" name="hm"
-                                            value="{{ $unit->km }}" readonly></td>
-                                @endif
-                            </tr>
-                            <tr>
-                                <th>Position</th>
-                                <td>:</td>
-                                <td><input type="text" class="form-control" name="position" readonly></td>
+                                <td><input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="km"
+                                        value="{{ $unit->km }}" readonly></td>
                             </tr>
                             <tr>
                                 <th>Tire Serial Number</th>
                                 <td>:</td>
-                                <td><input type="text" class="form-control" name="tire_serial_number" readonly>
+                                <td><input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="tire_id" readonly>
+                                </td>
+                                <th>Position</th>
+                                <td>:</td>
+                                <td><input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="position" readonly>
                                 </td>
                             </tr>
                             <tr>
                                 <th>RTD</th>
                                 <td>:</td>
-                                <td><input type="text" class="form-control" name="rtd" readonly></td>
+                                <td><input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="rtd" readonly></td>
                             </tr>
                         </table>
                         <hr>
                         <div class="row">
                             <div class="form-group col">
-                                <label for="">Tire SMU Remove</label>
-                                @if (strtolower($unit->jenis) == 'hm')
-                                    <input type="text" class="form-control" name="hm_actual"
-                                        value="{{ $unit->hm }}" required>
-                                    <input type="hidden" name="hm_actual_check" value="{{ $unit->hm }}">
-                                    <input type="hidden" class="form-control" name="lifetime"
-                                        value="{{ $unit->hm }}">
-                                @else
-                                    <input type="text" class="form-control" name="hm_actual"
-                                        value="{{ $unit->km }}" required>
-                                    <input type="hidden" name="hm_actual_check" value="{{ $unit->km }}">
-                                    <input type="hidden" class="form-control" name="lifetime"
-                                        value="{{ $unit->km }}">
-                                @endif
+                                <label for="">Tire HM Remove</label>
+                                <input type="text" class="form-control" name="hm_actual"
+                                    value="{{ $unit->hm }}" required>
                                 <div class="text-danger d-none" id="display_error_hm">
-                                    <p>HM/KM Tidak Boleh kurang dari sebelumnya</p>
+                                    <p>HM Tidak Boleh kurang dari sebelumnya</p>
+                                </div>
+                                <div class="invalid-feedback">Please fill a hour meter.</div>
+                            </div>
+                            <div class="form-group col">
+                                <label for="">Tire KM Remove</label>
+                                <input type="text" class="form-control" name="km_actual"
+                                    value="{{ $unit->km }}" required>
+                                <div class="text-danger d-none" id="display_error_hm">
+                                    <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
                                 <div class="invalid-feedback">Please fill a hour meter.</div>
                             </div>
@@ -433,7 +512,7 @@
                                 <select class="form-control" name="tire_damage_id" required>
                                     <option value="">Pilih Tire Damage</option>
                                     @foreach ($tire_damage as $item)
-                                        <option value="{{ $item->id }}">{{ $item->damage_name }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->damage }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -449,35 +528,22 @@
                         </div>
                         <div class="row">
                             <div class="form-group col">
-                                <label for="">Date Start</label>
-                                <input type="date" name="start_date" class="form-control" required
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                <div class="invalid-feedback">Please fill a date Start.</div>
+                                <label for="">Start time</label>
+                                <input type="datetime-local" name="start_date" class="form-control" required
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}">
+                                <div class="invalid-feedback">Please fill a time Start.</div>
                             </div>
                             <div class="form-group col">
-                                <label for="">Date End</label>
-                                <input type="date" name="finish_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
-                                <div class="invalid-feedback">Please fill a date end.</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="">Start install</label>
-                                <input type="time" name="start" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
-                                <div class="invalid-feedback">Please fill a start remove.</div>
-                            </div>
-                            <div class="form-group col">
-                                <label for="">End install</label>
-                                <input type="time" name="end" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
-                                <div class="invalid-feedback">Please fill a end remove.</div>
+                                <label for="">End time</label>
+                                <input type="datetime-local" name="end_date" class="form-control"
+                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
+                                <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="form-group col">
-                                <label for="">Start Breakdown</label>
+                                <label for="">Date Breakdown</label>
                                 <input type="date" name="start_breakdown" class="form-control"
                                     value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                 <div class="invalid-feedback">Please fill a start breakdown.</div>
@@ -538,8 +604,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="unit_number" value="{{ $unit->unit_number }}">
+                        <input type="hidden" name="unit_id" value="{{ $unit->id }}">
                         <input type="hidden" name="lifetime">
+                        <input type="hidden" name="km" value="{{ $unit->km }}">
+                        <input type="hidden" name="hm" value="{{ $unit->hm }}">
                         @csrf
                         <table>
                             <tr>
@@ -550,9 +618,7 @@
                             <tr>
                                 <th>SMU unit last update</th>
                                 <td>:</td>
-                                <td><input class="form-control" type="text" name="hm"
-                                        value="{{ strtolower($unit->jenis) == 'hm' ? $unit->hm : $unit->km }}"
-                                        readonly></td>
+                                <td>{{ $unit->hm }}</td>
                             </tr>
                             <tr>
                                 <th>Jenis</th>
@@ -570,7 +636,7 @@
 
                         <div class="form-group">
                             <label for="">Tire</label>
-                            <select class="form-control" name='tire_serial_number' required>
+                            <select class="form-control" name='tire_id' required>
                                 <option value="">Choose Tire</option>
                                 @foreach ($tire_inventory as $item)
                                     <option value="{{ $item->id }}">{{ $item->serial_number }}</option>
@@ -585,7 +651,7 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label for="">Start Install</label>
-                                <input type="datetime-local" name="date" class="form-control"
+                                <input type="datetime-local" name="start_date" class="form-control"
                                     value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time start.</div>
                             </div>
@@ -634,7 +700,7 @@
                 $(".draggableUnit").draggable({
                     cursor: "move",
                     revert: true,
-                    snap: ".droppableSpare",
+                    tire_idap: ".droppableSpare",
                     zIndex: 10,
                 });
 
@@ -643,7 +709,7 @@
                     appendTo: '.page-body',
                     // containment: 'window',
                     revert: true,
-                    snap: ".droppableInstall",
+                    tire_idap: ".droppableInstall",
 
 
                 });
@@ -653,7 +719,7 @@
                         var position = $(e.target).data('position');
                         var lifetime = ui.draggable.data('lifetime');
                         var id = ui.draggable.data('id');
-                        $('#installTireModal').find('select[name="tire_serial_number"]').val(id);
+                        $('#installTireModal').find('select[name="tire_id"]').val(id);
                         $('#installTireModal').find('input[name="position"]').val(position);
                         $('#installTireModal').find('input[name="lifetime"]').val(lifetime);
                         myModalInstall.show();
@@ -667,33 +733,12 @@
                         var id = ui.draggable.data('id');
                         var position = ui.draggable.data('position');
                         var lifetime = ui.draggable.data('lifetime');
-                        var sn = ui.draggable.data('sn');
+                        var tire_id = ui.draggable.data('tire_id');
                         var rtd = ui.draggable.data('rtd');
                         let hm_unit_actual = $('#removeTireModal').find(`input[name="hm_actual_check"]`)
                             .val()
-                        // let
-                        $('#removeTireModal').find('input[name="hm_actual"]').keyup(function() {
-                            let value_now = this.value
-                            if (parseInt(value_now) < hm_unit_actual) {
-                                $('#removeTireModal').find('input[name="hm_actual"]').css(
-                                    'border-color', 'red');
-                                $('#display_error_hm').removeClass("d-none")
-                                // $('#removeTireModal').find('input[name="hm_actual"]').addClass("invalid-data");
-                                // $('#afieldID').addClass("error");
-
-                            } else {
-                                // alert('kurang dari hm_unit sebelumnya')
-                                $('#removeTireModal').find('input[name="hm_actual"]').css(
-                                    'border-color', '');
-                                $('#display_error_hm').addClass("d-none")
-                            }
-                            // alert(hm_unit_actual)
-
-                        });
-                        // if (parseInt($(`select[name="tire_damage_id`]").val()) > 99) {
-                        // //do something
-                        // }
-                        if (status == "Spare") {
+                        let action = ui.draggable.data('action');
+                        if (status == "SPARE") {
                             $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
                                 false);
                         } else {
@@ -704,9 +749,10 @@
                         $('#removeTireModal').find(`select option:contains('${status}')`).attr('selected',
                             true);
                         $('#removeTireModal').find('input[name="position"]').val(position);
-                        $('#removeTireModal').find('input[name="tire_serial_number"]').val(sn);
+                        $('#removeTireModal').find('input[name="tire_id"]').val(tire_id);
                         $('#removeTireModal').find('input[name="rtd"]').val(rtd);
                         $('#removeTireModal').find('input[name="rtd_remove"]').val(rtd);
+                        $('#removeTireModal').find('form').attr('action', action);
                         myModalRemove.show();
                     }
                 });

@@ -17,10 +17,17 @@ class TireMaster extends Model
         'tire_size_id',
         'tire_compound_id',
         'tire_status_id',
+        'tire_damage_id',
         'rtd',
         'lifetime_km',
         'lifetime_hm',
+        'lifetime_retread_km',
+        'lifetime_retread_hm',
+        'lifetime_repair_km',
+        'lifetime_repair_hm',
         'date',
+        'is_repair',
+        'is_retread',
     ];
 
     public function company()
@@ -46,5 +53,10 @@ class TireMaster extends Model
     public function tire_status()
     {
         return $this->belongsTo(TireStatus::class);
+    }
+
+    public function tire_running()
+    {
+        return $this->hasOne(TireRunning::class, "tire_id", "id");
     }
 }
