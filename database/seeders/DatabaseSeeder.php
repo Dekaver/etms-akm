@@ -18,6 +18,7 @@ use App\Models\TireSupplier;
 use App\Models\Unit;
 use App\Models\UnitModel;
 use App\Models\UnitStatus;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -61,14 +62,14 @@ class DatabaseSeeder extends Seeder
         $role_a = Role::create(['name' => 'customeradmin']);
         $role_a->givePermissionTo('MANAJEMEN_USER');
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'superadmin',
             'email' => 'superadmin@gmail.com',
             'company_id' => $company1->id
         ]);
         $user->assignRole($role);
 
-        $user_a = \App\Models\User::factory()->create([
+        $user_a = User::factory()->create([
             'name' => 'admin_a',
             'email' => 'admin_a@gmail.com',
             'company_id' => $company1->id
@@ -80,7 +81,7 @@ class DatabaseSeeder extends Seeder
             "site_id" => $site->id,
         ]);
 
-        $user_b = \App\Models\User::factory()->create([
+        $user_b = User::factory()->create([
             'name' => 'admin_b',
             'email' => 'admin_b@gmail.com',
             'company_id' => $company2->id
@@ -94,25 +95,19 @@ class DatabaseSeeder extends Seeder
             "address" => "jl. kilang Semar bakpia",
         ]);
 
-        TireManufacture::create([
-            "name" => "Advanced",
-            "company_id" => 1,
-        ]);
-        TirePattern::create([
-            "company_id" => 1,
-            "pattern" => "GL909A",
-            "type_pattern" => "MIX",
-            "tire_manufacture_id" => 1,
+        TireCompound::factory()->createMany([
+            ['compound' => 'A'],
+            ['compound' => 'B'],
+            ['compound' => 'Z'],
+            ['compound' => 'K'],
         ]);
 
-        TireSize::create([
-            'company_id' => 1,
-            'size' => "29.5R25",
-            'tire_pattern_id' => 1,
-            'otd' => 80,
-            'recomended_pressure' => 90,
-            'target_lifetime' => 10000,
-        ]);
+        TireManufacture::factory(5)->create();
+
+        TirePattern::factory(10)->create();
+
+        TireSize::factory(15)->create();
+
 
         TireStatus::create([
             'company_id' => 1,
@@ -144,10 +139,32 @@ class DatabaseSeeder extends Seeder
             "status_code" => "RFU",
             "description" => "Running"
         ]);
+        UnitStatus::create([
+            'company_id' => 1,
+            "status_code" => "STBY",
+            "description" => "Running"
+        ]);
+        UnitStatus::create([
+            'company_id' => 1,
+            "status_code" => "BD",
+            "description" => "Running"
+        ]);
 
         UnitModel::create([
             'company_id' => 1,
-            "tire_size_id" => 1,
+            "tire_size_id" => 3,
+            "brand" => "Scania",
+            "model" => "P360 LA 6X6",
+            "type" => "PRIME MOVER",
+            "tire_qty" => 10,
+            "axle_2_tire" => 1,
+            "axle_4_tire" => 2,
+            "axle_8_tire" => 0,
+        ]);
+
+        UnitModel::create([
+            'company_id' => 1,
+            "tire_size_id" => 2,
             "brand" => "Scania",
             "model" => "P360 LA 6X6",
             "type" => "PRIME MOVER",
@@ -164,10 +181,7 @@ class DatabaseSeeder extends Seeder
             "rating" => "A",
         ]);
 
-        TireCompound::create([
-            "company_id" => 1,
-            "compound" => "HEAT RESISTANCE",
-        ]);
+        TireDamage::factory(15)->create();
         TireMaster::factory()->count(1000)->create();
         Unit::factory()->count(100)->create();
 
@@ -180,7 +194,7 @@ class DatabaseSeeder extends Seeder
                     "tire_id" => $tire->id,
                     "site_id" => 1,
                     "company_id" => 1,
-                    "position" => $i +1,
+                    "position" => $i + 1,
                 ]);
                 TireMovement::create([
                     "tire_running_id" => $tirerunning->id,
@@ -199,6 +213,8 @@ class DatabaseSeeder extends Seeder
                 ]);
                 $tire->tire_status_id = 6;
                 $tire->save();
+
+
             }
         }
 
