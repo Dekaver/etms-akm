@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,11 +18,20 @@ return new class extends Migration
             $table->foreignId("unit_id")->constrained("units");
             $table->unsignedBigInteger('tire_damage_id')->nullable();
             $table->tinyInteger("position")->default(0);
+            $table->string("location")->nullable();
+            $table->string("shift")->nullable();
+            $table->string("pic")->nullable();
+            $table->string("driver")->nullable();
             $table->integer("rtd")->default(0);
             $table->integer("pressure")->default(0);
-            $table->integer("lifetime")->default(0);
+            $table->integer("lifetime_hm")->default(0);
+            $table->integer("lifetime_km")->default(0);
             $table->date("date");
-            $table->enum("velg", ["baik"]);
+            $table->enum("tube", ["Good", "Bad"])->default("Good");
+            $table->enum("flap", ["Good", "Bad"])->default("Good");
+            $table->enum("rim", ["Good", "Bad"])->default("Good");
+            $table->boolean("t_pentil")->default(false);
+            $table->text("remark")->nullable();
             $table->timestamps();
             $table->foreign('tire_damage_id')->references('id')->on('tire_damages');
         });

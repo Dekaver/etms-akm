@@ -23,7 +23,11 @@ return new class extends Migration
             $table->integer("pressure")->default(0);
             $table->integer("lifetime")->default(0);
             $table->date("date");
-            $table->enum("velg", ["baik"]);
+            $table->enum("tube", ["Good", "Bad"])->default("Good");
+            $table->enum("flap", ["Good", "Bad"])->default("Good");
+            $table->enum("rim", ["Good", "Bad"])->default("Good");
+            $table->boolean("t_pentil")->default(false);
+            $table->text("remark")->nullable();
             $table->timestamps();
             $table->foreign('tire_damage_id')->references('id')->on('tire_damages');
         });

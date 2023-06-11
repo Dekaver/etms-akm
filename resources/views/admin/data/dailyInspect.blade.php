@@ -110,7 +110,7 @@
         <form method="POST">
             @csrf
             @method('PUT')
-            <div class=" modal-xl modal-dialog modal-fullscreen modal-dialog-centered" role="document">
+            <div class=" modal-xl modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tire Inspection</h5>
@@ -153,6 +153,12 @@
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
+                                    <label>Shift</label>
+                                    <input type="text" name="shift">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
                                     <label>Tyre Man</label>
                                     <input type="text" name="pic">
                                 </div>
@@ -168,10 +174,10 @@
                             <table class="table table-bordered" id="table-tire-inspection">
                                 <thead>
                                     <tr>
-                                        <th>Pos</th>
+                                        <th style="width: 40px">Pos</th>
                                         <th>Serial Number</th>
-                                        <th>Pressure</th>
-                                        <th>Dept Thread</th>
+                                        <th style="width: 100px">Pressure</th>
+                                        <th style="width: 100px">Dept Thread</th>
                                         <th>Tube</th>
                                         <th>Flap</th>
                                         <th>Rim</th>
@@ -268,35 +274,41 @@
                                 <option>Bad</option>
                             </select>
                         </td>`
+                    var check = `
+                        <td class="text-center">
+                            <input type="checkbox" checked>
+                        </td>`
                     $.each(response, function(i, v) {
                         let tire_damage_new = $(tire_damage).clone();
                         tire_damage_new.find('select').val(v.tire_damage_id);
                         tire_damage_new.find('select').attr('name', `tire_damage_id[${v.position}]`)
 
                         let tube = $(condition).clone();
-                        tube.find('select').val(v.tube);
+                        // tube.find('select').val(v.tube);
                         tube.find('select').attr('name', `tire_tube[${v.position}]`)
 
                         let flap = $(condition).clone();
-                        flap.find('select').val(v.flap);
+                        // flap.find('select').val(v.flap);
                         flap.find('select').attr('name', `tire_flap[${v.position}]`)
 
                         let rim = $(condition).clone();
-                        rim.find('select').val(v.rim);
+                        // rim.find('select').val(v.rim);
                         rim.find('select').attr('name', `tire_rim[${v.position}]`)
 
-                        let t_pentil = $(condition).clone();
-                        t_pentil.find('select').val(v.t_pentil);
-                        t_pentil.find('select').attr('name', `tire_t_pentil[${v.position}]`)
+                        let t_pentil = $(check).clone();
+                        // t_pentil.find('select').val(v.t_pentil);
+                        t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`)
 
                         var tr = $('<tr>').html(`
                             <input type="hidden" name="tire_id[${v.position}]" value="${v.tire.id}">
-                            <td><input class="form-control" type="number" name="position[${v.position}]" value="${v.position}" readonly required></td>
-                            <td><input class="form-control" type="text" name="serialnumber[${v.position}]" value="${v.tire.serial_number}" readonly required></td>
-                            <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.tire.pressure}"></td>
+                            <input type="hidden" name="position[${v.position}]" value="${v.position}">
+                            <input type="hidden" name="serial_number[${v.position}]" value="${v.tire.serial_number}">
+                            <input type="hidden" name="lifetime_hm[${v.position}]" value="${v.tire.lifetime_hm}">
+                            <input type="hidden" name="lifetime_km[${v.position}]" value="${v.tire.lifetime_km}">
+                            <td>${v.position}</td>
+                            <td>${v.tire.serial_number}</td>
+                            <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.tire.pressure ?? 0 }"></td>
                             <td><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.tire.rtd}"></td>
-                            <td style="display:none;"><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.rtd}"></td>
-                            <input type="hidden" name="lifetime[${v.position}]" value="${v.lifetime}">
                             `);
                         tube.appendTo(tr);
                         flap.appendTo(tr);

@@ -80,6 +80,7 @@ class DailyInspectController extends Controller
      */
     public function edit(Unit $dailyinspect)
     {
+        // dd($dailyinspect->daily_inspect->first());
         return TireRunning::where("unit_id", $dailyinspect->id)->with("tire")->orderBy("position")->get();
     }
 
@@ -92,12 +93,12 @@ class DailyInspectController extends Controller
             'unit_number' => 'required',
             'date' => 'required',
             'hm' => 'required',
-            'tire_serial_number' => 'required',
+            'km' => 'required',
+            'pic' => 'required',
+            'tire_id' => 'required',
             'position' => 'required',
-            'serialnumber' => 'required',
         ]);
         $unit = $dailyinspect;
-        $tire_status_running = TireStatus::where('status', 'running')->first();
 
         $cekdailyinspect = DailyInspect::where("unit_id", $unit->id)->whereDate("date", $request->date)->first();
 
@@ -150,35 +151,51 @@ class DailyInspectController extends Controller
         }
         // end update lifetime
 
-        foreach ($request->position as $key => $value) {
+        foreach ($request->position as $key => $position) {
             $tire_inspection = DailyInspect::firstOrCreate(
                 [
-                    'unit_number' => $unit->unit_number,
-                    'tire_serial_number' => $request->tire_serial_number[$value],
-                    'position' => $request->position[$value],
-                    'date' => $request->date,
-                    'action' => $request->action,
+
+                    "company_id" => auth()->user()->company->id,
+                    "site_id" => auth()->user()->company->id,
+                    "tire_id" => $request->tire_id[$position],
+                    "unit_id" => $unit->id,
+                    "date" => $request->date,
                 ],
                 [
-                    'unit_number' => $unit->unit_number,
-                    'prime_mover' => $unit->prime_mover->unit_number ?? null,
-                    'tire_damage_id' => $request->tire_damage_id[$value] ?? null,
-                    'rtd' => $request->rtd[$value],
-                    'lifetime' => $request->lifetime[$value] ?? null,
+                    "tire_damage_id" => $request->tire_damage_id[$position],
+                    "rtd" => $request->rtd[$position],
+                    "pressure" => $request->pressure[$position],
+                    "position" => $position,
+                    "flap" => $request->tire_flap[$position],
+                    "rim" => $request->tire_rim[$position],
+                    "tube" => $request->tire_tube[$position],
+                    "t_pentil" => ($request->tire_t_pentil[$position] ?? null) == "on" ? true : false,
+                    // "remark" => $request->remark[$position],
+                    "lifetime_hm" => $request->lifetime_hm[$position],
+                    "lifetime_km" => $request->lifetime_km[$position],
                 ],
             );
-            $tire_inspection->tire_damage_id = $request->tire_damage_id[$value] ?? null;
+            $tire_inspection->tire_damage_id = $request->tire_damage_id[$position];
+            $tire_inspection->rtd = $request->rtd[$position];
+            $tire_inspection->pressure = $request->pressure[$position];
+            $tire_inspection->position = $position;
+            $tire_inspection->flap = $request->tire_flap[$position];
+            $tire_inspection->rim = $request->tire_rim[$position];
+            $tire_inspection->tube = $request->tire_tube[$position];
+            $tire_inspection->t_pentil = ($request->tire_t_pentil[$position] ?? null) == "on" ? true : false;
+            // $tire_inspection->remark = $request->remark[$position];
+            $tire_inspection->lifetime_hm = $request->lifetime_hm[$position];
+            $tire_inspection->lifetime_km = $request->lifetime_km[$position];
 
-            $tire_inspection->rtd = $request->rtd[$value];
-            $tire_inspection->lifetime = $request->lifetime[$value] ?? null;
             $tire_inspection->save();
-            if ($request->tire_serial_number[$value]) {
-                TireMaster::where('serial_number', $request->tire_serial_number[$value])->update([
-                    'rtd' => $request->rtd[$value],
-                    'tire_damage_id' => $request->tire_damage_id[$value],
-                ]);
-            }
+
+            TireMaster::where('id', $request->tire_id[$position])->update([
+                'rtd' => $request->rtd[$position],
+                'tire_damage_id' => $request->tire_damage_id[$position],
+            ]);
         }
+
+        return redirect()->back()->with("success", "Insert Daily Monitoring");
     }
 
     /**

@@ -27,6 +27,11 @@ class TireMaster extends Model
         'lifetime_repair_km',
         'lifetime_repair_hm',
         'date',
+        'pressure',
+        'tube',
+        'flap',
+        'rim',
+        't_pentil',
         'is_repair',
         'is_retread',
     ];
