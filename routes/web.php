@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistoryDailyInspectController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -69,13 +70,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("unitmodel", UnitModelController::class);
     Route::resource("unit", UnitController::class);
 
-    Route::resource("tirerunning", TireRunningController::class);
-
     Route::resource("tiredisposisi", TireDisposisiController::class);
     Route::resource("tirerepair", TireRepairController::class);
     Route::resource("tirerunning", TireRunningController::class);
-
     Route::resource("dailyinspect", DailyInspectController::class);
+
+    Route::resource("historydailyinspect", HistoryDailyInspectController::class);
     Route::resource("historytire", HistoryTireController::class);
 });
 Route::resource("permission", PermissionController::class);

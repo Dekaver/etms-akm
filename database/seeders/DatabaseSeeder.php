@@ -9,10 +9,13 @@ use App\Models\TireCompound;
 use App\Models\TireDamage;
 use App\Models\TireManufacture;
 use App\Models\TireMaster;
+use App\Models\TireMovement;
 use App\Models\TirePattern;
+use App\Models\TireRunning;
 use App\Models\TireSize;
 use App\Models\TireStatus;
 use App\Models\TireSupplier;
+use App\Models\Unit;
 use App\Models\UnitModel;
 use App\Models\UnitStatus;
 use Illuminate\Database\Seeder;
@@ -165,44 +168,39 @@ class DatabaseSeeder extends Seeder
             "company_id" => 1,
             "compound" => "HEAT RESISTANCE",
         ]);
+        TireMaster::factory()->count(1000)->create();
+        Unit::factory()->count(100)->create();
 
-        TireMaster::create([
-            "company_id" => 1,
-            'site_id' => 1,
-            'tire_supplier_id' => 1,
-            'serial_number' => "A344F",
-            'tire_size_id' => 1,
-            'tire_compound_id' => 1,
-            'tire_status_id' => 1,
-            'rtd' => 45,
-            'lifetime_hm' => 10212,
-            'date' => "2023-06-08",
-        ]);
-        TireMaster::create([
-            "company_id" => 1,
-            'site_id' => 1,
-            'tire_supplier_id' => 1,
-            'serial_number' => "A344D",
-            'tire_size_id' => 1,
-            'tire_compound_id' => 1,
-            'tire_status_id' => 1,
-            'rtd' => 45,
-            'lifetime_hm' => 10212,
-            'date' => "2023-06-08",
-        ]);
-        TireMaster::create([
-            "company_id" => 1,
-            'site_id' => 1,
-            'tire_supplier_id' => 1,
-            'serial_number' => "A344C",
-            'tire_size_id' => 1,
-            'tire_compound_id' => 1,
-            'tire_status_id' => 1,
-            'rtd' => 45,
-            'lifetime_hm' => 10212,
-            'date' => "2023-06-08",
-        ]);
-
+        $unit = Unit::limit(10)->get();
+        foreach ($unit as $key => $value) {
+            for ($i = 0; $i < $value->unit_model->tire_qty; $i++) {
+                $tire = TireMaster::where("tire_status_id", 1)->inRandomOrder()->first();
+                $tirerunning = TireRunning::create([
+                    "unit_id" => $value->id,
+                    "tire_id" => $tire->id,
+                    "site_id" => 1,
+                    "company_id" => 1,
+                    "position" => $i +1,
+                ]);
+                TireMovement::create([
+                    "tire_running_id" => $tirerunning->id,
+                    "hm" => 0,
+                    "km" => 0,
+                    "unit_lifetime_hm" => $value->hm,
+                    "unit_lifetime_km" => $value->km,
+                    "tire_lifetime_hm" => $tire->lifetime_hm,
+                    "tire_lifetime_km" => $tire->lifetime_km,
+                    "rtd" => $tire->rtd,
+                    "start_date" => \Carbon\Carbon::now(),
+                    "end_date" => \Carbon\Carbon::now(),
+                    "pic" => fake()->name(),
+                    "pic_man_power" => fake()->firstName(),
+                    "desc" => "install"
+                ]);
+                $tire->tire_status_id = 6;
+                $tire->save();
+            }
+        }
 
     }
 }

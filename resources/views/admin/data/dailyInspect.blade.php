@@ -1,18 +1,14 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Unit</h4>
+            <h4>Tire Running Unit</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Unit</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tire Running Unit</li>
                 </ol>
             </nav>
-        </div>
-        <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
-                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
         </div>
     </div>
 
@@ -97,11 +93,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Site</th>
-                            <th>Unit Code</th>
-                            <th>Unit Model</th>
-                            <th>HM/KM</th>
-                            <th>Status</th>
+                            <th>Unit</th>
+                            <th>HM</th>
+                            <th>KM</th>
+                            <th>status</th>
+                            <th>Last Update</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -110,78 +106,87 @@
         </div>
     </div>
 
-    <!-- add Modal -->
     <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
             @csrf
             @method('PUT')
-            <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
+            <div class=" modal-xl modal-dialog modal-fullscreen modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Unit </h5>
+                        <h5 class="modal-title">Tire Inspection</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-3">
                                 <div class="form-group">
-                                    <label>Unit Code</label>
+                                    <label>Unit number</label>
                                     <input type="text" name="unit_number">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group mb-0">
-                                    <label>Unit Model</label>
-                                    <select class="select" name="unit_model_id">
-                                        <option value="">Choose Model</option>
-                                        @foreach ($unit_model as $item)
-                                            <option value="{{ $item->id }}">{{ $item->model }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
-                                    <label>Site</label>
-                                    <select class="select" name="site_id">
-                                        <option value="">Choose Site</option>
-                                        @foreach ($sites as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
-                                    <label>Unit Status</label>
-                                    <select class="select" name="unit_status_id">
-                                        <option value="">Choose Status</option>
-                                        @foreach ($unit_status as $item)
-                                            <option value="{{ $item->id }}">{{ $item->status_code }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>HM</label>
-                                    <input class="form-control" min="0" type="number" value="0"
-                                        name="hm">
+                                    <input type="text" name="hm">
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>KM</label>
-                                    <input class="form-control" min="0" type="number" value="0"
-                                        name="km">
+                                    <input type="text" name="km">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="text" name="date"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Location</label>
+                                    <input type="text" name="location">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Tyre Man</label>
+                                    <input type="text" name="pic">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Driver</label>
+                                    <input type="text" name="driver">
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive" style="overflow-x: scroll; white-space:nowrap">
+                            <table class="table table-bordered" id="table-tire-inspection">
+                                <thead>
+                                    <tr>
+                                        <th>Pos</th>
+                                        <th>Serial Number</th>
+                                        <th>Pressure</th>
+                                        <th>Dept Thread</th>
+                                        <th>Tube</th>
+                                        <th>Flap</th>
+                                        <th>Rim</th>
+                                        <th>T.Pentil</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-submit">Save</button>
+                        <button type="button" class="btn btn-submit">Save</button>
                         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -195,7 +200,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('unit.index') }}",
+                    ajax: "{{ route('dailyinspect.index') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -203,24 +208,24 @@
                             searchable: false
                         },
                         {
-                            data: 'site',
-                            name: 'site'
-                        },
-                        {
                             data: 'unit_number',
                             name: 'unit_number'
                         },
                         {
-                            data: 'model',
-                            name: 'model'
+                            data: 'hm',
+                            name: 'hm'
                         },
                         {
-                            data: 'value',
-                            name: 'value'
+                            data: 'km',
+                            name: 'km'
                         },
                         {
-                            data: 'status',
-                            name: 'status'
+                            data: 'unit_status',
+                            name: 'unit_status'
+                        },
+                        {
+                            data: 'last_update',
+                            name: 'last_update'
                         },
                         {
                             data: 'action',
@@ -238,35 +243,82 @@
                 var button = $(event.relatedTarget)
                 var post = button.data('post');
                 var modal = $(this)
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('unit.store') }}`)
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ route('unit.index') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('input[name="unit_number"]').val(response.unit_number);
-                        modal.find('select[name="unit_model_id"]').val(response.unit_model_id)
-                            .trigger('change');
-                        modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
-                        modal.find('select[name="unit_status_id"]').val(response.unit_status_id)
-                            .trigger('change');
-                        modal.find('input[name="hm"]').val(response.hm);
-                        modal.find('input[name="km"]').val(response.km);
 
-                        modal.find('input[name="_method"]').val('PUT');
+                var id = button.data('id');
+                $.ajax({
+                    method: "GET",
+                    url: `{{ route('dailyinspect.index') }}/${id}/edit`
+                }).done(function(response) {
+                    console.log(response);
+
+                    $('#table-tire-inspection tbody').empty();
+                    var tire_damage = `
+                        <td>
+                            <select class="form-control">
+                                <option value="">Tire damage</option>
+                                @foreach ($tire_damages as $item)
+                                <option value="{{ $item->id }}">{{ $item->damage }}</option>
+                                @endforeach
+                            </select>
+                        </td>`;
+                    var condition = `
+                        <td>
+                            <select class="form-control">
+                                <option>Good</option>
+                                <option>Bad</option>
+                            </select>
+                        </td>`
+                    $.each(response, function(i, v) {
+                        let tire_damage_new = $(tire_damage).clone();
+                        tire_damage_new.find('select').val(v.tire_damage_id);
+                        tire_damage_new.find('select').attr('name', `tire_damage_id[${v.position}]`)
+
+                        let tube = $(condition).clone();
+                        tube.find('select').val(v.tube);
+                        tube.find('select').attr('name', `tire_tube[${v.position}]`)
+
+                        let flap = $(condition).clone();
+                        flap.find('select').val(v.flap);
+                        flap.find('select').attr('name', `tire_flap[${v.position}]`)
+
+                        let rim = $(condition).clone();
+                        rim.find('select').val(v.rim);
+                        rim.find('select').attr('name', `tire_rim[${v.position}]`)
+
+                        let t_pentil = $(condition).clone();
+                        t_pentil.find('select').val(v.t_pentil);
+                        t_pentil.find('select').attr('name', `tire_t_pentil[${v.position}]`)
+
+                        var tr = $('<tr>').html(`
+                            <input type="hidden" name="tire_id[${v.position}]" value="${v.tire.id}">
+                            <td><input class="form-control" type="number" name="position[${v.position}]" value="${v.position}" readonly required></td>
+                            <td><input class="form-control" type="text" name="serialnumber[${v.position}]" value="${v.tire.serial_number}" readonly required></td>
+                            <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.tire.pressure}"></td>
+                            <td><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.tire.rtd}"></td>
+                            <td style="display:none;"><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.rtd}"></td>
+                            <input type="hidden" name="lifetime[${v.position}]" value="${v.lifetime}">
+                            `);
+                        tube.appendTo(tr);
+                        flap.appendTo(tr);
+                        rim.appendTo(tr);
+                        t_pentil.appendTo(tr);
+                        tire_damage_new.appendTo(tr);
+                        tr.appendTo("#table-tire-inspection tbody");
                     });
-                    modal.find('form').attr('action', `{{ route('unit.index') }}/${id}`)
-                }
+                });
+                modal.find('input[name="unit_number"]').val(button.data('unit_number'));
+                modal.find('input[name="hm"]').val(button.data('hm'));
+                modal.find('input[name="km"]').val(button.data('km'));
+                modal.find('form').attr('action', `{{ route('dailyinspect.index') }}/${id}`)
+
             });
             $('#form-modal').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
-                $(this).find('select[name="unit_model"]').trigger('change');
+                $(this).find('select[name="unit_number"]').trigger('change');
                 $(this).find('select[name="site_id"]').trigger('change');
                 $(this).find('select[name="unit_status_id"]').trigger('change');
             });
         </script>
     @endpush
+
 </x-app-layout>

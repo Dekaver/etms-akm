@@ -13,6 +13,7 @@ class TireMaster extends Model
     protected $fillable = [
         'company_id',
         'site_id',
+        'tire_supplier_id',
         'serial_number',
         'tire_size_id',
         'tire_compound_id',

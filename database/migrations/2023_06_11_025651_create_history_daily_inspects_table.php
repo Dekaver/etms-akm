@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('daily_inspects', function (Blueprint $table) {
+        Schema::create('history_daily_inspects', function (Blueprint $table) {
             $table->id();
             $table->foreignId("company_id")->constrained("companies");
             $table->foreignId("site_id")->constrained("sites");
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('daily_inspects');
+        Schema::dropIfExists('history_daily_inspects');
     }
 };
