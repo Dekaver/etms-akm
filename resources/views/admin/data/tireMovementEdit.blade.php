@@ -3,7 +3,7 @@
     @push('css')
         <link rel="stylesheet" href="{{ asset('assets/css/scrollable.css') }}">
         <style>
-            <style>.invalid-data {
+            .invalid-data {
                 border: 1px solid red;
             }
 
@@ -25,7 +25,7 @@
             }
 
             .draggableInventory {
-                /* width: 90px; */
+                width: 90px;
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position-x: center;
@@ -84,38 +84,39 @@
             <h5>Tire Movement Update</h5>
             <div class="row">
                 <div class="col-sm-12">
-                    <p class="fw-bold mb-0">Unit Machine</p>
                     <table>
                         <tr>
                             <td>ID</td>
                             <td class="px-4">: </td>
-                            <td>DL03032</td>
+                            <td>{{ $unit->unit_number }}</td>
                             <td></td>
                             <td class="px-4">MODEL</td>
                             <td class="px-4">: </td>
-                            <td>TCD920</td>
+                            <td>{{ $unit->unit_model->model ?? '' }}</td>
                         </tr>
                         <tr>
-                            <td>SMU</td>
+                            <td>HM</td>
                             <td class="px-4">: </td>
-                            <td>7872719 KM</td>
+                            <td>{{ $unit->hm }}</td>
                             <td></td>
-                            <td class="px-4">TIRE SIZE</td>
+                            <td>KM</td>
                             <td class="px-4">: </td>
-                            <td>12.0024R</td>
+                            <td>{{ $unit->km }}</td>
+                        </tr>
+                        <tr>
+                            <td>TIRE SIZE</td>
+                            <td class="">: </td>
+                            <td>{{ $unit->unit_model->tire_size->size ?? '' }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card">
+    <div class="card page-body">
         <div class="card-body px-5 py-4">
-            <div class="row gap gap-4 bg-white px-4 py-4" style="
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            z-index: 999;">
+            <div class="row gap gap-4 bg-white px-4 py-4"
+                style="position: -webkit-sticky;position: sticky;top: 0;z-index: 999;">
                 <div class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
                     data-jenis="SPARE">
                     <i class="text-primary fa-solid fa-box-archive display-3  mb-2"></i>
@@ -191,8 +192,7 @@
                                 </figure>
                             </div>
                             <div class="col-auto" style="align-self: center; width:80px ;">
-                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4"
-                                    alt="">
+                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
                             </div>
                             <div class="col-sm">
                                 <figure>
@@ -401,7 +401,7 @@
                                         <i class="search"> Cari</i></a>
                                 </div>
                             </div>
-                            <div class="overflow-scroll overflow-y-scroll" id="list-tire" style="height: 1080px">
+                            <div class="overflow-scroll" id="list-tire" style="height: 1080px">
                                 @foreach ($tire_inventory as $tire)
                                     <div class="w-full" style="border-bottom: gray">
                                         <div class="row">
@@ -730,11 +730,11 @@
                     cursor: "move",
                     revert: true,
                     snap: ".droppableSpare",
-                    zIndex: 10,
+                    zIndex: 1000,
                 });
                 $(".draggableInventory").draggable({
                     cursor: "move",
-                    appendTo: '.page-wrapper',
+                    appendTo: '.page-body',
                     // containment: 'window',
                     revert: true,
                     opacity: 70,
@@ -742,8 +742,7 @@
                         return $(e.target).clone();
                     },
                     start: function() {
-                        $(window).attr("style", "border:1px red solid");
-                        $(this).hide();
+                        $(this).show();
                     },
                     stop: function() {
                         $(this).show()
@@ -753,6 +752,7 @@
                         top: 50,
                         left: 50
                     },
+                    zIndex: 10,
 
 
                 });
