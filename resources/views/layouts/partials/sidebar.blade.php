@@ -11,11 +11,13 @@
                             alt="img"><span>
                             Grafik</span> <span class="menu-arrow"></span></a>
                     <ul>
+                        @can("GRAFIK")
                         <li><a href="/tire-performance"
                                 class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
                         </li>
                         <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                 Scrap</a></li>
+                        @endcan
                     </ul>
                 </li>
                 <li class="submenu">

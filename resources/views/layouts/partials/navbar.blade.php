@@ -190,10 +190,10 @@
                         </div>
                     </div>
                     <hr class="m-0">
-                    <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i>
+                    <a class="dropdown-item" href="/profile"> <i class="me-2" data-feather="user"></i>
                         My Profile</a>
-                    <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
-                            data-feather="settings"></i>Settings</a>
+                    {{-- <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
+                            data-feather="settings"></i>Settings</a> --}}
                     <hr class="m-0">
                     <form action="{{ route('logout') }}" id="logout-form" method="post">
                         @csrf
