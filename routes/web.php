@@ -75,9 +75,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("unitmodel", UnitModelController::class)->middleware("permission:UNIT_MODEL");
     Route::resource("unit", UnitController::class)->middleware("permission:UNIT");
 
-    Route::resource("tiredisposisi", TireDisposisiController::class);
-    Route::resource("tirerepair", TireRepairController::class);
-    Route::resource("tirerunning", TireRunningController::class);
+    Route::resource("tirerepair", TireRepairController::class)->middleware("permission:TIRE_REPAIR");
+    Route::resource("tirerunning", TireRunningController::class)->middleware("permission:TIRE_RUNNING");
 
     Route::resource("dailyinspect", DailyInspectController::class)->middleware("permission:DAILY_INSPECT");
 
