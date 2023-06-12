@@ -1,45 +1,41 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>History Tire</h4>
+            <h4>History Tire Movement SN 99282984</h4>
+            <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item" aria-current="page">History</li>
-                    <li class="breadcrumb-item active" aria-current="page">Inspect Tire</li>
+                    <li class="breadcrumb-item"><a href="#">History</a></li>
+                    <li class="breadcrumb-item"><a href="#">History Tire</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Movement</li>
                 </ol>
             </nav>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="table-top">
                 <div class="search-set">
                     <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
-                            <img src="{{ asset('assets/img/icons/filter.svg') }}" alt="img">
-                            <span><img src="{{ asset('assets/img/icons/closes.svg') }}" alt="img"></span>
+                            <img src="assets/img/icons/filter.svg" alt="img">
+                            <span><img src="assets/img/icons/closes.svg" alt="img"></span>
                         </a>
                     </div>
                     <div class="search-input">
-                        <a class="btn btn-searchset"><img src="{{ asset('assets/img/icons/search-white.svg') }}"
-                                alt="img"></a>
+                        <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
                     </div>
                 </div>
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
-                                    src="{{ asset('assets/img/icons/excel.svg') }}" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
-                                    src="{{ asset('assets/img/icons/printer.svg') }}" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -88,8 +84,7 @@
                                 </div>
                                 <div class="col-lg-1 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
+                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
                                     </div>
                                 </div>
                             </div>
@@ -102,88 +97,35 @@
                 <table class="table data-table">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Serial Number</th>
-                            <th>Status</th>
-                            <th>Site</th>
                             <th>Unit</th>
-                            <th>HM Unit</th>
-                            <th>KM Unit</th>
-                            <th>HM Tire</th>
-                            <th>KM Tire</th>
+                            {{-- <th>Tire</th> --}}
+                            <th>Site</th>
+                            <th>Tire Status</th>
+                            <th>Tire Damage</th>
+                            <th>Position</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>HM</th>
                             <th>RTD</th>
                             <th>PIC</th>
-                            <th>Date</th>
                         </tr>
                     </thead>
-
+                    <tbody>
+                        <tr>
+                            <td>SDTR092</td>
+                            <td>Senyiur</td>
+                            <td>Running</td>
+                            <td>Drilling</td>
+                            <td>10</td>
+                            <td>2022-07-30</td>
+                            <td>08:31:00</td>
+                            <td>07248247</td>
+                            <td>5</td>
+                            <td>Risky</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-    @push('js')
-        <script type="text/javascript">
-            $(function() {
-                var table = $('table.data-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('history.tiremovement', $tire->id) }}",
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'tire',
-                            name: 'tire'
-                        },
-                        {
-                            data: 'status',
-                            name: 'status'
-                        },
-                        {
-                            data: 'site',
-                            name: 'site'
-                        },
-                        {
-                            data: 'unit',
-                            name: 'unit'
-                        },
-                        {
-                            data: 'unit_hm',
-                            name: 'unit_hm'
-                        },
-                        {
-                            data: 'unit_km',
-                            name: 'unit_km'
-                        },
-                        {
-                            data: 'tire_hm',
-                            name: 'rire_hm'
-                        },
-                        {
-                            data: 'tire_km',
-                            name: 'rire_km'
-                        },
-                        {
-                            data: 'rtd',
-                            name: 'rtd'
-                        },
-                        {
-                            data: 'pic',
-                            name: 'pic'
-                        },
-                        {
-                            data: 'start_date',
-                            name: 'start_date'
-                        },
-                    ]
-                });
-
-
-            });
-        </script>
-    @endpush
 </x-app-layout>
