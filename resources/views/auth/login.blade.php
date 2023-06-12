@@ -1,8 +1,50 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    <div class="main-wrapper">
+        <div class="account-content">
+            <div class="login-wrapper">
+                <div class="login-content">
+                    <div class="login-userset">
+                         <div class="login-logo logo-normal">
+                            <img src="assets/img/logo.png" alt="img">
+                        </div>
+                        <a href="index.html" class="login-logo logo-white">
+                            <img src="assets/img/logo-white.png"  alt="">
+                        </a>
+                        <div class="login-userheading">
+                            <h3>Sign In</h3>
+                            <h4>Please login to your account</h4>
+                        </div>
     <form method="POST" action="{{ route('login') }}">
+        @csrf
+                       <div class="form-login">
+                            <label>Email</label>
+                            <div class="form-addons">
+                                <input type="text" placeholder="Enter your email address" name="email" required autofocus >
+                                <img src="assets/img/icons/mail.svg" alt="img">
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <label>Password</label>
+                            <div class="pass-group">
+                                <input type="password" class="pass-input" placeholder="Enter your password" name="password">
+                                <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <button type="submit" class="btn btn-login" href="index.html">Sign In</button>
+                        </div>
+    </form>
+                    </div>
+                </div>
+                <div class="login-img">
+                    <img src="https://images.pexels.com/photos/16023877/pexels-photo-16023877/free-photo-of-hitam-dan-putih-industri-karet-ban.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="img">
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -43,5 +85,5 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-    </form>
+    </form> --}}
 </x-guest-layout>

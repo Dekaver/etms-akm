@@ -19,7 +19,7 @@ class CompanyFactory extends Factory
         return [
             'name' => fake()->company(),
             'email' => fake()->unique()->companyEmail(),
-            'inisial' => substr(fake()->companySuffix(), 0, 4),
+            'initial' => substr(fake()->companySuffix(), 0, 4),
         ];
     }
 }
