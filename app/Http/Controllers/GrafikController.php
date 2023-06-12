@@ -1474,15 +1474,15 @@ class GrafikController extends Controller
         foreach ($tire as $key => $value) {
             switch ($value->cause) {
                 case 'Maintenance':
-                    $data['value'][0] = $value->total;
+                    $data['value'][0] = (int) $value->total;
                     break;
 
                 case 'Normal':
-                    $data['value'][1] = $value->total;
+                    $data['value'][1] = (int) $value->total;
                     break;
 
                 case 'Operational':
-                    $data['value'][2] = $value->total;
+                    $data['value'][2] = (int) $value->total;
                     break;
 
                 default:
