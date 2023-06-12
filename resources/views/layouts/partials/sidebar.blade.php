@@ -125,11 +125,11 @@
                             Data History</span> <span class="menu-arrow"></span></a>
                     <ul>
                         @can('HISTORY_TIRE')
-                            <li><a href="/historytire" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">Tire
+                            <li><a href="/historytire" class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Tire
                                     Movement</a></li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
-                            <li><a href="/dailyinspect" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">Daily
+                            <li><a href="/dailyinspect" class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily
                                     Inspect Report</a></li>
                         @endcan
                     </ul>
