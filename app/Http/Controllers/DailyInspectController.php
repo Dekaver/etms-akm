@@ -48,7 +48,7 @@ class DailyInspectController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.dailyinspect", compact("tire_damages"));
+        return view("admin.data.dailyInspect", compact("tire_damages"));
     }
 
     /**
