@@ -132,7 +132,7 @@ var optionTireAverage = {
         },
     },
     noData: {
-        text: "Loading...",
+        text: "No Data",
     },
 
     dataLabels: {

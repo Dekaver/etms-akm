@@ -14,12 +14,12 @@
                                     <select class="form-control" name="site">
                                         <option value="">Choose Site</option>
                                         @foreach ($site as $item)
-                                            <option value="{{ $item->site_name }}" @selected($item->site_name == $site_name)>
-                                                {{ $item->site_name }}</option>
+                                            <option value="{{ $item->name }}" @selected($item->name == $site_name)>
+                                                {{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 {{-- @else
-                                    <input class="form-control" type="text" name="site" value="{{ $site_name }}" readonly>
+                                    <input class="form-control" type="text" name="site" value="{{ $name }}" readonly>
                                 @endcanany --}}
                             </div>
                             {{-- <div class="form-group col">

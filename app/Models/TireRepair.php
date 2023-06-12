@@ -38,7 +38,7 @@ class TireRepair extends Model
         return $this->belongsTo(TireStatus::class);
     }
 
-    public function tire_movemet()
+    public function tire_movement()
     {
         return $this->hasOne(TireMovement::class);
     }

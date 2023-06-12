@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Dashboard;
 use App\Models\Site;
 use App\Models\TireManufacture;
+use App\Models\TireMaster;
 use App\Models\TirePattern;
 use App\Models\TireSize;
 use App\Models\UnitModel;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,39 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view("admin.dashboard");
+        $date = Carbon::now();
+
+        $new = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "NEW");
+        })->count();
+
+        $new_install = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "RUNNING");
+        })->whereHas("tire_running", function ($q) use ($date) {
+            $q->whereHas("tire_movement", function ($q) use ($date) {
+                $q->whereMonth("start_date", $date->format("m"));
+                $q->whereYear("start_date", $date->format("Y"));
+            });
+        })->count();
+
+        $spare = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "SPARE");
+        })->count();
+
+        $repair = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "REPAIR");
+        })->count();
+
+        $running = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "RUNNING");
+        })->count();
+
+        $scrap = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "SCRAP");
+        })->count();
+
+
+        return view("admin.dashboard", compact("new", "new_install", "spare", "repair", "running", "scrap"));
     }
 
     /**
