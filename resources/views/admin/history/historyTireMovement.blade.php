@@ -1,13 +1,13 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>History Tire Inspect SN 99282984</h4>
+            <h4>History Tire Movement SN 99282984</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">History</a></li>
                     <li class="breadcrumb-item"><a href="#">History Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Inspect</li>
+                    <li class="breadcrumb-item active" aria-current="page">Movement</li>
                 </ol>
             </nav>
         </div>
@@ -100,12 +100,14 @@
                             <th>Unit</th>
                             {{-- <th>Tire</th> --}}
                             <th>Site</th>
-                            <th>Damage</th>
-                            <th>RTD</th>
-                            <th>Pressure</th>
+                            <th>Tire Status</th>
+                            <th>Tire Damage</th>
                             <th>Position</th>
                             <th>Date</th>
-                            <th>Updated</th>
+                            <th>Time</th>
+                            <th>HM</th>
+                            <th>RTD</th>
+                            <th>PIC</th>
                         </tr>
                     </thead>
                     <tbody>

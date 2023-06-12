@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HistoryTireMovement;
+use App\Models\HistoryTireInspect;
 use Illuminate\Http\Request;
 
-class HistoryTireMovementController extends Controller
+class HistoryTireInspectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view("admin.history.historytiremovement");
-        //
+        return view("admin.history.historytireinspect");
     }
 
     /**
@@ -35,7 +34,7 @@ class HistoryTireMovementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HistoryTireMovement $historyTireMovement)
+    public function show(HistoryTireInspect $historyTireInspect)
     {
         //
     }
@@ -43,7 +42,7 @@ class HistoryTireMovementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HistoryTireMovement $historyTireMovement)
+    public function edit(HistoryTireInspect $historyTireInspect)
     {
         //
     }
@@ -51,7 +50,7 @@ class HistoryTireMovementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, HistoryTireMovement $historyTireMovement)
+    public function update(Request $request, HistoryTireInspect $historyTireInspect)
     {
         //
     }
@@ -59,7 +58,7 @@ class HistoryTireMovementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HistoryTireMovement $historyTireMovement)
+    public function destroy(HistoryTireInspect $historyTireInspect)
     {
         //
     }
