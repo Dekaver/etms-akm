@@ -379,46 +379,54 @@
                                         <i class="search"> Cari</i></a>
                                 </div>
                             </div>
-                            @foreach ($tire_inventory as $tire)
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="draggableInventory"
-                                            style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                            data-id="{{ $tire->id }}" data-lifetime="{{ $tire->lifetime_km }}"
-                                            data-lifetime="{{ $tire->lifetime_hm }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <p>{{ $tire->serial_number }}</p>
+                            <div class="overflow-scroll" id="list-tire" style="height: 1080px">
+                                @foreach ($tire_inventory as $tire)
+                                    <div class="w-full" style="border-bottom: gray">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <p class="mb-0">lifetime</p>
-                                                <p class="mb-0">Brand</p>
-                                                <p class="mb-0">RTD</p>
-                                                <p class="mb-0">Size</p>
-                                                <p class="mb-0">Pattern</p>
+                                            <div class="col-3">
+                                                <div class="draggableInventory"
+                                                    style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                    data-id="{{ $tire->id }}"
+                                                    data-lifetime="{{ $tire->lifetime_km }}"
+                                                    data-lifetime="{{ $tire->lifetime_hm }}">
+                                                </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <p class="mb-0">:</p>
-                                                <p class="mb-0">:</p>
-                                                <p class="mb-0">:</p>
-                                                <p class="mb-0">:</p>
-                                                <p class="mb-0">:</p>
-                                            </div>
-                                            <div class="col-auto">
-                                                <p class="mb-0">{{ $tire->lifetime ?? '-' }}</p>
-                                                <p class="mb-0">
-                                                    {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}</p>
-                                                <p class="mb-0">{{ $tire->rtd ?? '-' }}</p>
-                                                <p class="mb-0">{{ $tire->tire_size->size ?? '-' }}</p>
-                                                <p class="mb-0">{{ $tire->tire_size->tire_pattern->pattern ?? '-' }}
-                                                    -
-                                                    {{ $tire->tire_size->tire_pattern->type_pattern ?? '-' }}</p>
+                                            <div class="col-9">
+                                                <p>{{ $tire->serial_number }}</p>
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <p class="mb-0">lifetime</p>
+                                                        <p class="mb-0">Brand</p>
+                                                        <p class="mb-0">RTD</p>
+                                                        <p class="mb-0">Size</p>
+                                                        <p class="mb-0">Pattern</p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <p class="mb-0">:</p>
+                                                        <p class="mb-0">:</p>
+                                                        <p class="mb-0">:</p>
+                                                        <p class="mb-0">:</p>
+                                                        <p class="mb-0">:</p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <p class="mb-0">{{ $tire->lifetime ?? '-' }}</p>
+                                                        <p class="mb-0">
+                                                            {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}
+                                                        </p>
+                                                        <p class="mb-0">{{ $tire->rtd ?? '-' }}</p>
+                                                        <p class="mb-0">{{ $tire->tire_size->size ?? '-' }}</p>
+                                                        <p class="mb-0">
+                                                            {{ $tire->tire_size->tire_pattern->pattern ?? '-' }}
+                                                            -
+                                                            {{ $tire->tire_size->tire_pattern->type_pattern ?? '-' }}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -695,21 +703,20 @@
                 var myModalRemove = new bootstrap.Modal(document.getElementById('removeTireModal'), {
                     keyboard: false
                 });
-                console.log($(".draggableUnit").draggable());
 
                 $(".draggableUnit").draggable({
                     cursor: "move",
                     revert: true,
-                    tire_idap: ".droppableSpare",
+                    snap: ".droppableSpare",
                     zIndex: 10,
                 });
 
                 $(".draggableInventory").draggable({
                     cursor: "move",
-                    appendTo: '.page-body',
+                    appendTo: 'body',
                     // containment: 'window',
                     revert: true,
-                    tire_idap: ".droppableInstall",
+                    snap: ".droppableInstall",
 
 
                 });
