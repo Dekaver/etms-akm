@@ -106,14 +106,14 @@
                         @endcan
 
                         @can('USER')
-                            <li><a href="/user" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">User</a></li>
+                            <li><a href="/user" class="{{ Request::routeIs('user.*') ? 'active' : '' }}">User</a></li>
                         @endcan
                         @can('PERMISSION')
-                            <li><a href="/permission" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">User</a>
+                            <li><a href="/permission" class="{{ Request::routeIs('permission.*') ? 'active' : '' }}">Permission</a>
                             </li>
                         @endcan
                         @can('ROLE')
-                            <li><a href="/role" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">User</a></li>
+                            <li><a href="/role" class="{{ Request::routeIs('role.*') ? 'active' : '' }}">Role</a></li>
                         @endcan
 
                     </ul>
