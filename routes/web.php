@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
     Route::resource("tirepattern", TirePatternController::class)->middleware("permission:TIRE_PATTERN");
-    Route::resource("tiresize", TireSizeController::class)->middleware("permission:TIRESIZE");
+    Route::resource("tiresize", TireSizeController::class)->middleware("permission:TIRE_SIZE");
     Route::resource("tirecompound", TireCompoundController::class)->middleware("permission:TIRE_COMPOUND");
     Route::resource("tirestatus", TireStatusController::class)->middleware("permission:TIRE_STATUS");
     Route::resource("tiredamage", TireDamageController::class)->middleware("permission:TIRE_DAMAGE");
