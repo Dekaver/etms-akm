@@ -10,40 +10,40 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Login - ETMS ERP</title>
-		
+
 		<!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
-		
+
 		<!-- Bootstrap CSS -->
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		
+
         <!-- Fontawesome CSS -->
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-		
+
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
-		
+
     </head>
     <body class="account-page">
-	
+
 		<!-- Main Wrapper -->
         {{ $slot }}
 
-       
+
 		<!-- /Main Wrapper -->
-		
+
 		<!-- jQuery -->
         <script src="assets/js/jquery-3.6.0.min.js"></script>
 
          <!-- Feather Icon JS -->
 		<script src="assets/js/feather.min.js"></script>
-		
+
 		<!-- Bootstrap Core JS -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
-		
+
 		<!-- Custom JS -->
 		<script src="assets/js/script.js"></script>
-		
+
     </body>
 </html>

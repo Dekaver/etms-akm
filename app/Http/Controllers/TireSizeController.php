@@ -48,7 +48,7 @@ class TireSizeController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tiresize", compact('tirepattern'));
+        return view("admin.master.tireSize", compact('tirepattern'));
     }
 
     /**

@@ -52,7 +52,7 @@ class TireMasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tiremaster", compact('site', 'tiresize', 'tirecompound', 'tirestatus'));
+        return view("admin.master.tireMaster", compact('site', 'tiresize', 'tirecompound', 'tirestatus'));
     }
 
     /**

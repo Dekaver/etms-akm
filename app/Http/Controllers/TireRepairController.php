@@ -53,7 +53,7 @@ class TireRepairController extends Controller
                 ->rawColumns(["action"])
                 ->make(true);
         }
-        return view("admin.data.tirerepair", compact("tire_damages"));
+        return view("admin.data.tireRepair", compact("tire_damages"));
     }
 
     /**

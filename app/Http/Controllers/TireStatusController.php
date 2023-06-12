@@ -35,7 +35,7 @@ class TireStatusController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tirestatus");
+        return view("admin.master.tireStatus");
     }
 
     /**

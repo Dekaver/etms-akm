@@ -48,12 +48,20 @@
                 <div class="form-group row">
                     <div class="col-md-12">
                         @foreach ($permissions as $item)
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="permission[]" value="{{ $item->name }}"
-                                        @checked($user->hasPermissionTo($item->name))>
-                                    {{ $item->name }}
-                                </label>
+                            <div class="row">
+                                <div class="col-3">
+
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permission[]" value="{{ $item->name }}"
+                                                @checked($user->hasPermissionTo($item->name))>
+                                            {{ $item->name }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <p>{{ $item->description }}</p>
+                                </div>
                             </div>
                         @endforeach
                     </div>

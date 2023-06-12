@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+// use App\Models\Permission;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
 
@@ -54,6 +55,8 @@ class PermissionController extends Controller
         ]);
         Permission::create([
             "name" => $request->name,
+            "description" => $request->description,
+            "group" => $request->group,
         ]);
 
         return redirect()->back()->with("success", "Created Permission");
@@ -84,6 +87,8 @@ class PermissionController extends Controller
             "name" => "required"
         ]);
         $permission->name = $request->name;
+        $permission->description = $request->description;
+        $permission->group = $request->group;
         $permission->save();
 
         return redirect()->back()->with("success", "Updated Permission");

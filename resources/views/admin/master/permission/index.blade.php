@@ -57,6 +57,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama</th>
+                            <th>Description</th>
+                            <th>Group</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -83,6 +85,18 @@
                                 <div class="form-group">
                                     <label>Name<span class="manitory">*</span></label>
                                     <input name="name" type="text" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Description<span class="manitory">*</span></label>
+                                    <input name="description" type="text" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Group<span class="manitory">*</span></label>
+                                    <input name="group" type="text" required>
                                 </div>
                             </div>
                         </div>
@@ -112,6 +126,14 @@
                         {
                             data: 'name',
                             name: 'name'
+                        },
+                        {
+                            data: 'description',
+                            name: 'description'
+                        },
+                        {
+                            data: 'group',
+                            name: 'group'
                         },
                         {
                             data: 'action',
