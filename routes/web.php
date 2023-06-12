@@ -25,8 +25,6 @@ use App\Http\Controllers\TireRepairController;
 use App\Http\Controllers\TireRunningController;
 use App\Http\Controllers\DailyInspectController;
 use App\Http\Controllers\HistoryTireController;
-use App\Http\Controllers\HistoryTireMovementController;
-use App\Http\Controllers\HistoryTireInspectController;
 use Illuminate\Support\Facades\Route;
 
 /*
