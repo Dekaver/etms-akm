@@ -21,7 +21,7 @@
 
         <div class="row">
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count">
+                <div class="dash-count" style="background: #1EBDD0!important;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon1.png"  alt="">
                     </div>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das1">
+                <div class="dash-count das1" style="background: #017EFA!important;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon2.png"  alt="">
                     </div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das2">
+                <div class="dash-count das2" style="background: #709AC3;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon3.png"  alt="">
                     </div>
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das3">
+                <div class="dash-count das3" style="background: #FF9F43;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon4.png"  alt="">
                     </div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das4">
+                <div class="dash-count das4" style="background: #28C76F;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon5.png"  alt="">
                     </div>
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das3">
+                <div class="dash-count das3" style="background: #EA5455;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon6.png"  alt="">
                     </div>
