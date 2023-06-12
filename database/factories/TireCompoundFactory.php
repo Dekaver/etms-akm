@@ -18,7 +18,7 @@ class TireCompoundFactory extends Factory
     {
         return [
             'company_id' => 1,
-            'compound'=> $this->faker->randomElement(['B', 'A', 'Z', 'K']),
+            'compound'=> $this->faker->randomElement(['STANDARD', 'CUT RESISTANCE', 'HEAT RESISTANCE']),
         ];
     }
 }

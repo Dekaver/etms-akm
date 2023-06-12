@@ -21,7 +21,7 @@ class UnitFactory extends Factory
             "unit_model_id" => 1,
             "unit_status_id" => 1,
             "site_id" => 1,
-            "unit_number" => strtoupper(fake()->lexify("?????")),
+            "unit_number" => strtoupper(fake()->unique()->bothify("DT###?")),
             "head" => 1,
             "km" => 1,
             "hm" => 1,

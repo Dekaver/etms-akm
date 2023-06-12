@@ -20,7 +20,7 @@ class TireMasterFactory extends Factory
             'company_id' => 1,
             'site_id' => 1,
             'tire_supplier_id' => 1,
-            'serial_number' => strtoupper(fake()->lexify("???????")),
+            'serial_number' => strtoupper(fake()->bothify("KCC###?##")),
             'tire_size_id' => $this->faker->randomElement([1, 2, 3, 4, 5, 6]),
             'tire_compound_id' => $this->faker->randomElement([1, 2, 3, 4]),
             'tire_status_id' => $this->faker->randomElement([1, 2, 5]),
