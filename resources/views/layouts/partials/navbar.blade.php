@@ -49,7 +49,7 @@
         <!-- /Search -->
 
         <!-- Flag -->
-        <li class="nav-item dropdown has-arrow flag-nav">
+        {{-- <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
                 <img src="{{ asset('assets/img/flags/us1.png') }}" alt="" height="20">
             </a>
@@ -67,11 +67,11 @@
                     <img src="{{ asset('assets/img/flags/de.png') }}" alt="" height="16"> German
                 </a>
             </div>
-        </li>
+        </li> --}}
         <!-- /Flag -->
 
         <!-- Notifications -->
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <img src="{{ asset('assets/img/icons/notification-bing') }}.svg" alt="img"> <span
                     class="badge rounded-pill">4</span>
@@ -171,7 +171,7 @@
                     <a href="activities.html">View all Notifications</a>
                 </div>
             </div>
-        </li>
+        </li> --}}
         <!-- /Notifications -->
 
         <li class="nav-item dropdown has-arrow main-drop">

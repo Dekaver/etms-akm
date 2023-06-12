@@ -9,11 +9,11 @@
 
             .draggable,
             .draggableUnit {
-                width: 90px;
+                /* width: 90px; */
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position-x: center;
-                height: 150px;
+                height: 137px;
                 z-index: 2;
             }
 
@@ -25,12 +25,12 @@
             }
 
             .draggableInventory {
-                width: 90px;
+                /* width: 90px; */
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position-x: center;
-                height: 150px;
-                z-index: 1000;
+                height: 137px;
+                z-index: 2;
             }
 
             .axle {
@@ -148,11 +148,11 @@
                         <div class="row justify-content-center align-items-end mb-5">
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
-                                    <p class="fs-6 mb-0 fw-bold">SN</p>
-                                    <p class="fs-6 mb-0 ">Lifetime</p>
-                                    <p class="fs-6 mb-0 ">repair</p>
-                                    <p class="fs-6 mb-0 ">Retread</p>
-                                    <p class="fs-6 mb-0 ">RTD</p>
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">Lifetime</p>
+                                    <p class=" mb-0 ">repair</p>
+                                    <p class=" mb-0 ">Retread</p>
+                                    <p class=" mb-0 ">RTD</p>
                                 </div>
                             </div>
                             <div class="col-sm"></div>
@@ -170,148 +170,27 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm" style="align-self: center;">
-                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
-                            </div>
-                            <div class="col-sm">
-                                <figure>
-                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
-                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
-                                                data-lifetime="{{ $tire->lifetime }}">
-                                            </div>
-                                        </div>
-                                        <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
-                                        </figcaption>
-                                    @else
-                                        <div class="droppableInstall" data-position="{{ $position }}">
-                                            NULL
-                                        </div>
-                                        <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                        </figcaption>
-                                    @endif
-                                </figure>
-                            </div>
-                            <div class="col-sm"></div>
-                        </div>
-                    @endfor
-
-                    {{-- AXLE 4 TIRE --}}
-                    @for ($i = 0; $i < $unit_model->axle_4_tire; $i++)
-                        <div class="row justify-content-center align-items-end mb-5">
-                            <div class="col-auto">
-                                <div class="pt-2 text-end">
-                                    <p class="fs-6 mb-0 fw-bold">SN</p>
-                                    <p class="fs-6 mb-0 ">Lifetime</p>
-                                    <p class="fs-6 mb-0 ">Brand</p>
-                                    <p class="fs-6 mb-0 ">RTD</p>
-                                    <p class="fs-6 mb-0 ">Size</p>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <figure>
-                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
-                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
-                                                data-lifetime="{{ $tire->lifetime }}">
-                                            </div>
-                                        </div>
-                                        <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
-                                        </figcaption>
-                                    @else
-                                        <div class="droppableInstall" data-position="{{ $position }}">
-                                            NULL
-                                        </div>
-                                        <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                        </figcaption>
-                                    @endif
-                                </figure>
-                            </div>
-                            <div class="col-sm">
-                                <figure>
-                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
-                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
-                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
-                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
-                                                data-lifetime="{{ $tire->lifetime }}">
-                                            </div>
-                                        </div>
-                                        <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
-                                        </figcaption>
-                                    @else
-                                        <div class="droppableInstall" data-position="{{ $position }}">
-                                            NULL
-                                        </div>
-                                        <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                        </figcaption>
-                                    @endif
-                                </figure>
-                            </div>
-                            <div class="col-sm" style="align-self: center;">
+                            <div class="col-auto" style="align-self: center; width:80px ;">
                                 <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4"
                                     alt="">
                             </div>
@@ -329,27 +208,43 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm"></div>
+                        </div>
+                    @endfor
+
+                    {{-- AXLE 4 TIRE --}}
+                    @for ($i = 0; $i < $unit_model->axle_4_tire; $i++)
+                        <div class="row justify-content-center align-items-end mb-5">
+                            <div class="col-auto">
+                                <div class="pt-2 text-end">
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">Lifetime</p>
+                                    <p class=" mb-0 ">Brand</p>
+                                    <p class=" mb-0 ">RTD</p>
+                                    <p class=" mb-0 ">Size</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -363,22 +258,128 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class="mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                        </figcaption>
+                                    @endif
+                                </figure>
+                            </div>
+                            <div class="col-sm-2">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                        </figcaption>
+                                    @endif
+                                </figure>
+                            </div>
+                            <div class="col-auto" style="align-self: center; width:80px ;">
+                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4"
+                                    alt="">
+                            </div>
+                            <div class="col-sm-2">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                        </figcaption>
+                                    @endif
+                                </figure>
+                            </div>
+                            <div class="col-sm-2">
+                                <figure>
+                                    <h4 class="text-center fw-bold">{{ ++$position }}</h4>
+                                    @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                            <div class="draggableUnit"
+                                                style="background-image: url({{ asset('assets/img/tire.png') }});"
+                                                data-position="{{ $position }}" data-id="{{ $tire->id }}"
+                                                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-lifetime="{{ $tire->lifetime }}">
+                                            </div>
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
+                                        </figcaption>
+                                    @else
+                                        <div class="droppableInstall" data-position="{{ $position }}">
+                                            NULL
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
@@ -413,23 +414,23 @@
                                                 </div>
                                             </div>
                                             <div class="col-9">
-                                                <p>{{ $tire->serial_number }}</p>
+                                                <p class="mb-0">{{ $tire->serial_number }}</p>
                                                 <div class="row">
-                                                    <div class="col-auto">
+                                                    <div class="col-4 pe-0">
                                                         <p class="mb-0">lifetime</p>
                                                         <p class="mb-0">Brand</p>
                                                         <p class="mb-0">RTD</p>
                                                         <p class="mb-0">Size</p>
                                                         <p class="mb-0">Pattern</p>
                                                     </div>
-                                                    <div class="col-auto">
+                                                    <div class="col-1">
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                     </div>
-                                                    <div class="col-auto">
+                                                    <div class="col-sm px-0">
                                                         <p class="mb-0">{{ $tire->lifetime ?? '-' }}</p>
                                                         <p class="mb-0">
                                                             {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}
