@@ -42,7 +42,7 @@ class TireRunningController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.tiremovement");
+        return view("admin.data.tireMovement");
     }
 
     /**
