@@ -50,36 +50,37 @@
             <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs">
                 <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Manufacture</option>
-                                            <option>AELOUS</option>
-                                            <option>ADVANCE</option>
-                                        </select>
-                                    </div>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <select class="select" name="manufacture">
+                                        <option value="">Choose</option>
+                                        @foreach ($tiremanufacture as $item)
+                                            <option value="{{ $item->id }}" @selected($item->id == $tire_manufacture_id)>
+                                                {{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Pattern</option>
-                                            <option>GL665A</option>
-                                            <option>GL690A</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <select class="select" name="type_pattern">
+                                        <option value="">Choose</option>
+                                        <option @selected('LUG' == $type_pattern)>LUG</option>
+                                        <option @selected('MIX' == $type_pattern)>MIX</option>
+                                        <option @selected('RIB' == $type_pattern)>RIB</option>
+                                    </select>
                                 </div>
-                                <div class="col-lg-1 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
-                                    </div>
+                            </div>
+                            <div class="col-lg-1 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-filters ms-auto"><img
+                                            src="assets/img/icons/search-whites.svg" alt="img"></button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- /Filter -->
@@ -157,7 +158,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('tirepattern.index') }}",
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
