@@ -79,18 +79,43 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card ">
         <div class="card-body">
             <h5>Tire Movement Update</h5>
             <div class="row">
                 <div class="col-sm-12">
+                    <p class="fw-bold mb-0">Unit Machine</p>
+                    <table>
+                        <tr>
+                            <td>ID</td>
+                            <td class="px-4">: </td>
+                            <td>DL03032</td>
+                            <td></td>
+                            <td class="px-4">MODEL</td>
+                            <td class="px-4">: </td>
+                            <td>TCD920</td>
+                        </tr>
+                        <tr>
+                            <td>SMU</td>
+                            <td class="px-4">: </td>
+                            <td>7872719 KM</td>
+                            <td></td>
+                            <td class="px-4">TIRE SIZE</td>
+                            <td class="px-4">: </td>
+                            <td>12.0024R</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
     <div class="card">
         <div class="card-body px-5 py-4">
-            <div class="row gap gap-4">
+            <div class="row gap gap-4 bg-white px-4 py-4" style="
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 999;">
                 <div class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
                     data-jenis="SPARE">
                     <i class="text-primary fa-solid fa-box-archive display-3  mb-2"></i>
@@ -111,10 +136,6 @@
                     <i class="text-danger fa-solid fa-trash-can display-3  mb-2"></i>
                     <h4 class="fw-bold text-danger">SCRAP</h4>
                 </div>
-                {{-- <div class="rounded col-sm border border-warning bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column ">
-                    <i class="text-warning fa-solid fa-square-exclamation display-3  mb-2"></i>
-                    <h4 class="fw-bold text-warning">INSPECT</h4>
-                </div>		 --}}
             </div>
             @php
                 $position = 0;
