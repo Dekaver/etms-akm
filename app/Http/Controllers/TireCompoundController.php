@@ -35,7 +35,7 @@ class TireCompoundController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tirecompound");
+        return view("admin.master.tireCompound");
     }
 
     /**

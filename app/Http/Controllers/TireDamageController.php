@@ -35,7 +35,7 @@ class TireDamageController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tiredamage");
+        return view("admin.master.tireDamage");
     }
 
     /**
@@ -95,7 +95,7 @@ class TireDamageController extends Controller
             "cause" => "required",
             "rating" => "required"
         ]);
-        
+
         $tiredamage->damage = $request->damage;
         $tiredamage->cause = $request->cause;
         $tiredamage->rating = $request->rating;
