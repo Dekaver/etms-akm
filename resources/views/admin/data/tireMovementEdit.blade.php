@@ -90,9 +90,11 @@
     </div>
     <div class="card">
         <div class="card-body px-5 py-4">
-            <div class="row gap gap-4 bg-white px-4 py-4" style="position: -webkit-sticky;
+            <div class="row gap gap-4 bg-white px-4 py-4" style="
+            position: -webkit-sticky;
             position: sticky;
-            top: 0; z-index: 999;">
+            top: 0;
+            z-index: 999;">
                 <div class="rounded col-sm border border-primary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
                     data-jenis="SPARE">
                     <i class="text-primary fa-solid fa-box-archive display-3  mb-2"></i>
