@@ -43,9 +43,9 @@ class DatabaseSeeder extends Seeder
         $company3 = Company::factory()->create();
 
 
-        Permission::create(['name' => 'TIRE_MANUFACTURE']);
-        Permission::create(['name' => 'MANAJEMEN_USER']);
-        Permission::create(['name' => 'DEMO']);
+        Permission::create(['name' => 'TIRE_MANUFACTURE','description' => 'ini manuf','group' => 'ini group']);
+        Permission::create(['name' => 'MANAJEMEN_USER','description' => 'ini user','group' => 'ini group']);
+        Permission::create(['name' => 'DEMO','description' => 'ini demo','group' => 'ini group']);
         $site = Site::create([
             "name" => "site A",
             "company_id" => $company1->id,

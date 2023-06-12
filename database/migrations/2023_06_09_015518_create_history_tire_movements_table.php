@@ -30,8 +30,8 @@ return new class extends Migration {
             $table->string("pic");
             $table->string("pic_man_power");
             $table->string("des");
-            $table->timestamp("start_date");
-            $table->timestamp("end_date");
+            $table->dateTime("start_date");
+            $table->dateTime("end_date");
 
             $table->string('start_breakdown')->nullable();
             $table->string('status_breakdown')->nullable();
