@@ -468,15 +468,4 @@ class DashboardController extends Controller
 
         return view('admin.grafik.scrap', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
     }
-
-    public function syncron()
-    {
-        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $last_sync = LastSyncron::all();
-        } else {
-            $last_sync = LastSyncron::where('site_name', auth()->user()->site->site_name)->get();
-        }
-
-        return view('admin.site.syncron', compact('last_sync'));
-    }
 }
