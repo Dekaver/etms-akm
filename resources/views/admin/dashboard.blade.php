@@ -23,7 +23,7 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count">
                     <div class="dash-imgs">
-                        <i data-feather="user"></i>
+                        <img src="assets/img/dashboard/icon1.png"  alt="">
                     </div>
                     <div class="dash-counts">
                         <h4>100</h4>
@@ -34,7 +34,7 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das1">
                     <div class="dash-imgs">
-                        <i data-feather="user-check"></i>
+                        <img src="assets/img/dashboard/icon2.png"  alt="">
                     </div>
                     <div class="dash-counts">
                         <h4>100</h4>
@@ -45,7 +45,7 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das2">
                     <div class="dash-imgs">
-                        <i data-feather="file-text"></i>
+                        <img src="assets/img/dashboard/icon3.png"  alt="">
                     </div>
                     <div class="dash-counts">
                         <h4>100</h4>
@@ -56,7 +56,7 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das3">
                     <div class="dash-imgs">
-                        <i data-feather="file"></i>
+                        <img src="assets/img/dashboard/icon4.png"  alt="">
                     </div>
                     <div class="dash-counts">
                         <h4>105</h4>
@@ -67,7 +67,7 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das4">
                     <div class="dash-imgs">
-                        <i data-feather="file"></i>
+                        <img src="assets/img/dashboard/icon5.png"  alt="">
                     </div>
                     <div class="dash-counts">
                         <h4>105</h4>
@@ -78,7 +78,7 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das3">
                     <div class="dash-imgs">
-                        <i data-feather="file"></i>
+                        <img src="assets/img/dashboard/icon6.png"  alt="">
                     </div>
                     <div class="dash-counts">
                         <h4>105</h4>

@@ -9,11 +9,11 @@
 
             .draggable,
             .draggableUnit {
-                width: 90px;
+                /* width: 90px; */
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position-x: center;
-                height: 150px;
+                height: 137px;
                 z-index: 2;
             }
 
@@ -25,11 +25,11 @@
             }
 
             .draggableInventory {
-                width: 90px;
+                /* width: 90px; */
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position-x: center;
-                height: 150px;
+                height: 137px;
                 z-index: 2;
             }
 
@@ -190,8 +190,9 @@
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm" style="align-self: center;">
-                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
+                            <div class="col-auto" style="align-self: center; width:80px ;">
+                                <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4"
+                                    alt="">
                             </div>
                             <div class="col-sm">
                                 <figure>
@@ -243,7 +244,7 @@
                                     <p class="fs-6 mb-0 ">Size</p>
                                 </div>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -277,7 +278,7 @@
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -311,11 +312,11 @@
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm" style="align-self: center;">
+                            <div class="col-auto" style="align-self: center; width:80px ;">
                                 <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4"
                                     alt="">
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -349,7 +350,7 @@
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -413,23 +414,23 @@
                                                 </div>
                                             </div>
                                             <div class="col-9">
-                                                <p>{{ $tire->serial_number }}</p>
+                                                <p class="mb-0">{{ $tire->serial_number }}</p>
                                                 <div class="row">
-                                                    <div class="col-auto">
+                                                    <div class="col-4 pe-0">
                                                         <p class="mb-0">lifetime</p>
                                                         <p class="mb-0">Brand</p>
                                                         <p class="mb-0">RTD</p>
                                                         <p class="mb-0">Size</p>
                                                         <p class="mb-0">Pattern</p>
                                                     </div>
-                                                    <div class="col-auto">
+                                                    <div class="col-1">
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                         <p class="mb-0">:</p>
                                                     </div>
-                                                    <div class="col-auto">
+                                                    <div class="col-sm px-0">
                                                         <p class="mb-0">{{ $tire->lifetime ?? '-' }}</p>
                                                         <p class="mb-0">
                                                             {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}
