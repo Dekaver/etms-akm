@@ -112,7 +112,6 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-
                 </table>
             </div>
         </div>
