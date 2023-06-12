@@ -39,7 +39,7 @@ class TirePatternController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tirepattern", compact('tiremanufacture'));
+        return view("admin.master.tirePattern", compact('tiremanufacture'));
     }
 
     /**
