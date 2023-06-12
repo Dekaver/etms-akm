@@ -30,7 +30,7 @@
                 background-size: contain;
                 background-position-x: center;
                 height: 150px;
-                z-index: 2;
+                z-index: 1000;
             }
 
             .axle {
@@ -379,7 +379,7 @@
                                         <i class="search"> Cari</i></a>
                                 </div>
                             </div>
-                            <div class="overflow-scroll" id="list-tire" style="height: 1080px">
+                            <div class="overflow-scroll overflow-y-scroll" id="list-tire" style="height: 1080px">
                                 @foreach ($tire_inventory as $tire)
                                     <div class="w-full" style="border-bottom: gray">
                                         <div class="row">
@@ -710,13 +710,27 @@
                     snap: ".droppableSpare",
                     zIndex: 10,
                 });
-
                 $(".draggableInventory").draggable({
                     cursor: "move",
-                    appendTo: 'body',
+                    appendTo: '.page-wrapper',
                     // containment: 'window',
                     revert: true,
+                    opacity: 70,
+                    helper: function(e) {
+                        return $(e.target).clone();
+                    },
+                    start: function() {
+                        $(window).attr("style", "border:1px red solid");
+                        $(this).hide();
+                    },
+                    stop: function() {
+                        $(this).show()
+                    },
                     snap: ".droppableInstall",
+                    cursorAt: {
+                        top: 50,
+                        left: 50
+                    },
 
 
                 });
