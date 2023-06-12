@@ -79,11 +79,32 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card ">
         <div class="card-body">
             <h5>Tire Movement Update</h5>
             <div class="row">
                 <div class="col-sm-12">
+                    <p class="fw-bold mb-0">Unit Machine</p>
+                    <table>
+                        <tr>
+                            <td>ID</td>
+                            <td class="px-4">: </td>
+                            <td>DL03032</td>
+                            <td></td>
+                            <td class="px-4">MODEL</td>
+                            <td class="px-4">: </td>
+                            <td>TCD920</td>
+                        </tr>
+                        <tr>
+                            <td>SMU</td>
+                            <td class="px-4">: </td>
+                            <td>7872719 KM</td>
+                            <td></td>
+                            <td class="px-4">TIRE SIZE</td>
+                            <td class="px-4">: </td>
+                            <td>12.0024R</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
