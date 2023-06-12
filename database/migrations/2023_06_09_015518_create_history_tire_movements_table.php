@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,19 +17,19 @@ return new class extends Migration
             $table->foreignId("site_id")->constrained("sites");
             $table->string("unit");
             $table->string("tire");
-            $table->string("position");
+            $table->tinyInteger("position");
             $table->string("status");
-            $table->string("km_install");
-            $table->string("hm_install");
-            $table->string("km_remove");
-            $table->string("hm_remove");
+            $table->integer("hm_unit_install")->default(0);
+            $table->integer("km_unit_install")->default(0);
+            $table->integer("km_unit_remove")->default(0);
+            $table->integer("hm_unit_remove")->default(0);
+            $table->integer("km_tire_install")->default(0);
+            $table->integer("hm_tire_install")->default(0);
+            $table->integer("km_tire_remove")->default(0);
+            $table->integer("hm_tire_remove")->default(0);
             $table->string("pic");
             $table->string("pic_man_power");
             $table->string("des");
-            $table->string("km_tire_install");
-            $table->string("hm_tire_install");
-            $table->string("km_tire_remove");
-            $table->string("hm_tire_remove");
             $table->timestamp("start_date");
             $table->timestamp("end_date");
 

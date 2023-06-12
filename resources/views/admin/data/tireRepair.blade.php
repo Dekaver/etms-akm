@@ -29,13 +29,16 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
+                                    src="assets/img/icons/pdf.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
+                                    src="assets/img/icons/excel.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
+                                    src="assets/img/icons/printer.svg" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -75,7 +78,8 @@
                                 </div>
                                 <div class="col-lg-1 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
+                                                alt="img"></a>
                                     </div>
                                 </div>
                             </div>
@@ -89,13 +93,13 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Site</th>
                             <th>Serial Number</th>
                             <th>Size</th>
                             <th>Pattern</th>
                             <th>Compound</th>
-                            <th>Supplier</th>
-                            <th>Site</th>
                             <th>Status</th>
+                            <th>RTD</th>
                             <th>Lifetime</th>
                             <th>Action</th>
                         </tr>
@@ -107,14 +111,16 @@
 
 
     <!-- add Modal -->
-    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="form-modal-spare" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
+            <input type="hidden" name="tire_id">
+            <input type="hidden" name="tire_status_id">
             @csrf
             @method('PUT')
             <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Unit </h5>
+                        <h5 class="modal-title">Update Status To Spare </h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -123,58 +129,170 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Unit Code</label>
-                                    <input type="text" name="unit_number">
+                                    <label>Site</label>
+                                    <input type="text" name="site" readonly>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="form-group mb-0">
-                                    <label>Unit Model</label>
-                                    <select class="select" name="unit_model_id">
-                                        <option value="">Choose Model</option>
-                                        @foreach ($unit_model as $item)
-                                            <option value="{{ $item->id }}">{{ $item->model }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
-                                    <label>Site</label>
-                                    <select class="select" name="site_id">
-                                        <option value="">Choose Site</option>
-                                        @foreach ($sites as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
-                                    <label>Unit Status</label>
-                                    <select class="select" name="unit_status_id">
-                                        <option value="">Choose Status</option>
-                                        @foreach ($unit_status as $item)
-                                            <option value="{{ $item->id }}">{{ $item->status_code }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
-                                    <label>Type</label>
-                                    <select class="select" name="type">
-                                        <option value="">Choose Type</option>
-                                        <option value="km">KM</option>
-                                        <option value="hm">HM</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-3">
                                 <div class="form-group">
-                                    <label>Value</label>
-                                    <input class="form-control" min="0" type="number" value="0"
-                                        name="value">
+                                    <label>Serial Number</label>
+                                    <input type="text" name="serial_number" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Tire Lifetime HM</label>
+                                    <input type="text" name="lifetime_hm" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Tire Lifetime KM</label>
+                                    <input type="text" name="lifetime_km" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>RTD</label>
+                                    <input type="text" name="rtd" readonly>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Man Power</label>
+                                    <input type="text" name="man_power">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Material</label>
+                                    <input type="text" name="material">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <input type="datetime-local" class="form-control" name="start_date"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <input type="datetime-local" class="form-control" name="end_date"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>PIC</label>
+                                    <input type="text" name="pic">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tire Status Update</label>
+                                    <input type="text" name="tire_status" value="SPARE" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-submit">Save</button>
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="form-modal-scrap" tabindex="-1" role="dialog" aria-hidden="true">
+        <form method="POST">
+            <input type="hidden" name="tire_id">
+            <input type="hidden" name="tire_status_id">
+            @csrf
+            @method('PUT')
+            <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Status To Scrap </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Site</label>
+                                    <input type="text" name="site" readonly>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Serial Number</label>
+                                    <input type="text" name="serial_number" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Tire Lifetime HM</label>
+                                    <input type="text" name="lifetime_hm" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Tire Lifetime KM</label>
+                                    <input type="text" name="lifetime_km" readonly>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>RTD</label>
+                                    <input type="text" name="rtd" readonly>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Reason</label>
+                                    <input type="text" name="man_power">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tire Damage</label>
+                                    <select name="tire_damage_id" class="form-control">
+                                        <option value="">Select Damage</option>
+                                        @foreach ($tire_damages as $item)
+                                            <option value="{{ $item->id }}">{{ $item->damage }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <input type="datetime-local" class="form-control" name="start_date"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <input type="datetime-local" class="form-control" name="end_date"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>PIC</label>
+                                    <input type="text" name="pic">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tire Status Update</label>
+                                    <input type="text" name="tire_status" value="SCRAP" readonly>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +312,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('unit.index') }}",
+                    ajax: "{{ route('tirerepair.index') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -206,24 +324,32 @@
                             name: 'site'
                         },
                         {
-                            data: 'unit_number',
-                            name: 'unit_number'
+                            data: 'serial_number',
+                            name: 'serial_number'
                         },
                         {
-                            data: 'model',
-                            name: 'model'
+                            data: 'size',
+                            name: 'size'
                         },
                         {
-                            data: 'jenis',
-                            name: 'jenis'
+                            data: 'pattern',
+                            name: 'pattern'
                         },
                         {
-                            data: 'value',
-                            name: 'value'
+                            data: 'compound',
+                            name: 'compound'
                         },
                         {
                             data: 'status',
                             name: 'status'
+                        },
+                        {
+                            data: 'lifetime_hm',
+                            name: 'lifetime_hm'
+                        },
+                        {
+                            data: 'lifetime_km',
+                            name: 'lifetime_km'
                         },
                         {
                             data: 'action',
@@ -237,43 +363,51 @@
 
             });
 
-            $('#form-modal').on('show.bs.modal', function(event) {
+            $('#form-modal-spare').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget)
                 var post = button.data('post');
                 var modal = $(this)
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('unit.store') }}`)
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ route('unit.index') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('input[name="unit_number"]').val(response.unit_number);
-                        modal.find('select[name="unit_model_id"]').val(response.unit_model_id)
-                            .trigger('change');
-                        modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
-                        modal.find('select[name="unit_status_id"]').val(response.unit_status_id)
-                            .trigger('change');
-                        modal.find('select[name="type"]').val(response.jenis).trigger('change');
-                        if (response.jenis == "hm") {
-                            modal.find('input[name="value"]').val(response.hm);
-                        } else {
-                            modal.find('input[name="value"]').val(response.km);
-                        }
-
-                        modal.find('input[name="_method"]').val('PUT');
-                    });
-                    modal.find('form').attr('action', `{{ route('unit.index') }}/${id}`)
-                }
+                var id = button.data('id');
+                $.ajax({
+                    method: "GET",
+                    url: `{{ route('tirerepair.index') }}/${id}/edit`
+                }).done(function(response) {
+                    modal.find('input[name="site"]').val(response.site.name);
+                    modal.find('input[name="serial_number"]').val(response.serial_number);
+                    modal.find('input[name="tire_id"]').val(response.id);
+                    modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
+                    modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
+                    modal.find('input[name="tire_status_id"]').val(response.tire_status_id);
+                    modal.find('input[name="rtd"]').val(response.rtd);
+                });
+                modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
             });
-            $('#form-modal').on('hide.bs.modal', function(event) {
+
+            $('#form-modal-scrap').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var post = button.data('post');
+                var modal = $(this)
+                var id = button.data('id');
+                $.ajax({
+                    method: "GET",
+                    url: `{{ route('tirerepair.index') }}/${id}/edit`
+                }).done(function(response) {
+                    modal.find('input[name="site"]').val(response.site.name);
+                    modal.find('input[name="tire_id"]').val(response.id);
+                    modal.find('input[name="serial_number"]').val(response.serial_number);
+                    modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
+                    modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
+                    modal.find('input[name="rtd"]').val(response.rtd);
+                    modal.find('input[name="tire_status_id"]').val(response.tire_status_id);
+                });
+                modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
+            });
+            $('#form-modal-scrap').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
-                $(this).find('select[name="unit_model"]').trigger('change');
-                $(this).find('select[name="site_id"]').trigger('change');
-                $(this).find('select[name="unit_status_id"]').trigger('change');
-                $(this).find('select[name="type"]').trigger('change');
+                $(this).find('select[name="tire_damage_id"]').trigger('change');
+            });
+            $('#form-modal-spare').on('hide.bs.modal', function(event) {
+                $(this).find('form')[0].reset();
             });
         </script>
     @endpush

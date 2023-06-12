@@ -4,17 +4,22 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Company;
+use App\Models\HistoryTireMovement;
 use App\Models\Site;
 use App\Models\TireCompound;
 use App\Models\TireDamage;
 use App\Models\TireManufacture;
 use App\Models\TireMaster;
+use App\Models\TireMovement;
 use App\Models\TirePattern;
+use App\Models\TireRunning;
 use App\Models\TireSize;
 use App\Models\TireStatus;
 use App\Models\TireSupplier;
+use App\Models\Unit;
 use App\Models\UnitModel;
 use App\Models\UnitStatus;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -58,14 +63,14 @@ class DatabaseSeeder extends Seeder
         $role_a = Role::create(['name' => 'customeradmin']);
         $role_a->givePermissionTo('MANAJEMEN_USER');
 
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'superadmin',
             'email' => 'superadmin@gmail.com',
             'company_id' => $company1->id
         ]);
         $user->assignRole($role);
 
-        $user_a = \App\Models\User::factory()->create([
+        $user_a = User::factory()->create([
             'name' => 'admin_a',
             'email' => 'admin_a@gmail.com',
             'company_id' => $company1->id
@@ -77,7 +82,7 @@ class DatabaseSeeder extends Seeder
             "site_id" => $site->id,
         ]);
 
-        $user_b = \App\Models\User::factory()->create([
+        $user_b = User::factory()->create([
             'name' => 'admin_b',
             'email' => 'admin_b@gmail.com',
             'company_id' => $company2->id
@@ -91,37 +96,43 @@ class DatabaseSeeder extends Seeder
             "address" => "jl. kilang Semar bakpia",
         ]);
 
-        TireManufacture::create([
-            "name" => "Advanced",
-            "company_id" => 1,
-        ]);
-        TirePattern::create([
-            "company_id" => 1,
-            "pattern" => "GL909A",
-            "type_pattern" => "MIX",
-            "tire_manufacture_id" => 1,
+        TireCompound::factory()->createMany([
+            ['compound' => 'A'],
+            ['compound' => 'B'],
+            ['compound' => 'Z'],
+            ['compound' => 'K'],
         ]);
 
-        TireSize::create([
-            'company_id' => 1,
-            'size' => "29.5R25",
-            'tire_pattern_id' => 1,
-            'otd' => 80,
-            'recomended_pressure' => 90,
-            'target_lifetime' => 10000,
-        ]);
+        TireManufacture::factory(5)->create();
+
+        TirePattern::factory(10)->create();
+
+        TireSize::factory(15)->create();
+
 
         TireStatus::create([
             'company_id' => 1,
-            "status" => 'new'
+            "status" => 'NEW'
         ]);
         TireStatus::create([
             'company_id' => 1,
-            "status" => 'running'
+            "status" => 'SPARE'
         ]);
         TireStatus::create([
             'company_id' => 1,
-            "status" => 'spare'
+            "status" => 'REPAIR'
+        ]);
+        TireStatus::create([
+            'company_id' => 1,
+            "status" => 'RETREAD'
+        ]);
+        TireStatus::create([
+            'company_id' => 1,
+            "status" => 'SCRAP'
+        ]);
+        TireStatus::create([
+            'company_id' => 1,
+            "status" => 'RUNNING'
         ]);
 
         UnitStatus::create([
@@ -129,10 +140,32 @@ class DatabaseSeeder extends Seeder
             "status_code" => "RFU",
             "description" => "Running"
         ]);
+        UnitStatus::create([
+            'company_id' => 1,
+            "status_code" => "STBY",
+            "description" => "Running"
+        ]);
+        UnitStatus::create([
+            'company_id' => 1,
+            "status_code" => "BD",
+            "description" => "Running"
+        ]);
 
         UnitModel::create([
             'company_id' => 1,
-            "tire_size_id" => 1,
+            "tire_size_id" => 3,
+            "brand" => "Scania",
+            "model" => "P360 LA 6X6",
+            "type" => "PRIME MOVER",
+            "tire_qty" => 10,
+            "axle_2_tire" => 1,
+            "axle_4_tire" => 2,
+            "axle_8_tire" => 0,
+        ]);
+
+        UnitModel::create([
+            'company_id' => 1,
+            "tire_size_id" => 2,
             "brand" => "Scania",
             "model" => "P360 LA 6X6",
             "type" => "PRIME MOVER",
@@ -149,24 +182,61 @@ class DatabaseSeeder extends Seeder
             "rating" => "A",
         ]);
 
-        TireCompound::create([
-            "company_id" => 1,
-            "compound" => "HEAT RESISTANCE",
-        ]);
+        TireDamage::factory(15)->create();
+        TireMaster::factory()->count(1000)->create();
+        Unit::factory()->count(100)->create();
 
-        TireMaster::create([
-            "company_id" => 1,
-            'site_id' => 1,
-            'tire_supplier_id' => 1,
-            'serial_number' => "A344D",
-            'tire_size_id' => 1,
-            'tire_compound_id' => 1,
-            'tire_status_id' => 1,
-            'rtd' => 45,
-            'lifetime' => 10212,
-            'date' => "2023-06-08",
-        ]);
+        $unit = Unit::limit(10)->get();
+        foreach ($unit as $key => $value) {
+            for ($i = 0; $i < $value->unit_model->tire_qty; $i++) {
+                $tire = TireMaster::where("tire_status_id", 1)->inRandomOrder()->first();
+                $tirerunning = TireRunning::create([
+                    "unit_id" => $value->id,
+                    "tire_id" => $tire->id,
+                    "site_id" => 1,
+                    "company_id" => 1,
+                    "position" => $i + 1,
+                ]);
+                TireMovement::create([
+                    "tire_running_id" => $tirerunning->id,
+                    "hm" => 0,
+                    "km" => 0,
+                    "unit_lifetime_hm" => $value->hm,
+                    "unit_lifetime_km" => $value->km,
+                    "tire_lifetime_hm" => $tire->lifetime_hm,
+                    "tire_lifetime_km" => $tire->lifetime_km,
+                    "rtd" => $tire->rtd,
+                    "start_date" => \Carbon\Carbon::now(),
+                    "end_date" => \Carbon\Carbon::now(),
+                    "pic" => fake()->name(),
+                    "pic_man_power" => fake()->firstNameMale(),
+                    "desc" => "install"
+                ]);
+                $tire->tire_status_id = 6;
+                $tire->save();
 
+                HistoryTireMovement::create(
+                    [
+                        "user_id" => 1,
+                        "company_id" => 1,
+                        "site_id" => 1,
+                        "unit" => $value->unit_number,
+                        "tire" => $tire->serial_number,
+                        "position" => $i + 1,
+                        "status" => "RUNNING",
+                        "km_unit_install" => $value->km,
+                        "hm_unit_install" => $value->hm,
+                        "pic" => fake()->firstNameMale(),
+                        "pic_man_power" => fake()->firstNameMale(),
+                        "des" => "Install",
+                        "km_tire_install" => $tire->lifetime_km,
+                        "hm_tire_install" => $tire->lifetime_km,
+                        "start_date" => \Carbon\Carbon::now(),
+                        "end_date" => \Carbon\Carbon::now()
+                    ]
+                );
+            }
+        }
 
     }
 }

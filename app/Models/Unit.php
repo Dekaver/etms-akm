@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,5 +34,25 @@ class Unit extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function daily_inspect()
+    {
+        return $this->hasMany(DailyInspect::class);
+    }
+
+    public function history_tire_movement()
+    {
+        return $this->hasMany(HistoryTireMovement::class, "unit", "unit_number");
+    }
+
+    public function inspectionLastUpdate(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $this->daily_inspect
+                ->sortByDesc('updated_at')
+                ->pluck('updated_at')
+                ->first(),
+        );
     }
 }

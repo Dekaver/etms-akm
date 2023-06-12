@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tire;
+use App\Models\HistoryDailyInspect;
 use Illuminate\Http\Request;
 
-class TireController extends Controller
+class HistoryDailyInspectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view("admin.master.index");
+        return view("admin.history.historydailyInspect");
     }
 
     /**
@@ -34,7 +34,7 @@ class TireController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tire $tire)
+    public function show(HistoryDailyInspect $historyDailyInspect)
     {
         //
     }
@@ -42,7 +42,7 @@ class TireController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tire $tire)
+    public function edit(HistoryDailyInspect $historyDailyInspect)
     {
         //
     }
@@ -50,7 +50,7 @@ class TireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tire $tire)
+    public function update(Request $request, HistoryDailyInspect $historyDailyInspect)
     {
         //
     }
@@ -58,7 +58,7 @@ class TireController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tire $tire)
+    public function destroy(HistoryDailyInspect $historyDailyInspect)
     {
         //
     }

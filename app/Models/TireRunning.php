@@ -24,7 +24,7 @@ class TireRunning extends Model
 
     public function tire()
     {
-        return $this->belongsTo(Tire::class);
+        return $this->belongsTo(TireMaster::class);
     }
 
     public function site()
@@ -35,5 +35,10 @@ class TireRunning extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function tire_movemet()
+    {
+        return $this->hasOne(TireMovement::class);
     }
 }

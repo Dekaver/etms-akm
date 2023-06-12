@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->integer("otd");
             $table->integer("recomended_pressure");
             $table->integer("target_lifetime");
+            $table->integer("price")->default(0);
             $table->timestamps();
         });
 
