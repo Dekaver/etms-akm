@@ -107,6 +107,9 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name("tire-scrap");
     });
+
+    //EXPORT
+    Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export']);
 });
 
 

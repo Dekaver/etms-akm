@@ -127,7 +127,17 @@ class DatabaseSeeder extends Seeder
             ['compound' => 'K'],
         ]);
 
-        TireManufacture::factory(5)->create();
+        TireManufacture::insert(
+            array(
+                array('id' => '1', 'company_id' => '1', 'name' => 'AEOLUS', 'created_at' => '2023-06-11 16:46:55', 'updated_at' => '2023-06-12 03:06:03'),
+                array('id' => '2', 'company_id' => '1', 'name' => 'ADVANCE', 'created_at' => '2023-06-11 16:46:55', 'updated_at' => '2023-06-12 03:06:18'),
+                array('id' => '3', 'company_id' => '1', 'name' => 'BFGOODRICH', 'created_at' => '2023-06-11 16:46:55', 'updated_at' => '2023-06-12 03:06:39'),
+                array('id' => '4', 'company_id' => '1', 'name' => 'BONTYRE', 'created_at' => '2023-06-11 16:46:55', 'updated_at' => '2023-06-12 03:06:57'),
+                array('id' => '5', 'company_id' => '1', 'name' => 'BRIDGESTONE', 'created_at' => '2023-06-11 16:46:55', 'updated_at' => '2023-06-12 03:07:13'),
+                array('id' => '6', 'company_id' => '1', 'name' => 'CROSS', 'created_at' => '2023-06-12 03:07:37', 'updated_at' => '2023-06-12 03:07:37'),
+                array('id' => '7', 'company_id' => '1', 'name' => 'UNINEST', 'created_at' => '2023-06-12 03:07:55', 'updated_at' => '2023-06-12 03:07:55')
+            )
+        );
 
         TirePattern::factory(10)->create();
 
@@ -211,14 +221,44 @@ class DatabaseSeeder extends Seeder
             "axle_8_tire" => 0,
         ]);
 
-        TireDamage::create([
-            'company_id' => 1,
-            "damage" => "RADIAL CRACK",
-            "cause" => "Operational",
-            "rating" => "A",
-        ]);
+        TireDamage::insert(
+            array(
 
-        TireDamage::factory(15)->create();
+                array('id' => '1', 'company_id' => 1, 'damage' => 'BEAD FATIQUE', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 13:59:26', 'updated_at' => '2022-08-05 15:12:01'),
+                array('id' => '2', 'company_id' => 1, 'damage' => 'BEAD DAMAGE', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:12:20', 'updated_at' => '2022-08-05 15:12:20'),
+                array('id' => '3', 'company_id' => 1, 'damage' => 'SIDEWALL CUT', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:12:41', 'updated_at' => '2022-08-05 15:12:41'),
+                array('id' => '4', 'company_id' => 1, 'damage' => 'TREAD CUT', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:13:06', 'updated_at' => '2022-08-05 15:13:06'),
+                array('id' => '5', 'company_id' => 1, 'damage' => 'SHOULDER CUT', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:13:37', 'updated_at' => '2022-08-05 15:13:37'),
+                array('id' => '6', 'company_id' => 1, 'damage' => 'SIDEWALL SEPARATION', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:14:08', 'updated_at' => '2022-08-05 15:14:08'),
+                array('id' => '7', 'company_id' => 1, 'damage' => 'TREAD SEPARATION', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:14:35', 'updated_at' => '2022-08-05 15:14:35'),
+                array('id' => '8', 'company_id' => 1, 'damage' => 'SHOULDER SEPARATION', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:15:00', 'updated_at' => '2022-08-05 15:15:00'),
+                array('id' => '9', 'company_id' => 1, 'damage' => 'RADIAL CRACK', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:15:21', 'updated_at' => '2022-08-05 15:15:21'),
+                array('id' => '10', 'company_id' => 1, 'damage' => 'RUNFLAT', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:15:57', 'updated_at' => '2022-08-05 15:15:57'),
+                array('id' => '11', 'company_id' => 1, 'damage' => 'WORNOUT', 'cause' => 'Normal', 'rating' => '-', 'created_at' => '2022-08-05 15:16:13', 'updated_at' => '2022-08-05 15:16:13'),
+                array('id' => '12', 'company_id' => 1, 'damage' => 'IRREGULAR WEAR', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:16:32', 'updated_at' => '2022-08-05 15:16:32'),
+                array('id' => '13', 'company_id' => 1, 'damage' => 'CENTER WEAR', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:18:25', 'updated_at' => '2022-08-05 15:18:25'),
+                array('id' => '14', 'company_id' => 1, 'damage' => 'EXPOSE PLY', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:18:43', 'updated_at' => '2022-08-05 15:18:43'),
+                array('id' => '15', 'company_id' => 1, 'damage' => 'TREAD CHIPPING', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:18:59', 'updated_at' => '2022-08-05 15:18:59'),
+                array('id' => '16', 'company_id' => 1, 'damage' => 'TREAD CHUNKING', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:19:33', 'updated_at' => '2022-08-05 15:19:33'),
+                array('id' => '17', 'company_id' => 1, 'damage' => 'SEIZED BRAKES', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:22:53', 'updated_at' => '2022-08-05 15:22:53'),
+                array('id' => '18', 'company_id' => 1, 'damage' => 'TREAD LIFTING', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:23:12', 'updated_at' => '2022-08-05 15:23:12'),
+                array('id' => '19', 'company_id' => 1, 'damage' => 'HEAT SEPARATION', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:23:29', 'updated_at' => '2022-08-05 15:23:29'),
+                array('id' => '20', 'company_id' => 1, 'damage' => 'INNERLINER FATIQUE', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:23:54', 'updated_at' => '2022-08-05 15:23:54'),
+                array('id' => '21', 'company_id' => 1, 'damage' => 'ACCIDENTAL DAMAGE', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:24:18', 'updated_at' => '2022-08-05 15:24:18'),
+                array('id' => '22', 'company_id' => 1, 'damage' => 'FOREIGN OBJECT', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:24:45', 'updated_at' => '2022-08-05 15:24:45'),
+                array('id' => '23', 'company_id' => 1, 'damage' => 'IMPACT', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:25:01', 'updated_at' => '2022-08-05 15:25:01'),
+                array('id' => '24', 'company_id' => 1, 'damage' => 'REPAIR FAILURE', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:25:22', 'updated_at' => '2022-08-05 15:25:22'),
+                array('id' => '25', 'company_id' => 1, 'damage' => 'ROCK BETWEEN DUAL', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:25:43', 'updated_at' => '2022-08-05 15:25:43'),
+                array('id' => '26', 'company_id' => 1, 'damage' => 'RIM DAMAGE', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:26:09', 'updated_at' => '2022-08-05 15:26:09'),
+                array('id' => '27', 'company_id' => 1, 'damage' => 'VALVE DAMAGE', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:26:32', 'updated_at' => '2022-08-05 15:26:32'),
+                array('id' => '28', 'company_id' => 1, 'damage' => 'ORING DAMAGE', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:27:20', 'updated_at' => '2022-08-05 15:27:20'),
+                array('id' => '29', 'company_id' => 1, 'damage' => 'STUD DAMAGE', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:27:45', 'updated_at' => '2022-08-05 15:27:45'),
+                array('id' => '30', 'company_id' => 1, 'damage' => 'BURSTING', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-05 15:28:21', 'updated_at' => '2022-08-05 15:28:21'),
+                array('id' => '31', 'company_id' => 1, 'damage' => 'ROTASI', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:31:29', 'updated_at' => '2022-08-05 15:31:29'),
+                array('id' => '32', 'company_id' => 1, 'damage' => 'MATCHING', 'cause' => 'Maintenance', 'rating' => '-', 'created_at' => '2022-08-05 15:31:41', 'updated_at' => '2022-08-05 15:31:41'),
+                array('id' => '33', 'company_id' => 1, 'damage' => 'STONE DRILLING', 'cause' => 'Operational', 'rating' => '-', 'created_at' => '2022-08-31 08:59:53', 'updated_at' => '2022-08-31 08:59:53')
+            )
+        );
         TireMaster::factory()->count(1000)->create();
         Unit::factory()->count(100)->create();
 
