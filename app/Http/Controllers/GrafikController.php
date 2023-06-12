@@ -1683,9 +1683,9 @@ class GrafikController extends Controller
                 $q->where('site_name', $site_name);
             });
         }
-        if ($brand_tire) {
-            $q->where('tire_manufactures.name', $brand_tire);
-        }
+        // if ($brand_tire) {
+        //     $q->where('tire_manufactures.name', $brand_tire);
+        // }
 
         $tire = $tire
             ->groupBy('tire_manufactures.name')

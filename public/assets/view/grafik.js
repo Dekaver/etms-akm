@@ -17,7 +17,7 @@ var tireoptions = {
     //     },
     // },
     noData: {
-        text: "Loading...",
+        text: "No Data",
     },
     dataLabels: {
         enabled: true,
