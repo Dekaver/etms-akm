@@ -83,8 +83,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("historytire", HistoryTireController::class)->middleware("permission:HISTORY_TIRE");
 
     Route::resource("historytiremovement", HistoryTireMovementController::class)->middleware("permission:HISTORY_TIRE_MOVEMENT");
-    Route::get("tiremovement/{tire}/history", [HistoryTireMovementController::class, 'tiremovement'])->name('history.tiremovement')->middleware("permission:HISTORY_TIRE_MOVEMENT");
-    Route::get("tireinspect/{tire}/history", [HistoryTireMovementController::class, 'tireinspect'])->name('history.tireinspect')->middleware("permission:HISTORY_TIRE_MOVEMENT");
+    Route::get("tiremovement/{tire}/history", [HistoryTireMovementController::class, 'tiremovement'])->name('historytiremovement.tiremovement')->middleware("permission:HISTORY_TIRE_MOVEMENT");
+    Route::get("tireinspect/{tire}/history", [HistoryTireMovementController::class, 'tireinspect'])->name('historytiremovement.tireinspect')->middleware("permission:HISTORY_TIRE_MOVEMENT");
 
 
     Route::middleware(['permission:GRAFIK'])->group(function () {

@@ -36,8 +36,8 @@ class HistoryTireMovementController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "
-                        <a href='" . route('history.tiremovement', $row->id) . "' class='btn btn-sm btn-primary text-white'>MOVEMENT</a>
-                        <a href='" . route('history.tireinspect', $row->id) . "' class='btn btn-sm btn-warning text-white'>INSPECT</a>
+                        <a href='" . route('historytiremovement.tiremovement', $row->id) . "' class='btn btn-sm btn-primary text-white'>MOVEMENT</a>
+                        <a href='" . route('historytiremovement.tireinspect', $row->id) . "' class='btn btn-sm btn-warning text-white'>INSPECT</a>
                     ";
                     return $actionBtn;
                 })
@@ -46,7 +46,7 @@ class HistoryTireMovementController extends Controller
         }
 
 
-        return view("admin.history.historytire");
+        return view("admin.history.historyTire");
     }
 
     /**
@@ -99,6 +99,7 @@ class HistoryTireMovementController extends Controller
 
     public function tiremovement(Request $request, TireMaster $tire)
     {
+        // dd($tire->history_tire_movement);
         if ($request->ajax()) {
             return DataTables::of($tire->history_tire_movement)
                 ->addIndexColumn()
@@ -123,7 +124,7 @@ class HistoryTireMovementController extends Controller
                 ->make(true);
         }
 
-        return view("admin.history.historyTiremovement", compact("tire"));
+        return view("admin.history.historyTireMovement", compact("tire"));
     }
     public function tireinspect(Request $request, TireMaster $tire)
     {
