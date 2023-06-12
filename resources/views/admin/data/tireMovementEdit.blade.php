@@ -148,11 +148,11 @@
                         <div class="row justify-content-center align-items-end mb-5">
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
-                                    <p class="fs-6 mb-0 fw-bold">SN</p>
-                                    <p class="fs-6 mb-0 ">Lifetime</p>
-                                    <p class="fs-6 mb-0 ">repair</p>
-                                    <p class="fs-6 mb-0 ">Retread</p>
-                                    <p class="fs-6 mb-0 ">RTD</p>
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">Lifetime</p>
+                                    <p class=" mb-0 ">repair</p>
+                                    <p class=" mb-0 ">Retread</p>
+                                    <p class=" mb-0 ">RTD</p>
                                 </div>
                             </div>
                             <div class="col-sm"></div>
@@ -170,22 +170,22 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
@@ -208,22 +208,22 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
@@ -237,11 +237,11 @@
                         <div class="row justify-content-center align-items-end mb-5">
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
-                                    <p class="fs-6 mb-0 fw-bold">SN</p>
-                                    <p class="fs-6 mb-0 ">Lifetime</p>
-                                    <p class="fs-6 mb-0 ">Brand</p>
-                                    <p class="fs-6 mb-0 ">RTD</p>
-                                    <p class="fs-6 mb-0 ">Size</p>
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">Lifetime</p>
+                                    <p class=" mb-0 ">Brand</p>
+                                    <p class=" mb-0 ">RTD</p>
+                                    <p class=" mb-0 ">Size</p>
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -258,22 +258,22 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class="mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class="mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class="mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class="mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class="mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
@@ -292,22 +292,22 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
@@ -330,22 +330,22 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
@@ -364,22 +364,22 @@
                                             </div>
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_retread_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->lifetime_repair_hm }}</p>
-                                            <p class="fs-6 mb-0">{{ $tire->rtd }}</p>
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->rtd }}</p>
                                         </figcaption>
                                     @else
                                         <div class="droppableInstall" data-position="{{ $position }}">
                                             NULL
                                         </div>
                                         <figcaption class="pt-2">
-                                            <p class="fs-6 mb-0 fw-bold">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
-                                            <p class="fs-6 mb-0">-</p>
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
+                                            <p class=" mb-0">-</p>
                                         </figcaption>
                                     @endif
                                 </figure>
