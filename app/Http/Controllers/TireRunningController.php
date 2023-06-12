@@ -174,7 +174,7 @@ class TireRunningController extends Controller
 
         // $trailermovement = HistoryTrailerMovement::where('unit_install', $unit->unit_number)->orderBy('date_end', 'desc')->get();
 
-        return view("admin.data.tiremovementedit", compact("tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory"));
+        return view("admin.data.tireMovementEdit", compact("tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory"));
     }
 
     /**
