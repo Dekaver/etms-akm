@@ -21,6 +21,17 @@
 
         <div class="row">
             <div class="col-lg col-sm-6 col-12 d-flex">
+                <div class="dash-count das2" style="background: #709AC3;">
+                    <div class="dash-imgs">
+                        <img src="assets/img/dashboard/icon3.png"  alt="">
+                    </div>
+                    <div class="dash-counts">
+                        <h4>100</h4>
+                        <h5>Tyre Spare</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count" style="background: #1EBDD0!important;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon1.png" alt="">
@@ -39,17 +50,6 @@
                     <div class="dash-counts">
                         <h4>{{ $new_install }}</h4>
                         <h5>New Install</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das2" style="background: #709AC3;">
-                    <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon3.png" alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $spare }}</h4>
-                        <h5>Tyre Spare</h5>
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="login-img">
-                    <img src="https://images.pexels.com/photos/16023877/pexels-photo-16023877/free-photo-of-hitam-dan-putih-industri-karet-ban.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="img">
+                    <img src="assets/img/header-login.jpg" style="object-fit: cover; transform: scaleX(-1);"  alt="">
                 </div>
             </div>
         </div>

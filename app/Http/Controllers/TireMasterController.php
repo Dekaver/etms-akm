@@ -18,6 +18,9 @@ class TireMasterController extends Controller
      */
     public function index(Request $request)
     {
+        $tire_site_id = $request->query("site");
+
+
         $company = auth()->user()->company;
         $site = Site::where('company_id', $company->id)->get();
         $tiresize = TireSize::where('company_id', $company->id)->get();
@@ -52,7 +55,7 @@ class TireMasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tireMaster", compact('site', 'tiresize', 'tirecompound', 'tirestatus'));
+        return view("admin.master.tireMaster", compact('tire_site_id','site', 'tiresize', 'tirecompound', 'tirestatus'));
     }
 
     /**
