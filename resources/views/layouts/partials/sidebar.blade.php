@@ -135,7 +135,7 @@
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"
-                                    class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">REPORT Daily
+                                    class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Report Daily
                                     Inspect</a></li>
                         @endcan
                     </ul>
