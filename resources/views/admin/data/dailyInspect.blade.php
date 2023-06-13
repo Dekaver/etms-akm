@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="table-top">
+            {{-- <div class="table-top">
                 <div class="search-set">
                     <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
@@ -42,7 +42,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
             <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs">
                 <div class="card-body pb-0">
@@ -148,7 +148,13 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>Location</label>
-                                    <input type="text" name="location">
+                                    <select class="select" name="tire_status_id" required>
+                                        <option>Choose Site</option>
+                                        @foreach ($sites as $item)
+                                            <option value="{{ $item->id }}" @selected((auth()->user()->site->id ?? false) == $item->id)>
+                                                {{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-3">
@@ -178,6 +184,7 @@
                                         <th>Serial Number</th>
                                         <th style="width: 100px">Pressure</th>
                                         <th style="width: 100px">Dept Thread</th>
+                                        <th>Tire</th>
                                         <th>Tube</th>
                                         <th>Flap</th>
                                         <th>Rim</th>
@@ -273,15 +280,24 @@
                                 <option>Good</option>
                                 <option>Bad</option>
                             </select>
-                        </td>`
+                        </td>`;
                     var check = `
                         <td class="text-center">
                             <input type="checkbox" checked>
-                        </td>`
+                        </td>`;
+                    var text = `
+                        <td>
+                            <input class="form-control" type="text">
+                        </td>`;
+
                     $.each(response, function(i, v) {
-                        let tire_damage_new = $(tire_damage).clone();
-                        tire_damage_new.find('select').val(v.tire_damage_id);
-                        tire_damage_new.find('select').attr('name', `tire_damage_id[${v.position}]`)
+                        // let tire_damage_new = $(tire_damage).clone();
+                        // tire_damage_new.find('select').val(v.tire_damage_id);
+                        // tire_damage_new.find('select').attr('name', `tire_damage_id[${v.position}]`)
+
+                        let tire = $(condition).clone();
+                        // tube.find('select').val(v.tube);
+                        tire.find('select').attr('name', `tire_condition[${v.position}]`)
 
                         let tube = $(condition).clone();
                         // tube.find('select').val(v.tube);
@@ -299,6 +315,10 @@
                         // t_pentil.find('select').val(v.t_pentil);
                         t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`)
 
+                        let remark = $(text).clone();
+                        // remark.find('select').val(v.remark);
+                        remark.find('input').attr('name', `remark[${v.position}]`)
+
                         var tr = $('<tr>').html(`
                             <input type="hidden" name="tire_id[${v.position}]" value="${v.tire.id}">
                             <input type="hidden" name="position[${v.position}]" value="${v.position}">
@@ -310,11 +330,13 @@
                             <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.tire.pressure ?? 0 }"></td>
                             <td><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.tire.rtd}"></td>
                             `);
+                        tire.appendTo(tr);
                         tube.appendTo(tr);
                         flap.appendTo(tr);
                         rim.appendTo(tr);
                         t_pentil.appendTo(tr);
-                        tire_damage_new.appendTo(tr);
+                        remark.appendTo(tr);
+                        // tire_damage_new.appendTo(tr);
                         tr.appendTo("#table-tire-inspection tbody");
                     });
                 });

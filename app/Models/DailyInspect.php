@@ -16,31 +16,44 @@ class DailyInspect extends Model
         "unit_id",
         "tire_damage_id",
         "rtd",
-        "action",
-        "pressure",
         "position",
+        "location",
+        "shift",
+        "pic",
+        "driver",
+        "rtd",
+        "pressure",
         "lifetime_hm",
         "lifetime_km",
         "date",
+        "tube",
+        "flap",
+        "rim",
+        "t_pentil",
+        "remark",
     ];
 
     protected $casts = [
         "date" => "date:Y-m-d"
     ];
 
-    function tire(){
+    function tire()
+    {
         return $this->belongsTo(TireMaster::class, "tire_id", "id");
     }
 
-    function site(){
+    function site()
+    {
         return $this->belongsTo(Site::class);
     }
 
-    function unit(){
+    function unit()
+    {
         return $this->belongsTo(Unit::class);
     }
 
-    function tire_damage(){
+    function tire_damage()
+    {
         return $this->belongsTo(TireDamage::class);
     }
 }

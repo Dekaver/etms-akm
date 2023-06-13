@@ -143,7 +143,7 @@ class HistoryTireMovementController extends Controller
                 ->make(true);
         }
 
-        return view("admin.history.historyTireinspect", compact("tire"));
+        return view("admin.history.historyTireInspect", compact("tire"));
 
 
     }

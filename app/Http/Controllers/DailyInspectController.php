@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ReportDailyInspect;
 use App\Models\DailyInspect;
+use App\Models\Site;
 use App\Models\TireDamage;
 use App\Models\TireMaster;
 use App\Models\TireRunning;
@@ -23,6 +24,7 @@ class DailyInspectController extends Controller
     {
         $company = auth()->user()->company;
         $site = auth()->user()->site;
+        $sites = Site::where("company_id", $company->id)->get();
         $tire_damages = TireDamage::all();
 
         if ($request->ajax()) {
@@ -51,7 +53,7 @@ class DailyInspectController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.dailyInspect", compact("tire_damages"));
+        return view("admin.data.dailyInspect", compact("tire_damages", "sites"));
     }
 
     /**
@@ -157,7 +159,6 @@ class DailyInspectController extends Controller
         foreach ($request->position as $key => $position) {
             $tire_inspection = DailyInspect::firstOrCreate(
                 [
-
                     "company_id" => auth()->user()->company->id,
                     "site_id" => auth()->user()->company->id,
                     "tire_id" => $request->tire_id[$position],
@@ -165,28 +166,30 @@ class DailyInspectController extends Controller
                     "date" => $request->date,
                 ],
                 [
-                    "tire_damage_id" => $request->tire_damage_id[$position],
+                    "tire_damage_id" => $request->tire_damage_id[$position] ?? null,
                     "rtd" => $request->rtd[$position],
                     "pressure" => $request->pressure[$position],
                     "position" => $position,
+                    "tire_condition" => $request->tire_condition[$position],
                     "flap" => $request->tire_flap[$position],
                     "rim" => $request->tire_rim[$position],
                     "tube" => $request->tire_tube[$position],
                     "t_pentil" => ($request->tire_t_pentil[$position] ?? null) == "on" ? true : false,
-                    // "remark" => $request->remark[$position],
+                    "remark" => $request->remark[$position],
                     "lifetime_hm" => $request->lifetime_hm[$position],
                     "lifetime_km" => $request->lifetime_km[$position],
                 ],
             );
-            $tire_inspection->tire_damage_id = $request->tire_damage_id[$position];
+            $tire_inspection->tire_damage_id = $request->tire_damage_id[$position] ?? null;
             $tire_inspection->rtd = $request->rtd[$position];
             $tire_inspection->pressure = $request->pressure[$position];
             $tire_inspection->position = $position;
+            $tire_inspection->tire_condition = $request->tire_condition[$position];
             $tire_inspection->flap = $request->tire_flap[$position];
             $tire_inspection->rim = $request->tire_rim[$position];
             $tire_inspection->tube = $request->tire_tube[$position];
             $tire_inspection->t_pentil = ($request->tire_t_pentil[$position] ?? null) == "on" ? true : false;
-            // $tire_inspection->remark = $request->remark[$position];
+            $tire_inspection->remark = $request->remark[$position];
             $tire_inspection->lifetime_hm = $request->lifetime_hm[$position];
             $tire_inspection->lifetime_km = $request->lifetime_km[$position];
 
@@ -194,7 +197,7 @@ class DailyInspectController extends Controller
 
             TireMaster::where('id', $request->tire_id[$position])->update([
                 'rtd' => $request->rtd[$position],
-                'tire_damage_id' => $request->tire_damage_id[$position],
+                'tire_damage_id' => $request->tire_damage_id[$position] ?? null,
             ]);
         }
 
