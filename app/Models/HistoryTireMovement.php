@@ -12,6 +12,7 @@ class HistoryTireMovement extends Model
     protected $fillable = [
         "user_id",
         "company_id",
+        "tire_damage_id",
         "site_id",
         "unit",
         "tire",
@@ -41,5 +42,9 @@ class HistoryTireMovement extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+    public function tire_damage()
+    {
+        return $this->belongsTo(TireDamage::class);
     }
 }

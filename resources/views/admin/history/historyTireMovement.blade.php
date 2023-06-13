@@ -101,7 +101,7 @@
                 <table class="table data-table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Date</th>
                             <th>Serial Number</th>
                             <th>Pos</th>
                             <th>Status</th>
@@ -114,7 +114,7 @@
                             <th>RTD</th>
                             <th>PIC</th>
                             <th>Man Power</th>
-                            <th>Date</th>
+                            <th>Damage</th>
                         </tr>
                     </thead>
 
@@ -131,10 +131,8 @@
                     serverSide: true,
                     ajax: "{{ route('historytiremovement.tiremovement', $tire->id) }}",
                     columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
+                            data: 'start_date',
+                            name: 'start_date'
                         },
                         {
                             data: 'tire',
@@ -185,8 +183,8 @@
                             name: 'pic_man_power'
                         },
                         {
-                            data: 'start_date',
-                            name: 'start_date'
+                            data: 'damage',
+                            name: 'damage'
                         },
                     ]
                 });

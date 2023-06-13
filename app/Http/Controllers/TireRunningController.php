@@ -273,6 +273,7 @@ class TireRunningController extends Controller
                         "user_id" => auth()->id(),
                         "company_id" => $company->id,
                         "site_id" => auth()->user()->site->id,
+                        "tire_damage_id" => $request->tire_damage_id,
                         "unit" => $unit->unit_number,
                         "tire" => $tire->serial_number,
                         "position" => $request->position,

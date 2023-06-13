@@ -100,14 +100,18 @@ class HistoryTireMovementController extends Controller
     public function tiremovement(Request $request, TireMaster $tire)
     {
         // dd($tire->history_tire_movement);
+        $data = HistoryTireMovement::where("tire", $tire->serial_number);
         if ($request->ajax()) {
-            return DataTables::of($tire->history_tire_movement)
+            return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("site", function ($row) {
                     return $row->site->name;
                 })
                 ->addColumn("rtd", function ($row) {
                     return $row->rtd;
+                })
+                ->addColumn("damage", function ($row) {
+                    return $row->tire_damage->damage ?? null;
                 })
                 ->addColumn("tire_hm", function ($row) {
                     return ($row->status == "RUNNING") ? $row->hm_tire_install : $row->hm_tire_remove;
@@ -128,7 +132,7 @@ class HistoryTireMovementController extends Controller
     }
     public function tireinspect(Request $request, TireMaster $tire)
     {
-        if ($request->ajax()) {
+        if (!$request->ajax()) {
             return DataTables::of($tire->daily_inspect)
                 ->addIndexColumn()
                 ->addColumn("tire", function ($row) {
