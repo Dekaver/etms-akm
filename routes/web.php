@@ -5,6 +5,7 @@ use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\HistoryTireMovementController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TireController;
 use App\Http\Controllers\UnitController;
@@ -110,6 +111,9 @@ Route::middleware(['auth'])->group(function () {
 
     //EXPORT
     Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export']);
+
+    //REPORT
+    Route::get("report-tire-status", [ReportController::class, "statusTireCount"]);
 });
 
 

@@ -21,7 +21,8 @@
             <div class="table-top">
                 <div class="search-set">
                     <div class="search-path">
-                        <a class="btn btn-filter" id="filter_search">
+                        <a class="btn btn-filter {{ $tire_pattern || $tire_manufacture || $tire_size ? ' setclose' : '' }}"
+                            id="filter_search">
                             <img src="assets/img/icons/filter.svg" alt="img">
                             <span><img src="assets/img/icons/closes.svg" alt="img"></span>
                         </a>
@@ -48,47 +49,53 @@
                 </div>
             </div>
             <!-- /Filter -->
-            <div class="card mb-0" id="filter_inputs">
+            <div class="card mb-0" id="filter_inputs"
+                {{ $tire_pattern || $tire_manufacture || $tire_size ? 'style=display:block' : '' }}>
                 <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Pattern</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <select class="select" name="tire_pattern">
+                                        <option value="">Choose Pattern</option>
+                                        @foreach ($tire_patterns as $item)
+                                            <option value="{{ $item->pattern }}" @selected($item->pattern == $tire_pattern)>
+                                                {{ $item->pattern }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Brand</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <select class="select" name="tire_manufacture">
+                                        <option value="">Choose Manufacture</option>
+                                        @foreach ($tire_manufactures as $item)
+                                            <option value="{{ $item->id }}" @selected($item->id == $tire_manufacture)>
+                                                {{ $item->name }}</option>
+                                        @endforeach
+
+                                    </select>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Size</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <select class="select" name="tire_size">
+                                        <option value="">Choose Size</option>
+                                        @foreach ($tire_sizes as $item)
+                                            <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
+                                                {{ $item->size }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-lg-1 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
-                                    </div>
+                            </div>
+                            <div class="col-lg-1 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <button class="btn btn-filters ms-auto"><img
+                                            src="assets/img/icons/search-whites.svg" alt="img"></button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- /Filter -->
@@ -185,7 +192,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('tiresize.index') }}",
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
