@@ -101,7 +101,7 @@
                 <table class="table data-table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Date</th>
                             <th>Serial Number</th>
                             <th>Site</th>
                             <th>Unit</th>
@@ -109,7 +109,12 @@
                             <th>KM</th>
                             <th>RTD</th>
                             <th>Pressure</th>
-                            <th>Date</th>
+                            <th>Tire</th>
+                            <th>Tube</th>
+                            <th>Flap</th>
+                            <th>Rim</th>
+                            <th>T. Pentil</th>
+                            <th>Remark</th>
                         </tr>
                     </thead>
 
@@ -126,10 +131,8 @@
                     serverSide: true,
                     ajax: "{{ route('historytiremovement.tireinspect', $tire->id) }}",
                     columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
+                            data: 'date',
+                            name: 'date'
                         },
                         {
                             data: 'tire',
@@ -160,8 +163,28 @@
                             name: 'pressure'
                         },
                         {
-                            data: 'date',
-                            name: 'date'
+                            data: 'tire_condition',
+                            name: 'tire_condition'
+                        },
+                        {
+                            data: 'tube',
+                            name: 'tube'
+                        },
+                        {
+                            data: 'flap',
+                            name: 'flap'
+                        },
+                        {
+                            data: 'rim',
+                            name: 'rim'
+                        },
+                        {
+                            data: 'tPentil',
+                            name: 'tPentil'
+                        },
+                        {
+                            data: 'remark',
+                            name: 'remark'
                         },
                     ]
                 });

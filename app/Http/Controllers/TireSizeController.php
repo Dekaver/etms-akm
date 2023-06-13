@@ -27,34 +27,22 @@ class TireSizeController extends Controller
         $tire_manufactures = TireManufacture::where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
-            $data = TireSize::where('company_id', $company->id);
-            if ($tire_manufacture || $tire_pattern) {
-                $data = $data->whereHas("tire_pattern", function ($q) use ($tire_manufacture, $tire_pattern) {
-                    if ($tire_manufacture) {
-                        $q->where("tire_manufacture_id", $tire_manufacture);
-                    }
-                    if ($tire_pattern) {
-                        $q->where("pattern", $tire_pattern);
-                    }
-                });
+            $data = TireSize::select("tire_sizes.*", "tire_patterns.pattern", "tire_manufactures.name as manufacture", "tire_patterns.type_pattern as type")
+                ->leftJoin("tire_patterns", "tire_patterns.id", "=", "tire_sizes.tire_pattern_id")
+                ->leftJoin("tire_manufactures", "tire_manufactures.id", "=", "tire_patterns.tire_manufacture_id")
+                ->where('tire_sizes.company_id', $company->id);
+            if ($tire_manufacture) {
+                $data = $data->where("tire_patterns.tire_manufacture_id", $tire_manufacture);
+            }
+            if ($tire_pattern) {
+                $data = $data->where("tire_patterns.pattern", $tire_pattern);
             }
             if ($tire_size) {
                 $data = $data->where("size", $tire_size);
             }
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('pattern', function ($row) {
-                    return $row->tire_pattern->pattern;
-                })
-                ->addColumn('manufacture', function ($row) {
-                    return $row->tire_pattern->manufacture->name;
-                })
-                ->addColumn('manufacture_pattern', function ($row) {
-                    return "{$row->tire_pattern->type_pattern}-{$row->tire_pattern->manufacture->name}-{$row->tire_pattern->pattern}";
-                })
-                ->addColumn('type', function ($row) {
-                    return $row->tire_pattern->type_pattern;
-                })
+
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>

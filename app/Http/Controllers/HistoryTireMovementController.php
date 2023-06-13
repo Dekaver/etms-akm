@@ -16,24 +16,15 @@ class HistoryTireMovementController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = TireMaster::has("history_tire_movement")->orderBy("date", "ASC");
+            $data = TireMaster::select("tires.*", "tire_sizes.size", "sites.name as site", "tire_statuses.status", "tire_patterns.pattern", "tire_compounds.compound")
+                ->leftJoin("sites", "tires.site_id", "=", "sites.id")
+                ->leftJoin("tire_statuses", "tires.tire_status_id", "=", "tire_statuses.id")
+                ->leftJoin("tire_sizes", "tires.tire_size_id", "=", "tire_sizes.id")
+                ->leftJoin("tire_compounds", "tires.tire_compound_id", "=", "tire_compounds.id")
+                ->leftJoin("tire_patterns", "tire_sizes.tire_pattern_id", "=", "tire_patterns.id")
+                ->has("history_tire_movement");
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn("size", function ($row) {
-                    return $row->tire_size->size;
-                })
-                ->addColumn("site", function ($row) {
-                    return $row->site->name;
-                })
-                ->addColumn("status", function ($row) {
-                    return $row->tire_status->status;
-                })
-                ->addColumn("pattern", function ($row) {
-                    return $row->tire_size->tire_pattern->pattern;
-                })
-                ->addColumn("compound", function ($row) {
-                    return $row->tire_compound->compound;
-                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "
                         <a href='" . route('historytiremovement.tiremovement', $row->id) . "' class='btn btn-sm btn-primary text-white'>MOVEMENT</a>
@@ -132,7 +123,7 @@ class HistoryTireMovementController extends Controller
     }
     public function tireinspect(Request $request, TireMaster $tire)
     {
-        if (!$request->ajax()) {
+        if ($request->ajax()) {
             return DataTables::of($tire->daily_inspect)
                 ->addIndexColumn()
                 ->addColumn("tire", function ($row) {
@@ -144,6 +135,11 @@ class HistoryTireMovementController extends Controller
                 ->addColumn("site", function ($row) {
                     return $row->site->name;
                 })
+                ->addColumn("tPentil", function ($row) {
+                    $a = "<input type='checkbox' " . ($row->t_pentil ? 'checked' : '') . "> ";
+                    return $a;
+                })
+                ->rawColumns(['tPentil'])
                 ->make(true);
         }
 
