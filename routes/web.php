@@ -110,10 +110,15 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //EXPORT
-    Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export']);
+    Route::middleware(['permission:EXPORT'])->group(function () {
+        Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export']);
+    });
+
 
     //REPORT
-    Route::get("report-tire-status", [ReportController::class, "statusTireCount"]);
+    Route::middleware(['permission:REPORT'])->group(function () {
+        Route::get("report-tire-status", [ReportController::class, "statusTireCount"])->name('report.tirestatus');
+    });
 });
 
 

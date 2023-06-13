@@ -28,14 +28,14 @@ class TireSizeController extends Controller
 
         if ($request->ajax()) {
             $data = TireSize::where('company_id', $company->id);
-            if ($tire_manufacture) {
-                $data = $data->whereHas("tire_pattern", function ($q) use ($tire_manufacture) {
-                    $q->where("tire_manufacture_id", $tire_manufacture);
-                });
-            }
-            if ($tire_pattern) {
-                $data = $data->whereHas("tire_pattern", function ($q) use ($tire_pattern) {
-                    $q->where("pattern", $tire_pattern);
+            if ($tire_manufacture || $tire_pattern) {
+                $data = $data->whereHas("tire_pattern", function ($q) use ($tire_manufacture, $tire_pattern) {
+                    if ($tire_manufacture) {
+                        $q->where("tire_manufacture_id", $tire_manufacture);
+                    }
+                    if ($tire_pattern) {
+                        $q->where("pattern", $tire_pattern);
+                    }
                 });
             }
             if ($tire_size) {

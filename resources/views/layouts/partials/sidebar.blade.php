@@ -11,12 +11,12 @@
                             alt="img"><span>
                             Grafik</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        @can("GRAFIK")
-                        <li><a href="/tire-performance"
-                                class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
-                        </li>
-                        <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
-                                Scrap</a></li>
+                        @can('GRAFIK')
+                            <li><a href="/tire-performance"
+                                    class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
+                            </li>
+                            <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
+                                    Scrap</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -111,7 +111,8 @@
                             <li><a href="/user" class="{{ Request::routeIs('user.*') ? 'active' : '' }}">User</a></li>
                         @endcan
                         @can('PERMISSION')
-                            <li><a href="/permission" class="{{ Request::routeIs('permission.*') ? 'active' : '' }}">Permission</a>
+                            <li><a href="/permission"
+                                    class="{{ Request::routeIs('permission.*') ? 'active' : '' }}">Permission</a>
                             </li>
                         @endcan
                         @can('ROLE')
@@ -121,18 +122,34 @@
                     </ul>
                 </li>
 
+
+                <li class="submenu">
+                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/return1.svg') }}"
+                            alt="img"><span>
+                            Data Report</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        @can('REPORT')
+                            <li><a href="/report-tire-status"
+                                    class="{{ Request::routeIs('report.tirestatus') ? 'active' : '' }}">Report Status
+                                    Tire</a></li>
+                        @endcan
+                        @can('HISTORY_TIRE_MOVEMENT')
+                            <li><a href="/historytire"
+                                    class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">REPORT Daily
+                                    Inspect</a></li>
+                        @endcan
+                    </ul>
+                </li>
+
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/return1.svg') }}"
                             alt="img"><span>
                             Data History</span> <span class="menu-arrow"></span></a>
                     <ul>
                         @can('HISTORY_TIRE')
-                            <li><a href="/historytiremovement" class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Tire
+                            <li><a href="/historytiremovement"
+                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Tire
                                     Movement</a></li>
-                        @endcan
-                        @can('HISTORY_TIRE_MOVEMENT')
-                            <li><a href="/historytire" class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Daily
-                                    Inspect Report</a></li>
                         @endcan
                     </ul>
                 </li>

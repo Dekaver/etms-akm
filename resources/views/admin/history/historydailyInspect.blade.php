@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Master</h4>
+            <h4>Report</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Data Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Master</li>
+                    <li class="breadcrumb-item"><a href="#">Data Daily Inspect</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Daily Monitoring</li>
                 </ol>
             </nav>
         </div>
@@ -29,16 +29,9 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="assets/img/icons/pdf.svg" alt="img"></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel" href="/report-daily-inspect-export"><img
-                                    src="assets/img/icons/excel.svg" alt="img"></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
-                                    src="assets/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"
+                                href="/report-daily-inspect-export"><img src="assets/img/icons/excel.svg"
+                                    alt="img"></a>
                         </li>
                     </ul>
                 </div>
