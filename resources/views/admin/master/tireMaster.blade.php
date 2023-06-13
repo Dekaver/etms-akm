@@ -212,7 +212,8 @@
                                 <div class="form-group">
                                     <label>Date </label>
                                     <div class="input-groupicon">
-                                        <input type="date" class="form-control" name="date" required>
+                                        <input type="date" class="form-control" name="date"
+                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
                                     </div>
                                 </div>
                             </div>
