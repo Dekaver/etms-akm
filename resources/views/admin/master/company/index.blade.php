@@ -84,7 +84,7 @@
                                     <a href="#progress-seller-details" class="nav-link" data-toggle="tab">
                                         <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="User Details">
-                                            <i class="far fa-user"></i>
+                                            <i class="fas fa-map-pin"></i>
                                         </div>
                                     </a>
                                 </li>
@@ -92,7 +92,7 @@
                                     <a href="#progress-company-document" class="nav-link" data-toggle="tab">
                                         <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="Address Detail">
-                                            <i class="fas fa-map-pin"></i>
+                                            <i class="far fa-user"></i>
                                         </div>
                                     </a>
                                 </li>
@@ -162,68 +162,41 @@
                                 <div class="tab-pane" id="progress-company-document">
                                     <div>
                                         <div class="mb-4">
-                                            <h5>Location Details</h5>
+                                            <h5>Account Admin</h5>
                                         </div>
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-namecard-input"
-                                                            class="form-label">Name on Card</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-namecard-input">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Credit Card Type</label>
-                                                        <select class="form-select">
-                                                            <option selected>Select Card Type</option>
-                                                            <option value="AE">American Express</option>
-                                                            <option value="VI">Visa</option>
-                                                            <option value="MC">MasterCard</option>
-                                                            <option value="DI">Discover</option>
-                                                        </select>
-                                                    </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="progresspill-firstname-input">Name<span
+                                                            class="manitory">*</span></label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        required id="progresspill-firstname-input">
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-cardno-input"
-                                                            class="form-label">Credit Card Number</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-cardno-input">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-card-verification-input"
-                                                            class="form-label">Card Verification Number</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-card-verification-input">
-                                                    </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="progresspill-lastname-input">Email<span
+                                                            class="manitory">*</span></label>
+                                                    <input type="text" class="form-control" name="initial"
+                                                        required id="progresspill-lastname-input">
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-expiration-input"
-                                                            class="form-label">Expiration Date</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-expiration-input">
-                                                    </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="progresspill-phoneno-input">Password</label>
+                                                    <input type="text" class="form-control" name="phone"
+                                                        id="progresspill-phoneno-input">
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
                                         <ul class="pager wizard twitter-bs-wizard-pager-link">
                                             <li class="previous"><a href="javascript: void(0);"
-                                                    class="btn btn-primary" onclick="nextTab()"><i
-                                                        class="bx bx-chevron-left me-1"></i> Previous</a></li>
-                                            <li class="next"><a href="javascript: void(0);" class="btn btn-primary"
-                                                    onclick="nextTab()">Next <i
+                                                    class="btn btn-primary"><i class="bx bx-chevron-left me-1"></i>
+                                                    Previous</a></li>
+                                            <li class="next"><a href="javascript: void(0);"
+                                                    class="btn btn-primary">Next <i
                                                         class="bx bx-chevron-right ms-1"></i></a></li>
                                         </ul>
                                     </div>
@@ -231,78 +204,129 @@
                                 <div class="tab-pane" id="progress-bank-detail">
                                     <div>
                                         <div class="mb-4">
-                                            <h5>Payment Details</h5>
+                                            <h5>Data</h5>
                                         </div>
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-pancard-input"
-                                                            class="form-label">Address Line 1</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-pancard-input">
-                                                    </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-check">
+                                                    <label class="inputcheck">Empty Data
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span>
+                                                    </label>
                                                 </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-vatno-input"
-                                                            class="form-label">Address Line 2</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-vatno-input">
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-check">
+                                                    <label class="inputcheck">Data Demo
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-check">
+                                                    <label class="inputcheck">Clone from
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-1"></div>
+                                                    <div class="col-11">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Customer</label>
+                                                            <select class="form-select">
+                                                                <option value="">Select Customer</option>
+                                                                @foreach ($companies as $item)
+                                                                    <option value="{{ $item->id }}">
+                                                                        {{ $item->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-cstno-input"
-                                                            class="form-label">Landmark</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-cstno-input">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-servicetax-input"
-                                                            class="form-label">City</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-servicetax-input">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-companyuin-input"
-                                                            class="form-label">State</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-companyuin-input">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="mb-3">
-                                                        <label for="progresspill-declaration-input"
-                                                            class="form-label">Country</label>
-                                                        <input type="text" class="form-control"
-                                                            id="progresspill-declaration-input">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-1"></div>
+                                                    <div class="col-11">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="form-check">
+                                                                    <label class="inputcheck">Master Only
+                                                                        <input type="checkbox">
+                                                                        <span class="checkmark"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="form-check">
+                                                                    <label class="inputcheck">All Data
+                                                                        <input type="checkbox">
+                                                                        <span class="checkmark"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
 
 
-                                        <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                            <li class="previous"><a href="javascript: void(0);"
-                                                    class="btn btn-primary" onclick="nextTab()"><i
-                                                        class="bx bx-chevron-left me-1"></i> Previous</a></li>
-                                            <li class="float-end"><a href="javascript: void(0);"
-                                                    class="btn btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target=".confirmModal">Save Changes</a></li>
-                                        </ul>
+                                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                                <li class="previous"><a href="javascript: void(0);"
+                                                        class="btn btn-primary"><i
+                                                            class="bx bx-chevron-left me-1"></i> Previous</a></li>
+                                                <li class="float-end">
+                                                    <button class="btn btn-primary" type="submit">Save
+                                                        Changes</button>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- update Modal -->
+    <div class="modal fade" id="form-update-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <form method="POST">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                @csrf
+                @method('PUT')
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Form Company </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Nama<span class="manitory">*</span></label>
+                                    <input type="text" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Initial<span class="manitory">*</span></label>
+                                    <input type="text" name="initial" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Email<span class="manitory">*</span></label>
+                                    <input type="text" name="email" required>
                                 </div>
                             </div>
                         </div>
@@ -356,6 +380,28 @@
 
 
             });
+
+            $('#form-update-modal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var post = button.data('post');
+                var modal = $(this)
+
+                var id = button.data('id');
+                $.ajax({
+                    method: "GET",
+                    url: `{{ route('company.index') }}/${id}/edit`
+                }).done(function(response) {
+                    modal.find('input[name="name"]').val(response.name);
+                    modal.find('input[name="initial"]').val(response.initial);
+                    modal.find('input[name="email"]').val(response.email);
+                    modal.find('input[name="_method"]').val('PUT');
+                });
+                modal.find('form').attr('action', `{{ route('company.index') }}/${id}`)
+            });
+            $('#form-update-modal').on('hide.bs.modal', function(event) {
+                $(this).find('form')[0].reset();
+            });
+
 
             $('#form-modal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget)

@@ -15,14 +15,14 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $company = auth()->user()->company;
-
+        $companies = Company::where("name", "!=", "DEMO")->get();
         if ($request->ajax()) {
             $data = Company::whereNotNull("name");
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
-                                    data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
+                                    data-bs-target='#form-update-modal'  data-bs-toggle='modal' data-id='$row->id'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
                                 </a>
                                 <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
@@ -36,7 +36,7 @@ class CompanyController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.company.index");
+        return view("admin.master.company.index", compact("companies"));
     }
 
     /**
