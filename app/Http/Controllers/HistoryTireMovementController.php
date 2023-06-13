@@ -107,7 +107,7 @@ class HistoryTireMovementController extends Controller
                     return $row->site->name;
                 })
                 ->addColumn("rtd", function ($row) {
-                    return $row->tire_number->rtd;
+                    return $row->rtd;
                 })
                 ->addColumn("tire_hm", function ($row) {
                     return ($row->status == "RUNNING") ? $row->hm_tire_install : $row->hm_tire_remove;

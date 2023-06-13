@@ -644,22 +644,22 @@
                         <table>
                             <tr>
                                 <th>Install Tire to Unit</th>
-                                <td>:</td>
+                                <td class="px-4">:</td>
                                 <td>{{ $unit->unit_number }}</td>
                             </tr>
                             <tr>
                                 <th>HM</th>
-                                <td>:</td>
+                                <td class="px-4">:</td>
                                 <td>{{ $unit->hm }}</td>
                             </tr>
                             <tr>
                                 <th>KM</th>
-                                <td>:</td>
+                                <td class="px-4">:</td>
                                 <td>{{ $unit->km }}</td>
                             </tr>
                             <tr>
                                 <th>Position</th>
-                                <td>:</td>
+                                <td class="px-4">:</td>
                                 <td><input style="border:none" type="text" name="position" readonly></td>
                             </tr>
                         </table>
