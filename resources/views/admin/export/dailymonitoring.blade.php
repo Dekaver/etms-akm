@@ -90,7 +90,7 @@
 
     @endphp
 
-    @foreach ($data as $key => $item)
+    @forelse ($data as $key => $item)
         <tr>
             <td height="20" align="left" valign=middle>
                 <font color="#000000">{{ $key }}</font>
@@ -115,16 +115,26 @@
                 <font color="#000000">{{ $total }}</font>
             </td>
         </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td colspan="{{ $total_days + 2 }}" align="center">No Data</td>
+        </tr>
+    @endforelse
     <tr>
         <td height="20" align="left" valign=middle bgcolor="#F1F2E8">
             <font color="#000000">{{ $date->isoFormat('MMMM') }} Total</font>
         </td>
-        @foreach ($jumlah as $item)
+        @forelse ($jumlah as $item)
             <td align="center" valign=middle sdval="0" sdnum="1033;0;0;0;;" bgcolor="#F1F2E8">
                 <font color="#000000">{{ $item }}</font>
             </td>
-        @endforeach
+        @empty
+            @for ($i = 0; $i < $total_days; $i++)
+                <td align="center" valign=middle sdval="0" sdnum="1033;0;0;0;;" bgcolor="#F1F2E8">
+                    <font color="#000000">0wes</font>
+                </td>
+            @endfor
+        @endforelse
         <td align="center" valign=middle sdval="9" sdnum="1033;0;0;0;;" bgcolor="#F1F2E8">
             <font color="#000000">{{ array_sum($jumlah) }}</font>
         </td>

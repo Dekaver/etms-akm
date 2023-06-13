@@ -61,17 +61,23 @@ class TireRunningController extends Controller
         $company = auth()->user()->company;
         $site = auth()->user()->site;
 
-        $request->validate([
-            'unit_id' => "required",
-            'tire_id' => "required",
-            'position' => "required",
-            'start_date' => "required",
-            'end_date' => "required",
-            'hm' => "required",
-            'km' => "required",
-            'pic' => "required",
-            'pic_man_power' => "required",
-        ]);
+        $request->validate(
+            [
+                'unit_id' => "required",
+                'tire_id' => "required",
+                'position' => "required",
+                'start_date' => "required",
+                'end_date' => "required",
+                'hm' => "required",
+                'km' => "required",
+                'pic' => "required",
+                'des' => "required",
+                'pic_man_power' => "required",
+            ],
+            [
+                "des" => "The Explanation field is required"
+            ]
+        );
 
         try {
             $result = DB::transaction(function () use ($request, $company, $site) {

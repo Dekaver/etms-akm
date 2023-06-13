@@ -12,11 +12,13 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class ReportDailyInspect implements FromView
 {
+    protected $site;
     protected $date;
 
-    public function __construct(Carbon $date)
+    public function __construct(Carbon $date, string $site)
     {
         $this->date = $date;
+        $this->site = $site;
     }
 
     /**
@@ -31,7 +33,14 @@ class ReportDailyInspect implements FromView
         $total_days = $period->count();
         $tire_inspect = DailyInspect::select("unit_id", "date")->with("unit")->whereBetween("date", [$start, $end])->groupBy("unit_id", "date")->get();
 
-        $tire_movement = HistoryTireMovement::select("unit", "status", DB::raw('DATE(created_at) as date'))->whereBetween("start_date", [$start, $end])->groupBy("unit", "date", "status")->get();
+        $tire_movement = HistoryTireMovement::select("unit", "status", DB::raw('DATE(created_at) as date'))
+            ->where('company_id', auth()->user()->company->id)
+            ->whereBetween("start_date", [$start, $end])->groupBy("unit", "date", "status");
+        if ($this->site) {
+            $tire_movement = $tire_movement->where('site_id', $this->site);
+        }
+        $tire_movement = $tire_movement->get();
+        $data = [];
         foreach ($period as $date) {
             foreach ($tire_movement as $key => $unit) {
                 $data[$unit->unit][$date->format("d")] = $unit->date == $date->format("Y-m-d") ?

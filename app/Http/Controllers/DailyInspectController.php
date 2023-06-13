@@ -212,8 +212,18 @@ class DailyInspectController extends Controller
         //
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new ReportDailyInspect(Carbon::now()), 'daily_report.xlsx');
+        $site = $request->query("site");
+        $month = $request->query("month");
+        $year = $request->query("year");
+
+        if ($month && $year) {
+            $date = Carbon::parse("$year-$month-1");
+        } else {
+            $date = Carbon::now();
+        }
+
+        return Excel::download(new ReportDailyInspect($date, $site), 'daily_report.xlsx');
     }
 }
