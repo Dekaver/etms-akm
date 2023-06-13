@@ -156,8 +156,8 @@
                                     <p class=" mb-0 ">RTD</p>
                                 </div>
                             </div>
-                            <div class="col-sm"></div>
-                            <div class="col-sm">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -168,6 +168,7 @@
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
                                                 data-rtd="{{ $tire->rtd }}"
                                                 data-serial_number="{{ $tire->serial_number }}"
+                                                data-tire_id="{{ $tire->id }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -195,7 +196,7 @@
                             <div class="col-auto" style="align-self: center; width:80px ;">
                                 <img src="https://imgtr.ee/images/2023/06/08/pux2I.png" class="mb-4" alt="">
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
@@ -206,6 +207,7 @@
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
                                                 data-rtd="{{ $tire->rtd }}"
                                                 data-serial_number="{{ $tire->serial_number }}"
+                                                data-tire_id="{{ $tire->id }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -230,7 +232,7 @@
                                     @endif
                                 </figure>
                             </div>
-                            <div class="col-sm"></div>
+                            <div class="col-sm-2"></div>
                         </div>
                     @endfor
 
@@ -257,6 +259,7 @@
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
                                                 data-rtd="{{ $tire->rtd }}"
                                                 data-serial_number="{{ $tire->serial_number }}"
+                                                data-tire_id="{{ $tire->id }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -292,6 +295,7 @@
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
                                                 data-rtd="{{ $tire->rtd }}"
                                                 data-serial_number="{{ $tire->serial_number }}"
+                                                data-tire_id="{{ $tire->id }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -331,6 +335,7 @@
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
                                                 data-rtd="{{ $tire->rtd }}"
                                                 data-serial_number="{{ $tire->serial_number }}"
+                                                data-tire_id="{{ $tire->id }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -366,6 +371,7 @@
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
                                                 data-rtd="{{ $tire->rtd }}"
                                                 data-serial_number="{{ $tire->serial_number }}"
+                                                data-tire_id="{{ $tire->id }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -767,7 +773,6 @@
 
                 });
                 $(".droppableInstall").droppable({
-                    accept: '.draggableInventory',
                     drop: function(e, ui) {
                         var position = $(e.target).data('position');
                         var lifetime = ui.draggable.data('lifetime');
