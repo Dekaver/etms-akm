@@ -52,6 +52,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             "name" => "required",
             "initial" => "required",
@@ -59,9 +60,15 @@ class CompanyController extends Controller
         ]);
 
         Company::create([
-            "name" => $request->name,
+            "name" => $request->company_name,
             "initial" => $request->initial,
             "email" => $request->email,
+        ]);
+
+        User::create([
+            "name" => $request->company_name,
+            "email" => $request->email,
+            "password" => bcrypt($request->password),
         ]);
 
         return redirect()->back()->with("success", "Created Customer");

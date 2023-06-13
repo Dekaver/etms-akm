@@ -123,7 +123,7 @@
                                             <div class="mb-3">
                                                 <label for="progresspill-firstname-input">Full Name<span
                                                         class="manitory">*</span></label>
-                                                <input type="text" class="form-control" name="name" required
+                                                <input type="text" class="form-control" name="company_name" required
                                                     id="progresspill-firstname-input">
                                             </div>
                                         </div>
@@ -177,7 +177,7 @@
                                                 <div class="mb-3">
                                                     <label for="progresspill-lastname-input">Email<span
                                                             class="manitory">*</span></label>
-                                                    <input type="text" class="form-control" name="initial"
+                                                    <input type="text" class="form-control" name="email"
                                                         required id="progresspill-lastname-input">
                                                 </div>
                                             </div>
@@ -186,7 +186,7 @@
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label for="progresspill-phoneno-input">Password</label>
-                                                    <input type="text" class="form-control" name="phone"
+                                                    <input type="text" class="form-control" name="password"
                                                         id="progresspill-phoneno-input">
                                                 </div>
                                             </div>
@@ -210,7 +210,7 @@
                                             <div class="col-lg-12">
                                                 <div class="form-check">
                                                     <label class="inputcheck">Empty Data
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" name="empty_data">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </div>
@@ -218,7 +218,7 @@
                                             <div class="col-lg-12">
                                                 <div class="form-check">
                                                     <label class="inputcheck">Data Demo
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" name="data_demo">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </div>
@@ -226,7 +226,7 @@
                                             <div class="col-lg-12">
                                                 <div class="form-check">
                                                     <label class="inputcheck">Clone from
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" name="clone_from">
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </div>
@@ -237,7 +237,7 @@
                                                     <div class="col-11">
                                                         <div class="mb-3">
                                                             <label class="form-label">Customer</label>
-                                                            <select class="form-select">
+                                                            <select class="form-select" name="customer">
                                                                 <option value="">Select Customer</option>
                                                                 @foreach ($companies as $item)
                                                                     <option value="{{ $item->id }}">
@@ -257,7 +257,7 @@
                                                             <div class="col-6">
                                                                 <div class="form-check">
                                                                     <label class="inputcheck">Master Only
-                                                                        <input type="checkbox">
+                                                                        <input type="checkbox" name="master_only">
                                                                         <span class="checkmark"></span>
                                                                     </label>
                                                                 </div>
@@ -265,7 +265,7 @@
                                                             <div class="col-6">
                                                                 <div class="form-check">
                                                                     <label class="inputcheck">All Data
-                                                                        <input type="checkbox">
+                                                                        <input type="checkbox" name="all_data">
                                                                         <span class="checkmark"></span>
                                                                     </label>
                                                                 </div>
