@@ -94,8 +94,8 @@
                                     </div>
                                     <div class="col-lg-1 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                    alt="img"></a>
+                                            <a class="btn btn-filters ms-auto"><img
+                                                    src="assets/img/icons/search-whites.svg" alt="img"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -212,8 +212,7 @@
                                 <div class="form-group">
                                     <label>Date </label>
                                     <div class="input-groupicon">
-                                        <input type="text" placeholder="DD-MM-YYYY" class="datetimepicker"
-                                            name="date" required>
+                                        <input type="date" class="form-control" name="date" required>
                                         <div class="addonset">
                                             <img src="assets/img/icons/calendars.svg" alt="img">
                                         </div>
