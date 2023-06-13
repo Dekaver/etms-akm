@@ -11,7 +11,8 @@
             </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
+            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
+                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
         </div>
     </div>
 
@@ -26,13 +27,16 @@
                 <div class="wordset">
                     <ul>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
+                                    src="assets/img/icons/pdf.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
+                                    src="assets/img/icons/excel.svg" alt="img"></a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
+                                    src="assets/img/icons/printer.svg" alt="img"></a>
                         </li>
                     </ul>
                 </div>
@@ -58,7 +62,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Compound </h5>
+                        <h5 class="modal-title">Form Compound </h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

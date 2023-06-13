@@ -153,12 +153,16 @@ class TireRunningController extends Controller
     public function edit(Unit $tirerunning)
     {
         $unit = Unit::where("id", $tirerunning->id)->with("unit_model")->first();
+        $tire_size = $unit->unit_model->tire_size;
         $tire_running = TireRunning::where('unit_id', $unit->id)->orderBy("position")->get();
-        $tire_inventory = TireMaster::whereHas('tire_status', function ($query) {
-            $query->whereIn('status', ['spare', 'new']);
-        })->wherehas('site', function ($query) {
-            $query->where('id', auth()->user()->site->id);
-        })->get();
+
+        $tire_inventory = TireMaster::where("tire_size_id", $tire_size->id)
+            ->whereHas('tire_status', function ($query) {
+                $query->whereIn('status', ['spare', 'new']);
+            })
+            ->wherehas('site', function ($query) {
+                $query->where('id', auth()->user()->site->id);
+            })->get();
 
         // $tire_running = TireMovement::where('unit_number', $unit->unit_number)->whereHas('tire_status', function ($query) {
         //     $query->whereIn('status', ['running']);

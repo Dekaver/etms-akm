@@ -55,7 +55,7 @@ class TireMasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tireMaster", compact('tire_site_id','site', 'tiresize', 'tirecompound', 'tirestatus'));
+        return view("admin.master.tireMaster", compact('tire_site_id', 'site', 'tiresize', 'tirecompound', 'tirestatus'));
     }
 
     /**
@@ -88,6 +88,7 @@ class TireMasterController extends Controller
 
         TireMaster::create([
             'company_id' => $company->id,
+            'tire_supplier_id' => 1,
             'site_id' => $request->site_id,
             'serial_number' => $request->serial_number,
             'tire_size_id' => $request->tire_size_id,
@@ -136,6 +137,7 @@ class TireMasterController extends Controller
         ]);
 
         $tiremaster->site_id = $request->site_id;
+        $tiremaster->tire_supplier_id = 1;
         $tiremaster->serial_number = $request->serial_number;
         $tiremaster->tire_size_id = $request->tire_size_id;
         $tiremaster->tire_compound_id = $request->tire_compound_id;

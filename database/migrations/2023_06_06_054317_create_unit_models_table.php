@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->boolean("has_head")->default(false);
             $table->boolean("has_tail")->default(false);
             $table->timestamps();
+            
         });
     }
 
