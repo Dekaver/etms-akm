@@ -742,7 +742,7 @@
                         return $(e.target).clone();
                     },
                     start: function() {
-                        $(this).show();
+                        $(this).hide();
                     },
                     stop: function() {
                         $(this).show()
