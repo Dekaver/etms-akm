@@ -166,7 +166,8 @@
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-rtd="{{ $tire->rtd }}"
+                                                data-serial_number="{{ $tire->serial_number }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -203,7 +204,8 @@
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-rtd="{{ $tire->rtd }}"
+                                                data-serial_number="{{ $tire->serial_number }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -253,7 +255,8 @@
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-rtd="{{ $tire->rtd }}"
+                                                data-serial_number="{{ $tire->serial_number }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -287,7 +290,8 @@
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-rtd="{{ $tire->rtd }}"
+                                                data-serial_number="{{ $tire->serial_number }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -325,7 +329,8 @@
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-rtd="{{ $tire->rtd }}"
+                                                data-serial_number="{{ $tire->serial_number }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -359,7 +364,8 @@
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                                                data-rtd="{{ $tire->rtd }}" data-tire_id="{{ $tire->id }}"
+                                                data-rtd="{{ $tire->rtd }}"
+                                                data-serial_number="{{ $tire->serial_number }}"
                                                 data-lifetime="{{ $tire->lifetime }}">
                                             </div>
                                         </div>
@@ -494,8 +500,11 @@
                             <tr>
                                 <th>Tire Serial Number</th>
                                 <td>:</td>
-                                <td><input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="tire_id" readonly>
+                                <td><input type="hidden" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="tire_id">
+                                    <input type="text" class="form-control"
+                                        style="background-color: #ffffffff;border: none" name="serial_number"
+                                        readonly>
                                 </td>
                                 <th>Position</th>
                                 <td>:</td>
@@ -778,6 +787,7 @@
                         var position = ui.draggable.data('position');
                         var lifetime = ui.draggable.data('lifetime');
                         var tire_id = ui.draggable.data('tire_id');
+                        var serial_number = ui.draggable.data('serial_number');
                         var rtd = ui.draggable.data('rtd');
                         let hm_unit_actual = $('#removeTireModal').find(`input[name="hm_actual_check"]`)
                             .val()
@@ -793,6 +803,7 @@
                         $('#removeTireModal').find(`select option:contains('${status}')`).attr('selected',
                             true);
                         $('#removeTireModal').find('input[name="position"]').val(position);
+                        $('#removeTireModal').find('input[name="serial_number"]').val(serial_number);
                         $('#removeTireModal').find('input[name="tire_id"]').val(tire_id);
                         $('#removeTireModal').find('input[name="rtd"]').val(rtd);
                         $('#removeTireModal').find('input[name="rtd_remove"]').val(rtd);
