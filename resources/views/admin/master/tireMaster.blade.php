@@ -213,9 +213,6 @@
                                     <label>Date </label>
                                     <div class="input-groupicon">
                                         <input type="date" class="form-control" name="date" required>
-                                        <div class="addonset">
-                                            <img src="assets/img/icons/calendars.svg" alt="img">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
