@@ -103,6 +103,8 @@
                         <tr>
                             <th>No</th>
                             <th>Serial Number</th>
+                            <th>Pos</th>
+                            <th>Status</th>
                             <th>Site</th>
                             <th>Unit</th>
                             <th>Tire HM</th>
@@ -110,6 +112,8 @@
                             <th>Unit HM</th>
                             <th>Unit KM</th>
                             <th>RTD</th>
+                            <th>PIC</th>
+                            <th>Man Power</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -135,6 +139,14 @@
                         {
                             data: 'tire',
                             name: 'tire'
+                        },
+                        {
+                            data: 'position',
+                            name: 'position'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
                         },
                         {
                             data: 'site',
@@ -163,6 +175,14 @@
                         {
                             data: 'rtd',
                             name: 'rtd'
+                        },
+                        {
+                            data: 'pic',
+                            name: 'pic'
+                        },
+                        {
+                            data: 'pic_man_power',
+                            name: 'pic_man_power'
                         },
                         {
                             data: 'start_date',

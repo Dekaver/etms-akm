@@ -16,7 +16,7 @@ class HistoryTireMovementController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = TireMaster::has("history_tire_movement");
+            $data = TireMaster::has("history_tire_movement")->orderBy("date", "ASC");
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("size", function ($row) {
