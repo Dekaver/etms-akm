@@ -28,6 +28,7 @@ class HistoryTireMovement extends Model
         "hm_tire_install",
         "km_tire_remove",
         "hm_tire_remove",
+        "rtd",
         "start_date",
         "end_date"
     ];

@@ -638,6 +638,8 @@
                         <input type="hidden" name="lifetime">
                         <input type="hidden" name="km" value="{{ $unit->km }}">
                         <input type="hidden" name="hm" value="{{ $unit->hm }}">
+                        <input type="hidden" name="hm" value="{{ $unit->hm }}">
+                        <input type="hidden" name="position">
                         @csrf
                         <table>
                             <tr>
@@ -646,20 +648,19 @@
                                 <td>{{ $unit->unit_number }}</td>
                             </tr>
                             <tr>
-                                <th>SMU unit last update</th>
+                                <th>HM</th>
                                 <td>:</td>
                                 <td>{{ $unit->hm }}</td>
                             </tr>
                             <tr>
-                                <th>Jenis</th>
+                                <th>KM</th>
                                 <td>:</td>
-                                <td><input class="form-control" type="text" name="type_measure"
-                                        value="{{ $unit->jenis }}" readonly></td>
+                                <td>{{ $unit->km }}</td>
                             </tr>
                             <tr>
                                 <th>Position</th>
                                 <td>:</td>
-                                <td><input class="form-control" type="text" name="position" readonly></td>
+                                <td><input style="border:none" type="text" name="position" readonly></td>
                             </tr>
                         </table>
                         <hr>

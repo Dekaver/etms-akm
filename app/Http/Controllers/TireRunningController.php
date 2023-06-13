@@ -99,8 +99,9 @@ class TireRunningController extends Controller
                         "pic_man_power" => $request->pic_man_power,
                         "des" => $request->explaination,
                         "km_tire_install" => $tire->lifetime_km,
-                        "hm_tire_install" => $tire->lifetime_km,
+                        "hm_tire_install" => $tire->lifetime_hm,
                         "start_date" => $request->start_date,
+                        "rtd" => $tire->rtd,
                         "end_date" => $request->end_date
                     ]
                 );
@@ -282,7 +283,8 @@ class TireRunningController extends Controller
                         "pic_man_power" => $request->pic_man_power,
                         "des" => "remove",
                         "km_tire_remove" => $tire->lifetime_km,
-                        "hm_tire_remove" => $tire->lifetime_km,
+                        "hm_tire_remove" => $tire->lifetime_hm,
+                        "rtd" => $request->rtd,
                         "start_date" => $request->start_date,
                         "end_date" => $request->end_date
                     ]
