@@ -124,7 +124,7 @@
 
 
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/salesinvoice.svg') }}"
+                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/purchase1.svg') }}"
                             alt="img"><span>
                             Data Report</span> <span class="menu-arrow"></span></a>
                     <ul>
