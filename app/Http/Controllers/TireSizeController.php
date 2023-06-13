@@ -88,7 +88,6 @@ class TireSizeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "pattern" => "required",
             "size" => "required",
             "tire_pattern_id" => "required",
             "otd" => "required",
