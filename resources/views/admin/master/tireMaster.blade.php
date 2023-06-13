@@ -50,54 +50,58 @@
             <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs">
                 <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Site</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select" name="site">
+                                                <option value="">Choose Site</option>
+                                                @foreach ($site as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Size</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select" name="tiresize">
+                                                <option value="">Choose Size</option>
+                                                @foreach ($tiresize as $item2)
+                                                    <option value="{{ $item2->id }}">{{ $item2->size }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Pattern</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Choose Pattern</option>
+                                                <option>-</option>
+                                                <option>-</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Status</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select">
+                                                <option>Choose Status</option>
+                                                <option>-</option>
+                                                <option>-</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-1 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
+                                    <div class="col-lg-1 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
+                                                    alt="img"></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- /Filter -->
@@ -232,7 +236,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('tiremaster.index') }}",
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',

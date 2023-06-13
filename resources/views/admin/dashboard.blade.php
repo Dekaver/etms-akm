@@ -54,20 +54,6 @@
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-<<<<<<< HEAD
-=======
-                <div class="dash-count das2" style="background: #709AC3;">
-                    <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon3.png" alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $spare }}</h4>
-                        <h5>Tyre Spare</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
->>>>>>> master
                 <div class="dash-count das3" style="background: #FF9F43;">
                     <div class="dash-imgs">
                         <img src="assets/img/dashboard/icon4.png" alt="">
