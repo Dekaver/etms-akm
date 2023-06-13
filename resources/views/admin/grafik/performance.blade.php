@@ -10,15 +10,15 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label>Site</label>
-                                
+
                                 {{-- @canany(['isSuperAdmin', 'isViewer', 'isManager']) --}}
-                                    <select class="form-control" name="site">
-                                        <option value="">Choose Site</option>
-                                        @foreach ($site as $item)
-                                            <option value="{{ $item->site_name }}" @selected($item->site_name == $site_name)>
-                                                {{ $item->site_name }}</option>
-                                        @endforeach
-                                    </select>
+                                <select class="form-control" name="site">
+                                    <option value="">Choose Site</option>
+                                    @foreach ($site as $item)
+                                        <option value="{{ $item->name }}" @selected($item->name == $site_name)>
+                                            {{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                                 {{-- @else
                                     <input class="form-control" type="text" name="site" value="{{ $site_name }}" readonly>
                                 @endcanany --}}
@@ -34,8 +34,9 @@
                                     maxlength="4" value="{{ $tahun }}"> --}}
                                 <select class="form-control" name="tahun">
                                     <option value="">Choose Year</option>
-                                    @foreach($date_range as $item)
-                                    <option value="{{$item}}" @selected($item == $tahun)>{{$item}}</option>
+                                    @foreach ($date_range as $item)
+                                        <option value="{{ $item }}" @selected($item == $tahun)>
+                                            {{ $item }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -157,78 +158,6 @@
             </div>
         </div>
     </div>
-    {{-- <div class="row">
-        <div class="col-xl-12">
-            <div class="card o-hidden">
-                <div class="card-header pb-0">
-                    <h5>Tire Consumption By Model Unit
-                        <a class="float-end" href="#" onclick="toggleFullScreen(this)">
-                            <i data-feather="maximize"></i>
-                        </a>
-                    </h5>
-                </div>
-                <div class="bar-chart-widget">
-                    <div class="bottom-content card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="graphic-container">
-                                    <div id="chart-tire-consumption-by-model-unit"
-                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-consumption-by-unit'), Request::fullUrl()) }}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card o-hidden">
-                <div class="card-header pb-0">
-                    <h5>Tire COST PER HM
-                        <a class="float-end" href="#" onclick="toggleFullScreen(this)">
-                            <i data-feather="maximize"></i>
-                        </a>
-                    </h5>
-                </div>
-                <div class="bar-chart-widget">
-                    <div class="bottom-content card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="chart-tire-cost-perhm"
-                                    data-url="{{ str_replace(Request::url(), url('grafik-tire-cost-perhm'), Request::fullUrl()) }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card o-hidden">
-                <div class="card-header pb-0">
-                    <h5>Tire COST PER KM
-                        <a class="float-end" href="#" onclick="toggleFullScreen(this)">
-                            <i data-feather="maximize"></i>
-                        </a>
-                    </h5>
-                </div>
-                <div class="bar-chart-widget">
-                    <div class="bottom-content card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="chart-tire-cost-perkm"
-                                    data-url="{{ str_replace(Request::url(), url('grafik-tire-cost-perkm'), Request::fullUrl()) }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="row">
         <div class="col-xl-6">
             <div class="card o-hidden">
@@ -280,14 +209,17 @@
     @push('js')
         {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js" integrity="sha512-hcV6DX35BKgiTiWYrJgPbu3FxS6CsCjKgmrsPRpUPkXWbvPiKxvSVSdhWX0yXcPctOI2FJ4WP6N1zH+17B/sAA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
          --}}
-         <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
         <script src="{{ asset('assets\view\grafik-performance.js') }}"></script>
-        
+
         <script>
             function toggleFullScreen(e) {
                 elem = e.parentElement.parentElement.parentElement;
-                 // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-                if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+                // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document
+                        .msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document
+                        .mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !==
+                        undefined && !document.webkitIsFullScreen)) {
                     if (elem.requestFullScreen) {
                         elem.requestFullScreen();
                     } else if (elem.mozRequestFullScreen) {

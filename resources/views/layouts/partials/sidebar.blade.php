@@ -11,11 +11,13 @@
                             alt="img"><span>
                             Grafik</span> <span class="menu-arrow"></span></a>
                     <ul>
+                        @can("GRAFIK")
                         <li><a href="/tire-performance"
                                 class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
                         </li>
                         <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                 Scrap</a></li>
+                        @endcan
                     </ul>
                 </li>
                 <li class="submenu">
@@ -125,11 +127,11 @@
                             Data History</span> <span class="menu-arrow"></span></a>
                     <ul>
                         @can('HISTORY_TIRE')
-                            <li><a href="/historytire" class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Tire
+                            <li><a href="/historytiremovement" class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Tire
                                     Movement</a></li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
-                            <li><a href="/dailyinspect" class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily
+                            <li><a href="/historytire" class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Daily
                                     Inspect Report</a></li>
                         @endcan
                     </ul>

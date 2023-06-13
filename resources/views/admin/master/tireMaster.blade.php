@@ -186,10 +186,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
                                 <div class="form-group">
-                                    <label>Tire Lifetime</label>
-                                    <input type="text" name="lifetime" required>
+                                    <label>Lifetime HM</label>
+                                    <input type="text" name="lifetime_hm" required>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label>Lifetime KM</label>
+                                    <input type="text" name="lifetime_km" required>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -202,7 +208,8 @@
                                 <div class="form-group">
                                     <label>Date </label>
                                     <div class="input-groupicon">
-                                        <input type="text" placeholder="DD-MM-YYYY" class="datetimepicker" name="date" required>
+                                        <input type="text" placeholder="DD-MM-YYYY" class="datetimepicker"
+                                            name="date" required>
                                         <div class="addonset">
                                             <img src="assets/img/icons/calendars.svg" alt="img">
                                         </div>
@@ -290,15 +297,16 @@
                         url: `{{ route('tiremaster.index') }}/${id}/edit`
                     }).done(function(response) {
                         modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
-                        modal.find('input[name="serial_number"]').val(response.serial_number).trigger('change');
+                        modal.find('input[name="serial_number"]').val(response.serial_number);
                         modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger('change');
                         modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id).trigger(
                             'change');
                         modal.find('select[name="tire_status_id"]').val(response.tire_status_id).trigger(
                             'change');
-                        modal.find('input[name="lifetime"]').val(response.lifetime).trigger('change');
-                        modal.find('input[name="rtd"]').val(response.rtd).trigger('change');
-                        modal.find('input[name="date"]').val(response.date).trigger('change');
+                        modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
+                        modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
+                        modal.find('input[name="rtd"]').val(response.rtd);
+                        modal.find('input[name="date"]').val(response.date);
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('tiremaster.index') }}/${id}`)

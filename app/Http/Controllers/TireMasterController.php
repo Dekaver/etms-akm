@@ -75,13 +75,13 @@ class TireMasterController extends Controller
             "tire_size_id" => "required",
             "tire_compound_id" => "required",
             "tire_status_id" => "required",
-            "lifetime" => "required",
+            "lifetime_km" => "required",
+            "lifetime_hm" => "required",
             "rtd" => "required",
             "date" => "required"
         ]);
 
         $company = auth()->user()->company;
-        $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 
         TireMaster::create([
             'company_id' => $company->id,
@@ -90,10 +90,10 @@ class TireMasterController extends Controller
             'tire_size_id' => $request->tire_size_id,
             'tire_compound_id' => $request->tire_compound_id,
             'tire_status_id' => $request->tire_status_id,
-            'lifetime_km' => 0,
-            'lifetime_hm' => $request->lifetime,
+            'lifetime_km' => $request->lifetime_km,
+            'lifetime_hm' => $request->lifetime_hm,
             'rtd' => $request->rtd,
-            'date' => $date,
+            'date' => $request->date,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Master");
@@ -126,20 +126,21 @@ class TireMasterController extends Controller
             "tire_size_id" => "required",
             "tire_compound_id" => "required",
             "tire_status_id" => "required",
-            "lifetime" => "required",
+            "lifetime_km" => "required",
+            "lifetime_hm" => "required",
             "rtd" => "required",
             "date" => "required"
         ]);
-        $date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 
         $tiremaster->site_id = $request->site_id;
         $tiremaster->serial_number = $request->serial_number;
         $tiremaster->tire_size_id = $request->tire_size_id;
         $tiremaster->tire_compound_id = $request->tire_compound_id;
         $tiremaster->tire_status_id = $request->tire_status_id;
-        $tiremaster->lifetime_hm = $request->lifetime;
+        $tiremaster->lifetime_km = $request->lifetime_km;
+        $tiremaster->lifetime_hm = $request->lifetime_hm;
         $tiremaster->rtd = $request->rtd;
-        $tiremaster->date = $date;
+        $tiremaster->date = $request->date;
         $tiremaster->save();
 
         return redirect()->back()->with("success", "Updated Tire Master");

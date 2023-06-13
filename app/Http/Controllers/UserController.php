@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
@@ -17,7 +18,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::select('*');
+            if (Gate::allows("isSupeAadmin")) {
+                $data = User::select('*');
+            } else {
+                $company_id = auth()->user()->company_id;
+                $data = User::where("company_id", $company_id)->where("name", "!=", "superadmin");
+            }
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

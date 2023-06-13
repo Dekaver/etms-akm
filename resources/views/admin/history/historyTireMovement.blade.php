@@ -6,7 +6,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                     <li class="breadcrumb-item" aria-current="page">History</li>
-                    <li class="breadcrumb-item active" aria-current="page">Inspect Tire</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tire Movement</li>
                 </ol>
             </nav>
         </div>
@@ -105,10 +105,11 @@
                             <th>Serial Number</th>
                             <th>Site</th>
                             <th>Unit</th>
-                            <th>HM</th>
-                            <th>KM</th>
+                            <th>Tire HM</th>
+                            <th>Tire KM</th>
+                            <th>Unit HM</th>
+                            <th>Unit KM</th>
                             <th>RTD</th>
-                            <th>Pressure</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -124,7 +125,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('historytiremovement.tireinspect', $tire->id) }}",
+                    ajax: "{{ route('historytiremovement.tiremovement', $tire->id) }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -144,24 +145,28 @@
                             name: 'unit'
                         },
                         {
-                            data: 'lifetime_hm',
-                            name: 'lifetime_hm'
+                            data: 'tire_hm',
+                            name: 'tire_hm'
                         },
                         {
-                            data: 'lifetime_km',
-                            name: 'lifetime_km'
+                            data: 'tire_km',
+                            name: 'tire_km'
+                        },
+                        {
+                            data: 'unit_hm',
+                            name: 'unit_hm'
+                        },
+                        {
+                            data: 'unit_km',
+                            name: 'unit_km'
                         },
                         {
                             data: 'rtd',
                             name: 'rtd'
                         },
                         {
-                            data: 'pressure',
-                            name: 'pressure'
-                        },
-                        {
-                            data: 'date',
-                            name: 'date'
+                            data: 'start_date',
+                            name: 'start_date'
                         },
                     ]
                 });

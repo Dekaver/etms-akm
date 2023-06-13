@@ -182,8 +182,7 @@
             <div class="dropdown-menu menu-drop-user">
                 <div class="profilename">
                     <div class="profileset">
-                        <span class="user-img"><img src="{{ asset('assets/img/profiles/avator1.jpg') }}"
-                                alt="">
+                        <span class="user-img"><img src="{{ asset('assets/img/profiles/avator1.jpg') }}" alt="">
                             <span class="status online"></span></span>
                         <div class="profilesets">
                             <h6>John Doe</h6>
@@ -191,17 +190,15 @@
                         </div>
                     </div>
                     <hr class="m-0">
-                    <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i>
+                    <a class="dropdown-item" href="/profile"> <i class="me-2" data-feather="user"></i>
                         My Profile</a>
-                    <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
-                            data-feather="settings"></i>Settings</a>
+                    {{-- <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
+                            data-feather="settings"></i>Settings</a> --}}
                     <hr class="m-0">
                     <form action="{{ route('logout') }}" id="logout-form" method="post">
                         @csrf
-                        <a class="dropdown-item logout pb-0"
-                            onclick="document.getElementById('logout-form').submit()">
-                            <img src="{{ asset('assets/img/icons/log-out') }}.svg" class="me-2"
-                                alt="img">Logout
+                        <a class="dropdown-item logout pb-0" onclick="document.getElementById('logout-form').submit()">
+                            <img src="{{ asset('assets/img/icons/log-out') }}.svg" class="me-2" alt="img">Logout
                         </a>
                     </form>
                 </div>
@@ -215,8 +212,8 @@
         <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
             aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="profile.html">My Profile</a>
-            <a class="dropdown-item" href="generalsettings.html">Settings</a>
+            <a class="dropdown-item" href="/profile">My Profile</a>
+            {{-- <a class="dropdown-item" href="myCompany">Settings</a> --}}
             <form action="{{ route('logout') }}" method="post">
                 @csrf
                 <button class="dropdown-item" type="submit">Logout</button>

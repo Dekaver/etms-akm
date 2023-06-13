@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportDailyInspect;
 use App\Models\DailyInspect;
 use App\Models\TireDamage;
 use App\Models\TireMaster;
 use App\Models\TireRunning;
 use App\Models\TireStatus;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class DailyInspectController extends Controller
@@ -204,5 +207,10 @@ class DailyInspectController extends Controller
     public function destroy(DailyInspect $dailyInspect)
     {
         //
+    }
+
+    public function export()
+    {
+        return Excel::download(new ReportDailyInspect(Carbon::now()), 'daily_report.xlsx');
     }
 }

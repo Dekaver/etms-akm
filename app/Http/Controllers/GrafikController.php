@@ -27,9 +27,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -94,9 +94,9 @@ class GrafikController extends Controller
             });
         }
 
-        if ($site_name) {
-            $unit = $unit->whereHas("site", function ($q) use ($site_name) {
-                $q->where("site_name", $site_name);
+        if ($name) {
+            $unit = $unit->whereHas("site", function ($q) use ($name) {
+                $q->where("name", $name);
             });
         }
         //filter total unit ban terpasang lebih 75%
@@ -130,7 +130,7 @@ class GrafikController extends Controller
                         $q->where('pattern', $tire_pattern);
                     }
                     if ($brand_tire) {
-                        $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                             $q->where('name', $brand_tire);
                         });
                     }
@@ -236,9 +236,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -303,9 +303,9 @@ class GrafikController extends Controller
                 });
             });
         }
-        if ($site_name) {
-            $unit = $unit->whereHas("site", function ($q) use ($site_name) {
-                $q->where("site_name", $site_name);
+        if ($name) {
+            $unit = $unit->whereHas("site", function ($q) use ($name) {
+                $q->where("name", $name);
             });
         }
         $unit = $unit->get()->filter(function ($value, $key) use ($running_id) {
@@ -337,7 +337,7 @@ class GrafikController extends Controller
                         $q->where('pattern', $tire_pattern);
                     }
                     if ($brand_tire) {
-                        $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                             $q->where('name', $brand_tire);
                         });
                     }
@@ -554,9 +554,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -628,16 +628,16 @@ class GrafikController extends Controller
                         $q->where('pattern', $tire_pattern);
                     }
                     if ($brand_tire) {
-                        $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                             $q->where('name', $brand_tire);
                         });
                     }
                 });
             });
 
-            if ($site_name) {
-                $history = $history->whereHas('site', function ($q) use ($site_name) {
-                    $q->where('site_name', $site_name);
+            if ($name) {
+                $history = $history->whereHas('site', function ($q) use ($name) {
+                    $q->where('name', $name);
                 });
             }
 
@@ -696,9 +696,9 @@ class GrafikController extends Controller
         // asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -721,8 +721,8 @@ class GrafikController extends Controller
             }
         }
 
-        if ($site_name) {
-            $site = Site::where('site_name', $site_name)->get();
+        if ($name) {
+            $site = Site::where('name', $name)->get();
         } else {
             $site = Site::all();
         }
@@ -770,7 +770,7 @@ class GrafikController extends Controller
                             $q->where('pattern', $tire_pattern);
                         }
                         if ($brand_tire) {
-                            $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                            $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                                 $q->where('name', $brand_tire);
                             });
                         }
@@ -822,7 +822,7 @@ class GrafikController extends Controller
                             $q->where('pattern', $tire_pattern);
                         }
                         if ($brand_tire) {
-                            $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                            $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                                 $q->where('name', $brand_tire);
                             });
                         }
@@ -844,7 +844,7 @@ class GrafikController extends Controller
                 if (!(array_search($value, array_column($tire_running, 'type')) === false) || !(array_search($value, array_column($tire_scrap, 'type')) === false)) {
                     $data['value']['running'][] = array_search($value, array_column($tire_running, 'type')) === false ? 0 : $tire_running[array_search($value, array_column($tire_running, 'type'))]['total'] ?? 0;
                     $data['value']['scrap'][] = array_search($value, array_column($tire_scrap, 'type')) === false ? 0 : $tire_scrap[array_search($value, array_column($tire_scrap, 'type'))]['total'] ?? 0;
-                    $data['model'][] = "$item->site_name-$value";
+                    $data['model'][] = "$item->name-$value";
                 }
             }
         }
@@ -872,9 +872,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -897,8 +897,8 @@ class GrafikController extends Controller
             }
         }
 
-        if ($site_name) {
-            $site = Site::where('site_name', $site_name)->get();
+        if ($name) {
+            $site = Site::where('name', $name)->get();
         } else {
             $site = Site::all();
         }
@@ -953,7 +953,7 @@ class GrafikController extends Controller
                             $q->where('pattern', $tire_pattern);
                         }
                         if ($brand_tire) {
-                            $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                            $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                                 $q->where('name', $brand_tire);
                             });
                         }
@@ -976,7 +976,7 @@ class GrafikController extends Controller
                     $avg_price = array_search($value, array_column($tire, 'type')) === false ? 0 : $tire[array_search($value, array_column($tire, 'type'))]['harga'];
                     $avg_lifetime = array_search($value, array_column($tire, 'type')) === false ? 0 : $tire[array_search($value, array_column($tire, 'type'))]['avg_lifetime'];
                     $data['value'][] = $avg_lifetime == 0 ? 0 : round($avg_price / $avg_lifetime) ?? 0;
-                    $data['model'][] = "$item->site_name-$value";
+                    $data['model'][] = "$item->name-$value";
                 }
             }
         }
@@ -1001,9 +1001,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -1026,8 +1026,8 @@ class GrafikController extends Controller
             }
         }
 
-        if ($site_name) {
-            $site = Site::where('site_name', $site_name)->get();
+        if ($name) {
+            $site = Site::where('name', $name)->get();
         } else {
             $site = Site::all();
         }
@@ -1078,7 +1078,7 @@ class GrafikController extends Controller
                             $q->where('pattern', $tire_pattern);
                         }
                         if ($brand_tire) {
-                            $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                            $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                                 $q->where('name', $brand_tire);
                             });
                         }
@@ -1101,7 +1101,7 @@ class GrafikController extends Controller
                     $avg_price = array_search($value, array_column($tire, 'type')) === false ? 0 : $tire[array_search($value, array_column($tire, 'type'))]['harga'];
                     $avg_lifetime = array_search($value, array_column($tire, 'type')) === false ? 0 : $tire[array_search($value, array_column($tire, 'type'))]['avg_lifetime'];
                     $data['value'][] = round($avg_price / $avg_lifetime) ?? 0;
-                    $data['model'][] = "$item->site_name-$value";
+                    $data['model'][] = "$item->name-$value";
                 }
             }
         }
@@ -1129,9 +1129,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -1154,8 +1154,8 @@ class GrafikController extends Controller
             }
         }
 
-        if ($site_name) {
-            $site = Site::where('site_name', $site_name)->get();
+        if ($name) {
+            $site = Site::where('name', $name)->get();
         } else {
             $site = Site::all();
         }
@@ -1207,7 +1207,7 @@ class GrafikController extends Controller
                         $q->where('pattern', $tire_pattern);
                     }
                     if ($brand_tire) {
-                        $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                             $q->where('name', $brand_tire);
                         });
                     }
@@ -1253,9 +1253,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $tire_pattern = $request->query('tire_pattern');
@@ -1265,8 +1265,8 @@ class GrafikController extends Controller
         $month = $request->query('month');
         $week = $request->query('week');
 
-        if ($site_name) {
-            $site = Site::where('site_name', $site_name)->get();
+        if ($name) {
+            $site = Site::where('name', $name)->get();
         } else {
             $site = Site::all();
         }
@@ -1326,7 +1326,7 @@ class GrafikController extends Controller
                         $q->where('pattern', $tire_pattern);
                     }
                     if ($brand_tire) {
-                        $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                             $q->where('name', $brand_tire);
                         });
                     }
@@ -1368,9 +1368,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -1426,9 +1426,9 @@ class GrafikController extends Controller
                 });
             });
         }
-        if ($site_name) {
-            $tire = $tire->whereHas('site', function ($q) use ($site_name) {
-                $q->where('site_name', $site_name);
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
             });
         }
 
@@ -1455,7 +1455,7 @@ class GrafikController extends Controller
                     $q->where('pattern', $tire_pattern);
                 }
                 if ($brand_tire) {
-                    $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                    $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                         $q->where('name', $brand_tire);
                     });
                 }
@@ -1511,9 +1511,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -1556,9 +1556,9 @@ class GrafikController extends Controller
         //     ->join('tire_damages', 'tire_movements.tire_damage_id', '=', 'tire_damages.id')
         //     ->join('tires', 'tire_movements.tire_serial_number', '=', 'tires.serial_number');
 
-        if ($site_name) {
-            $tire = $tire->whereHas('site', function ($q) use ($site_name) {
-                $q->where('site_name', $site_name);
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
             });
         }
 
@@ -1585,7 +1585,7 @@ class GrafikController extends Controller
                     $q->where('pattern', $tire_pattern);
                 }
                 if ($brand_tire) {
-                    $q->whereHas('tire_manufacturer', function ($q) use ($brand_tire) {
+                    $q->whereHas('manufacture', function ($q) use ($brand_tire) {
                         $q->where('name', $brand_tire);
                     });
                 }
@@ -1624,9 +1624,9 @@ class GrafikController extends Controller
         asort($date_range);
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -1678,9 +1678,9 @@ class GrafikController extends Controller
         //         $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
         //     }
         // }
-        if ($site_name) {
-            $tire = $tire->whereHas('site', function ($q) use ($site_name) {
-                $q->where('site_name', $site_name);
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
             });
         }
         // if ($brand_tire) {
@@ -1699,9 +1699,9 @@ class GrafikController extends Controller
     {
         $tahun = $request->query('tahun');
         if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $site_name = $request->query('site');
+            $name = $request->query('site');
         } else {
-            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+            $name = $request->query('site') ?? auth()->user()->site->name;
         }
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
@@ -1739,9 +1739,9 @@ class GrafikController extends Controller
             $q->on('sl.tire', '=', 'tires.serial_number');
         });
         $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
-        if ($site_name) {
-            $tire = $tire->whereHas('site', function ($q) use ($site_name) {
-                $q->where('site_name', $site_name);
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
             });
         }
 
@@ -1766,7 +1766,7 @@ class GrafikController extends Controller
                     $q->where('type_pattern', $type_pattern);
                 }
                 if ($brand_tire) {
-                    $q->whereHas("tire_manufacturer", function ($q) use ($brand_tire) {
+                    $q->whereHas("manufacture", function ($q) use ($brand_tire) {
                         $q->where('name', $brand_tire);
                     });
                 }

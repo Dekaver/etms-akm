@@ -10,7 +10,7 @@
         </style>
         <div class="page-header">
             <div class="page-title">
-                <h4>Dashboard {{ auth()->user()->company->name ?? '' }} - {{ auth()->user()->site->name ?? '' }}</h4>
+                <h4>{{ strtoupper(auth()->user()->company->name ?? '') }} - {{ auth()->user()->site->name ?? '' }}</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">{{ auth()->user()->name }}</a></li>
@@ -34,10 +34,10 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count" style="background: #1EBDD0!important;">
                     <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon1.png"  alt="">
+                        <img src="assets/img/dashboard/icon1.png" alt="">
                     </div>
                     <div class="dash-counts">
-                        <h4>100</h4>
+                        <h4>{{ $new }}</h4>
                         <h5>New Stock</h5>
                     </div>
                 </div>
@@ -45,21 +45,35 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das1" style="background: #017EFA!important;">
                     <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon2.png"  alt="">
+                        <img src="assets/img/dashboard/icon2.png" alt="">
                     </div>
                     <div class="dash-counts">
-                        <h4>100</h4>
+                        <h4>{{ $new_install }}</h4>
                         <h5>New Install</h5>
                     </div>
                 </div>
             </div>
             <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das3" style="background: #FF9F43;">
+<<<<<<< HEAD
+=======
+                <div class="dash-count das2" style="background: #709AC3;">
                     <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon4.png"  alt="">
+                        <img src="assets/img/dashboard/icon3.png" alt="">
                     </div>
                     <div class="dash-counts">
-                        <h4>105</h4>
+                        <h4>{{ $spare }}</h4>
+                        <h5>Tyre Spare</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg col-sm-6 col-12 d-flex">
+>>>>>>> master
+                <div class="dash-count das3" style="background: #FF9F43;">
+                    <div class="dash-imgs">
+                        <img src="assets/img/dashboard/icon4.png" alt="">
+                    </div>
+                    <div class="dash-counts">
+                        <h4>{{ $repair }}</h4>
                         <h5>Repairing</h5>
                     </div>
                 </div>
@@ -67,10 +81,10 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das4" style="background: #28C76F;">
                     <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon5.png"  alt="">
+                        <img src="assets/img/dashboard/icon5.png" alt="">
                     </div>
                     <div class="dash-counts">
-                        <h4>105</h4>
+                        <h4>{{ $running }}</h4>
                         <h5>Running</h5>
                     </div>
                 </div>
@@ -78,10 +92,10 @@
             <div class="col-lg col-sm-6 col-12 d-flex">
                 <div class="dash-count das3" style="background: #EA5455;">
                     <div class="dash-imgs">
-                        <img src="assets/img/dashboard/icon6.png"  alt="">
+                        <img src="assets/img/dashboard/icon6.png" alt="">
                     </div>
                     <div class="dash-counts">
-                        <h4>105</h4>
+                        <h4>{{ $scrap }}</h4>
                         <h5>Scrap</h5>
                     </div>
                 </div>

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Dashboard;
 use App\Models\Site;
 use App\Models\TireManufacture;
+use App\Models\TireMaster;
 use App\Models\TirePattern;
 use App\Models\TireSize;
 use App\Models\UnitModel;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,39 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view("admin.dashboard");
+        $date = Carbon::now();
+
+        $new = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "NEW");
+        })->count();
+
+        $new_install = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "RUNNING");
+        })->whereHas("tire_running", function ($q) use ($date) {
+            $q->whereHas("tire_movement", function ($q) use ($date) {
+                $q->whereMonth("start_date", $date->format("m"));
+                $q->whereYear("start_date", $date->format("Y"));
+            });
+        })->count();
+
+        $spare = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "SPARE");
+        })->count();
+
+        $repair = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "REPAIR");
+        })->count();
+
+        $running = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "RUNNING");
+        })->count();
+
+        $scrap = TireMaster::whereHas("tire_status", function ($query) {
+            $query->where("status", "SCRAP");
+        })->count();
+
+
+        return view("admin.dashboard", compact("new", "new_install", "spare", "repair", "running", "scrap"));
     }
 
     /**
@@ -467,16 +501,5 @@ class DashboardController extends Controller
         $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
 
         return view('admin.grafik.scrap', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
-    }
-
-    public function syncron()
-    {
-        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $last_sync = LastSyncron::all();
-        } else {
-            $last_sync = LastSyncron::where('site_name', auth()->user()->site->site_name)->get();
-        }
-
-        return view('admin.site.syncron', compact('last_sync'));
     }
 }

@@ -14,10 +14,19 @@ class TirePatternController extends Controller
      */
     public function index(Request $request)
     {
+        $tire_manufacture_id = $request->query("manufacture");
+        $type_pattern = $request->query("type_pattern");
+
         $company = auth()->user()->company;
         $tiremanufacture = TireManufacture::where('company_id', $company->id)->get();
         if ($request->ajax()) {
             $data = TirePattern::where('company_id', $company->id);
+            if ($type_pattern) {
+                $data = $data->where('type_pattern', $type_pattern);
+            }
+            if ($tire_manufacture_id) {
+                $data = $data->where('tire_manufacture_id', $tire_manufacture_id);
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('manufacture_name', function ($row) {
@@ -39,7 +48,7 @@ class TirePatternController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tirePattern", compact('tiremanufacture'));
+        return view("admin.master.tirePattern", compact('tiremanufacture', 'tire_manufacture_id', 'type_pattern'));
     }
 
     /**
