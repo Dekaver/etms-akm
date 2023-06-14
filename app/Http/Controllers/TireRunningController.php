@@ -71,7 +71,7 @@ class TireRunningController extends Controller
                 'hm' => "required",
                 'km' => "required",
                 'explaination' => "required",
-                'des' => "required",
+                'pic' => "required",
                 'pic_man_power' => "required",
             ],
         );
