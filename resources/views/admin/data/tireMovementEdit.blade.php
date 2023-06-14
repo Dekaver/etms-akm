@@ -640,7 +640,7 @@
     <div class="modal fade" id="installTireModal" tabindex="-1" role="dialog"
         aria-labelledby="installTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form method="POST" class="needs-validation" action="{{ route('tirerunning.store') }}" novalidate>
+            <form method="POST" action="{{ route('tirerunning.store') }}" novalidate>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="installTireModalLabel">Install Tire</h5>

@@ -70,13 +70,10 @@ class TireRunningController extends Controller
                 'end_date' => "required",
                 'hm' => "required",
                 'km' => "required",
-                'pic' => "required",
+                'explaination' => "required",
                 'des' => "required",
                 'pic_man_power' => "required",
             ],
-            [
-                "des" => "The Explanation field is required"
-            ]
         );
 
         try {
