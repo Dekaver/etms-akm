@@ -26,7 +26,7 @@
                         <img src="assets/img/dashboard/icon3.png"  alt="">
                     </div>
                     <div class="dash-counts">
-                        <h4>100</h4>
+                        <h4>{{ $spare }}</h4>
                         <h5>Tyre Spare</h5>
                     </div>
                 </div>

@@ -52,41 +52,26 @@
                 <div class="card-body pb-0">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Pattern</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
+                            <form action="">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select" name="tiresize">
+                                                <option value="">Choose Size</option>
+                                                @foreach ($tiresize as $item)
+                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>{{ $item->size }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-filters ms-auto"><img
+                                                src="assets/img/icons/search-whites.svg" alt="img"></button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Brand</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Size</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -217,7 +202,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('unitmodel.index') }}",
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',

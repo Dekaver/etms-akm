@@ -16,6 +16,9 @@ class UnitController extends Controller
      */
     public function index(Request $request)
     {
+        $unitmodel_id = $request->query("unitmodel");
+        $unitsite_id = $request->query("unitsite");
+        $unitstatus_id = $request->query("unitstatus");
 
         $company = auth()->user()->company;
 
@@ -25,6 +28,15 @@ class UnitController extends Controller
 
         if ($request->ajax()) {
             $data = Unit::where('company_id', $company->id);
+            if ($unitmodel_id) {
+                $data = $data->where('unit_model_id', $unitmodel_id);
+            }
+            if ($unitsite_id) {
+                $data = $data->where('site_id', $unitsite_id);
+            }
+            if ($unitstatus_id) {
+                $data = $data->where('unit_status_id', $unitstatus_id);
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
@@ -55,7 +67,7 @@ class UnitController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.unit", compact('unit_status', 'unit_model', 'sites'));
+        return view("admin.data.unit", compact('unitmodel_id','unitsite_id', 'unitstatus_id','unit_status', 'unit_model', 'sites'));
     }
 
     /**
