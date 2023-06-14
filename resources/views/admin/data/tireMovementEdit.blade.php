@@ -150,8 +150,8 @@
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
                                     <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">Lifetime HM</p>
-                                    <p class=" mb-0 ">Lifetime KM</p>
+                                    <p class=" mb-0 ">HM</p>
+                                    <p class=" mb-0 ">KM</p>
                                     <p class=" mb-0 ">repair</p>
                                     <p class=" mb-0 ">Retread</p>
                                     <p class=" mb-0 ">RTD</p>
@@ -245,8 +245,8 @@
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
                                     <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">Lifetime HM</p>
-                                    <p class=" mb-0 ">Lifetime KM</p>
+                                    <p class=" mb-0 ">HM</p>
+                                    <p class=" mb-0 ">KM</p>
                                     <p class=" mb-0 ">Brand</p>
                                     <p class=" mb-0 ">RTD</p>
                                     <p class=" mb-0 ">Size</p>
@@ -437,8 +437,8 @@
                                                 <p class="mb-0">{{ $tire->serial_number }}</p>
                                                 <div class="row">
                                                     <div class="col-4 pe-0">
-                                                        <p class="mb-0">lifetime HM</p>
-                                                        <p class="mb-0">lifetime KM</p>
+                                                        <p class="mb-0">HM</p>
+                                                        <p class="mb-0">KM</p>
                                                         <p class="mb-0">Brand</p>
                                                         <p class="mb-0">RTD</p>
                                                         <p class="mb-0">Size</p>

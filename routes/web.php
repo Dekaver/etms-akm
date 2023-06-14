@@ -123,47 +123,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get("aaaa", function () {
-    // $a = \App\Models\TireManufacture::where("company_id", 1)->get();
-    // foreach ($a as $key => $value) {
-    //     $value = $value->replicate();
-    //     $value->company_id = 2;
-    //     $value->save();
-    // }
-    // $a = \App\Models\TireStatus::where("company_id", 1)->get();
-    // foreach ($a as $key => $value) {
-    //     $value = $value->replicate();
-    //     $value->company_id = 2;
-    //     $value->save();
-    // }
-    // $a = \App\Models\TireDamage::where("company_id", 1)->get();
-    // foreach ($a as $key => $value) {
-    //     $value = $value->replicate();
-    //     $value->company_id = 2;
-    //     $value->save();
-    // }
-    // $a = \App\Models\TireCompound::where("company_id", 1)->get();
-    // foreach ($a as $key => $value) {
-    //     $value = $value->replicate();
-    //     $value->company_id = 2;
-    //     $value->save();
-    // }
-    // $a = \App\Models\TirePattern::where("company_id", 1)->get();
-    // foreach ($a as $key => $value) {
-    //     $manufacture = $value->manufacture;
-    //     $newTireManufacture = TireManufacture::where("name", $manufacture->name)->where("company_id", 2)->first();
-    //     $value = $value->replicate();
-    //     $value->company_id = 2;
-    //     $value->tire_manufacture_id = $newTireManufacture->id;
-    //     $value->save();
-    // }
+    
 
-    $a = \App\Models\TireSize::where("company_id", 1)->get();
-    foreach ($a as $key => $value) {
-        dd($value, $value->tire_pattern);
-        $value = $value->replicate();
-        $value->company_id = 2;
-        // $value->save();
-    }
+    // $a = \App\Models\TireSize::where("company_id", 1)->get();
+    // foreach ($a as $key => $value) {
+    //     dd($value, $value->tire_pattern);
+    //     $value = $value->replicate();
+    //     $value->company_id = 2;
+    //     // $value->save();
+    // }
 
 });
 

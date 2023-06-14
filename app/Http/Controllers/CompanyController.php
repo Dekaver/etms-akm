@@ -59,17 +59,18 @@ class CompanyController extends Controller
             "email" => "required",
         ]);
 
-        Company::create([
+        $company =  Company::create([
             "name" => $request->company_name,
             "initial" => $request->initial,
             "email" => $request->email,
         ]);
 
-        User::create([
+        $user = User::create([
             "name" => $request->company_name,
             "email" => $request->email,
             "password" => bcrypt($request->password),
         ]);
+
 
         return redirect()->back()->with("success", "Created Customer");
     }

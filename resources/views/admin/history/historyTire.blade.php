@@ -55,7 +55,8 @@
                                             <select class="select" name="tiresize">
                                                 <option value="">Choose Size</option>
                                                 @foreach ($tiresize as $item)
-                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>{{ $item->size }}</option>
+                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>
+                                                        {{ $item->size }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -65,7 +66,8 @@
                                             <select class="select" name="tirepattern">
                                                 <option value="">Choose Pattern</option>
                                                 @foreach ($tirepattern as $item2)
-                                                    <option value="{{ $item2->id }}" @selected($item2->id == $tirepattern_id)>{{ $item2->pattern }}</option>
+                                                    <option value="{{ $item2->id }}" @selected($item2->id == $tirepattern_id)>
+                                                        {{ $item2->pattern }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -75,7 +77,8 @@
                                             <select class="select" name="tirestatus">
                                                 <option value="">Choose Status</option>
                                                 @foreach ($tirestatus as $item3)
-                                                    <option value="{{ $item3->id }}" @selected($item3->id == $tirestatus_id)>{{ $item3->status }}</option>
+                                                    <option value="{{ $item3->id }}" @selected($item3->id == $tirestatus_id)>
+                                                        {{ $item3->status }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -83,7 +86,7 @@
                                     <div class="col-lg-1 col-sm-6 col-12">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-filters ms-auto"><img
-                                                src="assets/img/icons/search-whites.svg" alt="img"></button>
+                                                    src="assets/img/icons/search-whites.svg" alt="img"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -132,19 +135,23 @@
                         },
                         {
                             data: 'size',
-                            name: 'size'
+                            name: 'size',
+                            searchable: false
                         },
                         {
                             data: 'pattern',
-                            name: 'pattern'
+                            name: 'pattern',
+                            searchable: false
                         },
                         {
                             data: 'compound',
-                            name: 'compound'
+                            name: 'compound',
+                            searchable: false
                         },
                         {
                             data: 'status',
-                            name: 'status'
+                            name: 'status',
+                            searchable: false
                         },
                         {
                             data: 'lifetime_hm',
