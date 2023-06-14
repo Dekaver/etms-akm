@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\TireCompound;
+use App\Models\TireDamage;
+use App\Models\TireManufacture;
+use App\Models\TirePattern;
+use App\Models\TireStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -52,7 +57,6 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
         $request->validate([
             "name" => "required",
             "initial" => "required",
@@ -68,9 +72,50 @@ class CompanyController extends Controller
         $user = User::create([
             "name" => $request->company_name,
             "email" => $request->email,
+            "company_id" => $company->id,
             "password" => bcrypt($request->password),
         ]);
 
+        $user->syncRoles(["customeradmin"]);
+
+        if ($request->clone_from == "on") {
+            $selected_company_id = $request->customer;
+            if ($request->master_only ) {
+                $a = TireManufacture::where("company_id", $selected_company_id)->get();
+                foreach ($a as $key => $value) {
+                    $value = $value->replicate();
+                    $value->company_id = $company->id;
+                    $value->save();
+                }
+                $a = TireStatus::where("company_id", $selected_company_id)->get();
+                foreach ($a as $key => $value) {
+                    $value = $value->replicate();
+                    $value->company_id = $company->id;
+                    $value->save();
+                }
+                $a = TireDamage::where("company_id", $selected_company_id)->get();
+                foreach ($a as $key => $value) {
+                    $value = $value->replicate();
+                    $value->company_id = $company->id;
+                    $value->save();
+                }
+                $a = TireCompound::where("company_id", $selected_company_id)->get();
+                foreach ($a as $key => $value) {
+                    $value = $value->replicate();
+                    $value->company_id = $company->id;
+                    $value->save();
+                }
+                $a = TirePattern::where("company_id", $selected_company_id)->get();
+                foreach ($a as $key => $value) {
+                    $manufacture = $value->manufacture;
+                    $newTireManufacture = TireManufacture::where("name", $manufacture->name)->where("company_id", 2)->first();
+                    $value = $value->replicate();
+                    $value->company_id = 2;
+                    $value->tire_manufacture_id = $newTireManufacture->id;
+                    $value->save();
+                }
+            }
+        }
 
         return redirect()->back()->with("success", "Created Customer");
     }
