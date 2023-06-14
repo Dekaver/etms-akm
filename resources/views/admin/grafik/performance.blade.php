@@ -158,7 +158,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-xl-6">
             <div class="card o-hidden">
                 <div class="card-header pb-0">
@@ -205,7 +205,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     @push('js')
         {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js" integrity="sha512-hcV6DX35BKgiTiWYrJgPbu3FxS6CsCjKgmrsPRpUPkXWbvPiKxvSVSdhWX0yXcPctOI2FJ4WP6N1zH+17B/sAA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
          --}}
