@@ -23,7 +23,7 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <div class="table-top">
+            {{-- <div class="table-top">
                 <div class="search-set">
                     <div class="search-input">
                         <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
@@ -45,7 +45,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
             <!-- /Filter -->
             <div class="table-responsive">
                 <table class="table data-table">
