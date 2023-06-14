@@ -123,8 +123,8 @@
                                             <div class="mb-3">
                                                 <label for="progresspill-firstname-input">Full Name<span
                                                         class="manitory">*</span></label>
-                                                <input type="text" class="form-control" name="company_name" required
-                                                    id="progresspill-firstname-input">
+                                                <input type="text" class="form-control" name="company_name"
+                                                    required id="progresspill-firstname-input">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -218,7 +218,7 @@
                                             <div class="col-lg-12">
                                                 <div class="form-check">
                                                     <label class="inputcheck">Data Demo
-                                                        <input type="checkbox" name="data_demo">
+                                                        <input type="checkbox" name="data_demo" readonly>
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </div>
@@ -265,7 +265,8 @@
                                                             <div class="col-6">
                                                                 <div class="form-check">
                                                                     <label class="inputcheck">All Data
-                                                                        <input type="checkbox" name="all_data">
+                                                                        <input type="checkbox" name="all_data"
+                                                                            readonly>
                                                                         <span class="checkmark"></span>
                                                                     </label>
                                                                 </div>
