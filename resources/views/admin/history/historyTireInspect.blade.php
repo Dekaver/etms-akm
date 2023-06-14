@@ -15,7 +15,7 @@
         <div class="card-body">
             <div class="table-top">
                 <div class="search-set">
-                    <div class="search-path">
+                    {{-- <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
                             <img src="{{ asset('assets/img/icons/filter.svg') }}" alt="img">
                             <span><img src="{{ asset('assets/img/icons/closes.svg') }}" alt="img"></span>
@@ -24,7 +24,7 @@
                     <div class="search-input">
                         <a class="btn btn-searchset"><img src="{{ asset('assets/img/icons/search-white.svg') }}"
                                 alt="img"></a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="wordset">
                     <ul>
@@ -43,7 +43,7 @@
                     </ul>
                 </div>
             </div>
-            <!-- /Filter -->
+            {{-- <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs">
                 <div class="card-body pb-0">
                     <div class="row">
@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /Filter -->
+            <!-- /Filter --> --}}
             <div class="table-responsive">
                 <table class="table data-table">
                     <thead>

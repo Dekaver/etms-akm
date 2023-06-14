@@ -15,7 +15,7 @@
         <div class="card-body">
             <div class="table-top">
                 <div class="search-set">
-                    <div class="search-path">
+                    {{-- <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
                             <img src="{{ asset('assets/img/icons/filter.svg') }}" alt="img">
                             <span><img src="{{ asset('assets/img/icons/closes.svg') }}" alt="img"></span>
@@ -24,7 +24,7 @@
                     <div class="search-input">
                         <a class="btn btn-searchset"><img src="{{ asset('assets/img/icons/search-white.svg') }}"
                                 alt="img"></a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="wordset">
                     <ul>
@@ -43,62 +43,7 @@
                     </ul>
                 </div>
             </div>
-            <!-- /Filter -->
-            <div class="card mb-0" id="filter_inputs">
-                <div class="card-body pb-0">
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-12">
-                            <form action="">
-                                <div class="row">
-                                    <div class="col-lg-2 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <select class="select">
-                                                <option>Choose Site</option>
-                                                <option>-</option>
-                                                <option>-</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <select class="select">
-                                                <option>Choose Size</option>
-                                                <option>-</option>
-                                                <option>-</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <select class="select">
-                                                <option>Choose Pattern</option>
-                                                <option>-</option>
-                                                <option>-</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <select class="select">
-                                                <option>Choose Status</option>
-                                                <option>-</option>
-                                                <option>-</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-filters ms-auto"><img
-                                                src="assets/img/icons/search-whites.svg" alt="img"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Filter -->
+            
             <div class="table-responsive">
                 <table class="table data-table">
                     <thead>

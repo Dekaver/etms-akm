@@ -21,7 +21,7 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="table-top">
+            {{-- <div class="table-top">
                 <div class="search-set">
                     <div class="search-path">
                         <a class="btn btn-filter" id="filter_search">
@@ -49,7 +49,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
             <!-- /Table -->
             <div class="table-responsive">
                 <table class="table data-table">
