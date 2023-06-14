@@ -690,9 +690,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Explaination</label>
+                            <label for="">Explanation</label>
                             <input type="text" name="explaination" class="form-control" required>
-                            <div class="invalid-feedback">Please fill a explaination.</div>
+                            <div class="invalid-feedback">Please fill a explanation.</div>
                         </div>
                         <div class="row">
                             <div class="form-group col">
