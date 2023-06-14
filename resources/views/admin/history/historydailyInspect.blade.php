@@ -46,7 +46,8 @@
                                     <select class="select" name="site">
                                         <option value="">Choose Site</option>
                                         @foreach ($sites as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @selected($site == $item->id)>
+                                                {{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -75,7 +76,8 @@
                                     <select class="select" name="year">
                                         <option value="">Choose Years</option>
                                         @for ($i = 2022; $i < \Carbon\Carbon::now()->format('Y') + 1; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            <option value="{{ $i }}" @selected($year == $i)>
+                                                {{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>

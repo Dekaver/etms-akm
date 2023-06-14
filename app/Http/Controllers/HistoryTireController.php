@@ -28,7 +28,6 @@ class HistoryTireController extends Controller
             $date = "$year-$month-1";
             $start = Carbon::parse($date)->startOfMonth();
             $end = Carbon::parse($date)->endOfMonth();
-            # code...
         } else {
             $start = Carbon::now()->startOfMonth();
             $end = Carbon::now()->endOfMonth();
@@ -36,20 +35,30 @@ class HistoryTireController extends Controller
 
         $period = CarbonPeriod::create($start, $end);
         $total_hari = $period->count();
-        $tire_inspect = DailyInspect::select("unit_id", "date")->with("unit")->whereBetween("date", [$start, $end])->groupBy("unit_id", "date")->get();
+        $tire_inspect = DailyInspect::select("unit_id", "date")
+            ->with("unit")
+            ->where('company_id', $company->id)
+            ->whereBetween("date", [$start, $end]);
+        if ($site) {
+            $tire_inspect = $tire_inspect->where("site_id", $site);
+        }
+        $tire_inspect = $tire_inspect->groupBy("unit_id", "date")->get();
 
         $sites = Site::where("company_id", $company->id)->get();
 
         $tire_movement = HistoryTireMovement::select("unit", "status", DB::raw('DATE(created_at) as date'))
             ->where("company_id", $company->id)
-            ->whereBetween("start_date", [$start, $end])
-            ->groupBy("unit", "date", "status")->get();
+            ->whereBetween("start_date", [$start, $end]);
+        if ($site) {
+            $tire_movement = $tire_movement->where("site_id", $site);
+        }
+        $tire_movement = $tire_movement->groupBy("unit", "date", "status")->get();
+
         $data = [];
         foreach ($period as $date) {
             foreach ($tire_movement as $key => $unit) {
                 $data[$unit->unit][$date->format('d')] = $unit->date == $date->format("Y-m-d") ?
                     ($unit->status == "RUNNING" ? "I" : "R") : "-";
-
             }
 
             foreach ($tire_inspect as $key => $unit) {
