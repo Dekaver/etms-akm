@@ -92,8 +92,7 @@
                         @endcan
                         @can('DAILY_INSPECT')
                             <li><a href="/dailyinspect"
-                                    class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Tire
-                                    Running Unit</a></li>
+                                    class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily Monitoring</a></li>
                         @endcan
                     </ul>
                 </li>

@@ -99,7 +99,7 @@
                             <td class="px-4">: </td>
                             <td>{{ $unit->hm }}</td>
                             <td></td>
-                            <td>KM</td>
+                            <td class="px-4">KM</td>
                             <td class="px-4">: </td>
                             <td>{{ $unit->km }}</td>
                         </tr>
@@ -150,7 +150,8 @@
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
                                     <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">Lifetime</p>
+                                    <p class=" mb-0 ">Lifetime HM</p>
+                                    <p class=" mb-0 ">Lifetime KM</p>
                                     <p class=" mb-0 ">repair</p>
                                     <p class=" mb-0 ">Retread</p>
                                     <p class=" mb-0 ">RTD</p>
@@ -175,6 +176,7 @@
                                         <figcaption class="pt-2">
                                             <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_km }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
                                             <p class=" mb-0">{{ $tire->rtd }}</p>
@@ -214,6 +216,7 @@
                                         <figcaption class="pt-2">
                                             <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_km }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
                                             <p class=" mb-0">{{ $tire->rtd }}</p>
@@ -242,7 +245,8 @@
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
                                     <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">Lifetime</p>
+                                    <p class=" mb-0 ">Lifetime HM</p>
+                                    <p class=" mb-0 ">Lifetime KM</p>
                                     <p class=" mb-0 ">Brand</p>
                                     <p class=" mb-0 ">RTD</p>
                                     <p class=" mb-0 ">Size</p>
@@ -265,7 +269,8 @@
                                         </div>
                                         <figcaption class="pt-2">
                                             <p class="mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class="mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_km }}</p>
                                             <p class="mb-0">{{ $tire->lifetime_retread_hm }}</p>
                                             <p class="mb-0">{{ $tire->lifetime_repair_hm }}</p>
                                             <p class="mb-0">{{ $tire->rtd }}</p>
@@ -302,6 +307,7 @@
                                         <figcaption class="pt-2">
                                             <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_km }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
                                             <p class=" mb-0">{{ $tire->rtd }}</p>
@@ -342,6 +348,7 @@
                                         <figcaption class="pt-2">
                                             <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_km }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
                                             <p class=" mb-0">{{ $tire->rtd }}</p>
@@ -378,6 +385,7 @@
                                         <figcaption class="pt-2">
                                             <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0">{{ $tire->lifetime_km }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_retread_hm }}</p>
                                             <p class=" mb-0">{{ $tire->lifetime_repair_hm }}</p>
                                             <p class=" mb-0">{{ $tire->rtd }}</p>
@@ -415,7 +423,7 @@
                             </div>
                             <div class="overflow-scroll" id="list-tire" style="height: 1080px">
                                 @foreach ($tire_inventory as $tire)
-                                    <div class="w-full" style="border-bottom: gray">
+                                    <div class="w-full" style="border-bottom: gray 2px solid">
                                         <div class="row">
                                             <div class="col-3">
                                                 <div class="draggableInventory"
@@ -429,11 +437,13 @@
                                                 <p class="mb-0">{{ $tire->serial_number }}</p>
                                                 <div class="row">
                                                     <div class="col-4 pe-0">
-                                                        <p class="mb-0">lifetime</p>
+                                                        <p class="mb-0">lifetime HM</p>
+                                                        <p class="mb-0">lifetime KM</p>
                                                         <p class="mb-0">Brand</p>
                                                         <p class="mb-0">RTD</p>
                                                         <p class="mb-0">Size</p>
                                                         <p class="mb-0">Pattern</p>
+                                                        <p class="mb-0">Status</p>
                                                     </div>
                                                     <div class="col-1">
                                                         <p class="mb-0">:</p>
@@ -443,7 +453,8 @@
                                                         <p class="mb-0">:</p>
                                                     </div>
                                                     <div class="col-sm px-0">
-                                                        <p class="mb-0">{{ $tire->lifetime ?? '-' }}</p>
+                                                        <p class="mb-0">{{ $tire->lifetime_hm ?? '-' }}</p>
+                                                        <p class="mb-0">{{ $tire->lifetime_km ?? '-' }}</p>
                                                         <p class="mb-0">
                                                             {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}
                                                         </p>
@@ -453,6 +464,9 @@
                                                             {{ $tire->tire_size->tire_pattern->pattern ?? '-' }}
                                                             -
                                                             {{ $tire->tire_size->tire_pattern->type_pattern ?? '-' }}
+                                                        </p>
+                                                        <p class="mb-0">
+                                                            {{ $tire->tire_status->status ?? '-' }}
                                                         </p>
                                                     </div>
                                                 </div>
