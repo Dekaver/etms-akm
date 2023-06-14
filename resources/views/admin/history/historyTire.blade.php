@@ -53,7 +53,7 @@
                                     <div class="col-lg-2 col-sm-6 col-12">
                                         <div class="form-group">
                                             <select class="select" name="tiresize">
-                                                <option>Choose Size</option>
+                                                <option value="">Choose Size</option>
                                                 @foreach ($tiresize as $item)
                                                     <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>{{ $item->size }}</option>
                                                 @endforeach
@@ -63,7 +63,7 @@
                                     <div class="col-lg-2 col-sm-6 col-12">
                                         <div class="form-group">
                                             <select class="select" name="tirepattern">
-                                                <option>Choose Pattern</option>
+                                                <option value="">Choose Pattern</option>
                                                 @foreach ($tirepattern as $item2)
                                                     <option value="{{ $item2->id }}" @selected($item2->id == $tirepattern_id)>{{ $item2->pattern }}</option>
                                                 @endforeach
@@ -73,7 +73,7 @@
                                     <div class="col-lg-2 col-sm-6 col-12">
                                         <div class="form-group">
                                             <select class="select" name="tirestatus">
-                                                <option>Choose Status</option>
+                                                <option value="">Choose Status</option>
                                                 @foreach ($tirestatus as $item3)
                                                     <option value="{{ $item3->id }}" @selected($item3->id == $tirestatus_id)>{{ $item3->status }}</option>
                                                 @endforeach

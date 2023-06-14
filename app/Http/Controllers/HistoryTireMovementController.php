@@ -39,7 +39,7 @@ class HistoryTireMovementController extends Controller
                 $data = $data->where("tire_size_id", $tiresize_id);
             }
             if ($tirepattern_id) {
-                $data = $data->where("tire_pattern_id", $tirepattern_id);
+                $data = $data->where("tire_sizes.tire_pattern_id", $tirepattern_id);
             }
             if ($tirestatus_id) {
                 $data = $data->where("tire_status_id", $tirestatus_id);
