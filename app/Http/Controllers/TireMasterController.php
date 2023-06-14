@@ -18,16 +18,27 @@ class TireMasterController extends Controller
      */
     public function index(Request $request)
     {
-        $tire_site_id = $request->query("site");
-
+        $tiresite_id = $request->query("tiresite");
+        $tiresize_id = $request->query("tiresize");
+        $tirestatus_id = $request->query("tirestatus");
 
         $company = auth()->user()->company;
         $site = Site::where('company_id', $company->id)->get();
         $tiresize = TireSize::where('company_id', $company->id)->get();
         $tirecompound = TireCompound::where('company_id', $company->id)->get();
         $tirestatus = TireStatus::where('company_id', $company->id)->get();
+
         if ($request->ajax()) {
             $data = TireMaster::where('company_id', $company->id);
+            if ($tiresite_id) {
+                $data = $data->where('site_id', $tiresite_id);
+            }
+            if ($tiresize_id) {
+                $data = $data->where('tire_size_id', $tiresize_id);
+            }
+            if ($tirestatus_id) {
+                $data = $data->where('tire_status_id', $tirestatus_id);
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("size", function ($row) {
@@ -55,7 +66,7 @@ class TireMasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tireMaster", compact('tire_site_id', 'site', 'tiresize', 'tirecompound', 'tirestatus'));
+        return view("admin.master.tireMaster", compact('tiresite_id','tiresize_id','tirestatus_id', 'site', 'tiresize', 'tirecompound', 'tirestatus'));
     }
 
     /**

@@ -48,50 +48,46 @@
                 <div class="card-body pb-0">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
-                            <div class="row">
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Site</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
+                            <form action="">
+                                <div class="row">
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select" name="tiresize">
+                                                <option>Choose Size</option>
+                                                @foreach ($tiresize as $item)
+                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>{{ $item->size }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select" name="tirepattern">
+                                                <option>Choose Pattern</option>
+                                                @foreach ($tirepattern as $item2)
+                                                    <option value="{{ $item2->id }}" @selected($item2->id == $tirepattern_id)>{{ $item2->pattern }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <select class="select" name="tirestatus">
+                                                <option>Choose Status</option>
+                                                @foreach ($tirestatus as $item3)
+                                                    <option value="{{ $item3->id }}" @selected($item3->id == $tirestatus_id)>{{ $item3->status }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-filters ms-auto"><img
+                                                src="assets/img/icons/search-whites.svg" alt="img"></button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Size</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Pattern</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <select class="select">
-                                            <option>Choose Status</option>
-                                            <option>-</option>
-                                            <option>-</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-1 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg"
-                                                alt="img"></a>
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -123,7 +119,7 @@
                 var table = $('table.data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('historytiremovement.index') }}",
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',

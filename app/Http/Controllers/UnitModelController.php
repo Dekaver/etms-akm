@@ -14,10 +14,15 @@ class UnitModelController extends Controller
      */
     public function index(Request $request)
     {
+        $tiresize_id = $request->query("tiresize");
+
         $company = auth()->user()->company;
         $tiresize = TireSize::with("tire_pattern")->with("tire_pattern.manufacture")->where('company_id', $company->id)->get();
         if ($request->ajax()) {
             $data = UnitModel::where('company_id', $company->id);
+            if ($tiresize_id) {
+                $data = $data->where('tire_size_id', $tiresize_id);
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('tire_size', function ($row) {
@@ -39,7 +44,7 @@ class UnitModelController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.unitModel", compact('tiresize'));
+        return view("admin.data.unitModel", compact('tiresize_id','tiresize'));
     }
 
     /**
