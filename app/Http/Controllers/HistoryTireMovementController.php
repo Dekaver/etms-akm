@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\HistoryTireMovement;
 use App\Models\TireMaster;
+use App\Models\TireSize;
+use App\Models\TirePattern;
+use App\Models\TireStatus;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -14,6 +17,15 @@ class HistoryTireMovementController extends Controller
      */
     public function index(Request $request)
     {
+        $tiresize_id = $request->query("tiresize");
+        $tirepattern_id = $request->query("tirepattern");
+        $tirestatus_id = $request->query("tirestatus");
+
+        $company = auth()->user()->company;
+
+        $tiresize = TireSize::where('company_id', $company->id)->get();
+        $tirepattern = TirePattern::where('company_id', $company->id)->get();
+        $tirestatus = TireStatus::where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
             $data = TireMaster::select("tires.*", "tire_sizes.size", "sites.name as site", "tire_statuses.status", "tire_patterns.pattern", "tire_compounds.compound")
@@ -23,6 +35,15 @@ class HistoryTireMovementController extends Controller
                 ->leftJoin("tire_compounds", "tires.tire_compound_id", "=", "tire_compounds.id")
                 ->leftJoin("tire_patterns", "tire_sizes.tire_pattern_id", "=", "tire_patterns.id")
                 ->has("history_tire_movement");
+            if ($tiresize_id) {
+                $data = $data->where("tire_size_id", $tiresize_id);
+            }
+            if ($tirepattern_id) {
+                $data = $data->where("tire_pattern_id", $tirepattern_id);
+            }
+            if ($tirestatus_id) {
+                $data = $data->where("tire_status_id", $tirestatus_id);
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -37,7 +58,7 @@ class HistoryTireMovementController extends Controller
         }
 
 
-        return view("admin.history.historyTire");
+        return view("admin.history.historyTire", compact('tiresize', 'tirepattern', 'tirestatus', 'tiresize_id', 'tirepattern_id', 'tirestatus_id'));
     }
 
     /**
