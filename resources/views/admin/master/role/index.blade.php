@@ -88,7 +88,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Permission<span class="manitory">*</span></label>
-                                    <select class="js-example-basic-multiple" name="permission[]" multiple="multiple">
+                                    <select class="js-example-basic-multiple" id="permission" name="permission[]" multiple="multiple">
                                         @foreach ($permission as $item)
                                             <option>{{ $item->name }}</option>
                                         @endforeach
@@ -148,7 +148,7 @@
                         url: `{{ route('role.index') }}/${id}/edit`
                     }).done(function(response) {
                         modal.find('input[name="name"]').val(response.name);
-                        modal.find('input[name="email"]').val(response.email);
+                        modal.find('#permission"]').val(response.permission).trigger("change");
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('role.index') }}/${id}`)

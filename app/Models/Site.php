@@ -13,4 +13,16 @@ class Site extends Model
         "name",
         "company_id"
     ];
+
+    public function user()
+    {
+        return $this->hasOneThrough(
+            User::class,
+            UserSite::class,
+            "site_id",
+            "id",
+            "id",
+            "user_id",
+        );
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\TireDamage;
 use App\Models\TireManufacture;
 use App\Models\TirePattern;
 use App\Models\TireStatus;
+use App\Models\UnitStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -63,7 +64,7 @@ class CompanyController extends Controller
             "email" => "required",
         ]);
 
-        $company =  Company::create([
+        $company = Company::create([
             "name" => $request->company_name,
             "initial" => $request->initial,
             "email" => $request->email,
@@ -80,7 +81,7 @@ class CompanyController extends Controller
 
         if ($request->clone_from == "on") {
             $selected_company_id = $request->customer;
-            if ($request->master_only ) {
+            if ($request->master_only) {
                 $a = TireManufacture::where("company_id", $selected_company_id)->get();
                 foreach ($a as $key => $value) {
                     $value = $value->replicate();
@@ -105,12 +106,18 @@ class CompanyController extends Controller
                     $value->company_id = $company->id;
                     $value->save();
                 }
+                $a = UnitStatus::where("company_id", $selected_company_id)->get();
+                foreach ($a as $key => $value) {
+                    $value = $value->replicate();
+                    $value->company_id = $company->id;
+                    $value->save();
+                }
                 $a = TirePattern::where("company_id", $selected_company_id)->get();
                 foreach ($a as $key => $value) {
                     $manufacture = $value->manufacture;
-                    $newTireManufacture = TireManufacture::where("name", $manufacture->name)->where("company_id", 2)->first();
+                    $newTireManufacture = TireManufacture::where("name", $manufacture->name)->where("company_id", $selected_company_id)->first();
                     $value = $value->replicate();
-                    $value->company_id = 2;
+                    $value->company_id = $company->id;
                     $value->tire_manufacture_id = $newTireManufacture->id;
                     $value->save();
                 }
@@ -159,7 +166,20 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        $company->tire_compound()->delete();
+        $company->tire_size()->delete();
+        $company->tire_status()->delete();
+        $company->tire_damage()->delete();
+        $company->tire_pattern()->delete();
+        $company->unit_status()->delete();
+        $company->tire_manufacture()->delete();
+        foreach ($company->site() as $key => $site) {
+            $site->user->delete();
+        }
+        $company->user()->delete();
+        $company->site()->delete();
         $company->delete();
+
         return redirect()->back()->with("success", "Deleted Customer $company->name");
     }
 }
