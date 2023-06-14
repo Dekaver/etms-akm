@@ -96,6 +96,14 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#site-page" class="nav-link" data-toggle="tab">
+                                        <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Address Detail">
+                                            <i class="far fa-user"></i>
+                                        </div>
+                                    </a>
+                                </li>
 
                                 <li class="nav-item">
                                     <a href="#progress-bank-detail" class="nav-link" data-toggle="tab">
@@ -186,8 +194,33 @@
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label for="progresspill-phoneno-input">Password</label>
-                                                    <input type="text" class="form-control" name="password"
+                                                    <input type="password" class="form-control" name="password"
                                                         id="progresspill-phoneno-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                            <li class="previous"><a href="javascript: void(0);"
+                                                    class="btn btn-primary"><i class="bx bx-chevron-left me-1"></i>
+                                                    Previous</a></li>
+                                            <li class="next"><a href="javascript: void(0);"
+                                                    class="btn btn-primary">Next <i
+                                                        class="bx bx-chevron-right ms-1"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="site-page">
+                                    <div>
+                                        <div class="mb-4">
+                                            <h5>Site</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="progresspill-firstname-input">Name<span
+                                                            class="manitory">*</span></label>
+                                                    <input type="text" class="form-control" name="site_name"
+                                                        required id="progresspill-firstname-input">
                                                 </div>
                                             </div>
                                         </div>
@@ -277,16 +310,16 @@
                                             </div>
 
 
-                                            <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                                <li class="previous"><a href="javascript: void(0);"
-                                                        class="btn btn-primary"><i
-                                                            class="bx bx-chevron-left me-1"></i> Previous</a></li>
-                                                <li class="float-end">
-                                                    <button class="btn btn-primary" type="submit">Save
-                                                        Changes</button>
-                                                </li>
-                                            </ul>
                                         </div>
+                                        <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                            <li class="previous"><a href="javascript: void(0);"
+                                                    class="btn btn-primary"><i class="bx bx-chevron-left me-1"></i>
+                                                    Previous</a></li>
+                                            <li class="float-end">
+                                                <button class="btn btn-primary" type="submit">Save
+                                                    Changes</button>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

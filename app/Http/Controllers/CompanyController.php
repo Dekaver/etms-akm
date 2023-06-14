@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Site;
 use App\Models\TireCompound;
 use App\Models\TireDamage;
 use App\Models\TireManufacture;
@@ -75,6 +76,15 @@ class CompanyController extends Controller
             "email" => $request->email,
             "company_id" => $company->id,
             "password" => bcrypt($request->password),
+        ]);
+
+        $site = Site::create([
+            "company_id" => $company->id,
+            "name" => $request->site_name,
+        ]);
+
+        $user->userSite()->create([
+            "site_id" => $site->id,
         ]);
 
         $user->syncRoles(["customeradmin"]);
