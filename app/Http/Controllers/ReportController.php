@@ -62,6 +62,9 @@ class ReportController extends Controller
                 ->addColumn('repair', function ($row) {
                     return $row->repair_count;
                 })
+                ->addColumn('inventory', function ($row) {
+                    return $row->new + $row->spare;
+                })
                 ->addColumn('manufacture', function ($row) {
                     return $row->tire_pattern->manufacture->name;
                 })

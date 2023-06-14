@@ -116,6 +116,7 @@
                             <th>Type Pattern</th>
                             <th>NEW</th>
                             <th>SPARE</th>
+                            <th>INVENTORY</th>
                             <th>RUNNING</th>
                             <th>REPAIR</th>
                             <th>SCRAP</th>
@@ -165,6 +166,12 @@
                         {
                             data: 'spare',
                             name: 'spare',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'inventory',
+                            name: 'inventory',
                             orderable: false,
                             searchable: false
                         },

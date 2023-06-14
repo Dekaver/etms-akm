@@ -37,9 +37,6 @@ class DailyInspectController extends Controller
                 ->addColumn("unit_status", function ($row) {
                     return $row->unit_status->status_code;
                 })
-                ->addColumn("inventory", function ($row) {
-                    return $row->unit_status->status_code;
-                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal'
