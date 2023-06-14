@@ -205,15 +205,18 @@
                         },
                         {
                             data: 'manufacture',
-                            name: 'manufacture'
+                            name: 'manufacture',
+                            searchable: false
                         },
                         {
                             data: 'pattern',
-                            name: 'pattern'
+                            name: 'pattern',
+                            searchable: false
                         },
                         {
                             data: 'type',
-                            name: 'type'
+                            name: 'type',
+                            searchable: false
                         },
                         {
                             data: 'otd',
