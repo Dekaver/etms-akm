@@ -34,6 +34,7 @@ class HistoryTireMovementController extends Controller
                 ->leftJoin("tire_sizes", "tires.tire_size_id", "=", "tire_sizes.id")
                 ->leftJoin("tire_compounds", "tires.tire_compound_id", "=", "tire_compounds.id")
                 ->leftJoin("tire_patterns", "tire_sizes.tire_pattern_id", "=", "tire_patterns.id")
+                ->where("tires.company_id", $company->id)
                 ->has("history_tire_movement");
             if ($tiresize_id) {
                 $data = $data->where("tire_size_id", $tiresize_id);
