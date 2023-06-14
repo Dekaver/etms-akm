@@ -125,7 +125,7 @@ class CompanyController extends Controller
                 $a = TirePattern::where("company_id", $selected_company_id)->get();
                 foreach ($a as $key => $value) {
                     $manufacture = $value->manufacture;
-                    $newTireManufacture = TireManufacture::where("name", $manufacture->name)->where("company_id", $selected_company_id)->first();
+                    $newTireManufacture = TireManufacture::where("name", $manufacture->name)->where("company_id", $company->id)->first();
                     $value = $value->replicate();
                     $value->company_id = $company->id;
                     $value->tire_manufacture_id = $newTireManufacture->id;

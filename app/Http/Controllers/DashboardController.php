@@ -22,11 +22,11 @@ class DashboardController extends Controller
     {
         $date = Carbon::now();
 
-        $new = TireMaster::whereHas("tire_status", function ($query) {
+        $new = TireMaster::where("company_id", auth()->user()->company->id)->whereHas("tire_status", function ($query) {
             $query->where("status", "NEW");
         })->count();
 
-        $new_install = TireMaster::whereHas("tire_status", function ($query) {
+        $new_install = TireMaster::where("company_id", auth()->user()->company->id)->whereHas("tire_status", function ($query) {
             $query->where("status", "RUNNING");
         })->whereHas("tire_running", function ($q) use ($date) {
             $q->whereHas("tire_movement", function ($q) use ($date) {
@@ -35,19 +35,19 @@ class DashboardController extends Controller
             });
         })->count();
 
-        $spare = TireMaster::whereHas("tire_status", function ($query) {
+        $spare = TireMaster::where("company_id", auth()->user()->company->id)->whereHas("tire_status", function ($query) {
             $query->where("status", "SPARE");
         })->count();
 
-        $repair = TireMaster::whereHas("tire_status", function ($query) {
+        $repair = TireMaster::where("company_id", auth()->user()->company->id)->whereHas("tire_status", function ($query) {
             $query->where("status", "REPAIR");
         })->count();
 
-        $running = TireMaster::whereHas("tire_status", function ($query) {
+        $running = TireMaster::where("company_id", auth()->user()->company->id)->whereHas("tire_status", function ($query) {
             $query->where("status", "RUNNING");
         })->count();
 
-        $scrap = TireMaster::whereHas("tire_status", function ($query) {
+        $scrap = TireMaster::where("company_id", auth()->user()->company->id)->whereHas("tire_status", function ($query) {
             $query->where("status", "SCRAP");
         })->count();
 
