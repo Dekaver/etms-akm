@@ -115,8 +115,7 @@ class DailyInspectController extends Controller
         if ($request->hm > $unit->hm || $request->km > $unit->km) {
 
             // update tire lifetime
-            $tire_running = TireRunning::where('unit_id', $request->unit_id)->get();
-
+            $tire_running = TireRunning::where('unit_id', $unit->id)->get();
             foreach ($tire_running as $key => $running) {
                 $tire = $running->tire;
 
