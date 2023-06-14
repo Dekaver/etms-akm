@@ -122,7 +122,6 @@ class DailyInspectController extends Controller
                 // update HM
                 if ($request->hm > $unit->hm) {
                     $diff_smu = (int) $request->hm - (int) $unit->hm;
-                    $unit->hm = (int) $request->hm;
 
                     $tire->lifetime_hm += $diff_smu;
                     if ($tire->is_repair) {
@@ -136,7 +135,6 @@ class DailyInspectController extends Controller
                 // update HM
                 if ($request->km > $unit->km) {
                     $diff_smu = (int) $request->km - (int) $unit->km;
-                    $unit->km = (int) $request->km;
 
                     $tire->lifetime_km += $diff_smu;
                     if ($tire->is_repair) {
@@ -151,6 +149,12 @@ class DailyInspectController extends Controller
 
                 $tire->save();
             }
+
+            if ($request->hm_actual > $unit->hm)
+                $unit->km = (int) $request->km;
+
+            if ($request->km_actual > $unit->km)
+                $unit->hm = (int) $request->hm;
             $unit->save();
         }
         // end update lifetime
@@ -159,7 +163,7 @@ class DailyInspectController extends Controller
             $tire_inspection = DailyInspect::firstOrCreate(
                 [
                     "company_id" => auth()->user()->company->id,
-                    "site_id" => auth()->user()->company->id,
+                    "site_id" => auth()->user()->site->id,
                     "tire_id" => $request->tire_id[$position],
                     "unit_id" => $unit->id,
                     "date" => $request->date,

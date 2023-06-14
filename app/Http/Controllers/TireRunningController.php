@@ -160,7 +160,9 @@ class TireRunningController extends Controller
         $tire_size = $unit->unit_model->tire_size;
         $tire_running = TireRunning::where('unit_id', $unit->id)->orderBy("position")->get();
 
-        $tire_inventory = TireMaster::where("tire_size_id", $tire_size->id)
+        $tire_inventory = TireMaster::whereHas("tire_size", function ($query) use ($tire_size) {
+            $query->where("size", $tire_size->size);
+        })
             ->whereHas('tire_status', function ($query) {
                 $query->whereIn('status', ['spare', 'new']);
             })
@@ -245,8 +247,6 @@ class TireRunningController extends Controller
                                 $tire->lifetime_repair_km += $diff_smu;
                             if ($tire->is_retread)
                                 $tire->lifetime_retread_km += $diff_smu;
-                        }
-                        if ($key == 1) {
                         }
                         $tire->save();
                     }

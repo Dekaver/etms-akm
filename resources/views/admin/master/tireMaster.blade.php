@@ -59,7 +59,8 @@
                                             <select class="select" name="tiresite">
                                                 <option value="">Choose Site</option>
                                                 @foreach ($site as $item)
-                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresite_id)>{{ $item->name }}</option>
+                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresite_id)>
+                                                        {{ $item->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -69,7 +70,8 @@
                                             <select class="select" name="tiresize">
                                                 <option value="">Choose Size</option>
                                                 @foreach ($tiresize as $item2)
-                                                    <option value="{{ $item2->id }}" @selected($item2->id == $tiresize_id)>{{ $item2->size }}</option>
+                                                    <option value="{{ $item2->id }}" @selected($item2->id == $tiresize_id)>
+                                                        {{ $item2->size }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -79,7 +81,8 @@
                                             <select class="select" name="tirestatus">
                                                 <option value="">Choose Status</option>
                                                 @foreach ($tirestatus as $item3)
-                                                    <option value="{{ $item3->id }}"  @selected($item3->id == $tirestatus_id)>{{ $item3->status }}</option>
+                                                    <option value="{{ $item3->id }}" @selected($item3->id == $tirestatus_id)>
+                                                        {{ $item3->status }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -87,7 +90,7 @@
                                     <div class="col-lg-1 col-sm-6 col-12">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-filters ms-auto"><img
-                                                src="assets/img/icons/search-whites.svg" alt="img"></button>
+                                                    src="assets/img/icons/search-whites.svg" alt="img"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +139,7 @@
                                 <div class="form-group mb-0">
                                     <label>Site</label>
                                     <select class="select" name="site_id" required>
-                                        <option>Choose Site</option>
+                                        <option value="">Choose Site</option>
                                         @foreach ($site as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
@@ -151,33 +154,38 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Size</label>
-                                    <select class="select" name="tire_size_id" required>
-                                        <option>Choose Size</option>
-                                        @foreach ($tiresize as $item2)
-                                            <option value="{{ $item2->id }}">{{ $item2->size }}</option>
+                                    <label>Status</label>
+                                    <select class="select" name="tire_status_id" required>
+                                        <option value="">Choose Status</option>
+                                        @foreach ($tirestatus as $item4)
+                                            <option value="{{ $item4->id }}">{{ $item4->status }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6">
+
+                            <div class="col-5">
                                 <div class="form-group">
                                     <label>Compound</label>
                                     <select class="select" name="tire_compound_id" required>
-                                        <option>Choose Compound</option>
+                                        <option value="">Choose Compound</option>
                                         @foreach ($tirecompound as $item3)
                                             <option value="{{ $item3->id }}">{{ $item3->compound }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-7">
                                 <div class="form-group">
-                                    <label>Status</label>
-                                    <select class="select" name="tire_status_id" required>
-                                        <option>Choose Status</option>
-                                        @foreach ($tirestatus as $item4)
-                                            <option value="{{ $item4->id }}">{{ $item4->status }}</option>
+                                    <label>Size</label>
+                                    <select class="select" name="tire_size_id" required>
+                                        <option value="">Choose Size</option>
+                                        @foreach ($tiresize as $item2)
+                                            <option value="{{ $item2->id }}">
+                                                {{ $item2->size }} - {{ $item2->tire_pattern->manufacture->name }} -
+                                                {{ $item2->tire_pattern->pattern }} -
+                                                {{ $item2->tire_pattern->type_pattern }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -185,19 +193,19 @@
                             <div class="col-2">
                                 <div class="form-group">
                                     <label>Lifetime HM</label>
-                                    <input type="text" name="lifetime_hm" required>
+                                    <input type="number" class="form-control" value="0" name="lifetime_hm" required>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="form-group">
                                     <label>Lifetime KM</label>
-                                    <input type="text" name="lifetime_km" required>
+                                    <input type="number" class="form-control" value="0" name="lifetime_km" required>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>RTD</label>
-                                    <input type="text" name="rtd" required>
+                                    <input type="number" class="form-control" value="0" name="rtd" required>
                                 </div>
                             </div>
                             <div class="col-4">

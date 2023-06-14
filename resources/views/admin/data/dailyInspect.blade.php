@@ -141,7 +141,7 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>Date</label>
-                                    <input type="text" name="date"
+                                    <input type="date" name="date" class="form-control"
                                         value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 </div>
                             </div>
