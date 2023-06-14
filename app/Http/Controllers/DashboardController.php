@@ -10,6 +10,7 @@ use App\Models\TirePattern;
 use App\Models\TireSize;
 use App\Models\UnitModel;
 use Carbon\Carbon;
+use DB;
 use Gate;
 use Illuminate\Http\Request;
 
