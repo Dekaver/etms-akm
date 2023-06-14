@@ -575,13 +575,13 @@
                             <div class="form-group col">
                                 <label for="">Start time</label>
                                 <input type="datetime-local" name="start_date" class="form-control" required
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}">
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
                                 <div class="invalid-feedback">Please fill a time Start.</div>
                             </div>
                             <div class="form-group col">
                                 <label for="">End time</label>
                                 <input type="datetime-local" name="end_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
                         </div>
@@ -590,7 +590,7 @@
                             <div class="form-group col">
                                 <label for="">Date Breakdown</label>
                                 <input type="date" name="start_breakdown" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
                                 <div class="invalid-feedback">Please fill a start breakdown.</div>
                             </div>
                             <div class="form-group col">
@@ -698,13 +698,13 @@
                             <div class="form-group col">
                                 <label for="">Start Install</label>
                                 <input type="datetime-local" name="start_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time start.</div>
                             </div>
                             <div class="form-group col">
                                 <label for="">End Install</label>
                                 <input type="datetime-local" name="end_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}" required>
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
                         </div>
