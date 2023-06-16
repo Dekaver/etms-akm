@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Running Unit</h4>
+            <h4>Daily Monitoring</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Running Unit</li>
+                    <li class="breadcrumb-item active" aria-current="page">Daily Monitoring</li>
                 </ol>
             </nav>
         </div>

@@ -2,13 +2,13 @@
 
     <!-- Logo -->
     <div class="header-left active">
-        <a href="index.html" class="logo logo-normal">
+        <a href="/dashboard" class="logo logo-normal">
             <img src="{{ asset('assets/img/logo.png') }}" alt="">
         </a>
-        <a href="index.html" class="logo logo-white">
+        <a href="/dashboard" class="logo logo-white">
             <img src="{{ asset('assets/img/logo-white.png') }}" alt="">
         </a>
-        <a href="index.html" class="logo-small">
+        <a href="/dashboard" class="logo-small">
             <img src="{{ asset('assets/img/logo-small.png') }}" alt="">
         </a>
         <a id="toggle_btn" href="javascript:void(0);">
@@ -25,9 +25,19 @@
     </a>
 
     <!-- Header Menu -->
-    <ul class="nav user-menu">
+    <ul class="nav user-menu justify-content-end" style="position: relative; float: none;">
 
         <!-- Search -->
+        <li class="nav-item h-100 d-flex align-items-center " style="position: absolute; left: 1.5rem;">
+            <div class="btn-group btn-group-md">
+                <a href="/tirerunning" type="button" class="btn btn-primary">
+                    <i class="fa-solid fa-up-down-left-right me-2"></i>Tire Movement
+                </a>
+                <a href="/dailyinspect" type="button" class="btn btn-success">
+                    <i class="fa-solid fa-clipboard me-2"></i>Daily Monitoring
+                </a>
+            </div>
+        </li>
         <li class="nav-item">
             <div class="top-nav-search">
 

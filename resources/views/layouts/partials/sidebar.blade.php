@@ -1,7 +1,7 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
-        <div id="sidebar-menu" class="sidebar-menu">
-            <ul>
+        <div id="sidebar-menu" class="sidebar-menu h-100">
+            <ul class="h-100">
                 <li class="{{ Request::routeIs('dashboard') ? 'active' : '' }}">
                     <a href="/dashboard"><img src="{{ asset('assets/img/icons/dashboard.svg') }}" alt="img"><span>
                             Dashboard</span> </a>
@@ -97,6 +97,35 @@
                     </ul>
                 </li>
                 <li class="submenu">
+                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/purchase1.svg') }}"
+                            alt="img"><span>
+                            Data Report</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        @can('REPORT')
+                            <li><a href="/report-tire-status"
+                                    class="{{ Request::routeIs('report.tirestatus') ? 'active' : '' }}">Report Status
+                                    Tire</a></li>
+                        @endcan
+                        @can('HISTORY_TIRE_MOVEMENT')
+                            <li><a href="/historytire"
+                                    class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Report Daily
+                                    Inspect</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/return1.svg') }}"
+                            alt="img"><span>
+                            Data History</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        @can('HISTORY_TIRE')
+                            <li><a href="/historytiremovement"
+                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Tire
+                                    Movement</a></li>
+                        @endcan
+                    </ul>
+                </li>
+                <li class="submenu">
                     <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/transfer1.svg') }}"
                             alt="img"><span>
                             Manajemen User</span> <span class="menu-arrow"></span></a>
@@ -118,38 +147,6 @@
                             <li><a href="/role" class="{{ Request::routeIs('role.*') ? 'active' : '' }}">Role</a></li>
                         @endcan
 
-                    </ul>
-                </li>
-
-
-                <li class="submenu">
-                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/purchase1.svg') }}"
-                            alt="img"><span>
-                            Data Report</span> <span class="menu-arrow"></span></a>
-                    <ul>
-                        @can('REPORT')
-                            <li><a href="/report-tire-status"
-                                    class="{{ Request::routeIs('report.tirestatus') ? 'active' : '' }}">Report Status
-                                    Tire</a></li>
-                        @endcan
-                        @can('HISTORY_TIRE_MOVEMENT')
-                            <li><a href="/historytire"
-                                    class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Report Daily
-                                    Inspect</a></li>
-                        @endcan
-                    </ul>
-                </li>
-
-                <li class="submenu">
-                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/return1.svg') }}"
-                            alt="img"><span>
-                            Data History</span> <span class="menu-arrow"></span></a>
-                    <ul>
-                        @can('HISTORY_TIRE')
-                            <li><a href="/historytiremovement"
-                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Tire
-                                    Movement</a></li>
-                        @endcan
                     </ul>
                 </li>
             </ul>

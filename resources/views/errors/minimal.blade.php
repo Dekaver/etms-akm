@@ -41,9 +41,9 @@
 </head>
 
 <body class="error-page">
-    <div id="global-loader">
+    {{-- <div id="global-loader">
         <div class="whirly-loader"> </div>
-    </div>
+    </div> --}}
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <div class="error-box">
