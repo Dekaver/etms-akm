@@ -26,7 +26,7 @@ class TireMasterController extends Controller
         $site = Site::where('company_id', $company->id)->get();
         $tiresize = TireSize::where('company_id', $company->id)->with("tire_pattern")->with("tire_pattern.manufacture")->get();
         $tirecompound = TireCompound::where('company_id', $company->id)->get();
-        $tirestatus = TireStatus::where('company_id', $company->id)->get();
+        $tirestatus = TireStatus::all();
 
         if ($request->ajax()) {
             $data = TireMaster::where('company_id', $company->id);

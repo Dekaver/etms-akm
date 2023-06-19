@@ -25,7 +25,7 @@ class HistoryTireMovementController extends Controller
 
         $tiresize = TireSize::where('company_id', $company->id)->get();
         $tirepattern = TirePattern::where('company_id', $company->id)->get();
-        $tirestatus = TireStatus::where('company_id', $company->id)->get();
+        $tirestatus = TireStatus::all();
 
         if ($request->ajax()) {
             $data = TireMaster::select("tires.*", "tire_sizes.size", "sites.name as site", "tire_statuses.status", "tire_patterns.pattern", "tire_compounds.compound")

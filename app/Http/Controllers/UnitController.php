@@ -23,7 +23,7 @@ class UnitController extends Controller
         $company = auth()->user()->company;
 
         $sites = Site::where('company_id', $company->id)->get();
-        $unit_status = UnitStatus::where('company_id', $company->id)->get();
+        $unit_status = UnitStatus::all();
         $unit_model = UnitModel::where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
