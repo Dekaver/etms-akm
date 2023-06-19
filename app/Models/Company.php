@@ -13,6 +13,10 @@ class Company extends Model
         "name",
         "initial",
         "email",
+        "address",
+        "city",
+        "state",
+        "logo",
     ];
 
     public function user()

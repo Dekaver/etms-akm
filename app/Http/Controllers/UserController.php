@@ -140,4 +140,13 @@ class UserController extends Controller
 
         return redirect()->back()->with("success", "Update Permission User");
     }
+
+    public function updateCompany(Request $request, string $id)
+    {
+        auth()->user()->company()->update([
+            "company_id" => $id
+        ]);
+
+        return redirect()->back()->with("success", "Update Company");
+    }
 }

@@ -131,8 +131,8 @@
                                             <div class="mb-3">
                                                 <label for="progresspill-firstname-input">Full Name<span
                                                         class="manitory">*</span></label>
-                                                <input type="text" class="form-control" name="company_name"
-                                                    required id="progresspill-firstname-input">
+                                                <input type="text" class="form-control" name="company_name" required
+                                                    id="progresspill-firstname-input">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -345,22 +345,46 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 col-md-8">
                                 <div class="form-group">
                                     <label>Nama<span class="manitory">*</span></label>
                                     <input type="text" name="name" required>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-md-4">
                                 <div class="form-group">
                                     <label>Initial<span class="manitory">*</span></label>
                                     <input type="text" name="initial" required>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label>Email<span class="manitory">*</span></label>
                                     <input type="text" name="email" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label>Logo</label>
+                                    <input type="text" name="logo">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label>State</label>
+                                    <input type="text" name="state">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input type="text" name="city">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <div class="form-group">
+                                    <label>address</label>
+                                    <input type="text" name="address">
                                 </div>
                             </div>
                         </div>

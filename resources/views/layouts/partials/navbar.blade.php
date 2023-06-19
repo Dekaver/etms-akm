@@ -78,7 +78,7 @@
             </div>
         </li> --}}
         <!-- /Flag -->
-        
+
         <li class="nav-item d-flex align-items-center justify-content-center">
             <p class="fw-bold">{{ strtoupper(auth()->user()->company->name ?? '') }}</p>
         </li>
@@ -122,22 +122,31 @@
                 </div>
                 <div class="noti-content">
                     <ul class="notification-list">
-                        <li class="notification-message">
-                            <a href="/dashboard">
-                                <div class="media d-flex">
-                                    <span class="avatar flex-shrink-0">
-                                        <img alt="" src="https://arshakamandiri.com/wp-content/uploads/2023/01/thhumbnail-arrshaka.jpg">
-                                    </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details mb-0"><span class="noti-title">PT. ARSHAKA KUSUMA MANDIRI</span>
-                                        </p>
-                                        <p class="noti-time"><span class="notification-time">Balikpapan, Kalimantan Timur</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
+                        @foreach ($companies as $item)
+                            <li class="notification-message">
+                                <form action="{{ route('user.company.update', $item->id) }}" method="post">
+                                    @csrf
+                                    <a onclick="document.parentElement.submit()">
+                                        <div class="media d-flex">
+                                            <span class="avatar flex-shrink-0">
+                                                <img alt=""
+                                                    src="https://arshakamandiri.com/wp-content/uploads/2023/01/thhumbnail-arrshaka.jpg">
+                                            </span>
+                                            <div class="media-body flex-grow-1">
+                                                <p class="noti-details mb-0"><span
+                                                        class="noti-title">{{ $item->name }}</span>
+                                                </p>
+                                                <p class="noti-time"><span
+                                                        class="notification-time">{{ $item->city . ', ' }}
+                                                        {{ $item->state }}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </form>
+                            </li>
+                        @endforeach
+                        {{-- <li class="notification-message">
                             <a href="/dashboard">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
@@ -166,7 +175,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <div class="topnav-dropdown-footer">
@@ -191,8 +200,8 @@
                 </li>
             </ul>
         </div> --}}
-        
-        
+
+
     </ul>
     <!-- /Header Menu -->
 

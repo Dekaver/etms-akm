@@ -34,6 +34,7 @@ return new class extends Migration {
             $table->text("remark")->nullable();
             $table->timestamps();
             $table->foreign('tire_damage_id')->references('id')->on('tire_damages');
+            $table->unique(["company_id", "site_id", "position", "date", "unit_id", "tire_id"], "daily_inspect_multi_unique");
         });
     }
 

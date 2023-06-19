@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string("pattern");
             $table->string("type_pattern");
             $table->timestamps();
+            $table->unique(["tire_manufacture_id", "pattern", "type_pattern", "company_id"], "tire_patterns_multi_unique");
         });
     }
 

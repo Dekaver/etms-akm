@@ -7,7 +7,6 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\TireController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TireManufactureController;
@@ -21,12 +20,10 @@ use App\Http\Controllers\TireMasterController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UnitStatusController;
 use App\Http\Controllers\UnitModelController;
-use App\Http\Controllers\TireDisposisiController;
 use App\Http\Controllers\TireRepairController;
 use App\Http\Controllers\TireRunningController;
 use App\Http\Controllers\DailyInspectController;
 use App\Http\Controllers\HistoryTireController;
-use App\Models\TireManufacture;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,7 +48,9 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth'])->group(function () {
     Route::get("dashboard", [DashboardController::class, "index"])->name("dashboard");
-
+    Route::middleware(['permission:USER_MANAJEMEN', 'role:superadmin'])->group(function () {
+        Route::post('user/{id}/company', [UserController::class, "updateCompany"])->name("user.company.update");
+    });
     Route::middleware(['permission:USER_MANAJEMEN'])->group(function () {
         Route::resource("user", UserController::class);
         Route::resource("permission", PermissionController::class)->middleware("permission:PERMISSION");
@@ -123,7 +122,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get("aaaa", function () {
-    
+
 
     // $a = \App\Models\TireSize::where("company_id", 1)->get();
     // foreach ($a as $key => $value) {

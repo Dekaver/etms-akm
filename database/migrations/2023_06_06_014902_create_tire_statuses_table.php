@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::create('tire_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("company_id")->constrained("companies");
             $table->string("status");
             $table->timestamps();
         });

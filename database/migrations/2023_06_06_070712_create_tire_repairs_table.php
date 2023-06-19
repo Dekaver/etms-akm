@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('tire_repairs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("company_id")->constrained("companies");
             $table->foreignId("tire_id")->constrained("tires");
             $table->foreignId("tire_status_id")->constrained("tire_statuses");
             $table->unsignedBigInteger('tire_damage_id')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration {
             $table->dateTime("end_date");
             $table->string("move");
             $table->timestamps();
+            $table->unique(["company_id", "tire_id", "tire_status_id", "start_date"], "tire_repair_multi_unique");
         });
     }
 

@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Permission;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
                 return $user->hasPermissionTo($permission->name) ? true : null;
             });
         }
+
+        View::share('companies', Company::all());
 
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer("target_lifetime");
             $table->integer("price")->default(0);
             $table->timestamps();
+            $table->unique(["company_id", "size", "tire_pattern_id"]);
         });
 
     }

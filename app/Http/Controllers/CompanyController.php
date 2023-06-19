@@ -69,6 +69,9 @@ class CompanyController extends Controller
             "name" => $request->company_name,
             "initial" => $request->initial,
             "email" => $request->email,
+            "address" => $request->address,
+            "city" => $request->city,
+            "state" => $request->state,
         ]);
 
         $user = User::create([
@@ -166,6 +169,10 @@ class CompanyController extends Controller
         $company->name = $request->name;
         $company->initial = $request->initial;
         $company->email = $request->email;
+        $company->address = $request->address;
+        $company->city = $request->city;
+        $company->state = $request->state;
+        $company->logo = $request->logo;
         $company->save();
 
         return redirect()->back()->with("success", "Updated Customer");

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId("company_id")->constrained("companies");
             $table->string("compound");
             $table->timestamps();
+            $table->unique(["compound", "company_id"]);
         });
     }
 
