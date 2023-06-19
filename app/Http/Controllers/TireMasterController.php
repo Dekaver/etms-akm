@@ -52,7 +52,7 @@ class TireMasterController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
-                                    data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
+                                    data-bs-target='#form-modal-edit'  data-bs-toggle='modal' data-id='$row->id'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
                                 </a>
                                 <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
@@ -66,7 +66,7 @@ class TireMasterController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tireMaster", compact('tiresite_id','tiresize_id','tirestatus_id', 'site', 'tiresize', 'tirecompound', 'tirestatus'));
+        return view("admin.master.tireMaster", compact('tiresite_id', 'tiresize_id', 'tirestatus_id', 'site', 'tiresize', 'tirecompound', 'tirestatus'));
     }
 
     /**
@@ -82,6 +82,7 @@ class TireMasterController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
 
         $request->validate([
             "site_id" => "required",
@@ -96,20 +97,29 @@ class TireMasterController extends Controller
         ]);
 
         $company = auth()->user()->company;
-
-        TireMaster::create([
-            'company_id' => $company->id,
-            'tire_supplier_id' => 1,
-            'site_id' => $request->site_id,
-            'serial_number' => $request->serial_number,
-            'tire_size_id' => $request->tire_size_id,
-            'tire_compound_id' => $request->tire_compound_id,
-            'tire_status_id' => $request->tire_status_id,
-            'lifetime_km' => $request->lifetime_km,
-            'lifetime_hm' => $request->lifetime_hm,
-            'rtd' => $request->rtd,
-            'date' => $request->date,
-        ]);
+        $failed_create = [];
+        foreach (preg_split("/\r\n|\r|\n/", $request->serial_number) as $key => $serial_number) {
+            try {
+                TireMaster::create([
+                    'company_id' => $company->id,
+                    'tire_supplier_id' => 1,
+                    'site_id' => $request->site_id,
+                    'serial_number' => $serial_number,
+                    'tire_size_id' => $request->tire_size_id,
+                    'tire_compound_id' => $request->tire_compound_id,
+                    'tire_status_id' => $request->tire_status_id,
+                    'lifetime_km' => $request->lifetime_km,
+                    'lifetime_hm' => $request->lifetime_hm,
+                    'rtd' => $request->rtd,
+                    'date' => $request->date,
+                ]);
+            } catch (\Throwable $th) {
+                $failed_create[] = $serial_number;
+            }
+        }
+        if (count($failed_create) > 0) {
+            return redirect()->back()->with("error", "Serial Number " . implode(", ", $failed_create) . "already exist");
+        }
 
         return redirect()->back()->with("success", "Created Tire Master");
     }
