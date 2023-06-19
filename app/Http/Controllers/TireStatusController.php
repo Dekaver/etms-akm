@@ -13,10 +13,9 @@ class TireStatusController extends Controller
      */
     public function index(Request $request)
     {
-        $company = auth()->user()->company;
 
         if ($request->ajax()) {
-            $data = TireStatus::where('company_id', $company->id);
+            $data = TireStatus::select("*");
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -54,11 +53,9 @@ class TireStatusController extends Controller
         $request->validate([
             "status" => "required"
         ]);
-        $company = auth()->user()->company;
 
         TireStatus::create([
             "status" => $request->status,
-            "company_id" => $company->id,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Status");

@@ -14,10 +14,8 @@ class UnitStatusController extends Controller
      */
     public function index(Request $request)
     {
-        $company = auth()->user()->company;
-
         if ($request->ajax()) {
-            $data = UnitStatus::where('company_id', $company->id);
+            $data = UnitStatus::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -52,10 +50,7 @@ class UnitStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $company = auth()->user()->company;
-
         UnitStatus::create([
-            "company_id" => $company->id,
             "status_code" => $request->status_code,
             "description" => $request->description,
         ]);

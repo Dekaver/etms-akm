@@ -10,6 +10,5 @@ class TireStatus extends Model
     use HasFactory;
     protected $fillable = [
         "status",
-        "company_id",
     ];
 }

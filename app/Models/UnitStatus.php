@@ -10,7 +10,6 @@ class UnitStatus extends Model
     use HasFactory;
 
     protected $fillable = [
-        "company_id",
         "status_code",
         "description",
     ];
