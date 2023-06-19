@@ -8,7 +8,7 @@
                 overflow-x: hidden;
             }
         </style>
-        <div class="page-header">
+        {{-- <div class="page-header">
             <div class="page-title">
                 <h4>{{ strtoupper(auth()->user()->company->name ?? '') }} - {{ auth()->user()->site->name ?? '' }}</h4>
                 <nav aria-label="breadcrumb">
@@ -17,7 +17,7 @@
                     </ol>
                 </nav>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="col-lg col-sm-6 col-12 d-flex">

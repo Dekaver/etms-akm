@@ -27,7 +27,6 @@
     <!-- Header Menu -->
     <ul class="nav user-menu justify-content-end" style="position: relative; float: none;">
 
-        <!-- Search -->
         <li class="nav-item h-100 d-flex align-items-center " style="position: absolute; left: 1.5rem;">
             <div class="btn-group btn-group-md">
                 <a href="/tirerunning" type="button" class="btn btn-primary">
@@ -38,7 +37,7 @@
                 </a>
             </div>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <div class="top-nav-search">
 
                 <a href="javascript:void(0);" class="responsive-search">
@@ -55,7 +54,7 @@
                             alt="img"></a>
                 </form>
             </div>
-        </li>
+        </li> --}}
         <!-- /Search -->
 
         <!-- Flag -->
@@ -79,129 +78,10 @@
             </div>
         </li> --}}
         <!-- /Flag -->
-
-        <!-- Notifications -->
-        {{-- <li class="nav-item dropdown">
-            <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <img src="{{ asset('assets/img/icons/notification-bing') }}.svg" alt="img"> <span
-                    class="badge rounded-pill">4</span>
-            </a>
-            <div class="dropdown-menu notifications">
-                <div class="topnav-dropdown-header">
-                    <span class="notification-title">Notifications</span>
-                    <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                </div>
-                <div class="noti-content">
-                    <ul class="notification-list">
-                        <li class="notification-message">
-                            <a href="activities.html">
-                                <div class="media d-flex">
-                                    <span class="avatar flex-shrink-0">
-                                        <img alt="" src="{{ asset('assets/img/profiles/avatar-02.jpg') }}">
-                                    </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title">John Doe</span> added
-                                            new task <span class="noti-title">Patient appointment booking</span>
-                                        </p>
-                                        <p class="noti-time"><span class="notification-time">4 mins ago</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="activities.html">
-                                <div class="media d-flex">
-                                    <span class="avatar flex-shrink-0">
-                                        <img alt="" src="{{ asset('assets/img/profiles/avatar-03.jpg') }}">
-                                    </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title">Tarah
-                                                Shropshire</span> changed the task name <span
-                                                class="noti-title">Appointment booking with payment
-                                                gateway</span></p>
-                                        <p class="noti-time"><span class="notification-time">6 mins ago</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="activities.html">
-                                <div class="media d-flex">
-                                    <span class="avatar flex-shrink-0">
-                                        <img alt="" src="{{ asset('assets/img/profiles/avatar-06.jpg') }}">
-                                    </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title">Misty Tison</span>
-                                            added <span class="noti-title">Domenic Houston</span> and <span
-                                                class="noti-title">Claire Mapes</span> to project <span
-                                                class="noti-title">Doctor available module</span></p>
-                                        <p class="noti-time"><span class="notification-time">8 mins ago</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="activities.html">
-                                <div class="media d-flex">
-                                    <span class="avatar flex-shrink-0">
-                                        <img alt="" src="{{ asset('assets/img/profiles/avatar-17.jpg') }}">
-                                    </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title">Rolland Webber</span>
-                                            completed task <span class="noti-title">Patient and Doctor video
-                                                conferencing</span></p>
-                                        <p class="noti-time"><span class="notification-time">12 mins
-                                                ago</span></p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="activities.html">
-                                <div class="media d-flex">
-                                    <span class="avatar flex-shrink-0">
-                                        <img alt="" src="{{ asset('assets/img/profiles/avatar-13.jpg') }}">
-                                    </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title">Bernardo
-                                                Galaviz</span> added new task <span class="noti-title">Private
-                                                chat module</span></p>
-                                        <p class="noti-time"><span class="notification-time">2 days ago</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="activities.html">View all Notifications</a>
-                </div>
-            </div>
-        </li> --}}
-        <!-- /Notifications -->
-
-        {{-- <div class="dropdown">
-            <button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                2022 <img src="assets/img/icons/dropdown.svg" alt="img" class="ms-2">
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li>
-                    <a href="javascript:void(0);" class="dropdown-item">2022</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="dropdown-item">2021</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="dropdown-item">2020</a>
-                </li>
-            </ul>
-        </div> --}}
         
+        <li class="nav-item d-flex align-items-center justify-content-center">
+            <p class="fw-bold">{{ strtoupper(auth()->user()->company->name ?? '') }}</p>
+        </li>
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
                 <span class="user-img"><img src="{{ asset('assets/img/profiles/avator1.jpg') }}" alt="">
@@ -232,6 +112,87 @@
                 </div>
             </div>
         </li>
+        <li class="nav-item dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <img src="{{ asset('assets/img/icons/transfer1') }}.svg" alt="img" width="20px">
+            </a>
+            <div class="dropdown-menu notifications">
+                <div class="topnav-dropdown-header">
+                    <span class="notification-title">Switch Company</span>
+                </div>
+                <div class="noti-content">
+                    <ul class="notification-list">
+                        <li class="notification-message">
+                            <a href="/dashboard">
+                                <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                        <img alt="" src="https://arshakamandiri.com/wp-content/uploads/2023/01/thhumbnail-arrshaka.jpg">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                        <p class="noti-details mb-0"><span class="noti-title">PT. ARSHAKA KUSUMA MANDIRI</span>
+                                        </p>
+                                        <p class="noti-time"><span class="notification-time">Balikpapan, Kalimantan Timur</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="notification-message">
+                            <a href="/dashboard">
+                                <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                        <img alt="" src="https://electrek.co/wp-content/uploads/sites/3/2021/12/Goodyear-EV-Tire.jpg?quality=82&strip=all">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                        <p class="noti-details mb-0"><span class="noti-title">PT. SINAR MAS JAYA</span>
+                                        </p>
+                                        <p class="noti-time"><span class="notification-time">Pontianak, Kalimantan Barat</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="notification-message">
+                            <a href="/dashboard">
+                                <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                        <img alt="" src="https://www.datocms-assets.com/27230/1610258420-michelin.png">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                        <p class="noti-details mb-0"><span class="noti-title">PT. MICHELIN INDONESIA</span>
+                                        </p>
+                                        <p class="noti-time"><span class="notification-time">Bandung, Jawa Barat</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="topnav-dropdown-footer">
+                    <a href="activities.html">View all Company</a>
+                </div>
+            </div>
+        </li>
+        {{-- <div class="dropdown">
+            <button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                2022 <img src="assets/img/icons/dropdown.svg" alt="img" class="ms-2">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a href="javascript:void(0);" class="dropdown-item">2022</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="dropdown-item">2021</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="dropdown-item">2020</a>
+                </li>
+            </ul>
+        </div> --}}
+        
+        
     </ul>
     <!-- /Header Menu -->
 
