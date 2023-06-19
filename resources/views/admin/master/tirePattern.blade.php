@@ -120,9 +120,9 @@
                                     <label>Type Pattern</label>
                                     <select class="select" name="type_pattern" required>
                                         <option selected disabled>Choose Manufacture</option>
-                                        <option> Lug</option>
-                                        <option> Mix</option>
-                                        <option> Rib</option>
+                                        <option>LUG</option>
+                                        <option>MIX</option>
+                                        <option>RIB</option>
                                     </select>
                                 </div>
                             </div>
