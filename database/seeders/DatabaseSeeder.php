@@ -176,17 +176,17 @@ class DatabaseSeeder extends Seeder
             "description" => "Running"
         ]);
 
-        UnitModel::create([
-            'company_id' => 1,
-            "tire_size_id" => 3,
-            "brand" => "Scania",
-            "model" => "P360 LA 6X6",
-            "type" => "PRIME MOVER",
-            "tire_qty" => 10,
-            "axle_2_tire" => 1,
-            "axle_4_tire" => 2,
-            "axle_8_tire" => 0,
-        ]);
+        // UnitModel::create([
+        //     'company_id' => 1,
+        //     "tire_size_id" => 3,
+        //     "brand" => "Scania",
+        //     "model" => "P360 LA 6X6",
+        //     "type" => "PRIME MOVER",
+        //     "tire_qty" => 10,
+        //     "axle_2_tire" => 1,
+        //     "axle_4_tire" => 2,
+        //     "axle_8_tire" => 0,
+        // ]);
 
         // UnitModel::create([
         //     'company_id' => 1,
