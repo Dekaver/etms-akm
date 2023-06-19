@@ -127,21 +127,21 @@
             <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Form Size </h5>
+                        <h5 class="modal-title">Forms Size </h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Size</label>
                                     <input type="text" name="size" required>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="form-group mb-0">
+                            <div class="col-lg-4 col-sm-6 col-12">
+                                <div class="form-group">
                                     <label>Tire Pattern</label>
                                     <select class="select" name="tire_pattern_id" required>
                                         <option>Choose pattern</option>
@@ -152,25 +152,25 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>OTD</label>
                                     <input type="text" name="otd" required>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>Rec. Pressure</label>
                                     <input type="text" name="recomended_pressure" required>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Target Lifetime</label>
                                     <input type="text" name="target_lifetime" required>
                                 </div>
                             </div>
-                            {{-- <div class="col-4">
+                            {{-- <div class="col-lg-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>Price</label>
                                     <input type="text">
@@ -191,7 +191,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',

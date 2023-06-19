@@ -3303,9 +3303,9 @@ div.dataTables_wrapper div.dataTables_info {
   right: 0;
 }
 @media (max-width: 575px) {
-  .header .mobile-user-menu {
+  /* .header .mobile-user-menu {
     display: block;
-  }
+  } */
 }
 .header .mobile-user-menu a {
   color: #017EFA;
@@ -3696,9 +3696,9 @@ hr {
   padding-right: 15px;
 }
 @media (max-width: 575px) {
-  .user-menu {
+  /* .user-menu {
     display: none;
-  }
+  } */
 }
 .user-menu .dropdown-toggle::after {
   border: 0;
@@ -3900,14 +3900,20 @@ hr {
   .hide-sidebar {
     display: none;
   }
+  
 }
 @media (max-width: 991.98px) {
   .new-header {
     display: none;
   }
-
+  .user-menu {
+    display: none;
+  }
   .page-wrapper-one {
     padding-top: 60px;
+  }
+  .header .mobile-user-menu {
+    display: block;
   }
 }
 .header-two .header-left {
@@ -6230,7 +6236,7 @@ span.select2-container.select2-container--default.select2-container--open {
 .dash-count {
   background: #017EFA;
   color: #fff;
-  min-height: 98px;
+  min-height: 88px;
   width: 100%;
   border-radius: 6px;
   margin: 0 0 25px;

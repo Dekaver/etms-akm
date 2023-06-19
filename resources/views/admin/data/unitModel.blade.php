@@ -112,26 +112,26 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Brand</label>
                                     <input type="text" name="brand">
                                 </div>
                             </div>
-                            <div class="col-5">
+                            <div class="col-lg-5 col-6">
                                 <div class="form-group">
                                     <label>Unit Model</label>
                                     <input type="text" name="model">
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="form-group mb-0">
+                            <div class="col-lg-4 col-6">
+                                <div class="form-group">
                                     <label>Model Type</label>
                                     <input type="text" name="type">
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="form-group mb-0">
+                            <div class="col-lg-4 col-6">
+                                <div class="form-group">
                                     <label>Tire Size</label>
                                     <select class="select" name="tire_size_id">
                                         <option value="">Choose Size</option>
@@ -143,43 +143,43 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col-lg-2 col-3">
                                 <div class="form-group">
                                     <label>Tire Qty</label>
                                     <input class="form-control" value="0" type="number" name="tire_qty">
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col-lg-2 col-3">
                                 <div class="form-group">
                                     <label>Axle 2 Tire</label>
                                     <input class="form-control" value="0" type="number" name="axle_2_tire">
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col-lg-2 col-3">
                                 <div class="form-group">
                                     <label>Axle 4 Tire</label>
                                     <input class="form-control" value="0" type="number" name="axle_4_tire">
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col-lg-2 col-3">
                                 <div class="form-group">
                                     <label>Axle 8 Tire</label>
                                     <input class="form-control" value="0" type="number" name="axle_8_tire">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Load Distribution</label>
                                     <input type="text" name="distribusi_beban">
                                 </div>
                             </div>
-                            <div class="col-5">
+                            <div class="col-lg-5 col-6">
                                 <div class="form-group">
                                     <label>Empty Weight Info</label>
                                     <input type="text" name="informasi_berat_kosong">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-4 col-6">
                                 <div class="form-group">
                                     <label>Standar Load Capacity</label>
                                     <input type="text" name="standar_load_capacity">
@@ -201,7 +201,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',

@@ -96,7 +96,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: "{{ route('tiremanufacture.index') }}",
                     columns: [{
                             data: 'DT_RowIndex',
