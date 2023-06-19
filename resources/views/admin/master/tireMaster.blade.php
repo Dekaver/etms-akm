@@ -120,7 +120,7 @@
             </div>
         </div>
     </div>
-    <!-- add Modal -->
+    <!-- Edit Modal -->
     <div class="modal fade" id="form-modal-edit" data-post="new" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
             @csrf
@@ -231,7 +231,7 @@
         </form>
     </div>
 
-    <!-- Edit Modal -->
+    <!-- Add Modal -->
     <div class="modal fade" id="form-modal" data-post="new" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
             @csrf
@@ -337,7 +337,7 @@
                                     <label>Upload Xlsx</label>
                                     <div class="image-upload">
                                         <input type="file" id="upload-serial_number"
-                                            accept="application/vnd.ms-excel">
+                                            accept=".csv, application/vnd.ms-excel, .ods">
                                         <div class="image-uploads">
                                             <img src="assets/img/icons/upload.svg" alt="img">
                                             <h4>Drag and drop a file</h4>
