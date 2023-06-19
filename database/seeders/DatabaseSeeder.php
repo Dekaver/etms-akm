@@ -139,9 +139,9 @@ class DatabaseSeeder extends Seeder
             )
         );
 
-        TirePattern::factory(10)->create();
+        // TirePattern::factory(10)->create();
 
-        TireSize::factory(15)->create();
+        // TireSize::factory(15)->create();
 
 
         TireStatus::create([
