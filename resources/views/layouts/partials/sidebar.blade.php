@@ -92,7 +92,8 @@
                         @endcan
                         @can('DAILY_INSPECT')
                             <li><a href="/dailyinspect"
-                                    class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily Monitoring</a></li>
+                                    class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily Monitoring</a>
+                            </li>
                         @endcan
                     </ul>
                 </li>
@@ -113,7 +114,8 @@
                         @endcan
                         @can('HISTORY_TIRE')
                             <li><a href="/historytiremovement"
-                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Report Tire Movement</a></li>
+                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Report Tire
+                                    Movement</a></li>
                         @endcan
                     </ul>
                 </li>

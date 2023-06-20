@@ -366,7 +366,7 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label>Logo</label>
-                                    <input type="text" name="logo">
+                                    <input type="file" name="logo" accept=".png">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
@@ -452,6 +452,9 @@
                     modal.find('input[name="name"]').val(response.name);
                     modal.find('input[name="initial"]').val(response.initial);
                     modal.find('input[name="email"]').val(response.email);
+                    modal.find('input[name="city"]').val(response.city);
+                    modal.find('input[name="state"]').val(response.state);
+                    modal.find('input[name="address"]').val(response.address);
                     modal.find('input[name="_method"]').val('PUT');
                 });
                 modal.find('form').attr('action', `{{ route('company.index') }}/${id}`)
@@ -460,28 +463,6 @@
                 $(this).find('form')[0].reset();
             });
 
-
-            $('#form-modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var post = button.data('post');
-                var modal = $(this)
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('company.store') }}`)
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ route('company.index') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('input[name="name"]').val(response.name);
-                        modal.find('input[name="initial"]').val(response.initial);
-                        modal.find('input[name="email"]').val(response.email);
-                        modal.find('input[name="_method"]').val('PUT');
-                    });
-                    modal.find('form').attr('action', `{{ route('company.index') }}/${id}`)
-                }
-            });
             $('#form-modal').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
             });
