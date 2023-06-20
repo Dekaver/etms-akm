@@ -113,7 +113,149 @@
             </div>
         </div>
     </div>
-    <div class="card page-body">
+    <div class="card d-xxl-none page-body">
+        <div class="card-body px-3 py-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+                    <div class="row mb-4 justify-content-center">
+                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                            {{-- <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt=""> --}}
+                        </div>
+                        <div class="col-8">
+                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 1</p>
+                            <div class="d-flex">
+                                <div class="w-auto me-3">
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">HM</p>
+                                    <p class=" mb-0 ">KM</p>
+                                    <p class=" mb-0 ">RTD</p>
+                                </div>
+                                <div class="w-auto">
+                                    <p class=" mb-0 fw-bold">-</p>
+                                    <p class=" mb-0 ">-</p>
+                                    <p class=" mb-0 ">-</p>
+                                    <p class=" mb-0 ">-</p>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <a class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#installTireModal" data-post="new">INSTALL</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+                    <div class="row mb-4 justify-content-center">
+                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                            <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
+                        </div>
+                        <div class="col-8">
+                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 2</p>
+                            <div class="d-flex">
+                                <div class="w-auto me-3">
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">HM</p>
+                                    <p class=" mb-0 ">KM</p>
+                                    <p class=" mb-0 ">RTD</p>
+                                </div>
+                                <div class="w-auto">
+                                    <p class=" mb-0 fw-bold">1289382YNS02</p>
+                                    <p class=" mb-0 ">3049</p>
+                                    <p class=" mb-0 ">83929</p>
+                                    <p class=" mb-0 ">23</p>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new" class="btn btn-warning btn-sm">SWITCH</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REMOVE</button>
+                                    <div class="dropdown-menu">
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Spare</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Repair</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Rethread</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Scrap</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+                    <div class="row mb-4 justify-content-center">
+                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                            <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
+                        </div>
+                        <div class="col-8">
+                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 2</p>
+                            <div class="d-flex">
+                                <div class="w-auto me-3">
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">HM</p>
+                                    <p class=" mb-0 ">KM</p>
+                                    <p class=" mb-0 ">RTD</p>
+                                </div>
+                                <div class="w-auto">
+                                    <p class=" mb-0 fw-bold">1289382YNS02</p>
+                                    <p class=" mb-0 ">3049</p>
+                                    <p class=" mb-0 ">83929</p>
+                                    <p class=" mb-0 ">23</p>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new" class="btn btn-warning btn-sm">SWITCH</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REMOVE</button>
+                                    <div class="dropdown-menu">
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Spare</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Repair</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Rethread</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Scrap</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+                    <div class="row mb-4 justify-content-center">
+                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                            <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
+                        </div>
+                        <div class="col-8">
+                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 2</p>
+                            <div class="d-flex">
+                                <div class="w-auto me-3">
+                                    <p class=" mb-0 fw-bold">SN</p>
+                                    <p class=" mb-0 ">HM</p>
+                                    <p class=" mb-0 ">KM</p>
+                                    <p class=" mb-0 ">RTD</p>
+                                </div>
+                                <div class="w-auto">
+                                    <p class=" mb-0 fw-bold">1289382YNS02</p>
+                                    <p class=" mb-0 ">3049</p>
+                                    <p class=" mb-0 ">83929</p>
+                                    <p class=" mb-0 ">23</p>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new" class="btn btn-warning btn-sm">SWITCH</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">REMOVE</button>
+                                    <div class="dropdown-menu">
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Spare</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Repair</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Rethread</a>
+                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new" class="dropdown-item text-uppercase">Scrap</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card page-body d-sm-none d-none d-xxl-block">
         <div class="card-body px-5 py-4">
             <div class="row gap gap-4 bg-white px-4 py-4"
                 style="position: -webkit-sticky;position: sticky;top: 0;z-index: 999;">
@@ -144,7 +286,6 @@
             @endphp
             <div class="row mt-4">
                 <div class="col-8 py-4 px-3">
-                    {{-- AXLE 2 TIRE --}}
                     @for ($i = 0; $i < $unit_model->axle_2_tire; $i++)
                         <div class="row justify-content-center align-items-end mb-5">
                             <div class="col-auto">
@@ -239,7 +380,6 @@
                         </div>
                     @endfor
 
-                    {{-- AXLE 4 TIRE --}}
                     @for ($i = 0; $i < $unit_model->axle_4_tire; $i++)
                         <div class="row justify-content-center align-items-end mb-5">
                             <div class="col-auto">
@@ -482,6 +622,187 @@
         </div>
     </div>
 
+
+
+    <div class="modal fade" id="switchTireModal" tabindex="-1" role="dialog"
+        aria-labelledby="removeTireModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form method="POST" action="">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeTireModalLabel">Switch Tire</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-6 py-3">
+                                <p class="mb-2 text-center fw-bold fs-6">Selected Tire</p>
+                                <div class="row">
+                                    <div class="mb-2 col-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="">Tire Position</label>
+                                            <select name="tireposition" id="" disabled required class="form-control">
+                                                <option selected="true" value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">Serial Number</p>
+                                        <p class="fs-6 fw-bold">92183921847</p>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">RTD</p>
+                                        <p class="fs-6 fw-bold">2738</p>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">KM</p>
+                                        <p class="fs-6 fw-bold">3004</p>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">HM</p>
+                                        <p class="fs-6 fw-bold">2389</p>
+                                    </div>
+                                </div>
+                                <hr class="mb-0">
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 py-3">
+                                <p class="mb-2 text-center fw-bold fs-6">Switch To</p>
+                                <div class="row">
+                                    <div class="mb-2 col-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="">Tire Position</label>
+                                            <select name="tireposition" id="" required class="form-control">
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">Serial Number</p>
+                                        <p class="fs-6 fw-bold">92183921847</p>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">RTD</p>
+                                        <p class="fs-6 fw-bold">2738</p>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">KM</p>
+                                        <p class="fs-6 fw-bold">3004</p>
+                                    </div>
+                                    <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                        <p class="mb-0 text-secondary">HM</p>
+                                        <p class="fs-6 fw-bold">2389</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="form-group mb-3 col-12">
+                                        <label for="">Explanation</label>
+                                        <input type="text" name="exp" class="form-control" required>
+                                        <div class="invalid-feedback">Please fill a explanation.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
+                                        <label for="">Tire HM Remove</label>
+                                        <input type="text" class="form-control" name="hm_actual"
+                                            value="{{ $unit->hm }}" required>
+                                        <div class="text-danger d-none" id="display_error_hm">
+                                            <p>HM Tidak Boleh kurang dari sebelumnya</p>
+                                        </div>
+                                        <div class="invalid-feedback">Please fill a hour meter.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
+                                        <label for="">Tire KM Remove</label>
+                                        <input type="text" class="form-control" name="km_actual"
+                                            value="{{ $unit->km }}" required>
+                                        <div class="text-danger d-none" id="display_error_hm">
+                                            <p>KM Tidak Boleh kurang dari sebelumnya</p>
+                                        </div>
+                                        <div class="invalid-feedback">Please fill a hour meter.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
+                                        <label for="">Tire RTD Remove</label>
+                                        <input type="text" name="rtd" class="form-control" required>
+                                        <div class="invalid-feedback">Please fill a remaining tread depth.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="">Tire Damage</label>
+                                        <select class="form-control" name="tire_damage_id" required>
+                                            <option value="">Pilih Tire Damage</option>
+                                            @foreach ($tire_damage as $item)
+                                                <option value="{{ $item->id }}">{{ $item->damage }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="">Start time</label>
+                                        <input type="datetime-local" name="start_date" class="form-control" required
+                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
+                                        <div class="invalid-feedback">Please fill a time Start.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="">End time</label>
+                                        <input type="datetime-local" name="end_date" class="form-control"
+                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                        <div class="invalid-feedback">Please fill a time end.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
+                                        <label for="">Date Breakdown</label>
+                                        <input type="date" name="start_breakdown" class="form-control"
+                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
+                                        <div class="invalid-feedback">Please fill a start breakdown.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
+                                        <label for="">Status Breakdown</label>
+                                        <select name="status_breakdown" id="" required class="form-control">
+                                            <option value="">Pilih Status Breakdown</option>
+                                            <option value="Rotasi">Rotasi</option>
+                                            <option value="Matching">Matching</option>
+                                            <option value="Backlogrepair">Backlogrepair</option>
+                                            <option value="Unschedule">Unschedule</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please fill a status breakdown.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
+                                        <label for="">Lokasi Breakdown</label>
+                                        <select name="lokasi_breakdown" id="" required class="form-control">
+                                            <option value="">Pilih Lokasi</option>
+                                            <option value="Rotasi">Workshop</option>
+                                            <option value="Matching">Lapangan</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="">PIC Leader</label>
+                                        <input type="text" name="pic" class="form-control" required>
+                                        <div class="invalid-feedback">Please fill a pic leader.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="">PIC Man Power</label>
+                                        <input type="text" name="pic_man_power" class="form-control" required>
+                                        <div class="invalid-feedback">Please fill a pic man power.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="modal fade" id="removeTireModal" tabindex="-1" role="dialog"
         aria-labelledby="removeTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -497,51 +818,35 @@
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="unit_id" value="{{ $unit->id }}">
-                        <table class="w-100">
-                            <tr>
-                                <th>Remove Tire from Unit</th>
-                                <td>:</td>
-                                <td><input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="unit"
-                                        value="{{ $unit->unit_number }}" readonly></td>
-                            </tr>
-                            <tr>
-                                <th>HM unit last update</th>
-                                <td>:</td>
-                                <td><input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="hm"
-                                        value="{{ $unit->hm }}" readonly></td>
-                                <th>KM unit last update</th>
-                                <td>:</td>
-                                <td><input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="km"
-                                        value="{{ $unit->km }}" readonly></td>
-                            </tr>
-                            <tr>
-                                <th>Tire Serial Number</th>
-                                <td>:</td>
-                                <td><input type="hidden" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="tire_id">
-                                    <input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="serial_number"
-                                        readonly>
-                                </td>
-                                <th>Position</th>
-                                <td>:</td>
-                                <td><input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="position" readonly>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>RTD</th>
-                                <td>:</td>
-                                <td><input type="text" class="form-control"
-                                        style="background-color: #ffffffff;border: none" name="rtd" readonly></td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                <p class="mb-0 text-secondary">Remove Tire from Unit</p>
+                                <p class="fs-6 fw-bold">{{ $unit->unit_number }}</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                <p class="mb-0 text-secondary">Position</p>
+                                <p class="fs-6 fw-bold">-</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                <p class="mb-0 text-secondary">HM unit last update</p>
+                                <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                <p class="mb-0 text-secondary">KM unit last update</p>
+                                <p class="fs-6 fw-bold">{{ $unit->km }}</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                <p class="mb-0 text-secondary">Tire Serial Number</p>
+                                <p class="fs-6 fw-bold">-</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg-4">
+                                <p class="mb-0 text-secondary">RTD</p>
+                                <p class="fs-6 fw-bold">-</p>
+                            </div>
+                        </div>
                         <hr>
                         <div class="row">
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Tire HM Remove</label>
                                 <input type="text" class="form-control" name="hm_actual"
                                     value="{{ $unit->hm }}" required>
@@ -550,7 +855,7 @@
                                 </div>
                                 <div class="invalid-feedback">Please fill a hour meter.</div>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Tire KM Remove</label>
                                 <input type="text" class="form-control" name="km_actual"
                                     value="{{ $unit->km }}" required>
@@ -559,14 +864,12 @@
                                 </div>
                                 <div class="invalid-feedback">Please fill a hour meter.</div>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Tire RTD Remove</label>
                                 <input type="text" name="rtd" class="form-control" required>
                                 <div class="invalid-feedback">Please fill a remaining tread depth.</div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Tire Damage</label>
                                 <select class="form-control" name="tire_damage_id" required>
                                     <option value="">Pilih Tire Damage</option>
@@ -575,7 +878,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Tire Status</label>
                                 <select class="form-control" name="tire_status_id" required>
                                     <option value="">Pilih Tire Status</option>
@@ -584,30 +887,25 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Start time</label>
                                 <input type="datetime-local" name="start_date" class="form-control" required
                                     value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
                                 <div class="invalid-feedback">Please fill a time Start.</div>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">End time</label>
                                 <input type="datetime-local" name="end_date" class="form-control"
                                     value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Date Breakdown</label>
                                 <input type="date" name="start_breakdown" class="form-control"
                                     value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
                                 <div class="invalid-feedback">Please fill a start breakdown.</div>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Status Breakdown</label>
                                 <select name="status_breakdown" id="" required class="form-control">
                                     <option value="">Pilih Status Breakdown</option>
@@ -618,7 +916,7 @@
                                 </select>
                                 <div class="invalid-feedback">Please fill a status breakdown.</div>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Lokasi Breakdown</label>
                                 <select name="lokasi_breakdown" id="" required class="form-control">
                                     <option value="">Pilih Lokasi</option>
@@ -628,14 +926,12 @@
                                 </select>
                                 <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">PIC Leader</label>
                                 <input type="text" name="pic" class="form-control" required>
                                 <div class="invalid-feedback">Please fill a pic leader.</div>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">PIC Man Power</label>
                                 <input type="text" name="pic_man_power" class="form-control" required>
                                 <div class="invalid-feedback">Please fill a pic man power.</div>
@@ -670,28 +966,25 @@
                         <input type="hidden" name="hm" value="{{ $unit->hm }}">
                         <input type="hidden" name="position">
                         @csrf
-                        <table>
-                            <tr>
-                                <th>Install Tire to Unit</th>
-                                <td class="px-4">:</td>
-                                <td>{{ $unit->unit_number }}</td>
-                            </tr>
-                            <tr>
-                                <th>HM</th>
-                                <td class="px-4">:</td>
-                                <td>{{ $unit->hm }}</td>
-                            </tr>
-                            <tr>
-                                <th>KM</th>
-                                <td class="px-4">:</td>
-                                <td>{{ $unit->km }}</td>
-                            </tr>
-                            <tr>
-                                <th>Position</th>
-                                <td class="px-4">:</td>
-                                <td><input style="border:none" type="text" name="position" readonly></td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="mb-2 col-6 col-md-6 col-lg">
+                                <p class="mb-0 text-secondary">Install Tire to Unit</p>
+                                <p class="fs-6 fw-bold">{{ $unit->unit_number }}</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg">
+                                <p class="mb-0 text-secondary">Position</p>
+                                <p class="fs-6 fw-bold">-</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg">
+                                <p class="mb-0 text-secondary">HM</p>
+                                <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                            </div>
+                            <div class="mb-2 col-6 col-md-6 col-lg">
+                                <p class="mb-0 text-secondary">KM</p>
+                                <p class="fs-6 fw-bold">{{ $unit->km }}</p>
+                            </div>
+                        </div>
+
                         <hr>
 
                         <div class="form-group">
