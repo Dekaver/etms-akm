@@ -111,17 +111,9 @@
                                     class="{{ Request::routeIs('historytire.*') ? 'active' : '' }}">Report Daily
                                     Inspect</a></li>
                         @endcan
-                    </ul>
-                </li>
-                <li class="submenu">
-                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/return1.svg') }}"
-                            alt="img"><span>
-                            Data History</span> <span class="menu-arrow"></span></a>
-                    <ul>
                         @can('HISTORY_TIRE')
                             <li><a href="/historytiremovement"
-                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Tire
-                                    Movement</a></li>
+                                    class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Report Tire Movement</a></li>
                         @endcan
                     </ul>
                 </li>
