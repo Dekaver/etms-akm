@@ -81,8 +81,30 @@
 
     <div class="card ">
         <div class="card-body">
-            <h5>Tire Movement Update</h5>
+            <h5 class="mb-3">Tire Movement Update</h5>
             <div class="row">
+                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
+                    <p class="mb-0 text-secondary">ID</p>
+                    <p class="fs-6 fw-bold">{{$unit->unit_number}}</p>
+                </div>
+                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
+                    <p class="mb-0 text-secondary">MODEL</p>
+                    <p class="fs-6 fw-bold">{{ $unit->unit_model->model ?? '' }}</p>
+                </div>
+                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
+                    <p class="mb-0 text-secondary">KM</p>
+                    <p class="fs-6 fw-bold">{{ $unit->km }}</p>
+                </div>
+                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
+                    <p class="mb-0 text-secondary">HM</p>
+                    <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                </div>
+                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
+                    <p class="mb-0 text-secondary">Tire Size</p>
+                    <p class="fs-6 fw-bold">{{ $unit->unit_model->tire_size->size ?? '' }}</p>
+                </div>
+            </div>
+            {{-- <div class="row">
                 <div class="col-sm-12">
                     <table>
                         <tr>
@@ -110,7 +132,7 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="card d-xxl-none page-body">
