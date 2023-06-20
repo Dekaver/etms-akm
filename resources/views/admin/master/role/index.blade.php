@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Permission</h4>
+            <h4>Role</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Data Permission</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Permissions</li>
+                    <li class="breadcrumb-item"><a href="#">Data Role</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Role</li>
                 </ol>
             </nav>
         </div>
@@ -15,7 +15,7 @@
         </div> -->
         <div class="page-btn">
             <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
-                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New Permission</a>
+                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Role</a>
         </div>
     </div>
 
@@ -88,7 +88,8 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Permission<span class="manitory">*</span></label>
-                                    <select class="js-example-basic-multiple" id="permission" name="permission[]" multiple="multiple">
+                                    <select class="js-example-basic-multiple" id="permission" name="permission[]"
+                                        multiple="multiple">
                                         @foreach ($permission as $item)
                                             <option>{{ $item->name }}</option>
                                         @endforeach
