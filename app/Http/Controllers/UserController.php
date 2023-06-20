@@ -143,7 +143,7 @@ class UserController extends Controller
 
     public function updateCompany(Request $request, string $id)
     {
-        auth()->user()->company()->update([
+        auth()->user()->update([
             "company_id" => $id
         ]);
 

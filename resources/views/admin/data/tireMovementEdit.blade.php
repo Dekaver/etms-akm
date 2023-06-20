@@ -745,7 +745,6 @@
     </div>
 
     @push('js')
-        <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
         <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
         <script>
             $(function() {

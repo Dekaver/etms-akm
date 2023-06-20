@@ -101,12 +101,6 @@ class CompanyController extends Controller
                     $value->company_id = $company->id;
                     $value->save();
                 }
-                $a = TireStatus::where("company_id", $selected_company_id)->get();
-                foreach ($a as $key => $value) {
-                    $value = $value->replicate();
-                    $value->company_id = $company->id;
-                    $value->save();
-                }
                 $a = TireDamage::where("company_id", $selected_company_id)->get();
                 foreach ($a as $key => $value) {
                     $value = $value->replicate();
@@ -114,12 +108,6 @@ class CompanyController extends Controller
                     $value->save();
                 }
                 $a = TireCompound::where("company_id", $selected_company_id)->get();
-                foreach ($a as $key => $value) {
-                    $value = $value->replicate();
-                    $value->company_id = $company->id;
-                    $value->save();
-                }
-                $a = UnitStatus::where("company_id", $selected_company_id)->get();
                 foreach ($a as $key => $value) {
                     $value = $value->replicate();
                     $value->company_id = $company->id;
@@ -185,10 +173,8 @@ class CompanyController extends Controller
     {
         $company->tire_compound()->delete();
         $company->tire_size()->delete();
-        $company->tire_status()->delete();
         $company->tire_damage()->delete();
         $company->tire_pattern()->delete();
-        $company->unit_status()->delete();
         $company->tire_manufacture()->delete();
         foreach ($company->site() as $key => $site) {
             $site->user->delete();

@@ -235,7 +235,6 @@
     <div class="modal fade" id="form-modal" data-post="new" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
             @csrf
-            @method('PUT')
             <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -252,7 +251,7 @@
                                     <select class="select" name="site_id" required>
                                         <option value="">Choose Site</option>
                                         @foreach ($site as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @selected(auth()->user()->site->id ?? null )>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -295,7 +294,7 @@
                                     <select class="select" name="tire_size_id" required>
                                         <option value="">Choose</option>
                                         @foreach ($tiresize as $item2)
-                                            <option value="{{ $item2->id }}">
+                                            <option value="{{ $item2->id }}" data-otd="{{ $item2->otd }}">
                                                 {{ $item2->size }} - {{ $item2->tire_pattern->manufacture->name }} -
                                                 {{ $item2->tire_pattern->pattern }} -
                                                 {{ $item2->tire_pattern->type_pattern }}
@@ -436,17 +435,14 @@
                             method: "GET",
                             url: `{{ route('tiremaster.index') }}/${id}/edit`
                         }).done(function(response) {
-                            modal.find('select[name="site_id"]').val(response.site_id).trigger(
-                                'change');
+                            modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
                             modal.find('input[name="serial_number"]').val(response.serial_number);
                             modal.find('select[name="tire_size_id"]').val(response.tire_size_id)
                                 .trigger('change');
                             modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id)
-                                .trigger(
-                                    'change');
+                                .trigger('change');
                             modal.find('select[name="tire_status_id"]').val(response.tire_status_id)
-                                .trigger(
-                                    'change');
+                                .trigger('change');
                             modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
                             modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
                             modal.find('input[name="rtd"]').val(response.rtd);
@@ -495,7 +491,12 @@
                     var lineCount = text.split(/\r|\r\n|\n/).length;
                     $("input[name='total_tire']").val(lineCount);
                 });
+
+                $("#form-modal select[name='tire_size_id']").change(function(){
+                    console.log($(this).find(":selected").data("otd"));
+                });
             });
+
         </script>
     @endpush
 </x-app-layout>

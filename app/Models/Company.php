@@ -49,16 +49,6 @@ class Company extends Model
         return $this->hasMany(TirePattern::class);
     }
 
-    public function tire_status()
-    {
-        return $this->hasMany(TireStatus::class);
-    }
-
-    public function unit_status()
-    {
-        return $this->hasMany(UnitStatus::class);
-    }
-
     public function site()
     {
         return $this->hasMany(Site::class);

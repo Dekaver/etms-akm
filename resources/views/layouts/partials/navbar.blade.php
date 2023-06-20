@@ -126,7 +126,7 @@
                             <li class="notification-message">
                                 <form action="{{ route('user.company.update', $item->id) }}" method="post">
                                     @csrf
-                                    <a onclick="document.parentElement.submit()">
+                                    <a onclick="this.parentElement.submit()">
                                         <div class="media d-flex">
                                             <span class="avatar flex-shrink-0">
                                                 <img alt=""

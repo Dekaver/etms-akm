@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('user_sites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('site_id')->constrained('sites');
+            $table->foreignId('user_id')->constrained('users')->onDeleteCascade();
+            $table->foreignId('site_id')->constrained('sites')->onDeleteCascade();
             $table->unique(['user_id', 'site_id']);
             $table->timestamps();
         });
