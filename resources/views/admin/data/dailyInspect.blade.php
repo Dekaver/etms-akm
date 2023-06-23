@@ -120,32 +120,33 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Unit number</label>
                                     <input type="text" name="unit_number">
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label>HM</label>
-                                    <input type="text" name="hm">
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label>KM</label>
-                                    <input type="text" name="km">
-                                </div>
-                            </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Date</label>
                                     <input type="date" name="date" class="form-control"
                                         value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>HM</label>
+                                    <input type="text" name="hm">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>KM</label>
+                                    <input type="text" name="km">
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Location</label>
                                     <select class="select" name="tire_status_id" required>
@@ -157,19 +158,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Shift</label>
                                     <input type="text" name="shift">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Tyre Man</label>
                                     <input type="text" name="pic">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Driver</label>
                                     <input type="text" name="driver">
@@ -184,12 +185,12 @@
                                         <th>Serial Number</th>
                                         <th style="width: 100px">Pressure</th>
                                         <th style="width: 100px">Dept Thread</th>
-                                        <th>Tire</th>
-                                        <th>Tube</th>
-                                        <th>Flap</th>
-                                        <th>Rim</th>
+                                        <th style="min-width: 100px">Tire</th>
+                                        <th style="min-width: 100px">Tube</th>
+                                        <th style="min-width: 100px">Flap</th>
+                                        <th style="min-width: 100px">Rim</th>
                                         <th>T.Pentil</th>
-                                        <th>Remark</th>
+                                        <th style="min-width: 200px">Remark</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -212,7 +213,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: "{{ route('dailyinspect.index') }}",
                     columns: [{
                             data: 'DT_RowIndex',

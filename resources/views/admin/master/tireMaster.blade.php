@@ -251,7 +251,8 @@
                                     <select class="select" name="site_id" required>
                                         <option value="">Choose Site</option>
                                         @foreach ($site as $item)
-                                            <option value="{{ $item->id }}" @selected(auth()->user()->site->id ?? null )>{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @selected(auth()->user()->site->id ?? null)>
+                                                {{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -435,7 +436,8 @@
                             method: "GET",
                             url: `{{ route('tiremaster.index') }}/${id}/edit`
                         }).done(function(response) {
-                            modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
+                            modal.find('select[name="site_id"]').val(response.site_id).trigger(
+                            'change');
                             modal.find('input[name="serial_number"]').val(response.serial_number);
                             modal.find('select[name="tire_size_id"]').val(response.tire_size_id)
                                 .trigger('change');
@@ -492,11 +494,10 @@
                     $("input[name='total_tire']").val(lineCount);
                 });
 
-                $("#form-modal select[name='tire_size_id']").change(function(){
+                $("#form-modal select[name='tire_size_id']").change(function() {
                     console.log($(this).find(":selected").data("otd"));
                 });
             });
-
         </script>
     @endpush
 </x-app-layout>

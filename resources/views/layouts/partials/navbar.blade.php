@@ -211,10 +211,11 @@
             aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="/profile">My Profile</a>
+            <a class="dropdown-item" href="/">Switch Account</a>
             {{-- <a class="dropdown-item" href="myCompany">Settings</a> --}}
             <form action="{{ route('logout') }}" method="post">
                 @csrf
-                <button class="dropdown-item" type="submit">Logout</button>
+                <button class="px-3 text-danger fw-bold dropdown-item" type="submit">Logout</button>
             </form>
         </div>
     </div>

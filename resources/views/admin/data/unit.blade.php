@@ -123,20 +123,20 @@
             <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Unit </h5>
+                        <h5 class="modal-title">Form Unit </h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-6">
                                 <div class="form-group">
                                     <label>Unit Code</label>
                                     <input type="text" name="unit_number">
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-lg-6 col-6">
                                 <div class="form-group mb-0">
                                     <label>Unit Model</label>
                                     <select class="select" name="unit_model_id">
@@ -147,8 +147,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
                                     <label>Site</label>
                                     <select class="select" name="site_id">
                                         <option value="">Choose Site</option>
@@ -158,8 +158,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-group mb-0">
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
                                     <label>Unit Status</label>
                                     <select class="select" name="unit_status_id">
                                         <option value="">Choose Status</option>
@@ -169,14 +169,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>HM</label>
                                     <input class="form-control" min="0" type="number" value="0"
                                         name="hm">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>KM</label>
                                     <input class="form-control" min="0" type="number" value="0"
@@ -199,7 +199,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',

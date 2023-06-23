@@ -26,7 +26,7 @@
                                 alt="img"></a>
                     </div> --}}
                 </div>
-                <div class="wordset">
+                {{-- <div class="wordset">
                     <ul>
                         <li>
                             <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
@@ -41,7 +41,7 @@
                                     src="{{ asset('assets/img/icons/printer.svg') }}" alt="img"></a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
             
             <div class="table-responsive">
@@ -75,7 +75,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: "{{ route('historytiremovement.tiremovement', $tire->id) }}",
                     columns: [{
                             data: 'start_date',

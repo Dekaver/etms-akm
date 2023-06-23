@@ -141,7 +141,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',

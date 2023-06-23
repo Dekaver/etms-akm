@@ -26,7 +26,7 @@
                                 alt="img"></a>
                     </div> --}}
                 </div>
-                <div class="wordset">
+                {{-- <div class="wordset">
                     <ul>
                         <li>
                             <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
@@ -41,7 +41,7 @@
                                     src="{{ asset('assets/img/icons/printer.svg') }}" alt="img"></a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
             {{-- <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs">
@@ -128,7 +128,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: "{{ route('historytiremovement.tireinspect', $tire->id) }}",
                     columns: [{
                             data: 'date',

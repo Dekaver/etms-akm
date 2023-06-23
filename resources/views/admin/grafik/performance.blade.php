@@ -8,7 +8,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Site</label>
 
                                 {{-- @canany(['isSuperAdmin', 'isViewer', 'isManager']) --}}
@@ -23,12 +23,7 @@
                                     <input class="form-control" type="text" name="site" value="{{ $site_name }}" readonly>
                                 @endcanany --}}
                             </div>
-                            {{-- <div class="form-group col">
-                                <label>Year</label>
-                                <input class="form-control" type="text" name="tahun" max="9999" min="2000"
-                                    maxlength="4" value="{{ $tahun }}">
-                            </div> --}}
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Year</label>
                                 {{-- <input class="form-control" type="text" name="tahun" max="9999" min="2000"
                                     maxlength="4" value="{{ $tahun }}"> --}}
@@ -40,7 +35,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Month</label>
                                 <select class="form-control" name="month">
                                     <option value="">Choose Month</option>
@@ -58,7 +53,7 @@
                                     <option value="12" @selected($month == '12')>Des</option>
                                 </select>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Week</label>
                                 <select class="form-control" name="week">
                                     <option value="">Choose Week</option>
@@ -70,17 +65,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            {{-- <div class="form-group col">
-                                <label>Unit Type</label>
-                                <select class="form-control" name="model_type">
-                                    <option value="">Choose Brand Tire</option>
-                                    @foreach ($type as $item)
-                                        <option value="{{ $item->type }}" @selected($item->type == $model_type)>
-                                            {{ $item->type }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Tire Size</label>
                                 <select class="form-control" name="tire_size">
                                     <option value="">Choose Tire Size</option>
@@ -90,7 +75,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Brand Tire</label>
                                 <select class="form-control" name="brand_tire">
                                     <option value="">Choose Brand Tire</option>
@@ -100,7 +85,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Type Pattern</label>
                                 <select class="form-control" name="type_pattern">
                                     <option value="">Choose Type Pattern</option>
@@ -110,7 +95,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-lg-3 col-sm-3 col-6">
                                 <label>Tire Pattern</label>
                                 <select class="form-control" name="tire_pattern">
                                     <option value="">Choose Tire Pattern</option>

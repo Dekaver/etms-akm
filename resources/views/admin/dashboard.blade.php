@@ -20,9 +20,9 @@
         </div> --}}
 
         <div class="row">
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das2" style="background: #709AC3;">
-                    <div class="dash-imgs">
+            <div class="col-lg col-sm-4 col-6 d-flex">
+                <div class="dash-count px-2 py-0 justify-content-start align-items-center das2" style="background: #709AC3;">
+                    <div class="dash-imgs me-2">
                         <img src="assets/img/dashboard/icon3.png"  alt="">
                     </div>
                     <div class="dash-counts">
@@ -31,9 +31,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count" style="background: #1EBDD0!important;">
-                    <div class="dash-imgs">
+            <div class="col-lg col-sm-4 col-6 d-flex">
+                <div class="dash-count px-2 py-0 justify-content-start align-items-center" style="background: #1EBDD0!important;">
+                    <div class="dash-imgs me-2">
                         <img src="assets/img/dashboard/icon1.png" alt="">
                     </div>
                     <div class="dash-counts">
@@ -42,9 +42,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das1" style="background: #017EFA!important;">
-                    <div class="dash-imgs">
+            <div class="col-lg col-sm-4 col-6 d-flex">
+                <div class="dash-count das1 px-2 py-0 justify-content-start align-items-center" style="background: #017EFA!important;">
+                    <div class="dash-imgs me-2">
                         <img src="assets/img/dashboard/icon2.png" alt="">
                     </div>
                     <div class="dash-counts">
@@ -53,9 +53,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das3" style="background: #FF9F43;">
-                    <div class="dash-imgs">
+            <div class="col-lg col-sm-4 col-6 d-flex">
+                <div class="dash-count das3 px-2 py-0 justify-content-start align-items-center" style="background: #FF9F43;">
+                    <div class="dash-imgs me-2">
                         <img src="assets/img/dashboard/icon4.png" alt="">
                     </div>
                     <div class="dash-counts">
@@ -64,9 +64,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das4" style="background: #28C76F;">
-                    <div class="dash-imgs">
+            <div class="col-lg col-sm-4 col-6 d-flex">
+                <div class="dash-count das4 px-2 py-0 justify-content-start align-items-center" style="background: #28C76F;">
+                    <div class="dash-imgs me-2">
                         <img src="assets/img/dashboard/icon5.png" alt="">
                     </div>
                     <div class="dash-counts">
@@ -75,9 +75,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg col-sm-6 col-12 d-flex">
-                <div class="dash-count das3" style="background: #EA5455;">
-                    <div class="dash-imgs">
+            <div class="col-lg col-sm-4 col-6 d-flex">
+                <div class="dash-count das3 px-2 py-0 justify-content-start align-items-center" style="background: #EA5455;">
+                    <div class="dash-imgs me-2">
                         <img src="assets/img/dashboard/icon6.png" alt="">
                     </div>
                     <div class="dash-counts">
