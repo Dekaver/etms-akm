@@ -149,7 +149,7 @@
                         url: `{{ route('role.index') }}/${id}/edit`
                     }).done(function(response) {
                         modal.find('input[name="name"]').val(response.name);
-                        modal.find('#permission"]').val(response.permission).trigger("change");
+                        modal.find('#permission').val(response.permission).trigger("change");
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('role.index') }}/${id}`)
@@ -159,7 +159,7 @@
             $('#form-modal').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
             });
-            $("select[name='permission[]']").val()
+            // $("select[name='permission[]']").val()
         </script>
     @endpush
 </x-app-layout>
