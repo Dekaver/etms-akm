@@ -70,7 +70,7 @@ class TireRunningController extends Controller
                 'end_date' => "required",
                 'hm' => "required",
                 'km' => "required",
-                'explaination' => "required",
+                'explanation' => "required",
                 'pic' => "required",
                 'pic_man_power' => "required",
             ],
@@ -87,27 +87,26 @@ class TireRunningController extends Controller
 
                 $tire->update(['tire_status_id' => $tire_status_running->id]);
 
-                HistoryTireMovement::create(
-                    [
-                        "user_id" => auth()->id(),
-                        "company_id" => $company->id,
-                        "site_id" => auth()->user()->site->id,
-                        "unit" => $unit->unit_number,
-                        "tire" => $tire->serial_number,
-                        "position" => $request->position,
-                        "status" => "RUNNING",
-                        "km_unit_install" => $unit->km,
-                        "hm_unit_install" => $unit->hm,
-                        "pic" => $request->pic,
-                        "pic_man_power" => $request->pic_man_power,
-                        "des" => $request->explaination,
-                        "km_tire_install" => $tire->lifetime_km,
-                        "hm_tire_install" => $tire->lifetime_hm,
-                        "start_date" => $request->start_date,
-                        "rtd" => $tire->rtd,
-                        "end_date" => $request->end_date
-                    ]
-                );
+                HistoryTireMovement::create([
+                    "user_id" => auth()->id(),
+                    "company_id" => $company->id,
+                    "site_id" => auth()->user()->site->id,
+                    "unit" => $unit->unit_number,
+                    "tire" => $tire->serial_number,
+                    "position" => $request->position,
+                    "status" => "RUNNING",
+                    "km_unit" => $unit->km,
+                    "hm_unit" => $unit->hm,
+                    "pic" => $request->pic,
+                    "pic_man_power" => $request->pic_man_power,
+                    "des" => $request->explanation,
+                    "process" => "INSTALL",
+                    "km_tire" => $tire->lifetime_km,
+                    "hm_tire" => $tire->lifetime_hm,
+                    "start_date" => $request->start_date,
+                    "rtd" => $tire->rtd,
+                    "end_date" => $request->end_date
+                ]);
 
 
                 $tirerunning = TireRunning::create([
@@ -131,7 +130,7 @@ class TireRunningController extends Controller
                     "end_date" => $request->end_date,
                     "pic" => $request->pic,
                     "pic_man_power" => $request->pic_man_power,
-                    "desc" => $request->explaination
+                    "desc" => $request->explanation
                 ]);
 
             });
@@ -184,15 +183,142 @@ class TireRunningController extends Controller
 
         // $trailermovement = HistoryTrailerMovement::where('unit_install', $unit->unit_number)->orderBy('date_end', 'desc')->get();
 
-        return view("admin.data.tireMovementEdit", compact("tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory"));
+        return view("admin.data.tireMovementEdit", compact("tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TireRunning $tireRunning)
+    public function update(Request $request, TireRunning $tirerunning)
     {
-        //
+        $request->validate([
+            "tire_id_1" => "required",
+            "tire_id_2" => "required",
+            "unit_id" => "required",
+        ]);
+        $company = auth()->user()->company;
+
+        try {
+
+            DB::transaction(function () use ($request, $tirerunning, $company) {
+                $tire_1 = TireMaster::find($request->tire_id_1);
+                $tire_2 = TireMaster::find($request->tire_id_2);
+                $unit = Unit::find($request->unit_id);
+
+
+                $unit = Unit::findOrFail($request->unit_id);
+
+                if ($request->hm_actual > $unit->hm || $request->km_actual > $unit->km) {
+                    // update tire lifetime
+                    $tire_running = TireRunning::where('unit_id', $request->unit_id)->get();
+                    foreach ($tire_running as $key => $running) {
+                        $tire = $running->tire;
+                        // update HM
+                        if ($request->hm_actual > $unit->hm) {
+                            $diff_smu = (int) $request->hm_actual - (int) $unit->hm;
+                            $tire->lifetime_hm += $diff_smu;
+                            if ($tire->is_repair)
+                                $tire->lifetime_repair_hm += $diff_smu;
+                            if ($tire->is_retread)
+                                $tire->lifetime_retread_hm += $diff_smu;
+                        }
+                        // update KM
+                        if ($request->km_actual > $unit->km) {
+                            $diff_smu = (int) $request->km_actual - (int) $unit->km;
+                            $tire->lifetime_km += $diff_smu;
+                            if ($tire->is_repair)
+                                $tire->lifetime_repair_km += $diff_smu;
+                            if ($tire->is_retread)
+                                $tire->lifetime_retread_km += $diff_smu;
+                        }
+                        $tire->save();
+                    }
+                    if ($request->hm_actual > $unit->hm)
+                        $unit->hm = (int) $request->hm_actual;
+                    if ($request->km_actual > $unit->km)
+                        $unit->km = (int) $request->km_actual;
+                    $unit->save();
+                }
+
+                $tire_1->tire_running->update([
+                    "position" => 0
+                ]);
+
+                $tire_2->tire_running->update([
+                    "position" => $request->tire_position_switch_1,
+                ]);
+
+
+                $tire_1->tire_running->update([
+                    "position" => $request->tire_position_switch_2,
+                ]);
+
+                $tire_1->update([
+                    "rtd" => $request->rtd_1,
+                    "tire_damage_id" => $request->tire_damage_id_1,
+                ]);
+
+                $tire_2->update([
+                    "rtd" => $request->rtd_2,
+                    "tire_damage_id" => $request->tire_damage_id_2,
+                ]);
+
+                HistoryTireMovement::create([
+                    "user_id" => auth()->id(),
+                    "company_id" => $company->id,
+                    "site_id" => auth()->user()->site->id,
+                    "tire_damage_id" => $request->tire_damage_id_1,
+                    "unit" => $unit->unit_number,
+                    "tire" => $tire_1->serial_number,
+                    "position" => $request->tire_position_switch_2,
+                    "status" => $tire_1->tire_status->status,
+                    "km_unit" => $unit->km,
+                    "hm_unit" => $unit->hm,
+                    "pic" => $request->pic,
+                    "pic_man_power" => $request->pic_man_power,
+                    "des" => $request->explanation,
+                    "process" => "SWITCH",
+                    "km_tire" => $tire_1->lifetime_km,
+                    "hm_tire" => $tire_1->lifetime_hm,
+                    "rtd" => $request->rtd_1,
+                    "start_date" => $request->start_date,
+                    "end_date" => $request->end_date
+                ]);
+
+                HistoryTireMovement::create([
+                    "user_id" => auth()->id(),
+                    "company_id" => $company->id,
+                    "site_id" => auth()->user()->site->id,
+                    "tire_damage_id" => $request->tire_damage_id_2,
+                    "unit" => $unit->unit_number,
+                    "tire" => $tire_2->serial_number,
+                    "position" => $request->tire_position_switch_1,
+                    "status" => $tire_2->tire_status->status,
+                    "km_unit" => $unit->km,
+                    "hm_unit" => $unit->hm,
+                    "pic" => $request->pic,
+                    "pic_man_power" => $request->pic_man_power,
+                    "des" => $request->explanation,
+                    "process" => "SWITCH",
+                    "km_tire" => $tire_2->lifetime_km,
+                    "hm_tire" => $tire_2->lifetime_hm,
+                    "rtd" => $request->rtd_2,
+                    "start_date" => $request->start_date,
+                    "end_date" => $request->end_date
+                ]);
+
+                // dd($tire_1->tire_running);
+                // dd($request);
+            });
+
+            return redirect()->back()->with('success', "remove tire");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            // return redirect()->back()->with('error', "remove tire");
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+
+        }
+
     }
 
     /**
@@ -239,7 +365,7 @@ class TireRunningController extends Controller
                             if ($tire->is_retread)
                                 $tire->lifetime_retread_hm += $diff_smu;
                         }
-                        // update HM
+                        // update KM
                         if ($request->km_actual > $unit->km) {
                             $diff_smu = (int) $request->km_actual - (int) $unit->km;
                             $tire->lifetime_km += $diff_smu;
@@ -271,28 +397,31 @@ class TireRunningController extends Controller
 
                 $tire->save();
 
-                HistoryTireMovement::create(
-                    [
-                        "user_id" => auth()->id(),
-                        "company_id" => $company->id,
-                        "site_id" => auth()->user()->site->id,
-                        "tire_damage_id" => $request->tire_damage_id,
-                        "unit" => $unit->unit_number,
-                        "tire" => $tire->serial_number,
-                        "position" => $request->position,
-                        "status" => $tire->tire_status->status,
-                        "km_unit_remove" => $unit->km,
-                        "hm_unit_remove" => $unit->hm,
-                        "pic" => $request->pic,
-                        "pic_man_power" => $request->pic_man_power,
-                        "des" => "remove",
-                        "km_tire_remove" => $tire->lifetime_km,
-                        "hm_tire_remove" => $tire->lifetime_hm,
-                        "rtd" => $request->rtd,
-                        "start_date" => $request->start_date,
-                        "end_date" => $request->end_date
-                    ]
-                );
+                HistoryTireMovement::create([
+                    "user_id" => auth()->id(),
+                    "company_id" => $company->id,
+                    "site_id" => auth()->user()->site->id,
+                    "tire_damage_id" => $request->tire_damage_id,
+                    "unit" => $unit->unit_number,
+                    "tire" => $tire->serial_number,
+                    "position" => $request->position,
+                    "status" => $tire->tire_status->status,
+                    "km_unit" => $unit->km,
+                    "hm_unit" => $unit->hm,
+                    "pic" => $request->pic,
+                    "pic_man_power" => $request->pic_man_power,
+                    "des" => $request->explanation,
+                    "process" => "REMOVE",
+                    "km_tire" => $tire->lifetime_km,
+                    "hm_tire" => $tire->lifetime_hm,
+                    "km_tire_repair" => $tire->lifetime_repair_km,
+                    "hm_tire_repair" => $tire->lifetime_repair_hm,
+                    "km_tire_retread" => $tire->lifetime_retread_km,
+                    "hm_tire_retread" => $tire->lifetime_retread_hm,
+                    "rtd" => $request->rtd,
+                    "start_date" => $request->start_date,
+                    "end_date" => $request->end_date
+                ]);
 
                 $tirerunning->delete();
                 // $this->createActivity("Add History Tire Movement $tirerunning->id");

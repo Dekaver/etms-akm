@@ -43,7 +43,7 @@
                     </ul>
                 </div> --}}
             </div>
-            
+
             <div class="table-responsive">
                 <table class="table data-table">
                     <thead>
@@ -102,20 +102,20 @@
                             name: 'unit'
                         },
                         {
-                            data: 'tire_hm',
-                            name: 'tire_hm'
+                            data: 'hm_tire',
+                            name: 'hm_tire'
                         },
                         {
-                            data: 'tire_km',
-                            name: 'tire_km'
+                            data: 'km_tire',
+                            name: 'km_tire'
                         },
                         {
-                            data: 'unit_hm',
-                            name: 'unit_hm'
+                            data: 'hm_unit',
+                            name: 'hm_unit'
                         },
                         {
-                            data: 'unit_km',
-                            name: 'unit_km'
+                            data: 'km_unit',
+                            name: 'km_unit'
                         },
                         {
                             data: 'rtd',

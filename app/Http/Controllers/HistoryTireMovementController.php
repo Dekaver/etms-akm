@@ -120,23 +120,8 @@ class HistoryTireMovementController extends Controller
                 ->addColumn("site", function ($row) {
                     return $row->site->name;
                 })
-                ->addColumn("rtd", function ($row) {
-                    return $row->rtd;
-                })
                 ->addColumn("damage", function ($row) {
                     return $row->tire_damage->damage ?? null;
-                })
-                ->addColumn("tire_hm", function ($row) {
-                    return ($row->status == "RUNNING") ? $row->hm_tire_install : $row->hm_tire_remove;
-                })
-                ->addColumn("tire_km", function ($row) {
-                    return ($row->status == "RUNNING") ? $row->km_tire_install : $row->km_tire_remove;
-                })
-                ->addColumn("unit_hm", function ($row) {
-                    return ($row->status == "RUNNING") ? $row->hm_unit_install : $row->hm_unit_remove;
-                })
-                ->addColumn("unit_km", function ($row) {
-                    return ($row->status == "RUNNING") ? $row->km_unit_install : $row->km_unit_remove;
                 })
                 ->make(true);
         }
