@@ -346,8 +346,6 @@ class TireRunningController extends Controller
         try {
             $result = DB::transaction(function () use ($request, $tirerunning, $company) {
 
-                $tire_status_repair = TireStatus::where('status', 'repair')->first();
-                $tire_status_retread = TireStatus::where('status', 'retread')->first();
                 // start update lifetime
                 $unit = Unit::findOrFail($request->unit_id);
 
@@ -390,11 +388,6 @@ class TireRunningController extends Controller
 
                 $tire->rtd = $request->rtd;
                 $tire->tire_damage_id = $request->tire_damage_id;
-                if ($request->tire_status_id == $tire_status_repair)
-                    $tire->is_repair = true;
-                if ($request->tire_status_id == $tire_status_retread)
-                    $tire->is_retread = true;
-
                 $tire->save();
 
                 HistoryTireMovement::create([

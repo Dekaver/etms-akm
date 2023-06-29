@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                    width: 90px;
-                                                                                                                                                                                                                    align-items: center;
-                                                                                                                                                                                                                    justify-content: center;
-                                                                                                                                                                                                                    border-radius: 5%;
-                                                                                                                                                                                                                    height: 150px;
-                                                                                                                                                                                                                    border: 1px black solid;
-                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                        width: 90px;
+                                                                                                                                                                                                                        align-items: center;
+                                                                                                                                                                                                                        justify-content: center;
+                                                                                                                                                                                                                        border-radius: 5%;
+                                                                                                                                                                                                                        height: 150px;
+                                                                                                                                                                                                                        border: 1px black solid;
+                                                                                                                                                                                                                    } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -957,6 +957,11 @@
                                 <label for="">Tire RTD Remove</label>
                                 <input type="text" name="rtd" class="form-control" required>
                                 <div class="invalid-feedback">Please fill a remaining tread depth.</div>
+                            </div>
+                            <div class="form-group mb-3 col-12">
+                                <label for="">Explanation</label>
+                                <input type="text" name="explanation" class="form-control" required>
+                                <div class="invalid-feedback">Please fill a explanation.</div>
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Tire Damage</label>

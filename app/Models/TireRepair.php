@@ -13,6 +13,7 @@ class TireRepair extends Model
         "tire_id",
         "tire_damage_id",
         "tire_status_id",
+        "company_id",
         "reason",
         "analisa",
         "alasan",

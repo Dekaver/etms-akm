@@ -51,6 +51,7 @@
                             <th>Date</th>
                             <th>Serial Number</th>
                             <th>Pos</th>
+                            <th>Process</th>
                             <th>Status</th>
                             <th>Site</th>
                             <th>Unit</th>
@@ -88,6 +89,10 @@
                         {
                             data: 'position',
                             name: 'position'
+                        },
+                        {
+                            data: 'process',
+                            name: 'process'
                         },
                         {
                             data: 'status',

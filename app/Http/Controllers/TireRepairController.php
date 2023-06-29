@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryTireMovement;
 use App\Models\TireDamage;
 use App\Models\TireMaster;
 use App\Models\TireRepair;
 use App\Models\TireStatus;
+use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -98,26 +100,65 @@ class TireRepairController extends Controller
             "man_power" => "required",
             "pic" => "required",
         ]);
-        $tire_status_new = TireStatus::where('status', $request->tire_status)->first();
+        try {
+            DB::transaction(function () use ($tirerepair, $request) {
+                $tire_status_new = TireStatus::where('status', $request->tire_status)->first();
+                $company = auth()->user()->company;
 
-        TireRepair::create([
-            "tire_id" => $tirerepair->id,
-            "tire_damage_id" => $request->tire_damage_id,
-            "tire_status_id" => $tirerepair->tire_status_id,
-            "reason" => $request->reason,
-            "analisa" => $request->analisa,
-            "alasan" => $request->alasan,
-            "man_power" => $request->man_power,
-            "pic" => $request->pic,
-            "start_date" => $request->start_date,
-            "end_date" => $request->end_date,
-            "move" => $request->tire_status,
-        ]);
+                TireRepair::create([
+                    "tire_id" => $tirerepair->id,
+                    "company_id" => $company->id,
+                    "tire_damage_id" => $request->tire_damage_id,
+                    "tire_status_id" => $tirerepair->tire_status_id,
+                    "reason" => $request->reason,
+                    "analisa" => $request->analisa,
+                    "alasan" => $request->alasan,
+                    "man_power" => $request->man_power,
+                    "pic" => $request->pic,
+                    "start_date" => $request->start_date,
+                    "end_date" => $request->end_date,
+                    "move" => $request->tire_status,
+                ]);
 
-        $tirerepair->tire_status_id = $tire_status_new->id;
-        $tirerepair->save();
+                $tirerepair->tire_status_id = $tire_status_new->id;
+                $tirerepair->is_repair = true;
+                $tirerepair->save();
 
-        return redirect()->back()->with("success", "Move Tire Status");
+
+                HistoryTireMovement::create([
+                    "user_id" => auth()->id(),
+                    "company_id" => $company->id,
+                    "site_id" => auth()->user()->site->id,
+                    "tire_damage_id" => $request->tire_damage_id,
+                    "unit" => null,
+                    "position" => null,
+                    "tire" => $tirerepair->serial_number,
+                    "status" => $tirerepair->tire_status->status,
+                    "km_unit" => null,
+                    "hm_unit" => null,
+                    "pic" => $request->pic,
+                    "pic_man_power" => $request->man_power,
+                    "des" => $request->reason,
+                    "process" => "REPAIR",
+                    "km_tire" => $tirerepair->lifetime_km,
+                    "hm_tire" => $tirerepair->lifetime_hm,
+                    "km_tire_repair" => $tirerepair->lifetime_repair_km,
+                    "hm_tire_repair" => $tirerepair->lifetime_repair_hm,
+                    "km_tire_retread" => $tirerepair->lifetime_retread_km,
+                    "hm_tire_retread" => $tirerepair->lifetime_retread_hm,
+                    "rtd" => $tirerepair->rtd,
+                    "start_date" => $request->start_date,
+                    "end_date" => $request->end_date
+                ]);
+
+            });
+            return redirect()->back()->with("success", "Move Tire Status");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+
+        }
+
 
     }
 
