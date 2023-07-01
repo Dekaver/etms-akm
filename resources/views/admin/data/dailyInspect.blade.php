@@ -145,7 +145,7 @@
                                     <input type="text" name="km">
                                 </div>
                             </div>
-                            
+
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Location</label>
@@ -263,8 +263,9 @@
                     method: "GET",
                     url: `{{ route('dailyinspect.index') }}/${id}/edit`
                 }).done(function(response) {
-                    console.log(response);
-
+                    modal.find("input[name='pic']").val(response.pic ?? '');
+                    modal.find("input[name='driver']").val(response.driver ?? '');
+                    modal.find("input[name='shift']").val(response.shift ?? '');
                     $('#table-tire-inspection tbody').empty();
                     var tire_damage = `
                         <td>
@@ -291,7 +292,7 @@
                             <input class="form-control" type="text">
                         </td>`;
 
-                    $.each(response, function(i, v) {
+                    $.each(response.tires, function(i, v) {
                         // let tire_damage_new = $(tire_damage).clone();
                         // tire_damage_new.find('select').val(v.tire_damage_id);
                         // tire_damage_new.find('select').attr('name', `tire_damage_id[${v.position}]`)
@@ -301,35 +302,35 @@
                         tire.find('select').attr('name', `tire_condition[${v.position}]`)
 
                         let tube = $(condition).clone();
-                        // tube.find('select').val(v.tube);
+                        tube.find('select').val(v.tube);
                         tube.find('select').attr('name', `tire_tube[${v.position}]`)
 
+
                         let flap = $(condition).clone();
-                        // flap.find('select').val(v.flap);
+                        flap.find('select').val(v.flap);
                         flap.find('select').attr('name', `tire_flap[${v.position}]`)
 
                         let rim = $(condition).clone();
-                        // rim.find('select').val(v.rim);
+                        rim.find('select').val(v.rim);
                         rim.find('select').attr('name', `tire_rim[${v.position}]`)
 
                         let t_pentil = $(check).clone();
-                        // t_pentil.find('select').val(v.t_pentil);
+
+                        t_pentil.find('input').prop('checked', v.t_pentil ? true : false);
                         t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`)
 
                         let remark = $(text).clone();
-                        // remark.find('select').val(v.remark);
+                        remark.find('input').val(v.remark);
                         remark.find('input').attr('name', `remark[${v.position}]`)
 
                         var tr = $('<tr>').html(`
-                            <input type="hidden" name="tire_id[${v.position}]" value="${v.tire.id}">
+                            <input type="hidden" name="tire_id[${v.position}]" value="${v.id}">
                             <input type="hidden" name="position[${v.position}]" value="${v.position}">
-                            <input type="hidden" name="serial_number[${v.position}]" value="${v.tire.serial_number}">
-                            <input type="hidden" name="lifetime_hm[${v.position}]" value="${v.tire.lifetime_hm}">
-                            <input type="hidden" name="lifetime_km[${v.position}]" value="${v.tire.lifetime_km}">
+                            <input type="hidden" name="serial_number[${v.position}]" value="${v.serial_number}">
                             <td>${v.position}</td>
-                            <td>${v.tire.serial_number}</td>
-                            <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.tire.pressure ?? 0 }"></td>
-                            <td><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.tire.rtd}"></td>
+                            <td>${v.serial_number}</td>
+                            <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.pressure ?? 0 }"></td>
+                            <td><input class="form-control" type="number" name="rtd[${v.position}]" value="${v.rtd}"></td>
                             `);
                         tire.appendTo(tr);
                         tube.appendTo(tr);

@@ -50,8 +50,8 @@ class Unit extends Model
     {
         return Attribute::make(
             get: fn($value) => $this->daily_inspect
-                ->sortByDesc('updated_at')
-                ->pluck('updated_at')
+                ->sortByDesc('date')
+                ->pluck('date')
                 ->first(),
         );
     }
