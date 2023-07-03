@@ -112,41 +112,42 @@
                 </div>
             </div>
         </li>
-        <li class="nav-item dropdown">
-            <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <img src="{{ asset('assets/img/icons/transfer1') }}.svg" alt="img" width="20px">
-            </a>
-            <div class="dropdown-menu notifications">
-                <div class="topnav-dropdown-header">
-                    <span class="notification-title">Switch Company</span>
-                </div>
-                <div class="noti-content">
-                    <ul class="notification-list">
-                        @foreach ($companies as $item)
-                            <li class="notification-message">
-                                <form action="{{ route('user.company.update', $item->id) }}" method="post">
-                                    @csrf
-                                    <a onclick="this.parentElement.submit()">
-                                        <div class="media d-flex">
-                                            <span class="avatar flex-shrink-0">
-                                                <img alt=""
-                                                    src="https://arshakamandiri.com/wp-content/uploads/2023/01/thhumbnail-arrshaka.jpg">
-                                            </span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details mb-0"><span
-                                                        class="noti-title">{{ $item->name }}</span>
-                                                </p>
-                                                <p class="noti-time"><span
-                                                        class="notification-time">{{ $item->city . ', ' }}
-                                                        {{ $item->state }}</span>
-                                                </p>
+        @can('isSuperAdmin')
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                    <img src="{{ asset('assets/img/icons/transfer1') }}.svg" alt="img" width="20px">
+                </a>
+                <div class="dropdown-menu notifications">
+                    <div class="topnav-dropdown-header">
+                        <span class="notification-title">Switch Company</span>
+                    </div>
+                    <div class="noti-content">
+                        <ul class="notification-list">
+                            @foreach ($companies as $item)
+                                <li class="notification-message">
+                                    <form action="{{ route('user.company.update', $item->id) }}" method="post">
+                                        @csrf
+                                        <a onclick="this.parentElement.submit()">
+                                            <div class="media d-flex">
+                                                <span class="avatar flex-shrink-0">
+                                                    <img alt=""
+                                                        src="https://arshakamandiri.com/wp-content/uploads/2023/01/thhumbnail-arrshaka.jpg">
+                                                </span>
+                                                <div class="media-body flex-grow-1">
+                                                    <p class="noti-details mb-0"><span
+                                                            class="noti-title">{{ $item->name }}</span>
+                                                    </p>
+                                                    <p class="noti-time"><span
+                                                            class="notification-time">{{ $item->city . ', ' }}
+                                                            {{ $item->state }}</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </form>
-                            </li>
-                        @endforeach
-                        {{-- <li class="notification-message">
+                                        </a>
+                                    </form>
+                                </li>
+                            @endforeach
+                            {{-- <li class="notification-message">
                             <a href="/dashboard">
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
@@ -176,13 +177,14 @@
                                 </div>
                             </a>
                         </li> --}}
-                    </ul>
+                        </ul>
+                    </div>
+                    <div class="topnav-dropdown-footer">
+                        <a href="activities.html">View all Company</a>
+                    </div>
                 </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="activities.html">View all Company</a>
-                </div>
-            </div>
-        </li>
+            </li>
+        @endcan
         {{-- <div class="dropdown">
             <button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
                 data-bs-toggle="dropdown" aria-expanded="false">
