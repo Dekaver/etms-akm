@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                        width: 90px;
-                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                        border-radius: 5%;
-                                                                                                                                                                                                                        height: 150px;
-                                                                                                                                                                                                                        border: 1px black solid;
-                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                                                                                                                                        width: 90px;
+                                                                                                                                                                                                                                                                                                                                        align-items: center;
+                                                                                                                                                                                                                                                                                                                                        justify-content: center;
+                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                        height: 150px;
+                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                    } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -338,7 +338,7 @@
                 $position = 0;
                 $position2 = 0;
             @endphp
-            <div class="row mt-4">
+            <div class="row mt-4" id="tire_install">
                 <div class="col-8 py-4 px-3">
                     @for ($i = 0; $i < $unit_model->axle_2_tire; $i++)
                         <div class="row justify-content-center align-items-end mb-5">
@@ -359,7 +359,7 @@
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
                                         <div
                                             class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
-                                            <div class="draggableUnit"
+                                            <div class="draggableUnit position_tire_{{ $position }}"
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-km="{{ $tire->lifetime_km }}"
@@ -401,8 +401,9 @@
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
+                                        <div
+                                            class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
+                                            <div class="draggableUnit position_tire_{{ $position }}"
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-km="{{ $tire->lifetime_km }}"
@@ -456,8 +457,9 @@
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
+                                        <div
+                                            class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
+                                            <div class="draggableUnit position_tire_{{ $position }}"
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-km="{{ $tire->lifetime_km }}"
@@ -495,8 +497,9 @@
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
+                                        <div
+                                            class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
+                                            <div class="draggableUnit position_tire_{{ $position }}"
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-km="{{ $tire->lifetime_km }}"
@@ -538,8 +541,9 @@
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
+                                        <div
+                                            class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
+                                            <div class="draggableUnit position_tire_{{ $position }}"
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-km="{{ $tire->lifetime_km }}"
@@ -577,8 +581,9 @@
                                 <figure>
                                     <h4 class="text-center fw-bold">{{ ++$position }}</h4>
                                     @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
-                                        <div class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                            <div class="draggableUnit"
+                                        <div
+                                            class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
+                                            <div class="draggableUnit position_tire_{{ $position }}"
                                                 style="background-image: url({{ asset('assets/img/tire.png') }});"
                                                 data-position="{{ $position }}" data-id="{{ $tire->id }}"
                                                 data-km="{{ $tire->lifetime_km }}"
@@ -1082,7 +1087,7 @@
 
                         <div class="form-group">
                             <label for="">Tire</label>
-                            <select class="form-control" name='tire_id' required>
+                            <select class="select2" name='tire_id' data-minimum-results-for-search='5' required>
                                 <option value="">Choose Tire</option>
                                 @foreach ($tire_inventory as $item)
                                     <option value="{{ $item->id }}">{{ $item->serial_number }}</option>
@@ -1134,6 +1139,10 @@
         <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
         <script>
             $(function() {
+                var position_tire_before = 0;
+                $('select.select2').select2({
+                    dropdownParent: $('#installTireModal')
+                });
                 var myModalInstall = new bootstrap.Modal(document.getElementById('installTireModal'), {
                     keyboard: false
                 });
@@ -1181,7 +1190,7 @@
                         var position = $(e.target).data('position');
                         var lifetime = ui.draggable.data('lifetime');
                         var id = ui.draggable.data('id');
-                        $('#installTireModal').find('select[name="tire_id"]').val(id);
+                        $('#installTireModal').find('select[name="tire_id"]').val(id).trigger("change");
                         $('#installTireModal').find('input[name="position"]').val(position);
                         $('#installTireModal').find('input[name="lifetime"]').val(lifetime);
                         $('#position_install').html(position);
@@ -1230,6 +1239,10 @@
                     drop: function(e, ui) {
                         let tire_1 = ui.draggable;
                         let tire_2 = $(e.target).children().first();
+                        if (tire_1.data("position") == tire_2.data("position")) {
+                            return;
+                        }
+                        position_tire_before = tire_2.data("position");
                         $("#serial_number_switch_1").html(tire_1.data("serial_number"));
 
                         $("#rtd_switch_1").html(tire_1.data("rtd"));
@@ -1256,6 +1269,37 @@
                         $('#switchTireModal').find('form').attr('action', action);
                         myModalSwitch.show();
                     }
+                });
+
+                $("#switchTireModal").find("select[name='tire_position_switch_2']").change(function(e) {
+                    let position = $(e.target).val();
+                    let tire_1 = $("#switchTireModal").find("select[name='tire_position_switch_1']");
+                    if (position == tire_1.val()) {
+                        toastr.error(
+                            "tire position should be different",
+                            "Error", {
+                                closeButton: !0,
+                                tapToDismiss: !1,
+                                progressBar: !0
+                            }
+                        )
+                        $("#switchTireModal").find("select[name='tire_position_switch_2']").val(
+                            position_tire_before);
+                        return;
+                    }
+                    let tire_2 = $("#tire_install").find(`.position_tire_${position}`);
+                    $("#serial_number_switch_2").html(tire_2.data("serial_number"));
+
+                    $("#rtd_switch_2").html(tire_2.data("rtd"));
+                    $("#km_tire_switch_2").html(tire_2.data("km"));
+                    $("#hm_tire_switch_2").html(tire_2.data("hm"));
+                    $('#switchTireModal').find('select[name="tire_position_switch_2"]').val(tire_2.data(
+                        "position"));
+                    $('#switchTireModal').find('input[name="tire_id_2"]').val(tire_2.data("id"));
+                    $('#switchTireModal').find('input[name="rtd_2"]').val(tire_2.data("rtd"));
+
+
+                    console.log(serial_number);
                 });
             });
         </script>
