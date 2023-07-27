@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                                                                                                                                        width: 90px;
-                                                                                                                                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                        height: 150px;
-                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                            display: flex;
+                                                                                                                                                                                                                                                                                                                                                            width: 90px;
+                                                                                                                                                                                                                                                                                                                                                            align-items: center;
+                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                            border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                            height: 150px;
+                                                                                                                                                                                                                                                                                                                                                            border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                        } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -145,37 +145,40 @@
             </div> --}}
         </div>
     </div>
-    <div class="card d-xxl-none page-body">
+    {{-- <div class="card d-xxl-none page-body"> --}}
+    <div class="card d-none page-body">
         <div class="card-body px-3 py-4">
             <div class="row justify-content-center">
-                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
-                    <div class="row mb-4 justify-content-center">
-                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                            {{-- <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt=""> --}}
-                        </div>
-                        <div class="col-8">
-                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 1</p>
-                            <div class="d-flex">
-                                <div class="w-auto me-3">
-                                    <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">HM</p>
-                                    <p class=" mb-0 ">KM</p>
-                                    <p class=" mb-0 ">RTD</p>
-                                </div>
-                                <div class="w-auto">
-                                    <p class=" mb-0 fw-bold">-</p>
-                                    <p class=" mb-0 ">-</p>
-                                    <p class=" mb-0 ">-</p>
-                                    <p class=" mb-0 ">-</p>
-                                </div>
+                @for ($i = 1; $i < $unit_model->tire_qty; $i++)
+                    <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
+                        <div class="row mb-4 justify-content-center">
+                            <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                {{-- <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt=""> --}}
                             </div>
-                            <div class="mt-2">
-                                <a class="btn btn-primary btn-sm w-100" data-bs-toggle="modal"
-                                    data-bs-target="#installTireModal" data-post="new">INSTALL</a>
+                            <div class="col-8">
+                                <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 1</p>
+                                <div class="d-flex">
+                                    <div class="w-auto me-3">
+                                        <p class=" mb-0 fw-bold">SN</p>
+                                        <p class=" mb-0 ">HM</p>
+                                        <p class=" mb-0 ">KM</p>
+                                        <p class=" mb-0 ">RTD</p>
+                                    </div>
+                                    <div class="w-auto">
+                                        <p class=" mb-0 fw-bold">-</p>
+                                        <p class=" mb-0 ">-</p>
+                                        <p class=" mb-0 ">-</p>
+                                        <p class=" mb-0 ">-</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <a class="btn btn-primary btn-sm w-100" data-bs-toggle="modal"
+                                        data-bs-target="#installTireModal" data-post="new">INSTALL</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endfor
                 <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
                     <div class="row mb-4 justify-content-center">
                         <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
@@ -309,7 +312,8 @@
         </div>
     </div>
 
-    <div class="card page-body d-sm-none d-none d-xxl-block">
+    {{-- <div    class="card page-body d-sm-none d-none d-xxl-block"> --}}
+    <div class="card page-body ">
         <div class="card-body px-5 py-4">
             <div class="row gap gap-4 bg-white px-4 py-4"
                 style="position: -webkit-sticky;position: sticky;top: 0;z-index: 999;">
