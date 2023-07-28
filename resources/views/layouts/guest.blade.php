@@ -1,49 +1,74 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <meta name="description" content="POS - Bootstrap Admin Template">
-		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
-        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
-        <meta name="robots" content="noindex, nofollow">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Login - ETMS ERP</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="keywords"
+        content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-		<!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon2.png">
+    <title>Login - ETMS ERP</title>
 
-		<!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon2.png">
 
-        <!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-		<!-- Main CSS -->
-        <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
-    </head>
-    <body class="account-page">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 
-		<!-- Main Wrapper -->
-        {{ $slot }}
+</head>
+
+<body class="account-page">
+
+    <!-- Main Wrapper -->
+    {{ $slot }}
 
 
-		<!-- /Main Wrapper -->
+    <!-- /Main Wrapper -->
 
-		<!-- jQuery -->
-        <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <!-- jQuery -->
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
 
-         <!-- Feather Icon JS -->
-		<script src="assets/js/feather.min.js"></script>
+    <!-- Feather Icon JS -->
+    <script src="assets/js/feather.min.js"></script>
 
-		<!-- Bootstrap Core JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Custom JS -->
-		<script src="assets/js/script.js"></script>
+    <!-- Mask JS -->
+    <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/toastr/toastr.js') }}"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/script.js"></script>
 
-    </body>
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                alert("{{ $error }}");
+                toastr.error(
+                    "{{ $error }}",
+                    "Error", {
+                        showMethod: "slideDown",
+                        hideMethod: "slideUp",
+                        timeOut: 5e3,
+                        closeButton: !0,
+                        tapToDismiss: !0,
+                        progressBar: !0
+                    }
+                )
+            @endforeach
+        @endif
+    </script>
+</body>
+
 </html>
