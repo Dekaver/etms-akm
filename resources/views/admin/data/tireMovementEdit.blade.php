@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                            display: flex;
-                                                                                                                                                                                                                                                                                                                                                            width: 90px;
-                                                                                                                                                                                                                                                                                                                                                            align-items: center;
-                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                            border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                            height: 150px;
-                                                                                                                                                                                                                                                                                                                                                            border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -92,7 +92,7 @@
     <div class="card ">
         <div class="card-body">
             <h5 class="mb-3">Tire Movement Update</h5>
-            <div class="row">
+            <div class="row d-sm-none">
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">ID</p>
                     <p class="fs-6 fw-bold">{{ $unit->unit_number }}</p>
@@ -114,7 +114,7 @@
                     <p class="fs-6 fw-bold">{{ $unit->unit_model->tire_size->size ?? '' }}</p>
                 </div>
             </div>
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-sm-12">
                     <table>
                         <tr>
@@ -142,178 +142,127 @@
                         </tr>
                     </table>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </div>
-    {{-- <div class="card d-xxl-none page-body"> --}}
-    <div class="card d-none page-body">
+    {{-- MOBILE --}}
+    <div class="card d-xxl-none page-body">
+        @php
+            $position = 0;
+            $position2 = 0;
+        @endphp
         <div class="card-body px-3 py-4">
             <div class="row justify-content-center">
-                @for ($i = 1; $i < $unit_model->tire_qty; $i++)
+                @for ($i = 0; $i < $unit_model->tire_qty; $i++)
                     <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
                         <div class="row mb-4 justify-content-center">
-                            <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                                {{-- <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt=""> --}}
-                            </div>
-                            <div class="col-8">
-                                <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 1</p>
-                                <div class="d-flex">
-                                    <div class="w-auto me-3">
-                                        <p class=" mb-0 fw-bold">SN</p>
-                                        <p class=" mb-0 ">HM</p>
-                                        <p class=" mb-0 ">KM</p>
-                                        <p class=" mb-0 ">RTD</p>
+                            @php
+                                $position += 1;
+                            @endphp
+                            @if ($tire = $tire_running->where('position', $position)->pluck('tire')->first())
+                                <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                    <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
+                                </div>
+                                <div class="col-8">
+                                    <p class="fw-bold text-primary fs-6 mb-0">POSISI {{ $position }}</p>
+                                    <div class="d-flex">
+                                        <div class="w-auto me-3">
+                                            <p class=" mb-0 fw-bold">SN</p>
+                                            <p class=" mb-0 ">HM</p>
+                                            <p class=" mb-0 ">KM</p>
+                                            <p class=" mb-0 ">RTD</p>
+                                        </div>
+                                        <div class="w-auto">
+                                            <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
+                                            <p class=" mb-0 ">{{ $tire->lifetime_hm }}</p>
+                                            <p class=" mb-0 ">{{ $tire->lifetime_km }}</p>
+                                            <p class=" mb-0 ">{{ $tire->rtd }}</p>
+                                        </div>
                                     </div>
-                                    <div class="w-auto">
-                                        <p class=" mb-0 fw-bold">-</p>
-                                        <p class=" mb-0 ">-</p>
-                                        <p class=" mb-0 ">-</p>
-                                        <p class=" mb-0 ">-</p>
+                                    <div class="mt-2">
+                                        <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new"
+                                            class="btn btn-warning btn-sm"
+                                            data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                            data-position="{{ $position }}" data-tire_id="{{ $tire->id }}"
+                                            data-serial_number="{{ $tire->serial_number }}"
+                                            data-rtd="{{ $tire->rtd }}" data-hm="{{ $tire->lifetime_hm }}"
+                                            data-km="{{ $tire->lifetime_km }}"
+                                            data-position="{{ $position }}">SWITCH</a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">REMOVE</button>
+                                            <div class="dropdown-menu">
+                                                <a data-bs-toggle="modal" data-bs-target="#removeTireModal"
+                                                    class="dropdown-item text-uppercase"
+                                                    data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                    data-position="{{ $position }}"
+                                                    data-tire_id="{{ $tire->id }}"
+                                                    data-serial_number="{{ $tire->serial_number }}"
+                                                    data-rtd="{{ $tire->rtd }}" data-status="SPARE">SPARE</a>
+                                                <a data-bs-toggle="modal" data-bs-target="#removeTireModal"
+                                                    class="dropdown-item text-uppercase"
+                                                    data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                    data-position="{{ $position }}"
+                                                    data-tire_id="{{ $tire->id }}"
+                                                    data-serial_number="{{ $tire->serial_number }}"
+                                                    data-rtd="{{ $tire->rtd }}" data-status="REPAIR">REPAIR</a>
+                                                <a data-bs-toggle="modal" data-bs-target="#removeTireModal"
+                                                    class="dropdown-item text-uppercase"
+                                                    data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                    data-position="{{ $position }}"
+                                                    data-tire_id="{{ $tire->id }}"
+                                                    data-serial_number="{{ $tire->serial_number }}"
+                                                    data-rtd="{{ $tire->rtd }}" data-status="RETREAD">RETREAD</a>
+                                                <a data-bs-toggle="modal" data-bs-target="#removeTireModal"
+                                                    class="dropdown-item text-uppercase"
+                                                    data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
+                                                    data-position="{{ $position }}"
+                                                    data-tire_id="{{ $tire->id }}"
+                                                    data-serial_number="{{ $tire->serial_number }}"
+                                                    data-rtd="{{ $tire->rtd }}" data-status="SCRAP">SCRAP</a>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="mt-2">
-                                    <a class="btn btn-primary btn-sm w-100" data-bs-toggle="modal"
-                                        data-bs-target="#installTireModal" data-post="new">INSTALL</a>
+                            @else
+                                <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
+                                    {{-- <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt=""> --}}
                                 </div>
-                            </div>
+                                <div class="col-8">
+                                    <p class="fw-bold text-primary fs-6 mb-0">POSISI {{ $position }}</p>
+                                    <div class="d-flex">
+                                        <div class="w-auto me-3">
+                                            <p class=" mb-0 fw-bold">SN</p>
+                                            <p class=" mb-0 ">HM</p>
+                                            <p class=" mb-0 ">KM</p>
+                                            <p class=" mb-0 ">RTD</p>
+                                        </div>
+                                        <div class="w-auto">
+                                            <p class=" mb-0 fw-bold">-</p>
+                                            <p class=" mb-0 ">-</p>
+                                            <p class=" mb-0 ">-</p>
+                                            <p class=" mb-0 ">-</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a class="btn btn-primary btn-sm w-100 btnInstallTireModal"
+                                            data-bs-toggle="modal" data-bs-target="#installTireModal" data-post="new"
+                                            data-position="{{ $position }}">INSTALL</a>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 @endfor
-                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
-                    <div class="row mb-4 justify-content-center">
-                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                            <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
-                        </div>
-                        <div class="col-8">
-                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 2</p>
-                            <div class="d-flex">
-                                <div class="w-auto me-3">
-                                    <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">HM</p>
-                                    <p class=" mb-0 ">KM</p>
-                                    <p class=" mb-0 ">RTD</p>
-                                </div>
-                                <div class="w-auto">
-                                    <p class=" mb-0 fw-bold">1289382YNS02</p>
-                                    <p class=" mb-0 ">3049</p>
-                                    <p class=" mb-0 ">83929</p>
-                                    <p class=" mb-0 ">23</p>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new"
-                                    class="btn btn-warning btn-sm">SWITCH</a>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">REMOVE</button>
-                                    <div class="dropdown-menu">
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Spare</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Repair</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Rethread</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Scrap</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
-                    <div class="row mb-4 justify-content-center">
-                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                            <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
-                        </div>
-                        <div class="col-8">
-                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 2</p>
-                            <div class="d-flex">
-                                <div class="w-auto me-3">
-                                    <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">HM</p>
-                                    <p class=" mb-0 ">KM</p>
-                                    <p class=" mb-0 ">RTD</p>
-                                </div>
-                                <div class="w-auto">
-                                    <p class=" mb-0 fw-bold">1289382YNS02</p>
-                                    <p class=" mb-0 ">3049</p>
-                                    <p class=" mb-0 ">83929</p>
-                                    <p class=" mb-0 ">23</p>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new"
-                                    class="btn btn-warning btn-sm">SWITCH</a>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">REMOVE</button>
-                                    <div class="dropdown-menu">
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Spare</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Repair</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Rethread</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Scrap</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-7 col-md-6 col-lg-6 col-xl-4">
-                    <div class="row mb-4 justify-content-center">
-                        <div class="col-3 bg-secondary bg-opacity-10 px-3 py-2 border border-grey">
-                            <img class="w-100" src="{{ asset('assets/img/tire.png') }}" alt="">
-                        </div>
-                        <div class="col-8">
-                            <p class="fw-bold text-primary fs-6 mb-0">BARIS 1, POSISI 2</p>
-                            <div class="d-flex">
-                                <div class="w-auto me-3">
-                                    <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">HM</p>
-                                    <p class=" mb-0 ">KM</p>
-                                    <p class=" mb-0 ">RTD</p>
-                                </div>
-                                <div class="w-auto">
-                                    <p class=" mb-0 fw-bold">1289382YNS02</p>
-                                    <p class=" mb-0 ">3049</p>
-                                    <p class=" mb-0 ">83929</p>
-                                    <p class=" mb-0 ">23</p>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <a data-bs-toggle="modal" data-bs-target="#switchTireModal" data-post="new"
-                                    class="btn btn-warning btn-sm">SWITCH</a>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">REMOVE</button>
-                                    <div class="dropdown-menu">
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Spare</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Repair</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Rethread</a>
-                                        <a data-bs-toggle="modal" data-bs-target="#removeTireModal" data-post="new"
-                                            class="dropdown-item text-uppercase">Scrap</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    {{-- <div    class="card page-body d-sm-none d-none d-xxl-block"> --}}
-    <div class="card page-body ">
+    <div class="card page-body d-sm-none d-none d-xxl-block">
+        {{-- <div class="card page-body "> --}}
         <div class="card-body px-5 py-4">
             <div class="row gap gap-4 bg-white px-4 py-4"
                 style="position: -webkit-sticky;position: sticky;top: 0;z-index: 999;">
@@ -723,12 +672,13 @@
                                     <div class="mb-2 col-12 col-md-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="">Tire Position</label>
-                                            <select name="tire_position_switch_1" readonly class="form-control">
+                                            <input type="text" name="tire_position_switch_1" readonly>
+                                            {{-- <select name="tire_position_switch_1" readonly class="form-control">
                                                 @for ($i = 0; $i < $unit_model->tire_qty; $i++)
                                                     <option value="{{ $i + 1 }}">{{ $i + 1 }}
                                                     </option>
                                                 @endfor
-                                            </select>
+                                            </select> --}}
                                         </div>
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
@@ -737,15 +687,15 @@
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">RTD</p>
-                                        <p class="fs-6 fw-bold" id="rtd_switch_1">2738</p>
+                                        <p class="fs-6 fw-bold" id="rtd_switch_1"></p>
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">KM</p>
-                                        <p class="fs-6 fw-bold" id="km_tire_switch_1">3004</p>
+                                        <p class="fs-6 fw-bold" id="km_tire_switch_1"></p>
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">HM</p>
-                                        <p class="fs-6 fw-bold" id="hm_tire_switch_1">2389</p>
+                                        <p class="fs-6 fw-bold" id="hm_tire_switch_1"></p>
                                     </div>
                                 </div>
                                 <hr class="mb-0">
@@ -757,6 +707,7 @@
                                         <div class="form-group">
                                             <label for="">Tire Position</label>
                                             <select name="tire_position_switch_2" required class="form-control">
+                                                <option value="">Pilih</option>
                                                 @for ($i = 0; $i < $unit_model->tire_qty; $i++)
                                                     <option value="{{ $i + 1 }}">{{ $i + 1 }}
                                                     </option>
@@ -766,19 +717,19 @@
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">Serial Number</p>
-                                        <p class="fs-6 fw-bold" id="serial_number_switch_2">92183921847</p>
+                                        <p class="fs-6 fw-bold" id="serial_number_switch_2"></p>
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">RTD</p>
-                                        <p class="fs-6 fw-bold" id="rtd_switch_2">2738</p>
+                                        <p class="fs-6 fw-bold" id="rtd_switch_2"></p>
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">KM</p>
-                                        <p class="fs-6 fw-bold" id="km_tire_switch_2">3004</p>
+                                        <p class="fs-6 fw-bold" id="km_tire_switch_2"></p>
                                     </div>
                                     <div class="mb-2 col-6 col-md-6 col-lg-4">
                                         <p class="mb-0 text-secondary">HM</p>
-                                        <p class="fs-6 fw-bold" id="hm_tire_switch_2">2389</p>
+                                        <p class="fs-6 fw-bold" id="hm_tire_switch_2"></p>
                                     </div>
                                 </div>
                                 <hr>
@@ -1261,7 +1212,7 @@
                         let action = ui.draggable.data('action');
 
 
-                        $('#switchTireModal').find('select[name="tire_position_switch_1"]').val(tire_1.data(
+                        $('#switchTireModal').find('input[name="tire_position_switch_1"]').val(tire_1.data(
                             "position"));
                         $('#switchTireModal').find('select[name="tire_position_switch_2"]').val(tire_2.data(
                             "position"));
@@ -1301,11 +1252,94 @@
                         "position"));
                     $('#switchTireModal').find('input[name="tire_id_2"]').val(tire_2.data("id"));
                     $('#switchTireModal').find('input[name="rtd_2"]').val(tire_2.data("rtd"));
-
-
-                    console.log(serial_number);
                 });
             });
+
+            // mobile
+            document.getElementById('installTireModal').addEventListener('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var modal = $(event.target)
+
+                var position = button.data('position')
+
+                modal.find('input[name="position"]').val(position);
+                modal.find('#position_install').html(position);
+
+            })
+
+            document.getElementById('removeTireModal').addEventListener('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var modal = $(event.target)
+
+                var position = button.data('position')
+                var status = button.data('status')
+                var serial_number = button.data('serial_number')
+                var tire_id = button.data('tire_id')
+                var rtd = button.data('rtd')
+                var action = button.data('action')
+
+
+                modal.find('input[name="position"]').val(position);
+                modal.find('#position_install').html(position);
+
+
+                modal.find(`select option`).attr('selected', false);
+                modal.find(`select option:contains('${status}')`).attr('selected', true);
+                modal.find('input[name="position"]').val(position);
+                modal.find('input[name="serial_number"]').val(serial_number);
+                modal.find('input[name="tire_id"]').val(tire_id);
+                modal.find('input[name="rtd"]').val(rtd);
+                modal.find('input[name="rtd_remove"]').val(rtd);
+                $("#tire_serial_number_remove").html(serial_number);
+                $("#rtd_remove").html(rtd);
+                $("#position_remove").html(position);
+                modal.find('form').attr('action', action);
+            })
+
+            document.getElementById('switchTireModal').addEventListener('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var modal = $(event.target)
+
+                var position = button.data('position')
+                var status = button.data('status')
+                var serial_number = button.data('serial_number')
+                var tire_id = button.data('tire_id')
+                var rtd = button.data('rtd')
+                var action = button.data('action')
+
+
+                modal.find('input[name="position"]').val(position);
+                modal.find('#position_install').html(position);
+
+                modal.find(`select option`).attr('selected', false);
+                modal.find(`select option:contains('${status}')`).attr('selected', true);
+                modal.find('input[name="position"]').val(position);
+                modal.find('input[name="serial_number"]').val(serial_number);
+                modal.find('input[name="tire_id"]').val(tire_id);
+                modal.find('input[name="rtd"]').val(rtd);
+                modal.find('input[name="rtd_remove"]').val(rtd);
+                $("#tire_serial_number_remove").html(serial_number);
+                $("#rtd_remove").html(rtd);
+                $("#position_remove").html(position);
+                modal.find('form').attr('action', action);
+            })
+
+            document.getElementById('switchTireModal').addEventListener('show.bs.modal', function(event) {
+                let button = $(event.relatedTarget);
+                let modal = $(event.target);
+                $("#serial_number_switch_1").html(button.data("serial_number"));
+
+                $("#rtd_switch_1").html(button.data("rtd"));
+                $("#km_tire_switch_1").html(button.data("km"));
+                $("#hm_tire_switch_1").html(button.data("hm"));
+
+                modal.find('input[name="tire_position_switch_1"]').val(button.data(
+                    "position"));
+                modal.find('input[name="tire_id_1"]').val(button.data("tire_id"));
+                modal.find('input[name="rtd_1"]').val(button.data("rtd"));
+
+                modal.find('form').attr('action', button.data('action'));
+            })
         </script>
         <script>
             $(document).ready(function() {
