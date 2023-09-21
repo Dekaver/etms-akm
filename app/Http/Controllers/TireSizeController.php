@@ -118,7 +118,6 @@ class TireSizeController extends Controller
     public function update(Request $request, TireSize $tiresize)
     {
         $request->validate([
-            "pattern" => "required",
             "size" => "required",
             "tire_pattern_id" => "required",
             "otd" => "required",
