@@ -43,7 +43,7 @@ class UnitController extends Controller
                     return $row->unit_status->status_code;
                 })
                 ->addColumn('value', function ($row) {
-                    return ($row->jenis == 'km') ? $row->km : $row->hm;
+                    return "$row->hm/$row->km";
                 })
                 ->addColumn('site', function ($row) {
                     return $row->site->name;
@@ -67,7 +67,7 @@ class UnitController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.unit", compact('unitmodel_id','unitsite_id', 'unitstatus_id','unit_status', 'unit_model', 'sites'));
+        return view("admin.data.unit", compact('unitmodel_id', 'unitsite_id', 'unitstatus_id', 'unit_status', 'unit_model', 'sites'));
     }
 
     /**
@@ -84,13 +84,6 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $company = auth()->user()->company;
-        $km = 0;
-        $hm = 0;
-        if ($request->jenis == "hm") {
-            $hm = (int) $request->value;
-        } elseif ($request->jenis == "km") {
-            $km = (int) $request->value;
-        }
 
         Unit::create([
             "company_id" => $company->id,
@@ -99,8 +92,8 @@ class UnitController extends Controller
             "site_id" => $request->site_id,
             "unit_number" => $request->unit_number,
             "head" => $request->head,
-            "km" => $km,
-            "hm" => $hm,
+            "km" => $request->km,
+            "hm" => $request->hm,
         ]);
 
         return redirect()->back()->with("success", "Created Unit");
@@ -127,22 +120,13 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
-
-        $km = 0;
-        $hm = 0;
-        if ($request->jenis == "hm") {
-            $hm = (int) $request->value;
-        } elseif ($request->jenis == "km") {
-            $km = (int) $request->value;
-        }
-
         $unit->unit_model_id = $request->unit_model_id;
         $unit->unit_status_id = $request->unit_status_id;
         $unit->site_id = $request->site_id;
         $unit->unit_number = $request->unit_number;
         $unit->head = $request->head;
-        $unit->km = $km;
-        $unit->hm = $hm;
+        $unit->km = $request->km;
+        $unit->hm = $request->hm;
         $unit->save();
 
         return redirect()->back()->with("success", "Updated Unit");
