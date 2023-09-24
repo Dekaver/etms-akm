@@ -316,7 +316,7 @@
 
                         let t_pentil = $(check).clone();
 
-                        t_pentil.find('input').prop('checked', v.t_pentil ? true : false);
+                        t_pentil.find('input').prop('checked', v.t_pentil == "1" ? true : false);
                         t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`)
 
                         let remark = $(text).clone();

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,10 +50,20 @@ class Unit extends Model
     public function inspectionLastUpdate(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->daily_inspect
-                ->sortByDesc('date')
-                ->pluck('date')
-                ->first(),
+            get: function () {
+                $date = $this->daily_inspect
+                    ->sortByDesc('date')
+                    ->pluck('date')
+                    ->first()?->format("Y-m-d");
+                $time = $this->daily_inspect
+                    ->sortByDesc('date')
+                    ->pluck('updated_at')
+                    ->first()?->format("H:i:s");
+                if ($date == null) {
+                    return null;
+                }
+                return Carbon::parse("$date $time");
+            }
         );
     }
 }
