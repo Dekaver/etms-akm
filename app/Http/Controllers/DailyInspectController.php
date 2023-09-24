@@ -251,7 +251,7 @@ class DailyInspectController extends Controller
 
     public function export(Request $request)
     {
-        $site = $request->query("site");
+        $site = $request->query("site") ?? auth()->user()->site?->id;
         $month = $request->query("month");
         $year = $request->query("year");
 
