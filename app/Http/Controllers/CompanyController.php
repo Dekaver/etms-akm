@@ -11,6 +11,7 @@ use App\Models\TirePattern;
 use App\Models\TireStatus;
 use App\Models\UnitStatus;
 use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -171,17 +172,24 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $company->tire_compound()->delete();
-        $company->tire_size()->delete();
-        $company->tire_damage()->delete();
-        $company->tire_pattern()->delete();
-        $company->tire_manufacture()->delete();
-        foreach ($company->site() as $key => $site) {
-            $site->user->delete();
+        try {
+            DB::transaction(function () use ($company) {
+                $company->tire_compound()->delete();
+                $company->tire_size()->delete();
+                $company->tire_damage()->delete();
+                $company->tire_pattern()->delete();
+                $company->tire_manufacture()->delete();
+                foreach ($company->user as $key => $user) {
+                    $user->userSite()->delete();
+                    $user->site()->delete();
+                }
+                $company->user()->delete();
+                $company->site()->delete();
+                $company->delete();
+            });
+        } catch (\Throwable $th) {
+            return $th;
         }
-        $company->user()->delete();
-        $company->site()->delete();
-        $company->delete();
 
         return redirect()->back()->with("success", "Deleted Customer $company->name");
     }
