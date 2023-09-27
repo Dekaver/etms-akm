@@ -155,19 +155,21 @@
                             <div class="col-lg-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>OTD</label>
-                                    <input type="text" name="otd" required>
+                                    <input type="number" min="0" class="form-control" name="otd" required>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>Rec. Pressure</label>
-                                    <input type="text" name="recomended_pressure" required>
+                                    <input type="number" min="0" class="form-control" name="recomended_pressure"
+                                        required>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Target Lifetime</label>
-                                    <input type="text" name="target_lifetime" required>
+                                    <input type="number" min="0" class="form-control" name="target_lifetime"
+                                        required>
                                 </div>
                             </div>
                             {{-- <div class="col-lg-4 col-sm-6 col-6">

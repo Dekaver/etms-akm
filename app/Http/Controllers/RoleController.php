@@ -73,7 +73,11 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return $role;
+        return Role::where("id", $role->id)->with([
+            "permissions" => function ($item) {
+                $item->select("name");
+            }
+        ])->first();
     }
 
     /**

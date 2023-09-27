@@ -149,7 +149,7 @@
                         url: `{{ route('role.index') }}/${id}/edit`
                     }).done(function(response) {
                         modal.find('input[name="name"]').val(response.name);
-                        modal.find('#permission').val(response.permission).trigger("change");
+                        modal.find('#permission').val(response.permissions.map(p => p.name)).trigger("change");
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('role.index') }}/${id}`)
