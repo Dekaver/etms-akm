@@ -70,11 +70,25 @@
             </div>
         </div>
     </div>
+    @push('css')
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/buttons.dataTables.min.css') }}">
+    @endpush
 
     @push('js')
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jszip.min.js') }}"></script>
         <script type="text/javascript">
             $(function() {
                 var table = $('table.data-table').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [{
+                            extend: 'excel',
+                            text: 'Export Excel',
+                            filename: `History Tire Movement ${new Date().getTime()}`
+                        },
+                        'copy', 'csv'
+                    ],
                     processing: true,
                     serverSide: false,
                     ajax: "{{ route('historytiremovement.tiremovement', $tire->id) }}",
@@ -140,8 +154,6 @@
                         },
                     ]
                 });
-
-
             });
         </script>
     @endpush
