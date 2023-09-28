@@ -113,7 +113,7 @@ class HistoryTireMovementController extends Controller
     public function tiremovement(Request $request, TireMaster $tire)
     {
         // dd($tire->history_tire_movement);
-        $data = HistoryTireMovement::where("tire", $tire->serial_number);
+        $data = HistoryTireMovement::with(["site", "tire_damage"])->where("tire", $tire->serial_number);
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()

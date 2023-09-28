@@ -118,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
     //REPORT
     Route::middleware(['permission:REPORT'])->group(function () {
         Route::get("report-tire-status", [ReportController::class, "statusTireCount"])->name('report.tirestatus');
+        Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name("report.tirerunning");
     });
 });
 
