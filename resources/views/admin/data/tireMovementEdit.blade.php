@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        width: 90px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 150px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -1274,15 +1274,21 @@
                 var modal = $(event.target)
                 if (position) {
                     var position = button.data('position')
+                    modal.find('input[name="position"]').val(position);
                 }
                 if (tire_id) {
                     var tire_id = button.data('tire_id')
+                    modal.find('input[name="tire_id"]').val(tire_id);
                 }
                 if (rtd) {
                     var rtd = button.data('rtd')
+                    modal.find('input[name="rtd"]').val(rtd);
+                    modal.find('input[name="rtd_remove"]').val(rtd);
+                    $("#rtd_remove").html(rtd);
                 }
                 if (status) {
                     var status = button.data('status')
+                    modal.find(`select option:contains('${status}')`).attr('selected', true);
                 }
                 var serial_number = button.data('serial_number')
                 var action = button.data('action')
@@ -1293,14 +1299,8 @@
 
 
                 modal.find(`select option`).attr('selected', false);
-                modal.find(`select option:contains('${status}')`).attr('selected', true);
-                modal.find('input[name="position"]').val(position);
                 modal.find('input[name="serial_number"]').val(serial_number);
-                modal.find('input[name="tire_id"]').val(tire_id);
-                modal.find('input[name="rtd"]').val(rtd);
-                modal.find('input[name="rtd_remove"]').val(rtd);
                 $("#tire_serial_number_remove").html(serial_number);
-                $("#rtd_remove").html(rtd);
                 $("#position_remove").html(position);
                 modal.find('form').attr('action', action);
             })
@@ -1311,33 +1311,33 @@
 
                 if (position) {
                     var position = button.data('position')
+                    $("#position_remove").html(position);
+                    modal.find('input[name="position"]').val(position);
+                    modal.find('#position_install').html(position);
                 }
                 if (tire_id) {
                     var tire_id = button.data('tire_id')
+                    modal.find('input[name="tire_id"]').val(tire_id);
                 }
                 if (rtd) {
                     var rtd = button.data('rtd')
+                    modal.find('input[name="rtd"]').val(rtd);
+                    modal.find('input[name="rtd_remove"]').val(rtd);
+                    $("#rtd_remove").html(rtd);
+
                 }
+                modal.find(`select option`).attr('selected', false);
                 if (status) {
                     var status = button.data('status')
+                    modal.find(`select option:contains('${status}')`).attr('selected', true);
                 }
                 var serial_number = button.data('serial_number')
                 var action = button.data('action')
 
 
-                modal.find('input[name="position"]').val(position);
-                modal.find('#position_install').html(position);
 
-                modal.find(`select option`).attr('selected', false);
-                modal.find(`select option:contains('${status}')`).attr('selected', true);
-                modal.find('input[name="position"]').val(position);
                 modal.find('input[name="serial_number"]').val(serial_number);
-                modal.find('input[name="tire_id"]').val(tire_id);
-                modal.find('input[name="rtd"]').val(rtd);
-                modal.find('input[name="rtd_remove"]').val(rtd);
                 $("#tire_serial_number_remove").html(serial_number);
-                $("#rtd_remove").html(rtd);
-                $("#position_remove").html(position);
                 modal.find('form').attr('action', action);
             })
 
