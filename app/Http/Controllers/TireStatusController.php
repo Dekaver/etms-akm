@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TireStatus;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class TireStatusController extends Controller
@@ -51,7 +52,14 @@ class TireStatusController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "status" => "required"
+            "status" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_statuses")->where(function ($query) use ($request) {
+                    return $query;
+                }),
+            ],
         ]);
 
         TireStatus::create([
@@ -83,7 +91,14 @@ class TireStatusController extends Controller
     public function update(Request $request, TireStatus $tirestatus)
     {
         $request->validate([
-            "status" => "required"
+            "status" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_statuses")->ignore($tirestatus->id)->where(function ($query) use ($request) {
+                    return $query;
+                }),
+            ],
         ]);
         $tirestatus->status = $request->status;
         $tirestatus->save();
