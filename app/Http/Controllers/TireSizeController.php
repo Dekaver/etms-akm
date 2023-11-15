@@ -6,6 +6,7 @@ use App\Models\TireManufacture;
 use App\Models\TirePattern;
 use App\Models\TireSize;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class TireSizeController extends Controller
@@ -25,7 +26,6 @@ class TireSizeController extends Controller
         $tire_patterns = TirePattern::select("pattern")->where('company_id', $company->id)->groupBy("pattern")->get();
         $tire_sizes = TireSize::select("size")->where('company_id', $company->id)->groupBy("size")->get();
         $tire_manufactures = TireManufacture::where('company_id', $company->id)->get();
-
         if ($request->ajax()) {
             $data = TireSize::select("tire_sizes.*", "tire_patterns.pattern", "tire_manufactures.name as manufacture", "tire_patterns.type_pattern as type")
                 ->leftJoin("tire_patterns", "tire_patterns.id", "=", "tire_sizes.tire_pattern_id")
@@ -75,22 +75,33 @@ class TireSizeController extends Controller
      */
     public function store(Request $request)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "size" => "required",
-            "tire_pattern_id" => "required",
+            "size" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_sizes")->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("tire_pattern_id", $request->tire_pattern_id)
+                        ->where("company_id", $company->id);
+                }),
+            ],
+            "tire_pattern_id" => "required|exists:tire_patterns,id",
             "otd" => "required",
             "recomended_pressure" => "required",
-            "target_lifetime" => "required"
+            "target_lifetime_hm" => "required",
+            "target_lifetime_km" => "required"
         ]);
 
-        $company = auth()->user()->company;
         TireSize::create([
             'company_id' => $company->id,
             'size' => $request->size,
             'tire_pattern_id' => $request->tire_pattern_id,
             'otd' => $request->otd,
             'recomended_pressure' => $request->recomended_pressure,
-            'target_lifetime' => $request->target_lifetime,
+            'target_lifetime_hm' => $request->target_lifetime_hm,
+            'target_lifetime_km' => $request->target_lifetime_km,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Size");
@@ -117,18 +128,30 @@ class TireSizeController extends Controller
      */
     public function update(Request $request, TireSize $tiresize)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "size" => "required",
+            "size" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_sizes")->ignore($tiresize->id)->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("tire_pattern_id", $request->tire_pattern_id)
+                        ->where("company_id", $company->id);
+                }),
+            ],
             "tire_pattern_id" => "required",
             "otd" => "required",
             "recomended_pressure" => "required",
-            "target_lifetime" => "required"
+            "target_lifetime_hm" => "required",
+            "target_lifetime_km" => "required",
         ]);
         $tiresize->size = $request->size;
         $tiresize->tire_pattern_id = $request->tire_pattern_id;
         $tiresize->otd = $request->otd;
         $tiresize->recomended_pressure = $request->recomended_pressure;
-        $tiresize->target_lifetime = $request->target_lifetime;
+        $tiresize->target_lifetime_hm = $request->target_lifetime_hm;
+        $tiresize->target_lifetime_km = $request->target_lifetime_km;
         $tiresize->save();
 
         return redirect()->back()->with("success", "Updated Tire Size");

@@ -110,8 +110,8 @@
                             <th>Type Pattern</th>
                             <th>OTD</th>
                             <th>Rec. Pressure</th>
-                            <th>Target Lifetime</th>
-                            {{-- <th>Price</th> --}}
+                            <th>Target Lifetime HM</th>
+                            <th>Target Lifetime KM</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -140,7 +140,7 @@
                                     <input type="text" name="size" required>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6 col-12">
+                            <div class="col-lg-8 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Tire Pattern</label>
                                     <select class="select" name="tire_pattern_id" required>
@@ -152,23 +152,30 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6 col-6">
+                            <div class="col-lg-2 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>OTD</label>
-                                    <input type="number" min="0" class="form-control" name="otd" required>
+                                    <input type="number" min="0" value="0" class="form-control" name="otd" required>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6 col-6">
+                            <div class="col-lg-2 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>Rec. Pressure</label>
-                                    <input type="number" min="0" class="form-control" name="recomended_pressure"
+                                    <input type="number" min="0" value="0" class="form-control" name="recomended_pressure"
                                         required>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label>Target Lifetime</label>
-                                    <input type="number" min="0" class="form-control" name="target_lifetime"
+                                    <label>Target Lifetime HM</label>
+                                    <input type="number" min="0" value="0" class="form-control" name="target_lifetime_hm"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label>Target Lifetime KM</label>
+                                    <input type="number" min="0" value="0" class="form-control" name="target_lifetime_km"
                                         required>
                                 </div>
                             </div>
@@ -229,8 +236,12 @@
                             name: 'recomended_pressure'
                         },
                         {
-                            data: 'target_lifetime',
-                            name: 'target_lifetime'
+                            data: 'target_lifetime_hm',
+                            name: 'target_lifetime_hm'
+                        },
+                        {
+                            data: 'target_lifetime_km',
+                            name: 'target_lifetime_km'
                         },
                         {
                             data: 'action',
@@ -263,8 +274,8 @@
                         modal.find('input[name="otd"]').val(response.otd).trigger('change');
                         modal.find('input[name="recomended_pressure"]').val(response.recomended_pressure)
                             .trigger('change');
-                        modal.find('input[name="target_lifetime"]').val(response.target_lifetime).trigger(
-                            'change');
+                        modal.find('input[name="target_lifetime_hm"]').val(response.target_lifetime_hm);
+                        modal.find('input[name="target_lifetime_km"]').val(response.target_lifetime_km);
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('tiresize.index') }}/${id}`)

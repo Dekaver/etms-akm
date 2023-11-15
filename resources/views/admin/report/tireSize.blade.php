@@ -218,8 +218,8 @@
                         modal.find('input[name="otd"]').val(response.otd).trigger('change');
                         modal.find('input[name="recomended_pressure"]').val(response.recomended_pressure)
                             .trigger('change');
-                        modal.find('input[name="target_lifetime"]').val(response.target_lifetime).trigger(
-                            'change');
+                        modal.find('input[name="target_lifetime_hm"]').val(response.target_lifetime_hm);
+                        modal.find('input[name="target_lifetime_km"]').val(response.target_lifetime_km);
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('tiresize.index') }}/${id}`)
