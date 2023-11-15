@@ -140,7 +140,7 @@ class TireSizeController extends Controller
                         ->where("company_id", $company->id);
                 }),
             ],
-            "tire_pattern_id" => "required",
+            "tire_pattern_id" => "required|exists:tire_patterns,id",
             "otd" => "required",
             "recomended_pressure" => "required",
             "target_lifetime_hm" => "required",
