@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TireDamage;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class TireDamageController extends Controller
@@ -51,12 +52,20 @@ class TireDamageController extends Controller
      */
     public function store(Request $request)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "damage" => "required",
+            "damage" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_damages")->where(function ($query) use ($company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ],
             "cause" => "required",
             "rating" => "required"
         ]);
-        $company = auth()->user()->company;
 
         TireDamage::create([
             "damage" => $request->damage,
@@ -90,8 +99,17 @@ class TireDamageController extends Controller
      */
     public function update(Request $request, TireDamage $tiredamage)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "damage" => "required",
+            "damage" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_damages")->ignore($tiredamage->id)->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ],
             "cause" => "required",
             "rating" => "required"
         ]);
