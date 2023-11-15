@@ -181,7 +181,7 @@
                                     <select class="select" name="tire_size_id" required>
                                         <option value="">Choose</option>
                                         @foreach ($tiresize as $item2)
-                                            <option value="{{ $item2->id }}">
+                                            <option value="{{ $item2->id }}" data-otd="{{ $item2->otd }}">
                                                 {{ $item2->size }} - {{ $item2->tire_pattern->manufacture->name }} -
                                                 {{ $item2->tire_pattern->pattern }} -
                                                 {{ $item2->tire_pattern->type_pattern }}
@@ -320,9 +320,9 @@
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
-                                    <label>RTD</label>
-                                    <input type="number" class="form-control" value="0" name="rtd"
-                                        required>
+                                    <label>RTD</label><input type="number" class="form-control" value="0"
+                                        name="rtd" required>
+
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
@@ -361,6 +361,7 @@
             </div>
         </form>
     </div>
+
     @push('js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
             integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA=="
@@ -425,35 +426,32 @@
 
                 $('#form-modal-edit').on('show.bs.modal', function(event) {
                     var button = $(event.relatedTarget)
-                    var post = button.data('post');
                     var modal = $(this)
-                    if (post == 'new') {
-                        modal.find('input[name="_method"]').val('POST');
-                        modal.find('form').attr('action', `{{ route('tiremaster.store') }}`)
-                    } else {
-                        var id = button.data('id');
-                        $.ajax({
-                            method: "GET",
-                            url: `{{ route('tiremaster.index') }}/${id}/edit`
-                        }).done(function(response) {
-                            modal.find('select[name="site_id"]').val(response.site_id).trigger(
+                    var id = button.data('id');
+                    $.ajax({
+                        method: "GET",
+                        url: `{{ route('tiremaster.index') }}/${id}/edit`
+                    }).done(function(response) {
+                        modal.find('select[name="site_id"]').val(response.site_id).trigger(
                             'change');
-                            modal.find('input[name="serial_number"]').val(response.serial_number);
-                            modal.find('select[name="tire_size_id"]').val(response.tire_size_id)
-                                .trigger('change');
-                            modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id)
-                                .trigger('change');
-                            modal.find('select[name="tire_status_id"]').val(response.tire_status_id)
-                                .trigger('change');
-                            modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
-                            modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
-                            modal.find('input[name="rtd"]').val(response.rtd);
-                            modal.find('input[name="date"]').val(response.date);
-                            modal.find('input[name="_method"]').val('PUT');
-                        });
-                        modal.find('form').attr('action', `{{ route('tiremaster.index') }}/${id}`)
-                    }
+                        modal.find('input[name="serial_number"]').val(response.serial_number);
+                        modal.find('select[name="tire_size_id"]').val(response.tire_size_id)
+                            .trigger('change');
+                        modal.find('select[name="tire_compound_id"]').val(response.tire_compound_id)
+                            .trigger('change');
+                        modal.find('select[name="tire_status_id"]').val(response.tire_status_id)
+                            .trigger('change');
+                        modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
+                        modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
+                        modal.find('input[name="rtd"]').val(response.rtd);
+                        modal.find('input[name="date"]').val(response.date);
+
+                        modal.find('input[name="_method"]').val('PUT');
+                    });
+                    modal.find('form').attr('action', `{{ route('tiremaster.index') }}/${id}`)
                 });
+
+
                 $('#form-modal').on('hide.bs.modal', function(event) {
                     $(this).find('form')[0].reset();
                     $(this).find('select[name="site_id"]').trigger("change");
@@ -494,8 +492,44 @@
                     $("input[name='total_tire']").val(lineCount);
                 });
 
+                $("#form-modal select[name='tire_status_id']").change(function() {
+                    var status_id = $(this).val();
+
+                    if (status_id == 1) {
+                        $('#form-modal input[name="lifetime_hm"]').val(0);
+                        $('#form-modal input[name="lifetime_km"]').val(0);
+                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', true);
+                        $('#form-modal input[name="lifetime_km"]').attr('disabled', true);
+                    } else {
+                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', false);
+                        $('#form-modal input[name="lifetime_km"]').attr('disabled', false);
+                    }
+                });
+
+                $("#form-modal select[name='tire_status_id']").change(function() {
+                    var status_id = $(this).val();
+
+                    if (status_id == 1) {
+                        $('#form-modal input[name="lifetime_hm"]').val(0);
+                        $('#form-modal input[name="lifetime_km"]').val(0);
+                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', true);
+                        $('#form-modal input[name="lifetime_km"]').attr('disabled', true);
+                    } else {
+                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', false);
+                        $('#form-modal input[name="lifetime_km"]').attr('disabled', false);
+                    }
+                });
+
                 $("#form-modal select[name='tire_size_id']").change(function() {
-                    console.log($(this).find(":selected").data("otd"));
+                    let otd = $(this).find(":selected").data("otd");
+                    $("#form-modal input[name='rtd']").val(otd)
+                    $("#form-modal input[name='rtd']").attr("max", otd)
+                });
+
+                $("#form-modal-edit select[name='tire_size_id']").change(function() {
+                    let otd = $(this).find(":selected").data("otd");
+                    $("#form-modal-edit input[name='rtd']").val(otd)
+                    $("#form-modal-edit input[name='rtd']").attr("max", otd)
                 });
             });
         </script>
