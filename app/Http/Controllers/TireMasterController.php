@@ -7,7 +7,11 @@ use App\Models\Site;
 use App\Models\TireStatus;
 use App\Models\TireCompound;
 use App\Models\TireSize;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+use Validator;
 use Yajra\DataTables\DataTables;
 
 class TireMasterController extends Controller
@@ -81,8 +85,6 @@ class TireMasterController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-
         $request->validate([
             "site_id" => "required",
             "serial_number" => "required",
@@ -96,31 +98,47 @@ class TireMasterController extends Controller
         ]);
 
         $company = auth()->user()->company;
-        $failed_create = [];
-        foreach (preg_split("/\r\n|\r|\n/", $request->serial_number) as $key => $serial_number) {
-            try {
-                TireMaster::create([
-                    'company_id' => $company->id,
-                    'tire_supplier_id' => 1,
-                    'site_id' => $request->site_id,
-                    'serial_number' => $serial_number,
-                    'tire_size_id' => $request->tire_size_id,
-                    'tire_compound_id' => $request->tire_compound_id,
-                    'tire_status_id' => $request->tire_status_id,
-                    'lifetime_km' => $request->lifetime_km,
-                    'lifetime_hm' => $request->lifetime_hm,
-                    'rtd' => $request->rtd,
-                    'date' => $request->date,
-                ]);
-            } catch (\Throwable $th) {
-                $failed_create[] = $serial_number;
-            }
-        }
-        if (count($failed_create) > 0) {
-            return redirect()->back()->with("error", "Serial Number " . implode(", ", $failed_create) . "already exist");
-        }
+        try {
+            $result = DB::transaction(function () use ($request, $company) {
+                $failed_create = [];
+                foreach (preg_split("/\r\n|\r|\n/", $request->serial_number) as $key => $serial_number) {
+                    $validator = Validator::make(['serial_number' => $serial_number], [
+                        'serial_number' => [
+                            'required',
+                            'string',
+                            'max:255',
+                            Rule::unique('tires')->where(function ($query) use ($serial_number) {
+                                return $query->whereRaw('LOWER(serial_number) = ?', [strtolower($serial_number)]);
+                            }),
+                        ],
+                    ]);
 
-        return redirect()->back()->with("success", "Created Tire Master");
+                    // If validation fails, throw an exception to roll back the transaction
+                    if ($validator->fails()) {
+                        throw ValidationException::withMessages(['serial_number' => "The Serial Number \"$serial_number\" has already been taken."]);
+                    }
+
+                    TireMaster::create([
+                        'company_id' => $company->id,
+                        'tire_supplier_id' => 1,
+                        'site_id' => $request->site_id,
+                        'serial_number' => $serial_number,
+                        'tire_size_id' => $request->tire_size_id,
+                        'tire_compound_id' => $request->tire_compound_id,
+                        'tire_status_id' => $request->tire_status_id,
+                        'lifetime_km' => $request->lifetime_km,
+                        'lifetime_hm' => $request->lifetime_hm,
+                        'rtd' => $request->rtd,
+                        'date' => $request->date,
+                    ]);
+                }
+
+                return redirect()->back()->with("success", "Created Tire Master");
+            });
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -144,10 +162,19 @@ class TireMasterController extends Controller
      */
     public function update(Request $request, TireMaster $tiremaster)
     {
+        $company = auth()->user()->company;
         $request->validate([
             "site_id" => "required",
-            "serial_number" => "required",
-            "tire_size_id" => "required",
+            "serial_number" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tires")->ignore($tiremaster->id)->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ],
+            "tire_size_id" => "required|exists:tire_sizes,id",
             "tire_compound_id" => "required",
             "tire_status_id" => "required",
             "lifetime_km" => "required",
