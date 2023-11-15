@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route("login");
+    return redirect()->route('login');
 });
 
 Route::middleware('auth')->group(function () {
@@ -47,46 +47,48 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::middleware(['auth'])->group(function () {
-    Route::get("dashboard", [DashboardController::class, "index"])->name("dashboard");
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::middleware(['permission:USER_MANAJEMEN', 'role:superadmin'])->group(function () {
-        Route::post('user/{id}/company', [UserController::class, "updateCompany"])->name("user.company.update");
+        Route::post('user/{id}/company', [UserController::class, 'updateCompany'])->name('user.company.update');
     });
     Route::middleware(['permission:USER_MANAJEMEN'])->group(function () {
-        Route::resource("user", UserController::class);
-        Route::resource("permission", PermissionController::class)->middleware("permission:PERMISSION");
-        Route::resource("role", RoleController::class)->middleware("permission:ROLE");
-
+        Route::resource('user', UserController::class);
+        Route::resource('permission', PermissionController::class)->middleware('permission:PERMISSION');
+        Route::resource('role', RoleController::class)->middleware('permission:ROLE');
     });
-    Route::resource("company", CompanyController::class)->middleware("permission:COMPANY");
+    Route::resource('company', CompanyController::class)->middleware('permission:COMPANY');
 
-    Route::get("user/{id}/permission", [UserController::class, "indexPermission"])->name('user.permission.index');
-    Route::post("user/{id}/permission/", [UserController::class, "updatePermission"])->name('user.permission.update');
-    Route::resource("unit", UnitController::class);
+    Route::get('user/{id}/permission', [UserController::class, 'indexPermission'])->name('user.permission.index');
+    Route::post('user/{id}/permission/', [UserController::class, 'updatePermission'])->name('user.permission.update');
+    Route::resource('unit', UnitController::class);
 
-    Route::resource("tiremanufacture", TireManufactureController::class)->middleware("permission:TIRE_MANUFACTURE");
-    Route::resource("tirepattern", TirePatternController::class)->middleware("permission:TIRE_PATTERN");
-    Route::resource("tiresize", TireSizeController::class)->middleware("permission:TIRE_SIZE");
-    Route::resource("tirecompound", TireCompoundController::class)->middleware("permission:TIRE_COMPOUND");
-    Route::resource("tirestatus", TireStatusController::class)->middleware("permission:TIRE_STATUS");
-    Route::resource("tiredamage", TireDamageController::class)->middleware("permission:TIRE_DAMAGE");
-    Route::resource("tiremaster", TireMasterController::class)->middleware("permission:TIRE_MASTER");
+    Route::resource('tiremanufacture', TireManufactureController::class)->middleware('permission:TIRE_MANUFACTURE');
+    Route::resource('tirepattern', TirePatternController::class)->middleware('permission:TIRE_PATTERN');
+    Route::resource('tiresize', TireSizeController::class)->middleware('permission:TIRE_SIZE');
+    Route::resource('tirecompound', TireCompoundController::class)->middleware('permission:TIRE_COMPOUND');
+    Route::resource('tirestatus', TireStatusController::class)->middleware('permission:TIRE_STATUS');
+    Route::resource('tiredamage', TireDamageController::class)->middleware('permission:TIRE_DAMAGE');
+    Route::resource('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
 
-    Route::resource("site", SiteController::class)->middleware("permission:SITE");
-    Route::resource("unitstatus", UnitStatusController::class)->middleware("permission:UNIT_STATUS");
-    Route::resource("unitmodel", UnitModelController::class)->middleware("permission:UNIT_MODEL");
-    Route::resource("unit", UnitController::class)->middleware("permission:UNIT");
+    Route::resource('site', SiteController::class)->middleware('permission:SITE');
+    Route::resource('unitstatus', UnitStatusController::class)->middleware('permission:UNIT_STATUS');
+    Route::resource('unitmodel', UnitModelController::class)->middleware('permission:UNIT_MODEL');
+    Route::resource('unit', UnitController::class)->middleware('permission:UNIT');
 
-    Route::resource("tirerepair", TireRepairController::class)->middleware("permission:TIRE_REPAIR");
-    Route::resource("tirerunning", TireRunningController::class)->middleware("permission:TIRE_RUNNING");
+    Route::resource('tirerepair', TireRepairController::class)->middleware('permission:TIRE_REPAIR');
+    Route::resource('tirerunning', TireRunningController::class)->middleware('permission:TIRE_RUNNING');
 
-    Route::resource("dailyinspect", DailyInspectController::class)->middleware("permission:DAILY_INSPECT");
+    Route::resource('dailyinspect', DailyInspectController::class)->middleware('permission:DAILY_INSPECT');
 
-    Route::resource("historytire", HistoryTireController::class)->middleware("permission:HISTORY_TIRE");
+    Route::resource('historytire', HistoryTireController::class)->middleware('permission:HISTORY_TIRE');
 
-    Route::resource("historytiremovement", HistoryTireMovementController::class)->middleware("permission:HISTORY_TIRE_MOVEMENT");
-    Route::get("tiremovement/{tire}/history", [HistoryTireMovementController::class, 'tiremovement'])->name('historytiremovement.tiremovement')->middleware("permission:HISTORY_TIRE_MOVEMENT");
-    Route::get("tireinspect/{tire}/history", [HistoryTireMovementController::class, 'tireinspect'])->name('historytiremovement.tireinspect')->middleware("permission:HISTORY_TIRE_MOVEMENT");
-
+    Route::resource('historytiremovement', HistoryTireMovementController::class)->middleware('permission:HISTORY_TIRE_MOVEMENT');
+    Route::get('tiremovement/{tire}/history', [HistoryTireMovementController::class, 'tiremovement'])
+        ->name('historytiremovement.tiremovement')
+        ->middleware('permission:HISTORY_TIRE_MOVEMENT');
+    Route::get('tireinspect/{tire}/history', [HistoryTireMovementController::class, 'tireinspect'])
+        ->name('historytiremovement.tireinspect')
+        ->middleware('permission:HISTORY_TIRE_MOVEMENT');
 
     Route::middleware(['permission:GRAFIK'])->group(function () {
         Route::get('grafik-check-pressure-hd', [GrafikController::class, 'checkPressureHd']);
@@ -104,9 +106,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('grafik-tire-runnning-conditional-hm', [GrafikController::class, 'tireRunningConditionalHm']);
         Route::get('grafik-brand-usage', [GrafikController::class, 'brandUsage']);
         Route::get('grafik-tire-lifetime-average', [GrafikController::class, 'tireLifetimeAverage']);
-        Route::get('tire-performance', [DashboardController::class, 'tirePerformance'])->name("tire-performance");
+        Route::get('tire-performance', [DashboardController::class, 'tirePerformance'])->name('tire-performance');
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
-        Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name("tire-scrap");
+        Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
     });
 
     //EXPORT
@@ -114,17 +116,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export']);
     });
 
-
     //REPORT
     Route::middleware(['permission:REPORT'])->group(function () {
-        Route::get("report-tire-status", [ReportController::class, "statusTireCount"])->name('report.tirestatus');
-        Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name("report.tirerunning");
+        Route::get('report-tire-status', [ReportController::class, 'statusTireCount'])->name('report.tirestatus');
+        Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name('report.tirerunning');
     });
 });
 
-Route::get("aaaa", function () {
-
-
+Route::get('aaaa', function () {
     // $a = \App\Models\TireSize::where("company_id", 1)->get();
     // foreach ($a as $key => $value) {
     //     dd($value, $value->tire_pattern);
@@ -132,7 +131,6 @@ Route::get("aaaa", function () {
     //     $value->company_id = 2;
     //     // $value->save();
     // }
-
 });
 
 require __DIR__ . '/auth.php';
