@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TireManufacture;
 use App\Models\TirePattern;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class TirePatternController extends Controller
@@ -64,12 +65,22 @@ class TirePatternController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "pattern" => "required",
-            "type_pattern" => "required",
-            "tire_manufacture_id" => "required"
-        ]);
         $company = auth()->user()->company;
+        $request->validate([
+            "pattern" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_patterns")->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("tire_manufacture_id", $request->tire_manufacture_id)
+                        ->where("type_pattern", $request->type_pattern)
+                        ->where("company_id", $company->id);
+                }),
+            ],
+            "type_pattern" => "required|exists:tire_patterns,type_pattern",
+            "tire_manufacture_id" => "required|exists:tire_manufactures,id",
+        ]);
         TirePattern::create([
             'company_id' => $company->id,
             'pattern' => $request->pattern,
@@ -101,10 +112,21 @@ class TirePatternController extends Controller
      */
     public function update(Request $request, TirePattern $tirepattern)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "pattern" => "required",
-            "type_pattern" => "required",
-            "tire_manufacture_id" => "required"
+            "pattern" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_patterns")->ignore($tirepattern->id)->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("tire_manufacture_id", $request->tire_manufacture_id)
+                        ->where("type_pattern", $request->type_pattern)
+                        ->where("company_id", $company->id);
+                }),
+            ],
+            "type_pattern" => "required|exists:tire_patterns,type_pattern",
+            "tire_manufacture_id" => "required|exists:tire_manufactures,id",
         ]);
         $tirepattern->pattern = $request->pattern;
         $tirepattern->type_pattern = $request->type_pattern;
