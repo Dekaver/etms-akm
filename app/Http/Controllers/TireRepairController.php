@@ -21,9 +21,7 @@ class TireRepairController extends Controller
         $company = auth()->user()->company;
         $tire_damages = TireDamage::all();
         if ($request->ajax()) {
-            $data = TireMaster::where('company_id', $company->id)->whereHas("tire_status", function ($q) {
-                $q->where("status", "REPAIR");
-            });
+            $data = TireMaster::where('company_id', $company->id)->where('is_repairing', true);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("size", function ($row) {
@@ -123,6 +121,7 @@ class TireRepairController extends Controller
 
                 $tirerepair->tire_status_id = $tire_status_new->id;
                 $tirerepair->is_repair = true;
+                $tirerepair->is_repairing = false;
                 $tirerepair->save();
 
 
