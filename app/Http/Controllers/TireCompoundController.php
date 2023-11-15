@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TireCompound;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class TireCompoundController extends Controller
@@ -51,10 +52,18 @@ class TireCompoundController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "compound" => "required"
-        ]);
         $company = auth()->user()->company;
+        $request->validate([
+            "compound" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_compounds")->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ],
+        ]);
 
         TireCompound::create([
             "compound" => $request->compound,
@@ -85,8 +94,17 @@ class TireCompoundController extends Controller
      */
     public function update(Request $request, TireCompound $tirecompound)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "compound" => "required"
+            "compound" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_compounds")->ignore($tirecompound->id)->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ],
         ]);
         $tirecompound->compound = $request->compound;
         $tirecompound->save();
