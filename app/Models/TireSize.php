@@ -15,7 +15,8 @@ class TireSize extends Model
         'tire_pattern_id',
         'otd',
         'recomended_pressure',
-        'target_lifetime',
+        'target_lifetime_hm',
+        'target_lifetime_km',
         'price',
     ];
 

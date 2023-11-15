@@ -22,7 +22,8 @@ class TireSizeFactory extends Factory
             'size' => $this->faker->randomElement(["27.00R49", "12.00R24", "11.00R20"]),
             'otd' => 80,
             'recomended_pressure' => 120,
-            'target_lifetime' => 10000,
+            'target_lifetime_hm' => 10000,
+            'target_lifetime_km' => 10000,
             'price' => $this->faker->numberBetween(800000, 2000000),
         ];
     }
