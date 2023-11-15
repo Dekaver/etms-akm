@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TireManufacture;
 use App\Models\UnitStatus;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class UnitStatusController extends Controller
@@ -50,6 +51,16 @@ class UnitStatusController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "status_code" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("unit_statuses"),
+            ],
+            'description' => 'required',
+        ]);
+
         UnitStatus::create([
             "status_code" => $request->status_code,
             "description" => $request->description,
@@ -79,6 +90,16 @@ class UnitStatusController extends Controller
      */
     public function update(Request $request, UnitStatus $unitstatus)
     {
+        $request->validate([
+            "status_code" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("unit_statuses")->ignore($unitstatus->id),
+            ],
+            'description' =>'required',
+        ]);
+
         $unitstatus->status_code = $request->status_code;
         $unitstatus->description = $request->description;
         $unitstatus->save();
