@@ -34,6 +34,8 @@ class TireMaster extends Model
         't_pentil',
         'is_repair',
         'is_retread',
+        'is_repairing',
+        'is_retreading',
     ];
 
     public function company()
