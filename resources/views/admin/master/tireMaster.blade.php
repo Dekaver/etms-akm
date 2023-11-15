@@ -498,25 +498,25 @@
                     if (status_id == 1) {
                         $('#form-modal input[name="lifetime_hm"]').val(0);
                         $('#form-modal input[name="lifetime_km"]').val(0);
-                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', true);
-                        $('#form-modal input[name="lifetime_km"]').attr('disabled', true);
+                        $('#form-modal input[name="lifetime_hm"]').attr('readonly', true);
+                        $('#form-modal input[name="lifetime_km"]').attr('readonly', true);
                     } else {
-                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', false);
-                        $('#form-modal input[name="lifetime_km"]').attr('disabled', false);
+                        $('#form-modal input[name="lifetime_hm"]').attr('readonly', false);
+                        $('#form-modal input[name="lifetime_km"]').attr('readonly', false);
                     }
                 });
 
-                $("#form-modal select[name='tire_status_id']").change(function() {
+                $("#form-modal-edit select[name='tire_status_id']").change(function() {
                     var status_id = $(this).val();
 
                     if (status_id == 1) {
                         $('#form-modal input[name="lifetime_hm"]').val(0);
                         $('#form-modal input[name="lifetime_km"]').val(0);
-                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', true);
-                        $('#form-modal input[name="lifetime_km"]').attr('disabled', true);
+                        $('#form-modal input[name="lifetime_hm"]').attr('readonly', true);
+                        $('#form-modal input[name="lifetime_km"]').attr('readonly', true);
                     } else {
-                        $('#form-modal input[name="lifetime_hm"]').attr('disabled', false);
-                        $('#form-modal input[name="lifetime_km"]').attr('disabled', false);
+                        $('#form-modal input[name="lifetime_hm"]').attr('readonly', false);
+                        $('#form-modal input[name="lifetime_km"]').attr('readonly', false);
                     }
                 });
 
