@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        width: 90px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 150px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -277,9 +277,9 @@
                     <h4 class="fw-bold text-info">REPAIR</h4>
                 </div>
                 <div class="rounded col-sm border border-secondary bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
-                    data-jenis="RETHREAD">
+                    data-jenis="RETREAD">
                     <i class="text-secondary fa-solid fa-circle-dot display-3  mb-2"></i>
-                    <h4 class="fw-bold text-secondary">RETHREAD</h4>
+                    <h4 class="fw-bold text-secondary">RETREAD</h4>
                 </div>
                 <div class="rounded col-sm border border-danger bg-gradient px-3 py-4 d-flex justify-content-center align-items-center flex-column droppable"
                     data-jenis="SCRAP">
@@ -866,6 +866,7 @@
                         <input type="hidden" name="position">
                         <input type="hidden" name="rtd">
                         <input type="hidden" name="tire_id">
+                        <input type="hidden" name="tire_status_id">
                         <input type="hidden" name="hm" value="{{ $unit->hm }}">
                         <div class="row">
                             <div class="mb-2 col-6 col-md-6 col-lg-4">
@@ -934,12 +935,8 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Tire Status</label>
-                                <select class="form-control" name="tire_status_id" required>
-                                    <option value="">Pilih Tire Status</option>
-                                    @foreach ($tire_status as $item)
-                                        <option value="{{ $item->id }}">{{ $item->status }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" name="tire_status" class="form-control" required disabled>
+                                <div class="invalid-feedback">Please fill a explanation.</div>
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Start time</label>
@@ -1166,12 +1163,34 @@
                         let hm_unit_actual = $('#removeTireModal').find(`input[name="hm_actual_check"]`)
                             .val()
                         let action = ui.draggable.data('action');
-                        if (status == "SPARE") {
-                            $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
-                                false);
-                        } else {
-                            $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
-                                true);
+                        switch (status) {
+                            case 'SPARE':
+                                $('#removeTireModal').find('input[name="tire_status"]').val(status);
+                                $('#removeTireModal').find('input[name="tire_status_id"]').val(2);
+                                $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                    false);
+                                break;
+                            case 'REPAIR':
+                                $('#removeTireModal').find('input[name="tire_status"]').val(status);
+                                $('#removeTireModal').find('input[name="tire_status_id"]').val(3);
+                                $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                    true);
+                                break;
+                            case 'RETREAD':
+                                $('#removeTireModal').find('input[name="tire_status"]').val(status);
+                                $('#removeTireModal').find('input[name="tire_status_id"]').val(4);
+                                $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                    true);
+                                break;
+                            case 'SCRAP':
+                                $('#removeTireModal').find('input[name="tire_status"]').val(status);
+                                $('#removeTireModal').find('input[name="tire_status_id"]').val(5);
+                                $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                    true);
+                                break;
+
+                            default:
+                                break;
                         }
                         $('#removeTireModal').find(`select option`).attr('selected', false);
                         $('#removeTireModal').find(`select option:contains('${status}')`).attr('selected',
@@ -1288,8 +1307,8 @@
                     modal.find('input[name="rtd_remove"]').val(rtd);
                     $("#rtd_remove").html(rtd);
                 }
-                modal.find(`select option`).attr('selected', false);
                 if (status) {
+                    modal.find(`select option`).attr('selected', false);
                     var status = button.data('status')
                     modal.find(`select option:contains('${status}')`).attr('selected', true);
                 }
