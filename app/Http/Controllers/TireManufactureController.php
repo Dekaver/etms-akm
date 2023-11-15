@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TireManufacture;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class TireManufactureController extends Controller
@@ -52,10 +53,18 @@ class TireManufactureController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "name" => "required"
-        ]);
         $company = auth()->user()->company;
+        $request->validate([
+            "name" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_manufactures")->where(function ($query) use ($company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ]
+        ]);
 
         TireManufacture::create([
             "name" => $request->name,
@@ -87,8 +96,17 @@ class TireManufactureController extends Controller
      */
     public function update(Request $request, TireManufacture $tiremanufacture)
     {
+        $company = auth()->user()->company;
         $request->validate([
-            "name" => "required"
+            "name" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("tire_manufactures")->ignore($tiremanufacture->id)->where(function ($query) use ($company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ]
         ]);
         $tiremanufacture->name = $request->name;
         $tiremanufacture->save();
