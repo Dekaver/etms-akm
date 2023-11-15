@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class SiteController extends Controller
@@ -52,6 +53,17 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $company = auth()->user()->company;
+        $request->validate([
+            "name" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("sites")->where(function ($query) use ($company) {
+                    return $query
+                        ->where("company_id", $company->id);
+                }),
+            ],
+        ]);
 
         Site::create([
             "name" => $request->site,
@@ -83,6 +95,18 @@ class SiteController extends Controller
      */
     public function update(Request $request, Site $site)
     {
+        $company = auth()->user()->company;
+        $request->validate([
+            "name"=> [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("sites")->ignore($site->id)->where(function ($query) use ($company) {
+                    return $query->where("company_id", $company->id);
+                })
+            ]
+        ]);
+
         $site->name = $request->site;
         $site->save();
 
