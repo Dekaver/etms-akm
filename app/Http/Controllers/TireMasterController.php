@@ -9,7 +9,6 @@ use App\Models\TireCompound;
 use App\Models\TireSize;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Carbon\Carbon;
 
 class TireMasterController extends Controller
 {
@@ -26,7 +25,7 @@ class TireMasterController extends Controller
         $site = Site::where('company_id', $company->id)->get();
         $tiresize = TireSize::where('company_id', $company->id)->with("tire_pattern")->with("tire_pattern.manufacture")->get();
         $tirecompound = TireCompound::where('company_id', $company->id)->get();
-        $tirestatus = TireStatus::all();
+        $tirestatus = TireStatus::where('status', '!=', 'Scrap')->get();
 
         if ($request->ajax()) {
             $data = TireMaster::where('company_id', $company->id);
