@@ -130,7 +130,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->syncRoles([$request->role]);
         $user->syncPermissions($request->permission);
-        // dd($user->userSite());
         if ($request->site_id) {
             $user->userSite()->delete();
             $user->userSite()->create([
@@ -146,6 +145,12 @@ class UserController extends Controller
         auth()->user()->update([
             "company_id" => $id
         ]);
+
+        $firstsite = auth()->user()->company->site->first();
+        auth()->user()->userSite()->delete();
+        auth()->user()->userSite()->create([
+            "site_id" => $firstsite->id,
+        ]); //
 
         return redirect()->back()->with("success", "Update Company");
     }

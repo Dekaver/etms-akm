@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function userSite()
     {
-        return $this->hasmany(
+        return $this->hasMany(
             UserSite::class,
             "user_id",
         );
