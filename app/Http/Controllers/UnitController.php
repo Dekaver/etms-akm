@@ -7,6 +7,7 @@ use App\Models\Unit;
 use App\Models\UnitModel;
 use App\Models\UnitStatus;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class UnitController extends Controller
@@ -24,7 +25,7 @@ class UnitController extends Controller
 
         $sites = Site::where('company_id', $company->id)->get();
         $unit_status = UnitStatus::all();
-        $unit_model = UnitModel::where('company_id', $company->id)->get();
+        $unit_model = UnitModel::with('tire_size')->where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
             $data = Unit::where('company_id', $company->id);
@@ -84,6 +85,22 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $company = auth()->user()->company;
+        $request->validate([
+            "unit_number" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("units")->where(function($query) use($company){
+                    return $query
+                        ->where("company_id", $company->id);
+                })
+            ],
+            "unit_model_id" => "required|exists:unit_models,id",
+            "site_id" => "required|exists:sites,id",
+            "unit_status_id" => "required|exists:unit_statuses,id",
+            "hm" => "required",
+            "km" => "required",
+        ]);
 
         Unit::create([
             "company_id" => $company->id,
@@ -120,6 +137,23 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
+        $request->validate([
+            "unit_number" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("units")->ignore($unit->id)->where(function($query) use($unit){
+                    return $query
+                        ->where("company_id", $unit->company_id);
+                })
+            ],
+            "unit_model_id" => "required|exists:unit_models,id",
+            "site_id" => "required|exists:sites,id",
+            "unit_status_id" => "required|exists:unit_statuses,id",
+            "hm" => "required",
+            "km" => "required",
+        ]);
+
         $unit->unit_model_id = $request->unit_model_id;
         $unit->unit_status_id = $request->unit_status_id;
         $unit->site_id = $request->site_id;

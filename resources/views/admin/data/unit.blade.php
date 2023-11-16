@@ -142,7 +142,7 @@
                                     <select class="select" name="unit_model_id">
                                         <option value="">Choose Model</option>
                                         @foreach ($unit_model as $item)
-                                            <option value="{{ $item->id }}">{{ $item->model }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->model }} - {{ $item->tire_size->size }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -153,7 +153,7 @@
                                     <select class="select" name="site_id">
                                         <option value="">Choose Site</option>
                                         @foreach ($sites as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @selected($item->id == auth()->user()->site->id)>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
