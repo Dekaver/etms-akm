@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\TireSize;
 use App\Models\UnitModel;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
 
 class UnitModelController extends Controller
@@ -17,7 +19,20 @@ class UnitModelController extends Controller
         $tiresize_id = $request->query("tiresize");
 
         $company = auth()->user()->company;
-        $tiresize = TireSize::with("tire_pattern")->with("tire_pattern.manufacture")->where('company_id', $company->id)->get();
+        $tiresize = TireSize::select('id', 'size', 'company_id')
+            ->from(DB::raw('(SELECT id, size, company_id, ROW_NUMBER() OVER (PARTITION BY size,company_id ORDER BY id) as row_num FROM tire_sizes) as ranked'))
+            ->where('row_num', 1)
+            ->where('company_id', $company->id)
+            ->orWhere(function ($query) {
+                $query->whereNotExists(function ($subquery) {
+                    $subquery->select(DB::raw(1))
+                        ->from('tire_sizes as t2')
+                        ->whereRaw('t2.size = ranked.size AND t2.id < ranked.id');
+                });
+            })
+            ->where('company_id', $company->id)
+            ->get();
+
         if ($request->ajax()) {
             $data = UnitModel::where('company_id', $company->id);
             if ($tiresize_id) {
@@ -44,7 +59,7 @@ class UnitModelController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.unitModel", compact('tiresize_id','tiresize'));
+        return view("admin.data.unitModel", compact('tiresize_id', 'tiresize'));
     }
 
     /**
@@ -61,6 +76,24 @@ class UnitModelController extends Controller
     public function store(Request $request)
     {
         $company = auth()->user()->company;
+        $request->validate([
+            "model" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique("unit_models")->where(function ($query) use ($request, $company) {
+                    return $query
+                        ->where("tire_size_id", $request->tire_size_id)
+                        ->where("company_id", $company->id);
+                }),
+            ],
+            "tire_size_id" => "required",
+            "brand" => "required|string|max:255",
+            "type" => "required|string|max:255",
+            "tire_qty" => "required",
+            "axle_2_tire" => "required",
+            "axle_4_tire" => "required",
+        ]);
 
         UnitModel::create([
             "company_id" => $company->id,
@@ -71,7 +104,7 @@ class UnitModelController extends Controller
             "tire_qty" => $request->tire_qty,
             "axle_2_tire" => $request->axle_2_tire,
             "axle_4_tire" => $request->axle_4_tire,
-            "axle_8_tire" => $request->axle_8_tire,
+            "axle_8_tire" => 0,
             "informasi_berat_kosong" => $request->informasi_berat_kosong,
             "distribusi_beban" => $request->distribusi_beban,
             "standar_load_capacity" => $request->standar_load_capacity,
@@ -102,6 +135,29 @@ class UnitModelController extends Controller
      */
     public function update(Request $request, UnitModel $unitmodel)
     {
+
+        $request->validate([
+            "name" =>
+                [
+                    "required",
+                    "string",
+                    "max:255",
+                    Rule::unique("unit_models")->ignore($unitmodel->id)->where(function ($query) use ($unitmodel) {
+                        return $query->where("company_id", $unitmodel->company_id);
+                    })
+                ],
+            "tire_size_id" => "required",
+            "brand" => "required",
+            "model" => "required",
+            "type" => "required",
+            "tire_qty" => "required",
+            "axle_2_tire" => "required",
+            "axle_4_tire" => "required",
+            "axle_8_tire" => "required",
+            "informasi_berat_kosong" => "required",
+            "distribusi_beban" => "required",
+            "standar_load_capacity" => "required",
+        ]);
 
         $unitmodel->tire_size_id = $request->tire_size_id;
         $unitmodel->brand = $request->brand;

@@ -89,7 +89,7 @@
                             <th>Tire Quantity</th>
                             <th>Axle 2 Tire</th>
                             <th>Axle 4 Tire</th>
-                            <th>Axle 8 Tire</th>
+                            {{-- <th>Axle 8 Tire</th> --}}
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -130,15 +130,13 @@
                                     <input type="text" name="type">
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-6">
+                            <div class="col-lg-6 col-6">
                                 <div class="form-group">
                                     <label>Tire Size</label>
                                     <select class="select" name="tire_size_id">
                                         <option value="">Choose Size</option>
                                         @foreach ($tiresize as $item)
-                                            <option value="{{ $item->id }}">{{ $item->size }} -
-                                                {{ $item->tire_pattern->pattern }} -
-                                                {{ $item->tire_pattern->manufacture->name }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->size }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -146,7 +144,7 @@
                             <div class="col-lg-2 col-3">
                                 <div class="form-group">
                                     <label>Tire Qty</label>
-                                    <input class="form-control" value="0" type="number" name="tire_qty">
+                                    <input class="form-control" value="0" type="number" name="tire_qty" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-3">
@@ -161,12 +159,12 @@
                                     <input class="form-control" value="0" type="number" name="axle_4_tire">
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-3">
+                            {{-- <div class="col-lg-2 col-3">
                                 <div class="form-group">
                                     <label>Axle 8 Tire</label>
                                     <input class="form-control" value="0" type="number" name="axle_8_tire">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Load Distribution</label>
@@ -238,10 +236,6 @@
                             name: 'axle_4_tire'
                         },
                         {
-                            data: 'axle_8_tire',
-                            name: 'axle_8_tire'
-                        },
-                        {
                             data: 'action',
                             name: 'action',
                             orderable: false,
@@ -270,7 +264,7 @@
                         modal.find('input[name="brand"]').val(response.brand);
                         modal.find('input[name="model"]').val(response.model);
                         modal.find('input[name="type"]').val(response.type);
-                        modal.find('input[name="tire_qyt"]').val(response.tire_qyt);
+                        modal.find('input[name="tire_qty"]').val(response.tire_qty);
                         modal.find('input[name="axle_2_tire"]').val(response.axle_2_tire);
                         modal.find('input[name="axle_4_tire"]').val(response.axle_4_tire);
                         modal.find('input[name="axle_8_tire"]').val(response.axle_8_tire);
@@ -287,6 +281,18 @@
                 $(this).find('form')[0].reset();
                 $(this).find('select[name="tire_size_id"]').trigger('change')
             });
+            $("#form-modal input[name='axle_2_tire']").change(function(){
+                var axle_2_tire_val =  $("#form-modal input[name='axle_2_tire']").val()
+                var axle_4_tire_val =  $("#form-modal input[name='axle_4_tire']").val()
+                var total_tire = (axle_2_tire_val * 2) + axle_4_tire_val * 4
+                $("#form-modal input[name='tire_qty']").val(total_tire)
+            })
+            $("#form-modal input[name='axle_4_tire']").change(function(){
+                var axle_2_tire_val =  $("#form-modal input[name='axle_2_tire']").val()
+                var axle_4_tire_val =  $("#form-modal input[name='axle_4_tire']").val()
+                var total_tire = (axle_2_tire_val * 2) + axle_4_tire_val * 4
+                $("#form-modal input[name='tire_qty']").val(total_tire)
+            })
         </script>
     @endpush
 </x-app-layout>
