@@ -3900,7 +3900,7 @@ hr {
   .hide-sidebar {
     display: none;
   }
-  
+
 }
 @media (max-width: 991.98px) {
   .new-header {
@@ -6234,13 +6234,10 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 
 .dash-count {
-  background: #017EFA;
   color: #fff;
-  min-height: 88px;
-  width: 100%;
-  border-radius: 6px;
-  margin: 0 0 25px;
-  padding: 20px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 .dash-count.das1 {
   background: #00CFE8;
@@ -6265,8 +6262,9 @@ span.select2-container.select2-container--default.select2-container--open {
   transition: all 0.5s ease;
 }
 .dash-count .dash-imgs img {
-  width: 50px;
-  height: 50px;
+    padding-top: 4px;
+  width: 100px;
+  /* height: 50%; */
 }
 .dash-count .dash-imgs i {
   font-size: 36px;
