@@ -153,16 +153,17 @@ class TireRunningController extends Controller
         $tire_size = $unit->unit_model->tire_size;
         $tire_running = TireRunning::where('unit_id', $unit->id)->orderBy("position")->get();
 
-        $tire_inventory = TireMaster::whereHas("tire_size", function ($query) use ($tire_size) {
+        $tire_inventory = TireMaster::where('is_repairing', false)->where('is_retreading', false)
+        ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))
+        ->whereHas("tire_size", function ($query) use ($tire_size) {
             $query->where("size", $tire_size->size);
         })
             ->whereHas('tire_status', function ($query) {
-                $query->whereIn('status', ['spare', 'new']);
+                $query->whereIn('status', ['spare', 'new', 'repair']);
             })
             ->wherehas('site', function ($query) {
                 $query->where('id', auth()->user()->site->id);
             })->get();
-
         // $tire_running = TireMovement::where('unit_number', $unit->unit_number)->whereHas('tire_status', function ($query) {
         //     $query->whereIn('status', ['running']);
         // })->get();
@@ -380,11 +381,9 @@ class TireRunningController extends Controller
 
         //endupdate lifetime
 
-        $tire = TireMaster::findOrFail($request->tire_id);
         // update removed tire
-        if ((int) $tire->tire_status_id == 1 && (int) $request->tire_id == 2) {
-            $tire->tire_status_id = $request->tire_status_id; // Update status jika status next step NEW -> SPARE -> REPAIR -> RETREAD ->SCRAP
-        }
+        $tire = TireMaster::findOrFail($request->tire_id);
+        $tire->tire_status_id = $request->tire_status_id; // Update status
         if ($request->tire_status_id == 3) { // repairing
             $tire->is_repairing = true;
         }
