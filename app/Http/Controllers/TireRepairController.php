@@ -119,7 +119,7 @@ class TireRepairController extends Controller
                     "move" => $request->tire_status,
                 ]);
 
-                $tirerepair->tire_status_id = $tire_status_new->id;
+                // $tirerepair->tire_status_id = $tire_status_new->id; // tidak update status
                 $tirerepair->is_repair = true;
                 $tirerepair->is_repairing = false;
                 $tirerepair->save();
