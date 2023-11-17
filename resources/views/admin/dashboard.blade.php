@@ -20,73 +20,144 @@
         </div> --}}
 
         <div class="row">
-            <div class="col-lg col-sm-4 col-6 d-flex">
-                <div class="dash-count px-2 py-0 justify-content-start align-items-center das2" style="background: #709AC3;">
-                    <div class="dash-imgs me-2">
-                        <img src="assets/img/dashboard/icon3.png"  alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $spare }}</h4>
-                        <h5>Tyre Spare</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg col-sm-4 col-6 d-flex">
-                <div class="dash-count px-2 py-0 justify-content-start align-items-center" style="background: #1EBDD0!important;">
-                    <div class="dash-imgs me-2">
-                        <img src="assets/img/dashboard/icon1.png" alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $new }}</h4>
-                        <h5>New Stock</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg col-sm-4 col-6 d-flex">
-                <div class="dash-count das1 px-2 py-0 justify-content-start align-items-center" style="background: #017EFA!important;">
-                    <div class="dash-imgs me-2">
-                        <img src="assets/img/dashboard/icon2.png" alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $new_install }}</h4>
-                        <h5>New Install</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg col-sm-4 col-6 d-flex">
-                <div class="dash-count das3 px-2 py-0 justify-content-start align-items-center" style="background: #FF9F43;">
-                    <div class="dash-imgs me-2">
-                        <img src="assets/img/dashboard/icon4.png" alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $repair }}</h4>
-                        <h5>Repairing</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg col-sm-4 col-6 d-flex">
-                <div class="dash-count das4 px-2 py-0 justify-content-start align-items-center" style="background: #28C76F;">
-                    <div class="dash-imgs me-2">
-                        <img src="assets/img/dashboard/icon5.png" alt="">
-                    </div>
-                    <div class="dash-counts">
-                        <h4>{{ $running }}</h4>
-                        <h5>Running</h5>
+            <div class="col-lg-5 col-sm-12 col-12">
+                <div class="card" style="background: #0d4781!important;">
+                    <div class="card-body">
+                        <div class="row rounded-3 w-100">
+                            <div class="col dash-count px-2 justify-content-start align-items-center">
+                                <div class="dash-imgs me-2">
+                                    <img src="assets/img/dashboard/icon3.png" alt="">
+                                </div>
+                                <div class="dash-counts">
+                                    <h4>{{ (int) $stok_new + (int) $stok_spare + (int) $stok_repair }}</h4>
+                                    <h5>TIRE INVENTORY</h5>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="dash-count px-2 justify-content-end align-items-end">
+                                        <div class="dash-imgs me-2" style="width: 40px">
+                                            <img src="assets/img/dashboard/icon1.png" alt="">
+                                        </div>
+                                        <div class="dash-counts" style="width: 100px; text-align: right">
+                                            <h4>{{ (int) $stok_new }}</h4>
+                                            <h5>NEW</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="dash-count px-2 justify-content-end align-items-end">
+                                        <div class="dash-imgs me-2" style="width: 40px">
+                                            <img src="assets/img/dashboard/icon3.png" alt="">
+                                        </div>
+                                        <div class="dash-counts" style="width: 100px; text-align: right">
+                                            <h4>{{ (int) $stok_spare }}</h4>
+                                            <h5>SPARE</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="dash-count px-2 justify-content-end align-items-end">
+                                        <div class="dash-imgs me-2" style="width: 40px">
+                                            <img src="assets/img/dashboard/icon4.png" alt="">
+                                        </div>
+                                        <div class="dash-counts" style="width: 100px; text-align: right">
+                                            <h4>{{ (int) $stok_repair }}</h4>
+                                            <h5>REPAIR</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg col-sm-4 col-6 d-flex">
-                <div class="dash-count das3 px-2 py-0 justify-content-start align-items-center" style="background: #EA5455;">
-                    <div class="dash-imgs me-2">
-                        <img src="assets/img/dashboard/icon6.png" alt="">
+            <div class="col-lg-5 col-sm-12 col-12">
+                <div class="card" style="background: #198148!important;">
+                    <div class="card-body">
+                        <div class="row justify-content-evenly px-2 rounded-3 w-100">
+                            <div class="dash-count px-2 justify-content-start align-items-center col">
+                                <div class="dash-imgs me-2">
+                                    <img src="assets/img/dashboard/icon5.png" alt="">
+                                </div>
+                                <div class="dash-counts">
+                                    <h4>{{ (int) $install_new + (int) $install_spare + (int) $install_repair }}</h4>
+                                    <h5>TIRE INSTALL</h5>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="dash-count px-2 justify-content-end align-items-end">
+                                        <div class="dash-imgs me-2" style="width: 40px">
+                                            <img src="assets/img/dashboard/icon1.png" alt="">
+                                        </div>
+                                        <div class="dash-counts" style="width: 100px; text-align: right">
+                                            <h4>{{ (int) $install_new }}</h4>
+                                            <h5>NEW</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="dash-count px-2 justify-content-end align-items-end">
+                                        <div class="dash-imgs me-2" style="width: 40px">
+                                            <img src="assets/img/dashboard/icon3.png" alt="">
+                                        </div>
+                                        <div class="dash-counts" style="width: 100px; text-align: right">
+                                            <h4>{{ (int) $install_spare }}</h4>
+                                            <h5>SPARE</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="dash-count px-2 justify-content-end align-items-end">
+                                        <div class="dash-imgs me-2" style="width: 40px">
+                                            <img src="assets/img/dashboard/icon4.png" alt="">
+                                        </div>
+                                        <div class="dash-counts" style="width: 100px; text-align: right">
+                                            <h4>{{ (int) $install_repair }}</h4>
+                                            <h5>REPAIR</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="dash-counts">
-                        <h4>{{ $scrap }}</h4>
-                        <h5>Scrap</h5>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-12 col-12">
+                <div class="card" style="background: #e07218!important;margin-bottom: 11px">
+                    <div class="card-body">
+                        <div class="row justify-content-evenly px-2 rounded-3 w-100">
+                            <div class="dash-count px-2 justify-content-start align-items-center col">
+                                <div class="dash-imgs me-2" style="width: 40px">
+                                    <img src="assets/img/dashboard/icon2.png" alt="">
+                                </div>
+                                <div class="dash-counts">
+                                    <h4>{{ (int) $repairing }}</h4>
+                                    <h5>TIRE REPAIRING</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="background: #ad2525!important;">
+                    <div class="card-body">
+                        <div class="row justify-content-evenly px-2 rounded-3 w-100">
+                            <div class="dash-count px-2 justify-content-start align-items-center col">
+                                <div class="dash-imgs me-2" style="width: 40px">
+                                    <img src="assets/img/dashboard/icon6.png" alt="">
+                                </div>
+                                <div class="dash-counts">
+                                    <h4>{{ (int) $scrap }}</h4>
+                                    <h5>TIRE SCRAP</h5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
 
             <div class="col-xl-12">
