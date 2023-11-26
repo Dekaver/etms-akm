@@ -1,28 +1,115 @@
 <x-app-layout>
-    @php
-        $now = \Carbon\Carbon::now();
-    @endphp
-    @push('css')
-        <style>
-            .graphic-container {
-                min-height: 380px;
-                max-height: 380px;
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-
-            .dash-count a {
-                color: white;
-            }
-        </style>
-        <div class="page-header">
-            <div class="page-title">
-                <h4>{{ strtoupper(auth()->user()->company->name ?? '') }} - {{ auth()->user()->site->name ?? '' }}</h4>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">{{ auth()->user()->name }}</a></li>
-                    </ol>
-                </nav>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="search-set">
+                            <div class="search-path" >
+                                <a class="btn btn-filter {{ $site_name || $tire_size || $brand_tire || $tire_pattern || $tahun  ? 'setclose' : ''}}" id="filter_search">
+                                    <img src="assets/img/icons/filter.svg" alt="img">
+                                    <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                                </a>
+                            </div>
+                            <div class="search-path" {{ $site_name || $tire_size || $brand_tire || $tire_pattern || $tahun  ? 'style=display:block' : 'style=display:none'}}>
+                                <a class="btn btn-filter bg-secondary" href="{{ Request::url() }}">
+                                    <img src="assets/img/icons/filterclear.svg" alt="img">
+                                </a>
+                            </div>
+                            <div class="search-path" >
+                                <a class="btn btn-filter" onclick="document.getElementById('form-filter').submit()">
+                                    <img src="assets/img/icons/search-whites.svg" alt="img">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mt-3" id="filter_inputs" {{ $site_name || $tire_size || $brand_tire || $tire_pattern || $tahun  ? 'style=display:block' : '' }}>
+                            <form action="" id="form-filter">
+                                <div class="row">
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label>Tire Site</label>
+                                            <select class="form-control" name="site">
+                                                <option value="">Choose Site</option>
+                                                @foreach ($site as $item)
+                                                    <option value="{{ $item->id }}" @selected($item->name == $site_name)>
+                                                        {{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label>Tire Size</label>
+                                            <select class="form-control" name="tire_size">
+                                                <option value="">Choose Size</option>
+                                                @foreach ($tire_sizes as $item)
+                                                    <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
+                                                        {{ $item->size }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                                        <label>Brand Tire</label>
+                                        <select class="form-control" name="brand_tire">
+                                            <option value="">Choose Brand Tire</option>
+                                            @foreach ($manufacturer as $item)
+                                                <option value="{{ $item->name }}" @selected($item->name == $brand_tire)>
+                                                    {{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                                        <label>Tire Pattern</label>
+                                        <select class="form-control" name="tire_pattern">
+                                            <option value="">Choose Tire Pattern</option>
+                                            @foreach ($tire_patterns as $item)
+                                                <option value="{{ $item->pattern }}" @selected($item->pattern == $tire_pattern)>
+                                                    {{ $item->pattern }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                                        <label>Year</label>
+                                        <select class="form-control" name="tahun">
+                                            <option value="">Choose Year</option>
+                                            @foreach ($date_range as $item)
+                                                <option value="{{ $item }}" @selected($item == $tahun)>
+                                                    {{ $item }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                                        <label>Month</label>
+                                        <select class="form-control" name="month">
+                                            <option value="">Choose Month</option>
+                                            <option value="1" @selected($month == '1')>Jan</option>
+                                            <option value="2" @selected($month == '2')>Feb</option>
+                                            <option value="3" @selected($month == '3')>Mar</option>
+                                            <option value="4" @selected($month == '4')>Apr</option>
+                                            <option value="5" @selected($month == '5')>Mey</option>
+                                            <option value="6" @selected($month == '6')>Jun</option>
+                                            <option value="7" @selected($month == '7')>Jul</option>
+                                            <option value="8" @selected($month == '8')>Aug</option>
+                                            <option value="9" @selected($month == '9')>Sep</option>
+                                            <option value="10" @selected($month == '10')>Okt</option>
+                                            <option value="11" @selected($month == '11')>Nov</option>
+                                            <option value="12" @selected($month == '12')>Des</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                                        <label>Week</label>
+                                        <select class="form-control" name="week">
+                                            <option value="">Choose Week</option>
+                                            @for ($i = 1; $i < 56; $i++)
+                                            <option value="{{ $i }}" @selected($week == $i)>Week {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -141,9 +228,7 @@
                                 </div>
                                 <div class="dash-counts">
                                     <h4>{{ (int) $repairing }}</h4>
-                                    <a href="/tirerepair">
-                                        <h5>REPAIRING</h5>
-                                    </a>
+                                    <h5>REPAIRING</h5>
                                 </div>
                             </div>
                         </div>
@@ -158,9 +243,7 @@
                                 </div>
                                 <div class="dash-counts">
                                     <h4>{{ (int) $scrap }}</h4>
-                                    <a href="/tiremaster?tirestatus=5">
-                                        <h5>SCRAP</h5>
-                                    </a>
+                                    <h5>SCRAP</h5>
                                 </div>
                             </div>
                         </div>
@@ -200,43 +283,17 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="d-none row">
-            <div class="col-xl-12">
-                <div class="card o-hidden">
-                    <div class="card-header pb-0">
-                        <h5>Tire Inventory
-                            <a class="float-end" href="#" onclick="toggleFullScreen(this)">
-                                <i data-feather="maximize"></i>
-                                <i class="d-none" data-feather="minimize"></i>
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="bar-chart-widget">
-                        <div class="bottom-content card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div id="chart-tire-inventory"
-                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-inventory'), Request::fullUrl()) }}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
+        {{-- Tire Fitment --}}
         <div class="row">
             <div class="col-xl-12">
                 <div class="card o-hidden">
                     <div class="card-header pb-0">
-                        <h5>Sumary Fitments of {{ $now->format('Y') }}
-                            <a class="float-end" href="#" onclick="toggleFullScreen(this)">
-                                <i data-feather="maximize"></i>
-                                <i class="d-none" data-feather="minimize"></i>
-                            </a>
-                        </h5>
+                            <h5>Sumary Fitments {{ $tahun }}
+                                <a class="float-end" href="#" onclick="toggleFullScreen(this)">
+                                    <i data-feather="maximize"></i>
+                                    <i class="d-none" data-feather="minimize"></i>
+                                </a>
+                            </h5>
                     </div>
                     <div class="bar-chart-widget">
                         <div class="bottom-content card-body">
@@ -257,15 +314,15 @@
                 <div class="card o-hidden">
                     <div class="card-header pb-0">
                         <form action="">
-                            <h5>Weekly Fitments of {{ $now->format('F') }}
+                            <h5>Weekly Fitments {{ \Carbon\Carbon::parse("2023-$month-01")->format("F") }}
                                 <a class="float-end" href="#" onclick="toggleFullScreen(this)">
                                     <i data-feather="maximize"></i>
                                     <i class="d-none" data-feather="minimize"></i>
                                 </a>
-                                <select class="form-control" style="width: 20% !important;float: inline-end"
-                                    name="axisX" onchange="this.parentElement.parentElement.submit()">
-                                    <option value="week" @selected(Request::get('axisX') == 'week')>week</option>
-                                    <option value="day" @selected(Request::get('axisX') == 'day')>day</option>
+
+                                <select class="form-control" style="width: 20% !important;float: inline-end" name="axisX" onchange="this.parentElement.parentElement.submit()">
+                                    <option value="week" @selected(Request::get("axisX") == "week")>week</option>
+                                    <option value="day" @selected(Request::get("axisX") == "day")>day</option>
                                 </select>
                             </h5>
                         </form>
@@ -286,7 +343,7 @@
             <div class="col-xl-6">
                 <div class="card o-hidden">
                     <div class="card-header pb-0">
-                        <h5>Dayly Fitments of Week {{ $now->weekOfYear }}
+                        <h5>Dayly Fitments {{ $week }}
                             <a class="float-end" href="#" onclick="toggleFullScreen(this)">
                                 <i data-feather="maximize"></i>
                                 <i class="d-none" data-feather="minimize"></i>
@@ -308,11 +365,12 @@
             </div>
         </div>
 
-        {{-- <div class="row">
+        {{-- Tire Removed --}}
+        <div class="row">
             <div class="col-xl-12">
                 <div class="card o-hidden">
                     <div class="card-header pb-0">
-                        <h5>Tire Removed
+                        <h5>Sumary Removed {{ $tahun }}
                             <a class="float-end" href="#" onclick="toggleFullScreen(this)">
                                 <i data-feather="maximize"></i>
                                 <i class="d-none" data-feather="minimize"></i>
@@ -332,7 +390,61 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card o-hidden">
+                    <div class="card-header pb-0">
+                        <form action="">
+                            <h5>Weekly Removed {{ \Carbon\Carbon::parse("2023-$month-01")->format("F") }}
+                                <a class="float-end" href="#" onclick="toggleFullScreen(this)">
+                                    <i data-feather="maximize"></i>
+                                    <i class="d-none" data-feather="minimize"></i>
+                                </a>
+                                <select class="form-control" style="width: 20% !important;float: inline-end" name="axisX" onchange="this.parentElement.parentElement.submit()">
+                                    <option value="week" @selected(Request::get("axisX") == "week")>week</option>
+                                    <option value="day" @selected(Request::get("axisX") == "day")>day</option>
+                                </select>
+                            </h5>
+                        </form>
+                    </div>
+                    <div class="bar-chart-widget">
+                        <div class="bottom-content card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="chart-tire-removed-month"
+                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-removed-month'), Request::fullUrl()) }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card o-hidden">
+                    <div class="card-header pb-0">
+                        <h5>Dayly Removed {{ $week }}
+                            <a class="float-end" href="#" onclick="toggleFullScreen(this)">
+                                <i data-feather="maximize"></i>
+                                <i class="d-none" data-feather="minimize"></i>
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="bar-chart-widget">
+                        <div class="bottom-content card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="chart-tire-removed-week"
+                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-removed-week'), Request::fullUrl()) }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @push('js')
             <script src="{{ asset('assets/view/grafik.js') }}"></script>

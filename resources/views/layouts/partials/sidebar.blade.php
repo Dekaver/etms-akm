@@ -109,6 +109,9 @@
                             <li><a href="/report-tire-running"
                                     class="{{ Request::routeIs('report.tirerunning') ? 'active' : '' }}">Report Tire
                                     Running</a></li>
+                            <li><a href="/report-tire-activity"
+                                    class="{{ Request::routeIs('report.tireactivity') ? 'active' : '' }}">Report Tire
+                                    Activity</a></li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"

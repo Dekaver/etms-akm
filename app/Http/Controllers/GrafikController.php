@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use InvalidArgumentException;
 
 class GrafikController extends Controller
 {
@@ -1792,5 +1793,707 @@ class GrafikController extends Controller
         return $data;
     }
 
+    // AKM
 
+    public function tireFitment(Request $request)
+    {
+        function getMonthsInRange($from = null, $to = null)
+        {
+            $today = Carbon::now(); // Current date
+            // If $to is not provided, set it to the current date
+            $to = $to ? Carbon::parse($to) : Carbon::parse("{$today->format('Y')}-12-01");
+
+            // If $from is not provided, set it to six months ago
+            $from = $from ? Carbon::parse($from) : Carbon::parse("{$today->format('Y')}-01-01");
+
+            // Ensure $from is not greater than $to
+            if ($from->gt($to)) {
+                throw new InvalidArgumentException('$from date must be less than or equal to $to date');
+            }
+            // Calculate the number of months in the range
+            $totalMonths = $from->diffInMonths($to);
+
+            // Throw an exception if total months is greater than 12
+            if ($totalMonths > 12) {
+                throw new InvalidArgumentException('The total number of months in the range must not exceed 12.');
+            }
+
+
+            $months = [];
+            while ($from->format("Y-m") <= $to->format("Y-m")) {
+                // Format the date as "Y-Mon"
+                $formattedDate = $from->format("M");
+                $months[] = $formattedDate;
+
+                // Move to the next month
+                $from->addMonth();
+            }
+            return $months;
+        }
+
+        $current_year = date('Y');
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_merge($date_range1, $date_range2);
+        $date_range = array_unique($date_range);
+        asort($date_range);
+        $tahun = $request->query('tahun');
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site = $request->query('site');
+        } else {
+            $site = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $from = $request->query('from') ?? null;
+        $to = $request->query('to');
+        $brand_tire = $request->query('brand_tire');
+        $tire_size = $request->query('tire_size');
+        $tire_pattern = $request->query('tire_pattern');
+        $type_pattern = $request->query('type_pattern');
+        $month = $request->query('month');
+        $week = $request->query('week');
+
+        $company = auth()->user()->company;
+
+        $ranges = getMonthsInRange($from, $to);
+
+
+        $tire_status = ['NEW', 'SPARE', 'REPAIR', 'ROTATION'];
+
+        foreach ($tire_status as $key => $status) {
+            // $history = Tire::leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+            //     $q->on('sl.tire', '=', 'tires.serial_number');
+            // });
+            // $history = $history->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
+            $history = Tire::where('tires.company_id', $company->id)->join('history_tire_movements', function ($join) use ($status) {
+                $join->on('tires.serial_number', '=', 'history_tire_movements.tire')
+                    ->where('history_tire_movements.process', '=', 'INSTALL')
+                    ->where('history_tire_movements.status', '=', $status);
+            });
+
+            $history = $history->whereRaw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') BETWEEN ? AND ?", [Carbon::parse(reset($ranges))->format("Y-m"), Carbon::parse(end($ranges))->format("Y-m")]);
+
+            if ($tahun) {
+
+                $history = $history->whereYear('history_tire_movements.start_date', $tahun);
+            }
+
+            $history = $history->whereHas('tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern) {
+                $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern) {
+                    if ($type_pattern) {
+                        $q->where('type_pattern', $type_pattern);
+                    }
+                    if ($tire_pattern) {
+                        $q->where('pattern', $tire_pattern);
+                    }
+                    if ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                            $q->where('name', $brand_tire);
+                        });
+                    }
+                });
+            });
+
+            if ($site) {
+                $history = $history->whereHas('site', function ($q) use ($site) {
+                    $q->where('name', $site);
+                });
+            }
+
+            $history = $history
+                ->get()
+                ->map(function ($tire) use ($ranges) {
+                    $start_date = $tire->start_date;
+
+                    foreach ($ranges as $key => $breakpoint) {
+                        if (Carbon::parse($breakpoint)->format('Y-m') == Carbon::parse($start_date)->format('Y-m')) { // check for year and month equal
+                            $tire->range = $key;
+                            break;
+                        }
+                    }
+
+                    return $tire;
+                })
+                ->mapToGroups(function ($tire, $key) {
+                    return [$tire->range => $tire];
+                })
+                ->map(function ($group) {
+                    return count($group);
+                })
+                ->toArray();
+            $d = [];
+            foreach ($ranges as $k => $value) {
+                $d['name'] = $status;
+                $d['type'] = 'line';
+                $d['data'][] = $history[$k] ?? 0;
+            }
+            $data['value'][] = $d;
+        }
+
+        $max = 0;
+        foreach ($data['value'] as $key => $value) {
+            if ($max < max($value['data'])) {
+                $max = max($value['data']);
+            }
+        }
+
+        $bulat = pow(10, strlen($max) - 1);
+
+        $data['max'] = ceil($max / $bulat) * $bulat;
+        $data['status'] = $tire_status;
+        $data['xaxis'] = $ranges;
+
+        return $data;
+    }
+
+    public function tireFitmentMonth(Request $request)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site = $request->query('site');
+        } else {
+            $site = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $tire_size = $request->query('tire_size');
+        $tire_pattern = $request->query('tire_pattern');
+        $type_pattern = $request->query('type_pattern');
+        $axisX = $request->query('axisX') ?? 'week';
+        $month = $request->query('month') ?? Carbon::now()->format('m');
+        $firstweek = Carbon::parse("$year-$month-1")->weekOfYear;
+        $lastweek = Carbon::parse("$year-$month-1")->endOfMonth()->weekOfYear;
+
+        $company = auth()->user()->company;
+
+        $tire_status = ['NEW', 'SPARE', 'REPAIR', 'ROTATION'];
+
+        $history = HistoryTireMovement::select("history_tire_movements.status")->selectRaw("EXTRACT($axisX from start_date) as $axisX")->selectRaw("count(*) as total")
+            ->join('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+            ->where('history_tire_movements.process', '=', 'INSTALL')
+            ->where('tires.company_id', $company->id)
+            ->whereBetween(HistoryTireMovement::raw('EXTRACT(WEEK from history_tire_movements.start_date)'), [$firstweek, $lastweek]);
+
+        $history = $history->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+            $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($tire_pattern) {
+                    $q->where('pattern', $tire_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+                if ($tire_size) {
+                    $q->where('size', $tire_size);
+                }
+            });
+        });
+
+        if ($site) {
+            $history = $history->whereHas('tire_number.site', function ($q) use ($site) {
+                $q->where('name', $site);
+            });
+        }
+        $history = $history->groupBy('history_tire_movements.status', $axisX);
+
+        $result = [];
+        $week = [];
+        $carbonMonth = Carbon::parse("$year-$month-1");
+        $carbonMonthLast = Carbon::parse("$year-$month-1");
+        // dd($history->dd(), $carbonMonth, $carbonMonthLast);
+
+        // Initialize data array with default values
+        foreach ($tire_status as $status) {
+            $result["value"][] = [
+                'name' => $status,
+                'type' => $axisX == 'week' ? "bar" : 'line',
+                'data' => $axisX == 'week' ? array_fill(0, $lastweek - $firstweek + 1, 0) : array_fill(0, $carbonMonth->daysInMonth, 0),
+            ];
+        }
+
+
+        // Process each entry in the original data
+        foreach ($history->get() as $entry) {
+            // Convert week and year to a Carbon instance
+            if ($axisX == 'week')
+                $carbonDate = Carbon::now()->setISODate(2023, $entry[$axisX]);
+            if ($axisX == 'day')
+                $carbonDate = Carbon::parse("$year-$month-$entry[$axisX]");
+
+            // Find the index of the status in the result array
+            $index = array_search($entry['status'], $tire_status);
+            // Update the corresponding data value
+            if ($axisX == 'week')
+                $result["value"][$index]['data'][$carbonDate->weekOfYear % $carbonMonth->weekOfYear] += $entry['total'];
+            if ($axisX == 'day')
+                $result["value"][$index]['data'][$carbonDate->day % $carbonMonth->daysInMonth] += $entry['total'];
+        }
+
+        $ranges = [];
+        if ($axisX == 'week')
+            for ($i = $firstweek; $i <= $lastweek; $i++) {
+                $ranges[] = "week $i";
+            }
+        if ($axisX == 'day')
+            for ($i = 1; $i <= $carbonMonth->daysInMonth; $i++) {
+                $ranges[] = "$i";
+            }
+
+
+        $max = 0;
+        foreach ($result['value'] as $key => $value) {
+            if ($max < max($value['data'])) {
+                $max = max($value['data']);
+            }
+        }
+
+        $bulat = pow(10, strlen($max) - 1);
+
+        $result['max'] = ceil($max / $bulat) * $bulat;
+        $result['status'] = $tire_status;
+        $result['xaxis'] = $ranges;
+
+        return $result;
+    }
+    public function tireFitmentWeek(Request $request)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site = $request->query('site');
+        } else {
+            $site = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $tire_size = $request->query('tire_size');
+        $tire_pattern = $request->query('tire_pattern');
+        $type_pattern = $request->query('type_pattern');
+        $week = $request->query('week') ?? Carbon::now()->weekOfYear;
+
+        $company = auth()->user()->company;
+
+        $tire_status = ['NEW', 'SPARE', 'REPAIR', 'ROTATION'];
+        $hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"];
+
+        $history = HistoryTireMovement::select("history_tire_movements.status")->selectRaw("DAYOFWEEK(start_date) as day")->selectRaw("count(*) as total")
+            ->join('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+            ->where('history_tire_movements.process', '=', 'INSTALL')
+            ->where('tires.company_id', $company->id)
+            ->where(HistoryTireMovement::raw('EXTRACT(WEEK from history_tire_movements.start_date)'), $week);
+
+        $history = $history->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+            $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($tire_pattern) {
+                    $q->where('pattern', $tire_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+                if ($tire_size) {
+                    $q->where('size', $tire_size);
+                }
+            });
+        });
+
+        if ($site) {
+            $history = $history->whereHas('tire_number.site', function ($q) use ($site) {
+                $q->where('name', $site);
+            });
+        }
+
+        $history = $history->groupBy('history_tire_movements.status', 'day');
+
+        $result = [];
+        // dd($history->dd(), $carbonMonth, $carbonMonthLast);
+
+        // Initialize data array with default values
+        foreach ($tire_status as $status) {
+            $result["value"][] = [
+                'name' => $status,
+                'type' => "bar",
+                'data' => array_fill(0, 7, 0),
+            ];
+        }
+
+        // Process each entry in the original data
+        foreach ($history->get() as $entry) {
+            // Convert week and year to a Carbon instance
+
+            // Find the index of the status in the result array
+            $index = array_search($entry['status'], $tire_status);
+
+            // Update the corresponding data value +5 untuk membuat hari senin jadi awal minggu
+            $result["value"][$index]['data'][($entry->day + 5) % 7] += $entry['total'];
+        }
+
+        $weeks = [];
+        for ($i = 0; $i <= 6; $i++) {
+            $weeks[] = $hari[$i];
+        }
+
+        $result['status'] = $tire_status;
+        $result['xaxis'] = $weeks;
+
+        return $result;
+    }
+
+    public function tireRemoved(Request $request)
+    {
+        function getMonthsInRange($from = null, $to = null)
+        {
+            $today = Carbon::now(); // Current date
+
+            // If $to is not provided, set it to the current date
+            $to = $to ? Carbon::parse($to) : Carbon::parse("{$today->format('Y')}-12-01");
+
+            // If $from is not provided, set it to six months ago
+            $from = $from ? Carbon::parse($from) : Carbon::parse("{$today->format('Y')}-01-01");
+
+            // Ensure $from is not greater than $to
+            if ($from->gt($to)) {
+                throw new InvalidArgumentException('$from date must be less than or equal to $to date');
+            }
+            // Calculate the number of months in the range
+            $totalMonths = $from->diffInMonths($to);
+
+            // Throw an exception if total months is greater than 12
+            if ($totalMonths > 12) {
+                throw new InvalidArgumentException('The total number of months in the range must not exceed 12.');
+            }
+
+
+            $months = [];
+            while ($from->format("Y-m") <= $to->format("Y-m")) {
+                // Format the date as "Y-Mon"
+                $formattedDate = $from->format("M");
+                $months[] = $formattedDate;
+                // Move to the next month
+                $from->addMonth();
+            }
+            return $months;
+        }
+
+        $current_year = date('Y');
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_merge($date_range1, $date_range2);
+        $date_range = array_unique($date_range);
+        asort($date_range);
+        $tahun = $request->query('tahun');
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site = $request->query('site');
+        } else {
+            $site = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $from = $request->query('from') ?? null;
+        $to = $request->query('to');
+        $brand_tire = $request->query('brand_tire');
+        $tire_size = $request->query('tire_size');
+        $tire_pattern = $request->query('tire_pattern');
+        $type_pattern = $request->query('type_pattern');
+        $month = $request->query('month');
+        $week = $request->query('week');
+
+        $company = auth()->user()->company;
+
+        $ranges = getMonthsInRange($from, $to);
+
+        $tire_status = ['SPARE', 'REPAIR', 'ROTATION', 'SCRAP'];
+
+        foreach ($tire_status as $key => $status) {
+            // $history = Tire::leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+            //     $q->on('sl.tire', '=', 'tires.serial_number');
+            // });
+            // $history = $history->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
+            $history = Tire::where('tires.company_id', $company->id)->join('history_tire_movements', function ($join) use ($status) {
+                $join->on('tires.serial_number', '=', 'history_tire_movements.tire')
+                    ->where('history_tire_movements.process', '=', 'REMOVE')
+                    ->where('history_tire_movements.status', '=', $status);
+            });
+
+            $history = $history->whereRaw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') BETWEEN ? AND ?", [Carbon::parse(reset($ranges))->format("Y-m"), Carbon::parse(end($ranges))->format("Y-m")]);
+
+            if ($tahun) {
+                $history = $history->whereYear('history_tire_movements.start_date', $tahun);
+            }
+
+            $history = $history->whereHas('tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern) {
+                $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern) {
+                    if ($type_pattern) {
+                        $q->where('type_pattern', $type_pattern);
+                    }
+                    if ($tire_pattern) {
+                        $q->where('pattern', $tire_pattern);
+                    }
+                    if ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                            $q->where('name', $brand_tire);
+                        });
+                    }
+                });
+            });
+
+            if ($site) {
+                $history = $history->whereHas('site', function ($q) use ($site) {
+                    $q->where('name', $site);
+                });
+            }
+
+            $history = $history
+                ->get()
+                ->map(function ($tire) use ($ranges) {
+                    $start_date = $tire->start_date;
+
+                    foreach ($ranges as $key => $breakpoint) {
+                        if (Carbon::parse($breakpoint)->format('Y-m') == Carbon::parse($start_date)->format('Y-m')) { // check for year and month equal
+                            $tire->range = $key;
+                            break;
+                        }
+                    }
+
+                    return $tire;
+                })
+                ->mapToGroups(function ($tire, $key) {
+                    return [$tire->range => $tire];
+                })
+                ->map(function ($group) {
+                    return count($group);
+                })
+                ->toArray();
+            $d = [];
+            foreach ($ranges as $k => $value) {
+                $d['name'] = $status;
+                $d['type'] = 'line';
+                $d['data'][] = $history[$k] ?? 0;
+            }
+            $data['value'][] = $d;
+        }
+
+        $max = 0;
+        foreach ($data['value'] as $key => $value) {
+            if ($max < max($value['data'])) {
+                $max = max($value['data']);
+            }
+        }
+
+        $bulat = pow(10, strlen($max) - 1) == 1 ? 10 : pow(10, strlen($max) - 1);
+
+        $data['max'] = ceil($max / $bulat) * $bulat;
+        $data['status'] = $tire_status;
+        $data['xaxis'] = $ranges;
+
+        return $data;
+    }
+
+    public function tireRemovedMonth(Request $request)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site = $request->query('site');
+        } else {
+            $site = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $tire_size = $request->query('tire_size');
+        $tire_pattern = $request->query('tire_pattern');
+        $type_pattern = $request->query('type_pattern');
+        $axisX = $request->query('axisX') ?? 'week';
+        $month = $request->query('month') ?? Carbon::now()->format('m');
+        $firstweek = Carbon::parse("$year-$month-1")->weekOfYear;
+        $lastweek = Carbon::parse("$year-$month-1")->endOfMonth()->weekOfYear;
+
+        $company = auth()->user()->company;
+
+        $tire_status = ['SPARE', 'REPAIR', 'ROTATION', 'SCRAP'];
+
+        $history = HistoryTireMovement::select("history_tire_movements.status")->selectRaw("EXTRACT($axisX from start_date) as $axisX")->selectRaw("count(*) as total")
+            ->join('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+            ->where('history_tire_movements.process', '=', 'REMOVE')
+            ->where('tires.company_id', $company->id)
+            ->whereBetween(HistoryTireMovement::raw('EXTRACT(WEEK from history_tire_movements.start_date)'), [$firstweek, $lastweek]);
+
+        $history = $history->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+            $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($tire_pattern) {
+                    $q->where('pattern', $tire_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+                if ($tire_size) {
+                    $q->where('size', $tire_size);
+                }
+            });
+        });
+
+        if ($site) {
+            $history = $history->whereHas('tire_number.site', function ($q) use ($site) {
+                $q->where('name', $site);
+            });
+        }
+        $history = $history->groupBy('history_tire_movements.status', $axisX);
+
+        $result = [];
+        $week = [];
+        $carbonMonth = Carbon::parse("$year-$month-1");
+        $carbonMonthLast = Carbon::parse("$year-$month-1");
+        // dd($history->dd(), $carbonMonth, $carbonMonthLast);
+
+        // Initialize data array with default values
+        foreach ($tire_status as $status) {
+            $result["value"][] = [
+                'name' => $status,
+                'type' => $axisX == 'week' ? "bar" : 'line',
+                'data' => $axisX == 'week' ? array_fill(0, $lastweek - $firstweek + 1, 0) : array_fill(0, $carbonMonth->daysInMonth, 0),
+            ];
+        }
+
+
+        // Process each entry in the original data
+        foreach ($history->get() as $entry) {
+            // Convert week and year to a Carbon instance
+            if ($axisX == 'week')
+                $carbonDate = Carbon::now()->setISODate(2023, $entry[$axisX]);
+            if ($axisX == 'day')
+                $carbonDate = Carbon::parse("$year-$month-$entry[$axisX]");
+
+            // Find the index of the status in the result array
+            $index = array_search($entry['status'], $tire_status);
+            // Update the corresponding data value
+            if ($axisX == 'week')
+                $result["value"][$index]['data'][$carbonDate->weekOfYear % $carbonMonth->weekOfYear] += $entry['total'];
+            if ($axisX == 'day')
+                $result["value"][$index]['data'][$carbonDate->day % $carbonMonth->daysInMonth] += $entry['total'];
+        }
+
+        $ranges = [];
+        if ($axisX == 'week')
+            for ($i = $firstweek; $i <= $lastweek; $i++) {
+                $ranges[] = "week $i";
+            }
+        if ($axisX == 'day')
+            for ($i = 1; $i <= $carbonMonth->daysInMonth; $i++) {
+                $ranges[] = "$i";
+            }
+
+
+        $max = 0;
+        foreach ($result['value'] as $key => $value) {
+            if ($max < max($value['data'])) {
+                $max = max($value['data']);
+            }
+        }
+
+        $bulat = pow(10, strlen($max) - 1);
+
+        $result['max'] = ceil($max / $bulat) * $bulat;
+        $result['status'] = $tire_status;
+        $result['xaxis'] = $ranges;
+
+        return $result;
+    }
+    public function tireRemovedWeek(Request $request)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site = $request->query('site');
+        } else {
+            $site = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $tire_size = $request->query('tire_size');
+        $tire_pattern = $request->query('tire_pattern');
+        $type_pattern = $request->query('type_pattern');
+        $week = $request->query('week') ?? Carbon::now()->weekOfYear;
+
+        $company = auth()->user()->company;
+
+        $tire_status = ['SPARE', 'REPAIR', 'ROTATION', 'SCRAP'];
+        $hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu"];
+
+        $history = HistoryTireMovement::select("history_tire_movements.status")->selectRaw("DAYOFWEEK(start_date) as day")->selectRaw("count(*) as total")
+            ->join('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+            ->where('history_tire_movements.process', '=', 'REMOVE')
+            ->where('tires.company_id', $company->id)
+            ->where(HistoryTireMovement::raw('EXTRACT(WEEK from history_tire_movements.start_date)'), $week);
+
+        $history = $history->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+            $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern, $tire_size) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($tire_pattern) {
+                    $q->where('pattern', $tire_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+                if ($tire_size) {
+                    $q->where('size', $tire_size);
+                }
+            });
+        });
+
+        if ($site) {
+            $history = $history->whereHas('tire_number.site', function ($q) use ($site) {
+                $q->where('name', $site);
+            });
+        }
+
+        $history = $history->groupBy('history_tire_movements.status', 'day');
+
+        $result = [];
+        // dd($history->dd(), $carbonMonth, $carbonMonthLast);
+
+        // Initialize data array with default values
+        foreach ($tire_status as $status) {
+            $result["value"][] = [
+                'name' => $status,
+                'type' => "bar",
+                'data' => array_fill(0, 7, 0),
+            ];
+        }
+
+        // Process each entry in the original data
+        foreach ($history->get() as $entry) {
+            // Convert week and year to a Carbon instance
+
+            // Find the index of the status in the result array
+            $index = array_search($entry['status'], $tire_status);
+
+            // Update the corresponding data value +5 untuk membuat hari senin jadi awal minggu
+            $result["value"][$index]['data'][($entry->day + 5) % 7] += $entry['total'];
+        }
+
+        $weeks = [];
+        for ($i = 0; $i <= 6; $i++) {
+            $weeks[] = $hari[$i];
+        }
+
+        $result['status'] = $tire_status;
+        $result['xaxis'] = $weeks;
+
+        return $result;
+    }
 }
+
+
