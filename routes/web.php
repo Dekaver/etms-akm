@@ -70,6 +70,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tiredamage', TireDamageController::class)->middleware('permission:TIRE_DAMAGE');
     Route::resource('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
 
+
+
     Route::resource('site', SiteController::class)->middleware('permission:SITE');
     Route::resource('unitstatus', UnitStatusController::class)->middleware('permission:UNIT_STATUS');
     Route::resource('unitmodel', UnitModelController::class)->middleware('permission:UNIT_MODEL');
@@ -109,6 +111,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('tire-performance', [DashboardController::class, 'tirePerformance'])->name('tire-performance');
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
+
+        // AKM
+        Route::get('grafik-tire-fitment', [GrafikController::class, 'tireFitment']);
+        Route::get('grafik-tire-fitment-month', [GrafikController::class, 'tireFitmentMonth']);
+        Route::get('grafik-tire-fitment-week', [GrafikController::class, 'tireFitmentWeek']);
+        Route::get('grafik-tire-removed', [GrafikController::class, 'tireRemoved']);
+        Route::get('grafik-tire-removed-month', [GrafikController::class, 'tireRemovedMonth']);
+        Route::get('grafik-tire-removed-week', [GrafikController::class, 'tireRemovedWeek']);
+
     });
 
     //EXPORT
@@ -118,9 +129,13 @@ Route::middleware(['auth'])->group(function () {
 
     //REPORT
     Route::middleware(['permission:REPORT'])->group(function () {
+        Route::get('report-tire-activity', [ReportController::class, 'tireActivity'])->name('report.activity');
         Route::get('report-tire-status', [ReportController::class, 'statusTireCount'])->name('report.tirestatus');
         Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name('report.tirerunning');
+        Route::get('report-tire-inventory', [ReportController::class, 'tireInventory'])->name('report.tireinventory');
     });
+
+    // Route::get('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
 });
 
 Route::get('aaaa', function () {
