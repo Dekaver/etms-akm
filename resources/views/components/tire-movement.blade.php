@@ -1,19 +1,13 @@
 @props(['position', 'tire'])
-
 <figure>
     <h4 class="text-center fw-bold">{{ $position }}</h4>
     @if ($tire = $tire->where('position', $position)->pluck('tire')->first())
-        <div
-            class="bg-secondary bg-opacity-10 px-3 py-2 border border-grey droppableSwitch">
+        <div class="px-3 py-2 border droppableSwitch" id="tire-image-movement-{{ $position }}">
             <div class="draggableUnit position_tire_{{ $position }}"
-                style="background-image: url({{ asset('assets/img/tire.png') }});"
-                data-position="{{ $position }}" data-id="{{ $tire->id }}"
-                data-km="{{ $tire->lifetime_km }}"
-                data-hm="{{ $tire->lifetime_hm }}"
-                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}"
-                data-rtd="{{ $tire->rtd }}"
-                data-serial_number="{{ $tire->serial_number }}"
-                data-tire_id="{{ $tire->id }}"
+                style="background-image: url({{ asset('assets/img/tire.png') }});" data-position="{{ $position }}"
+                data-id="{{ $tire->id }}" data-km="{{ $tire->lifetime_km }}" data-hm="{{ $tire->lifetime_hm }}"
+                data-action="{{ route('tirerunning.destroy', $tire->tire_running->id) }}" data-rtd="{{ $tire->rtd }}"
+                data-serial_number="{{ $tire->serial_number }}" data-tire_id="{{ $tire->id }}"
                 data-lifetime="{{ $tire->lifetime }}">
             </div>
         </div>
@@ -21,7 +15,7 @@
             <p class="mb-0 fw-bold">{{ $tire->serial_number }}</p>
             <p class=" mb-0">{{ $tire->lifetime_hm }} / {{ $tire->lifetime_km }}</p>
             <p class="mb-0">{{ $tire->lifetime_repair_hm }} / {{ $tire->lifetime_repair_km }}</p>
-            <p class="mb-0">{{ $tire->rtd }}</p>
+            <p class="mb-0">{{ $tire->rtd }} / {{ $tire->rtd / $tire->tire_size->otd * 100 }}%</p>
         </figcaption>
     @else
         <div class="droppableInstall" data-position="{{ $position }}">
@@ -35,3 +29,15 @@
         </figcaption>
     @endif
 </figure>
+
+@push('js')
+    <script>
+        tire = @json($tire);
+        if (tire != null) {
+            position = @json($position);
+            // Example: Set the background color based on battery percentage (replace this with your actual battery percentage)
+            setDynamicGradientColor(`tire-image-movement-${position}`, parseFloat(tire.rtd / tire.tire_size.otd * 100));
+        }
+
+    </script>
+@endpush
