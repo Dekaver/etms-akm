@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('desc')->nullable();
 
             $table->string('start_breakdown')->nullable();
-            $table->string('status_breakdown')->nullable()   ;
+            $table->string('status_schedule')->nullable()   ;
             $table->string('lokasi_breakdown')->nullable();
 
             $table->timestamps();

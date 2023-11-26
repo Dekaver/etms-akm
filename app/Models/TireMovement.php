@@ -26,7 +26,7 @@ class TireMovement extends Model
         "pic_man_power",
         "desc",
         "start_breakdown",
-        "status_breakdown",
+        "status_schedule",
         "lokasi_breakdown"
     ];
 }

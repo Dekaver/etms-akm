@@ -88,7 +88,7 @@ class TireRunningController extends Controller
                     "unit" => $unit->unit_number,
                     "tire" => $tire->serial_number,
                     "position" => $request->position,
-                    "status" => "RUNNING",
+                    "status" => $tire->tire_status->status,
                     "km_unit" => $unit->km,
                     "hm_unit" => $unit->hm,
                     "pic" => $request->pic,
@@ -99,7 +99,10 @@ class TireRunningController extends Controller
                     "hm_tire" => $tire->lifetime_hm,
                     "start_date" => $request->start_date,
                     "rtd" => $tire->rtd,
-                    "end_date" => $request->end_date
+                    "end_date" => $request->end_date,
+                    "start_breakdown" => $request->start_breakdown,
+                    "status_schedule" => $request->status_schedule,
+                    "lokasi_breakdown" => $request->lokasi_breakdown,
                 ]);
 
 
@@ -151,13 +154,13 @@ class TireRunningController extends Controller
     {
         $unit = Unit::where("id", $tirerunning->id)->with("unit_model")->first();
         $tire_size = $unit->unit_model->tire_size;
-        $tire_running = TireRunning::where('unit_id', $unit->id)->orderBy("position")->get();
+        $tire_running = TireRunning::with("tire", "tire.tire_size")->where('unit_id', $unit->id)->orderBy("position")->get();
 
         $tire_inventory = TireMaster::where('is_repairing', false)->where('is_retreading', false)
-        ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))
-        ->whereHas("tire_size", function ($query) use ($tire_size) {
-            $query->where("size", $tire_size->size);
-        })
+            ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))
+            ->whereHas("tire_size", function ($query) use ($tire_size) {
+                $query->where("size", $tire_size->size);
+            })
             ->whereHas('tire_status', function ($query) {
                 $query->whereIn('status', ['spare', 'new', 'repair']);
             })
@@ -272,12 +275,15 @@ class TireRunningController extends Controller
                     "pic" => $request->pic,
                     "pic_man_power" => $request->pic_man_power,
                     "des" => $request->explanation,
-                    "process" => "SWITCH",
+                    "process" => "ROTATION",
                     "km_tire" => $tire_1->lifetime_km,
                     "hm_tire" => $tire_1->lifetime_hm,
                     "rtd" => $request->rtd_1,
                     "start_date" => $request->start_date,
-                    "end_date" => $request->end_date
+                    "end_date" => $request->end_date,
+                    "start_breakdown" => $request->start_breakdown,
+                    "status_schedule" => $request->status_schedule,
+                    "lokasi_breakdown" => $request->lokasi_breakdown,
                 ]);
 
                 HistoryTireMovement::create([
@@ -294,12 +300,15 @@ class TireRunningController extends Controller
                     "pic" => $request->pic,
                     "pic_man_power" => $request->pic_man_power,
                     "des" => $request->explanation,
-                    "process" => "SWITCH",
+                    "process" => "ROTATION",
                     "km_tire" => $tire_2->lifetime_km,
                     "hm_tire" => $tire_2->lifetime_hm,
                     "rtd" => $request->rtd_2,
                     "start_date" => $request->start_date,
-                    "end_date" => $request->end_date
+                    "end_date" => $request->end_date,
+                    "start_breakdown" => $request->start_breakdown,
+                    "status_schedule" => $request->status_schedule,
+                    "lokasi_breakdown" => $request->lokasi_breakdown,
                 ]);
 
                 // dd($tire_1->tire_running);
@@ -331,7 +340,7 @@ class TireRunningController extends Controller
             'hm' => "required",
             'rtd' => "required",
             "start_breakdown" => "required",
-            "status_breakdown" => "required",
+            "status_schedule" => "required",
             "lokasi_breakdown" => "required",
             "pic" => "required",
             "pic_man_power" => "required"
@@ -418,7 +427,11 @@ class TireRunningController extends Controller
             "hm_tire_retread" => $tire->lifetime_retread_hm,
             "rtd" => $request->rtd,
             "start_date" => $request->start_date,
-            "end_date" => $request->end_date
+            "end_date" => $request->end_date,
+            "start_breakdown" => $request->start_breakdown,
+            "status_schedule" => $request->status_schedule,
+            "lokasi_breakdown" => $request->lokasi_breakdown,
+
         ]);
 
         $tirerunning->delete();

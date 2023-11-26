@@ -32,7 +32,10 @@ class HistoryTireMovement extends Model
         "hm_tire_repair",
         "rtd",
         "start_date",
-        "end_date"
+        "end_date",
+        "start_breakdown",
+        "status_schedule",
+        "lokasi_breakdown",
     ];
 
     public function tire_number()
