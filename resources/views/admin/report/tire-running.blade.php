@@ -17,7 +17,7 @@
             <div class="table-top">
                 <div class="search-set">
                     <div class="search-path">
-                        <a class="btn btn-filter {{ $tire_pattern || $tire_manufacture || $tire_size ? ' setclose' : '' }}"
+                        <a class="btn btn-filter {{ $tire_pattern || $tire_manufacture || $tire_size || $tire_status ? ' setclose' : '' }}"
                             id="filter_search">
                             <img src="assets/img/icons/filter.svg" alt="img">
                             <span><img src="assets/img/icons/closes.svg" alt="img"></span>
@@ -30,7 +30,7 @@
             </div>
             <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs"
-                {{ $tire_pattern || $tire_manufacture || $tire_size || $type_pattern ? 'style=display:block' : '' }}>
+                {{ $tire_pattern || $tire_manufacture || $tire_size || $type_pattern || $tire_status ? 'style=display:block' : '' }}>
                 <div class="card-body pb-0">
                     <form action="">
                         <div class="row">
@@ -64,6 +64,17 @@
                                         @foreach ($tire_sizes as $item)
                                             <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
                                                 {{ $item->size }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <select class="select" name="tire_status">
+                                        <option value="">Choose Satatus</option>
+                                        @foreach ($tire_statuses as $item)
+                                            <option value="{{ $item->status }}" @selected($item->status == $tire_status)>
+                                                {{ $item->status }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -121,7 +132,7 @@
         <script type="text/javascript">
             $(function() {
                 var table = $('table.data-table').DataTable({
-                    dom: 'Bfrtip',
+                    dom: 'Bfrtlip',
                     buttons: [{
                             extend: 'excel',
                             text: 'Export Excel',
