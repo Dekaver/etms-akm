@@ -7,6 +7,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TireTargetKmController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TireManufactureController;
@@ -69,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tirestatus', TireStatusController::class)->middleware('permission:TIRE_STATUS');
     Route::resource('tiredamage', TireDamageController::class)->middleware('permission:TIRE_DAMAGE');
     Route::resource('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
+    Route::resource('tiretargetkm', TireTargetKmController::class)->middleware('permission:TIRE_TARGETKM');
 
 
 
