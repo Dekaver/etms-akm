@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            width: 90px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 150px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -91,7 +91,7 @@
 
     <div class="card ">
         <div class="card-body">
-            <h5 class="mb-3">Tire Movement Update</h5>
+            <h5 class="mb-3" id="widget">Tire Movement Update</h5>
             <div class="row d-sm-none">
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">ID</p>
@@ -186,7 +186,7 @@
                                             data-serial_number="{{ $tire->serial_number }}"
                                             data-rtd="{{ $tire->rtd }}" data-hm="{{ $tire->lifetime_hm }}"
                                             data-km="{{ $tire->lifetime_km }}"
-                                            data-position="{{ $position }}">SWITCH</a>
+                                            data-position="{{ $position }}">ROTATION</a>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-danger btn-sm dropdown-toggle"
                                                 data-bs-toggle="dropdown" aria-haspopup="true"
@@ -310,7 +310,7 @@
                                     alt="">
                             </div>
                             <div class="col-sm-2">
-                                <x-tire-movement :position="++$position" :tire="$tire_running" />
+                                <x-tire-movement :position="$position" :tire="$tire_running" />
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
@@ -516,7 +516,7 @@
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                         <label for="">Unit HM</label>
                                         <input type="text" class="form-control" name="hm_actual"
-                                            value="{{ $unit->hm }}" required>
+                                            value="" required>
                                         <div class="text-danger d-none" id="display_error_hm">
                                             <p>HM Tidak Boleh kurang dari sebelumnya</p>
                                         </div>
@@ -525,7 +525,7 @@
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                         <label for="">Unit KM</label>
                                         <input type="text" class="form-control" name="km_actual"
-                                            value="{{ $unit->km }}" required>
+                                            value="" required>
                                         <div class="text-danger d-none" id="display_error_hm">
                                             <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                         </div>
@@ -578,22 +578,20 @@
                                         <div class="invalid-feedback">Please fill a start breakdown.</div>
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
-                                        <label for="">Status Breakdown</label>
-                                        <select name="status_breakdown" id="" required class="form-control">
-                                            <option value="">Pilih Status Breakdown</option>
-                                            <option value="Rotasi">Rotasi</option>
-                                            <option value="Matching">Matching</option>
-                                            <option value="Backlogrepair">Backlogrepair</option>
+                                        <label for="">Status Schedule</label>
+                                        <select name="status_schedule" required class="form-control">
+                                            <option value="">Pilih Status Schedule</option>
+                                            <option value="Schedule">Schedule</option>
                                             <option value="Unschedule">Unschedule</option>
                                         </select>
-                                        <div class="invalid-feedback">Please fill a status breakdown.</div>
+                                        <div class="invalid-feedback">Please fill a status schedule.</div>
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                         <label for="">Lokasi Breakdown</label>
-                                        <select name="lokasi_breakdown" id="" required class="form-control">
+                                        <select name="lokasi_breakdown" required class="form-control">
                                             <option value="">Pilih Lokasi</option>
-                                            <option value="Rotasi">Workshop</option>
-                                            <option value="Matching">Lapangan</option>
+                                            <option value="Workshop">Workshop</option>
+                                            <option value="Lapangan">Lapangan</option>
                                         </select>
                                         <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
                                     </div>
@@ -671,7 +669,7 @@
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Unit HM Remove</label>
                                 <input type="text" class="form-control" name="hm_actual"
-                                    value="{{ $unit->hm }}" required>
+                                    value="0" required>
                                 <div class="text-danger d-none" id="display_error_hm">
                                     <p>HM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
@@ -680,7 +678,7 @@
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Unit KM Remove</label>
                                 <input type="text" class="form-control" name="km_actual"
-                                    value="{{ $unit->km }}" required>
+                                    value="0" required>
                                 <div class="text-danger d-none" id="display_error_hm">
                                     <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
@@ -729,22 +727,20 @@
                                 <div class="invalid-feedback">Please fill a start breakdown.</div>
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
-                                <label for="">Status Breakdown</label>
-                                <select name="status_breakdown" id="" required class="form-control">
-                                    <option value="">Pilih Status Breakdown</option>
-                                    <option value="Rotasi">Rotasi</option>
-                                    <option value="Matching">Matching</option>
-                                    <option value="Backlogrepair">Backlogrepair</option>
+                                <label for="">Status Schedule</label>
+                                <select name="status_schedule" required class="form-control">
+                                    <option value="">Pilih Status Schedule</option>
+                                    <option value="Schedule">Schedule</option>
                                     <option value="Unschedule">Unschedule</option>
                                 </select>
-                                <div class="invalid-feedback">Please fill a status breakdown.</div>
+                                <div class="invalid-feedback">Please fill a status schedule.</div>
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Lokasi Breakdown</label>
-                                <select name="lokasi_breakdown" id="" required class="form-control">
+                                <select name="lokasi_breakdown" required class="form-control">
                                     <option value="">Pilih Lokasi</option>
-                                    <option value="Rotasi">Workshop</option>
-                                    <option value="Matching">Lapangan</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Lapangan">Lapangan</option>
 
                                 </select>
                                 <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
@@ -835,6 +831,27 @@
                                 <input type="datetime-local" name="end_date" class="form-control"
                                     value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time end.</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                <label for="">Status Schedule</label>
+                                <select name="status_schedule" required class="form-control">
+                                    <option value="">Pilih Status Schedule</option>
+                                    <option value="Schedule">Schedule</option>
+                                    <option value="Unschedule">Unschedule</option>
+                                </select>
+                                <div class="invalid-feedback">Please fill a status schedule.</div>
+                            </div>
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                <label for="">Lokasi Breakdown</label>
+                                <select name="lokasi_breakdown" required class="form-control">
+                                    <option value="">Pilih Lokasi</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Lapangan">Lapangan</option>
+
+                                </select>
+                                <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
                             </div>
                         </div>
                         <div class="row">
@@ -1000,18 +1017,19 @@
                         $("#km_tire_switch_2").html(tire_2.data("km"));
                         $("#hm_tire_switch_2").html(tire_2.data("hm"));
 
-                        let action = ui.draggable.data('action');
 
 
                         $('#switchTireModal').find('input[name="tire_position_switch_1"]').val(tire_1.data(
                             "position"));
                         $('#switchTireModal').find('select[name="tire_position_switch_2"]').val(tire_2.data(
                             "position"));
-                        $('#switchTireModal').find('input[name="tire_id_1"]').val(tire_1.data("id"));
+                        $('#switchTireModal').find('input[name="tire_id_1"]').val(tire_1.data("tire_id"));
                         $('#switchTireModal').find('input[name="tire_id_2"]').val(tire_2.data("id"));
                         $('#switchTireModal').find('input[name="rtd_1"]').val(tire_1.data("rtd"));
                         $('#switchTireModal').find('input[name="rtd_2"]').val(tire_2.data("rtd"));
+                        console.log(tire_1.data());
 
+                        let action = ui.draggable.data('action');
                         $('#switchTireModal').find('form').attr('action', action);
                         myModalSwitch.show();
                     }
@@ -1123,31 +1141,35 @@
                     modal.find(`select option:contains('${status}')`).attr('selected', true);
                 }
                 var serial_number = button.data('serial_number')
+                if (serial_number) {
+                    modal.find('input[name="serial_number"]').val(serial_number);
+                    $("#tire_serial_number_remove").html(serial_number);
+                }
+
                 var action = button.data('action')
+                if (action) {
+                    modal.find('form').attr('action', action);
+                }
 
-
-
-                modal.find('input[name="serial_number"]').val(serial_number);
-                $("#tire_serial_number_remove").html(serial_number);
-                modal.find('form').attr('action', action);
             })
 
-            document.getElementById('switchTireModal').addEventListener('show.bs.modal', function(event) {
-                let button = $(event.relatedTarget);
-                let modal = $(event.target);
-                $("#serial_number_switch_1").html(button.data("serial_number"));
+            // document.getElementById('switchTireModal').addEventListener('show.bs.modal', function(event) {
+            //     let button = $(event.relatedTarget);
+            //     let modal = $(event.target);
+            //     $("#serial_number_switch_1").html(button.data("serial_number"));
 
-                $("#rtd_switch_1").html(button.data("rtd"));
-                $("#km_tire_switch_1").html(button.data("km"));
-                $("#hm_tire_switch_1").html(button.data("hm"));
+            //     $("#rtd_switch_1").html(button.data("rtd"));
+            //     $("#km_tire_switch_1").html(button.data("km"));
+            //     $("#hm_tire_switch_1").html(button.data("hm"));
 
-                modal.find('input[name="tire_position_switch_1"]').val(button.data(
-                    "position"));
-                modal.find('input[name="tire_id_1"]').val(button.data("tire_id"));
-                modal.find('input[name="rtd_1"]').val(button.data("rtd"));
+            //     modal.find('input[name="tire_position_switch_1"]').val(button.data(
+            //         "position"));
+            //     modal.find('input[name="tire_id_1"]').val(button.data("tire_id"));
+            //     modal.find('input[name="rtd_1"]').val(button.data("rtd"));
 
-                modal.find('form').attr('action', button.data('action'));
-            })
+            //     modal.find('form').attr('action', button.data('action'));
+            // })
+            $('#widget').draggable();
         </script>
         <script>
             $(document).ready(function() {
