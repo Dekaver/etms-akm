@@ -63,10 +63,16 @@ class SiteController extends Controller
                         ->where("company_id", $company->id);
                 }),
             ],
+            'jarak_hauling' => 'required',
+            'rit_per_hari' => 'required',
+            'total_jarak' =>'required',
         ]);
 
         Site::create([
-            "name" => $request->site,
+            "name" => $request->name,
+            "jarak_hauling" => $request->jarak_hauling,
+            "rit_per_hari" => $request->rit_per_hari,
+            "total_jarak" => $request->total_jarak,
             "company_id" => $company->id,
 
         ]);
@@ -104,10 +110,16 @@ class SiteController extends Controller
                 Rule::unique("sites")->ignore($site->id)->where(function ($query) use ($company) {
                     return $query->where("company_id", $company->id);
                 })
-            ]
+            ],
+            'jarak_hauling' =>'required',
+            'rit_per_hari' =>'required',
+            'total_jarak' =>'required',
         ]);
 
-        $site->name = $request->site;
+        $site->name = $request->name;
+        $site->jarak_hauling = $request->jarak_hauling;
+        $site->rit_per_hari = $request->rit_per_hari;
+        $site->total_jarak = $request->total_jarak;
         $site->save();
 
         return redirect()->back()->with("success", "Update Site");

@@ -47,6 +47,9 @@
                         <tr>
                             <th>No</th>
                             <th>Site</th>
+                            <th>Jarak Hauling</th>
+                            <th>Rit Per Hari</th>
+                            <th>Total Jarak</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -72,7 +75,25 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Name<span class="manitory">*</span></label>
-                                    <input type="text" name="site">
+                                    <input type="text" name="name">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Jarak Hauling (KM)<span class="manitory">*</span></label>
+                                    <input type="number" class="form-control" name="jarak_hauling">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Rit per hari<span class="manitory">*</span></label>
+                                    <input type="number" class="form-control" name="rit_per_hari">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Total jarak KM<span class="manitory">*</span></label>
+                                    <input type="number" class="form-control" name="total_jarak" readonly>
                                 </div>
                             </div>
                         </div>
@@ -103,6 +124,18 @@
                             name: 'name'
                         },
                         {
+                            data: 'jarak_hauling',
+                            name: 'jarak_hauling'
+                        },
+                        {
+                            data: 'rit_per_hari',
+                            name: 'rit_per_hari'
+                        },
+                        {
+                            data: 'total_jarak',
+                            name: 'total_jarak'
+                        },
+                        {
                             data: 'action',
                             name: 'action',
                             orderable: false,
@@ -127,15 +160,27 @@
                         method: "GET",
                         url: `{{ route('site.index') }}/${id}/edit`
                     }).done(function(response) {
-                        modal.find('input[name="site"]').val(response.name);
+                        modal.find('input[name="name"]').val(response.name);
+                        modal.find('input[name="jarak_hauling"]').val(response.jarak_hauling);
+                        modal.find('input[name="rit_per_hari"]').val(response.rit_per_hari);
+                        modal.find('input[name="total_jarak"]').val(response.total_jarak);
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('site.index') }}/${id}`)
                 }
             });
+            $("#form-modal").find('input[name="jarak_hauling"]').change(total_jarak);
+            $("#form-modal").find('input[name="rit_per_hari"]').change(total_jarak);
+
             $('#form-modal').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
             });
+            function total_jarak(){
+                var jarak_hauling = $('#form-modal').find('input[name="jarak_hauling"]').val();
+                var rit_per_hari = $('#form-modal').find('input[name="rit_per_hari"]').val();
+                var total_jarak = jarak_hauling * rit_per_hari;
+                $('#form-modal').find('input[name="total_jarak"]').val(total_jarak);
+            }
         </script>
     @endpush
 </x-app-layout>
