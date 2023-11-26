@@ -51,6 +51,12 @@
             <h3 class="h2 mb-3"><i class="fas fa-exclamation-circle"></i> @yield('message')</h3>
             <p class="h4 font-weight-normal">@yield('description')</p>
             <a href="{{ url('dashboard') }}" class="btn btn-primary">BACK TO HOME</a>
+            <form action="{{ route('logout') }}" id="logout-form" method="post">
+                @csrf
+                <a class="" onclick="document.getElementById('logout-form').submit()">
+                    Logout
+                </a>
+            </form>
         </div>
     </div>
     <!-- /Main Wrapper -->
