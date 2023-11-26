@@ -63,10 +63,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required','string','max:255'],
+            'email' => ['required','string', 'email','max:255', 'unique:users'],
+            'password' => ['required','string','min:8',],
+        ]);
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->new_password),
+            'password' => bcrypt($request->password),
         ]);
 
         return redirect()->back()->with("success", "Created New User");
@@ -120,7 +125,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $permissions = Permission::all();
         $roles = Role::all();
-        $sites = Site::where("company_id", $user->company_id)->get();
+        $sites = Site::where("company_id", auth()->user()->company->id)->get();
 
         return view("admin.users.permission", compact('user', 'permissions', 'roles', 'sites'));
     }
@@ -131,11 +136,15 @@ class UserController extends Controller
         $user->syncRoles([$request->role]);
         $user->syncPermissions($request->permission);
         if ($request->site_id) {
+            $user->company_id = auth()->user()->company->id;
+            $user->save();
+
             $user->userSite()->delete();
             $user->userSite()->create([
                 "site_id" => $request->site_id,
             ]);
         }
+
 
         return redirect()->back()->with("success", "Update Permission User");
     }
