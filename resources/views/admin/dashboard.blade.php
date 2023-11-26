@@ -100,7 +100,9 @@
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
                                             <h4>{{ (int) $install_new }}</h4>
-                                            <h5>NEW</h5>
+                                            <a href="/report-tire-running?tire_status=NEW">
+                                                <h5>NEW</h5>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +113,9 @@
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
                                             <h4>{{ (int) $install_spare }}</h4>
-                                            <h5>SPARE</h5>
+                                            <a href="/report-tire-running?tire_status=SPARE">
+                                                <h5>SPARE</h5>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +126,9 @@
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
                                             <h4>{{ (int) $install_repair }}</h4>
-                                            <h5>REPAIR</h5>
+                                            <a href="/report-tire-running?tire_status=REPAIR">
+                                                <h5>REPAIR</h5>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
