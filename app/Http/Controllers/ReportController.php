@@ -362,8 +362,71 @@ class ReportController extends Controller
 
         $returning["unschedule"] = HistoryTireMovement::where("status_schedule", 'Unschedule')->where('company_id', auth()->user()->company->id)->count();
 
+        $tire_running = TireMaster::where("company_id", auth()->user()->company->id)
+            ->whereIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))->get();
+        $days["running_days"] = [
+            "day1" => 0,
+            "day2" => 0,
+            "day3" => 0,
+            "day4" => 0,
+        ];
+        foreach ($tire_running as $key => $tire) {
+            switch ($tire) {
+                case $tire->count_day <= 7 && $tire->count_day > 0:
+                    $days["running_days"]["day1"] += 1;
+                    break;
 
-        return view("admin.report.activity", [...$returning, ...$filter]);
+                case $tire->count_day <= 30 && $tire->count_day > 7:
+                    $days["running_days"]["day2"] += 1;
+                    break;
+
+                case $tire->count_day <= 60 && $tire->count_day > 30:
+                    $days["running_days"]["day3"] += 1;
+                    break;
+
+                case $tire->count_day > 60 :
+                    $days["running_days"]["day3"] += 1;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        $tire_stok = TireMaster::where("company_id", auth()->user()->company->id)
+            ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))->get();
+
+        $days["stok_days"] = [
+            "day1" => 0,
+            "day2" => 0,
+            "day3" => 0,
+            "day4" => 0,
+        ];
+        foreach ($tire_stok as $key => $tire) {
+            switch ($tire) {
+                case $tire->count_day <= 7 && $tire->count_day > 0:
+                    $days["stok_days"]["day1"] += 1;
+                    break;
+
+                case $tire->count_day <= 30 && $tire->count_day > 7:
+                    $days["stok_days"]["day2"] += 1;
+                    break;
+
+                case $tire->count_day <= 60 && $tire->count_day > 30:
+                    $days["stok_days"]["day3"] += 1;
+                    break;
+
+                case $tire->count_day > 60 :
+                    $days["stok_days"]["day3"] += 1;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+
+        return view("admin.report.activity", [...$returning, ...$filter, ...$days]);
     }
 
 
