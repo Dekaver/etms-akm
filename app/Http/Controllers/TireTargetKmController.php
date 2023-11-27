@@ -37,6 +37,9 @@ class TireTargetKmController extends Controller
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
                                 </a>
+                                <a class='me-3 text-warning' href='" . route('tiretargetkm.show', $row->id) . "'>
+                                    <img src='assets/img/icons/eye.svg' alt='img'>
+                                </a>
                                 <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
                                                     data-bs-target='#deleteModal' data-id='$row->id'
                                                     data-action='" . route('tiretargetkm.destroy', $row->id) . "'

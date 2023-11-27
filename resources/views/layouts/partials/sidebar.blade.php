@@ -66,6 +66,10 @@
                             <li><a href="/site" class="{{ Request::routeIs('site.*') ? 'active' : '' }}">Site</a>
                             </li>
                         @endcan
+                        @can('TIRE_TARGETKM')
+                            <li><a href="/tiretargetkm" class="{{ Request::routeIs('tiretargetkm.*') ? 'active' : '' }}">Target KM</a>
+                            </li>
+                        @endcan
 
                         @can('UNIT_STATUS')
                             <li><a href="/unitstatus" class="{{ Request::routeIs('unitstatus.*') ? 'active' : '' }}">Unit
