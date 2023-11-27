@@ -207,6 +207,63 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <h5>Tire Stok</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>1 Minggu</th>
+                                    <th>1 Bulan</th>
+                                    <th>2 Bulan</th>
+                                    <th>>2 Bulan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ $stok_days["day1"] }}</td>
+                                    <td>{{ $stok_days["day2"] }}</td>
+                                    <td>{{ $stok_days["day3"] }}</td>
+                                    <td>{{ $stok_days["day4"] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <h5>Tire Install</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>1 Minggu</th>
+                                    <th>1 Bulan</th>
+                                    <th>2 Bulan</th>
+                                    <th>>2 Bulan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ $running_days["day1"] }}</td>
+                                    <td>{{ $running_days["day2"] }}</td>
+                                    <td>{{ $running_days["day3"] }}</td>
+                                    <td>{{ $running_days["day4"] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- <div class="d-none row">
             <div class="col-xl-12">
                 <div class="card o-hidden">

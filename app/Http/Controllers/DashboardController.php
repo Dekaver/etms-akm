@@ -7,6 +7,7 @@ use App\Models\Site;
 use App\Models\TireManufacture;
 use App\Models\TireMaster;
 use App\Models\TirePattern;
+use App\Models\TireRunning;
 use App\Models\TireSize;
 use App\Models\UnitModel;
 use Carbon\Carbon;
@@ -79,12 +80,74 @@ class DashboardController extends Controller
         // SCHEDULE
         $schedule = HistoryTireMovement::where("status_schedule", 'Schedule')->where('company_id', auth()->user()->company->id)->count();
 
+        // UNSCHEDULE
         $unschedule = HistoryTireMovement::where("status_schedule", 'Unschedule')->where('company_id', auth()->user()->company->id)->count();
 
-        // UNSCHEDULE
+        // $tire_running = TireRunning::where("company_id", auth()->user()->company->id)->get();
+        $tire_running = TireMaster::where("company_id", auth()->user()->company->id)
+            ->whereIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))->get();
+        $running_days = [
+            "day1" => 0,
+            "day2" => 0,
+            "day3" => 0,
+            "day4" => 0,
+        ];
+        foreach ($tire_running as $key => $tire) {
+            switch ($tire) {
+                case $tire->count_day <= 7 && $tire->count_day > 0:
+                    $running_days["day1"] += 1;
+                    break;
 
+                case $tire->count_day <= 30 && $tire->count_day > 7:
+                    $running_days["day2"] += 1;
+                    break;
 
-        return view("admin.dashboard", compact("stok_new", "stok_repair", "stok_spare", "install_new", "install_repair", "install_spare", "scrap", 'repairing', 'schedule', 'unschedule'));
+                case $tire->count_day <= 60 && $tire->count_day > 30:
+                    $running_days["day3"] += 1;
+                    break;
+
+                case $tire->count_day > 60 :
+                    $running_days["day3"] += 1;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        $tire_stok = TireMaster::where("company_id", auth()->user()->company->id)
+            ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))->get();
+
+        $stok_days = [
+            "day1" => 0,
+            "day2" => 0,
+            "day3" => 0,
+            "day4" => 0,
+        ];
+        foreach ($tire_stok as $key => $tire) {
+            switch ($tire) {
+                case $tire->count_day <= 7 && $tire->count_day > 0:
+                    $stok_days["day1"] += 1;
+                    break;
+
+                case $tire->count_day <= 30 && $tire->count_day > 7:
+                    $stok_days["day2"] += 1;
+                    break;
+
+                case $tire->count_day <= 60 && $tire->count_day > 30:
+                    $stok_days["day3"] += 1;
+                    break;
+
+                case $tire->count_day > 60 :
+                    $stok_days["day3"] += 1;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        return view("admin.dashboard", compact("stok_new", "stok_repair", "stok_spare", "install_new", "install_repair", "install_spare", "scrap", 'repairing', 'schedule', 'unschedule', 'running_days', 'stok_days'));
     }
 
     /**
