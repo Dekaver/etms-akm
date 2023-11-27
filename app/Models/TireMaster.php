@@ -83,6 +83,11 @@ class TireMaster extends Model
     {
         $tire_size = $this->tire_size;
         $site = $this->site;
+        if ($site == null) {
+            return Attribute::make(
+                get: fn($value) => NULL,
+            );
+        }
         $total_jarak = (int) $site->total_jarak;
         $km_per_mil = $tire_size->target_km->where("site_id", $site->id)->pluck("rtd_target_km")->first();
         if($total_jarak && $km_per_mil){

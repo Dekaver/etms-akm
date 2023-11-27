@@ -1732,7 +1732,7 @@ class GrafikController extends Controller
         $data['value'] = [];
         $data['max'] = 0;
         // foreach ($site as $key => $item) {
-        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm),0) as avg_lifetime'));
+        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm),0) as avg_lifetime_hm'), DB::raw('round(AVG(tires.lifetime_km),0) as avg_lifetime_km'));
         $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
         $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
         $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');
@@ -1775,22 +1775,28 @@ class GrafikController extends Controller
         });
 
         $tire = $tire
-            ->whereHas('tire_status', function ($query) {
-                $query->where('status', 'SCRAP');
-            })
             ->groupBy('tire_patterns.type_pattern', 'tire_sizes.size', 'tire_manufactures.name', 'tire_patterns.pattern')
             ->orderBy('tire_patterns.type_pattern', 'ASC')
             ->get();
-        // dd($tire);
-        foreach ($tire as $key => $value) {
-            // $data['type_pattern'][] = $value->type_pattern;
-            $data['type_brand_size'][] = $value->type_pattern . '-' . $value->name . '-' . $value->pattern;
-            $data['value'][] = $value->avg_lifetime;
+
+        $returning = [];
+        $returning["value"][0]["name"] = "KM";
+        $returning["value"][0]["type"] = "bar";
+        $returning["value"][1]["name"] = "HM";
+        $returning["value"][1]["type"] = "line";
+        foreach ($tire as $key => $item) {
+            $returning["value"][0]["data"][] = $item->avg_lifetime_km;
+            $returning["value"][1]["data"][] = $item->avg_lifetime_hm;
+            $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
         }
 
-        // $bulat = pow(10, strlen($max) - 1);
-        // $data['max'] = ceil($max / $bulat) * $bulat;
-        return $data;
+        $tire = $tire->map(function ($tire) {
+            return [
+                'type_pattern' => $tire->type_pattern,
+                'size' => $tire->size,
+            ];
+        });
+        return $returning;
     }
 
     // AKM

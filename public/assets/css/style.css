@@ -970,9 +970,9 @@ strong {
   display: none;
 }
 
-.apexcharts-toolbar {
+/* .apexcharts-toolbar {
   display: none !important;
-}
+} */
 
 #sales_charts,
 .chart-set {
