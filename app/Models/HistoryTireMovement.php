@@ -40,7 +40,7 @@ class HistoryTireMovement extends Model
 
     public function tire_number()
     {
-        return $this->belongsTo(Tiremaster::class, "tire", "serial_number");
+        return $this->belongsTo(TireMaster::class, "tire", "serial_number");
     }
 
     public function site()
