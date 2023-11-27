@@ -30,6 +30,10 @@ class TireSize extends Model
         return $this->hasMany(TireMaster::class, "tire_size_id");
     }
 
+    public function target_km(){
+        return $this->hasMany(TireTargetKm::class, "tire_size_id");
+    }
+
     public function scrapCount(): Attribute
     {
         $scrap = TireStatus::where("status", "SCRAP")->first();
