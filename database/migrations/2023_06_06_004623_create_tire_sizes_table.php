@@ -17,8 +17,7 @@ return new class extends Migration {
             $table->string("size");
             $table->integer("otd");
             $table->integer("recomended_pressure");
-            $table->integer("target_lifetime_hm");
-            $table->integer("target_lifetime_km");
+            $table->integer("target_lifetime");
             $table->integer("price")->default(0);
             $table->timestamps();
             $table->unique(["company_id", "size", "tire_pattern_id"]);

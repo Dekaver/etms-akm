@@ -110,8 +110,6 @@
                             <th>Type Pattern</th>
                             <th>OTD</th>
                             <th>Rec. Pressure</th>
-                            <th>Target Lifetime HM</th>
-                            <th>Target Lifetime KM</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -169,14 +167,14 @@
                                 <div class="form-group">
                                     <label>Target Lifetime HM</label>
                                     <input type="number" min="0" value="0" class="form-control" name="target_lifetime_hm"
-                                        required>
+                                        disabled>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Target Lifetime KM</label>
                                     <input type="number" min="0" value="0" class="form-control" name="target_lifetime_km"
-                                        required>
+                                        disabled>
                                 </div>
                             </div>
                             {{-- <div class="col-lg-4 col-sm-6 col-6">
@@ -234,14 +232,6 @@
                         {
                             data: 'recomended_pressure',
                             name: 'recomended_pressure'
-                        },
-                        {
-                            data: 'target_lifetime_hm',
-                            name: 'target_lifetime_hm'
-                        },
-                        {
-                            data: 'target_lifetime_km',
-                            name: 'target_lifetime_km'
                         },
                         {
                             data: 'action',

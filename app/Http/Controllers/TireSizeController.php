@@ -90,8 +90,8 @@ class TireSizeController extends Controller
             "tire_pattern_id" => "required|exists:tire_patterns,id",
             "otd" => "required",
             "recomended_pressure" => "required",
-            "target_lifetime_hm" => "required",
-            "target_lifetime_km" => "required"
+            "target_lifetime_hm" => "nullable",
+            "target_lifetime_km" => "nullable"
         ]);
 
         TireSize::create([
@@ -100,8 +100,8 @@ class TireSizeController extends Controller
             'tire_pattern_id' => $request->tire_pattern_id,
             'otd' => $request->otd,
             'recomended_pressure' => $request->recomended_pressure,
-            'target_lifetime_hm' => $request->target_lifetime_hm,
-            'target_lifetime_km' => $request->target_lifetime_km,
+            // 'target_lifetime_hm' => $request->target_lifetime_hm,
+            // 'target_lifetime_km' => $request->target_lifetime_km,
         ]);
 
         return redirect()->back()->with("success", "Created Tire Size");
@@ -143,15 +143,15 @@ class TireSizeController extends Controller
             "tire_pattern_id" => "required|exists:tire_patterns,id",
             "otd" => "required",
             "recomended_pressure" => "required",
-            "target_lifetime_hm" => "required",
-            "target_lifetime_km" => "required",
+            "target_lifetime_hm" => "nullable",
+            "target_lifetime_km" => "nullable",
         ]);
         $tiresize->size = $request->size;
         $tiresize->tire_pattern_id = $request->tire_pattern_id;
         $tiresize->otd = $request->otd;
         $tiresize->recomended_pressure = $request->recomended_pressure;
-        $tiresize->target_lifetime_hm = $request->target_lifetime_hm;
-        $tiresize->target_lifetime_km = $request->target_lifetime_km;
+        // $tiresize->target_lifetime_hm = $request->target_lifetime_hm;
+        // $tiresize->target_lifetime_km = $request->target_lifetime_km;
         $tiresize->save();
 
         return redirect()->back()->with("success", "Updated Tire Size");
