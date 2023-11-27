@@ -116,6 +116,9 @@
                             <li><a href="/report-tire-activity"
                                     class="{{ Request::routeIs('report.tireactivity') ? 'active' : '' }}">Report Tire
                                     Activity</a></li>
+                            <li><a href="/report-tire-target-km"
+                                    class="{{ Request::routeIs('report.tiretargetkm') ? 'active' : '' }}">Report Tire
+                                    Target KM</a></li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"
