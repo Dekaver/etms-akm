@@ -10,6 +10,7 @@ use App\Models\TirePattern;
 use App\Models\TireRunning;
 use App\Models\TireSize;
 use App\Models\TireStatus;
+use App\Models\TireTargetKm;
 use App\Models\UnitModel;
 use Auth;
 use Carbon\Carbon;
@@ -363,5 +364,17 @@ class ReportController extends Controller
 
 
         return view("admin.report.activity", [...$returning, ...$filter]);
+    }
+
+
+    public function tireTargetKm(Request $request)
+    {
+        $list_tire_target_km = TireTargetKm::where("company_id", auth()->user()->company->id)->get();
+        $tiretargetkm = null;
+
+        if ($id_tire_target_km =$request->query('tire_target_km_id'))
+            $tiretargetkm = TireTargetKm::find($id_tire_target_km);
+
+        return view("admin.report.tire-target-km", compact('tiretargetkm', 'list_tire_target_km'));
     }
 }
