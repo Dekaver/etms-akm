@@ -28,7 +28,7 @@ class HistoryTireMovementController extends Controller
         $tirestatus = TireStatus::all();
 
         if ($request->ajax()) {
-            $data = TireMaster::select("tires.*", "tire_sizes.size", "sites.name as site", "tire_statuses.status", "tire_patterns.pattern", "tire_compounds.compound")
+            $data = TireMaster::select("tires.*", "tire_sizes.size", "sites.name as site_name", "tire_statuses.status", "tire_patterns.pattern", "tire_compounds.compound")
                 ->leftJoin("sites", "tires.site_id", "=", "sites.id")
                 ->leftJoin("tire_statuses", "tires.tire_status_id", "=", "tire_statuses.id")
                 ->leftJoin("tire_sizes", "tires.tire_size_id", "=", "tire_sizes.id")
