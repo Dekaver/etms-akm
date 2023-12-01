@@ -78,7 +78,7 @@ class TirePatternController extends Controller
                         ->where("company_id", $company->id);
                 }),
             ],
-            "type_pattern" => "required|exists:tire_patterns,type_pattern",
+            "type_pattern" => "required",
             "tire_manufacture_id" => "required|exists:tire_manufactures,id",
         ]);
         TirePattern::create([
@@ -125,7 +125,7 @@ class TirePatternController extends Controller
                         ->where("company_id", $company->id);
                 }),
             ],
-            "type_pattern" => "required|exists:tire_patterns,type_pattern",
+            "type_pattern" => "required",
             "tire_manufacture_id" => "required|exists:tire_manufactures,id",
         ]);
         $tirepattern->pattern = $request->pattern;
