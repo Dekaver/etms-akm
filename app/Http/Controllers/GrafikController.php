@@ -1698,12 +1698,9 @@ class GrafikController extends Controller
 
     public function tireLifetimeAverage(Request $request)
     {
+        $company = auth()->user()->company;
         $tahun = $request->query('tahun');
-        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $name = $request->query('site');
-        } else {
-            $name = $request->query('site') ?? auth()->user()->site->name;
-        }
+        $name = $request->query('site') ?? auth()->user()->site->name;
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
         $type_pattern = $request->query('type_pattern');
@@ -1712,7 +1709,7 @@ class GrafikController extends Controller
         $month = $request->query('month');
         $week = $request->query('week');
 
-        $site = Site::all();
+        $site = Site::where("company_id", $company->id)->get();
 
         $ranges = [
             1 => [1, 7],
@@ -1745,6 +1742,7 @@ class GrafikController extends Controller
                 $q->where('name', $name);
             });
         }
+        $tire = $tire->whereIn("tires.id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id));
 
         if ($tahun) {
             if ($month) {
