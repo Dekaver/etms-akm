@@ -124,7 +124,6 @@ class DailyInspectController extends Controller
             'position' => 'required',
         ]);
         $unit = $dailyinspect;
-
         $cekdailyinspect = DailyInspect::where("unit_id", $unit->id)->whereDate("date", $request->date)->first();
 
         if ($cekdailyinspect) {
@@ -170,11 +169,13 @@ class DailyInspectController extends Controller
                 $tire->save();
             }
 
-            if ($request->hm_actual > $unit->hm)
+
+            if ($request->hm > $unit->hm)
+                $unit->hm = (int) $request->hm;
+
+            if ($request->km > $unit->km)
                 $unit->km = (int) $request->km;
 
-            if ($request->km_actual > $unit->km)
-                $unit->hm = (int) $request->hm;
             $unit->save();
         }
         // end update lifetime
