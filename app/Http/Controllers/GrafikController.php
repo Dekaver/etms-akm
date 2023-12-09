@@ -1729,7 +1729,7 @@ class GrafikController extends Controller
         $data['value'] = [];
         $data['max'] = 0;
         // foreach ($site as $key => $item) {
-        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm),0) as avg_lifetime_hm'), DB::raw('round(AVG(tires.lifetime_km),0) as avg_lifetime_km'));
+        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm - history_tire_movements.hm_tire),0) as avg_lifetime_hm'), DB::raw('round(AVG(tires.lifetime_km - history_tire_movements.km_tire),0) as avg_lifetime_km'));
         $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
         $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
         $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');
@@ -1869,9 +1869,10 @@ class GrafikController extends Controller
             //     $q->on('sl.tire', '=', 'tires.serial_number');
             // });
             // $history = $history->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
-            $history = Tire::where('tires.company_id', $company->id)->join('history_tire_movements', function ($join) use ($status) {
+            $history = Tire::where('tires.company_id', $company->id)->join('history_tire_movements', function ($join) use ($status, $company) {
                 $join->on('tires.serial_number', '=', 'history_tire_movements.tire')
                     ->where('history_tire_movements.process', '=', 'INSTALL')
+                    ->where('history_tire_movements.company_id', $company->id)
                     ->where('history_tire_movements.status', '=', $status);
             });
 
