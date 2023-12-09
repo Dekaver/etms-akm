@@ -107,8 +107,8 @@ class TireMasterController extends Controller
                             'required',
                             'string',
                             'max:255',
-                            Rule::unique('tires')->where(function ($query) use ($serial_number) {
-                                return $query->whereRaw('LOWER(serial_number) = ?', [strtolower($serial_number)]);
+                            Rule::unique('tires')->where(function ($query) use ($serial_number, $company) {
+                                return $query->whereRaw('LOWER(serial_number) = ?', [strtolower($serial_number)])->where('company_id', $company->id);
                             }),
                         ],
                     ]);
@@ -133,8 +133,8 @@ class TireMasterController extends Controller
                     ]);
                 }
 
-                return redirect()->back()->with("success", "Created Tire Master");
             });
+            return redirect()->back()->with("success", "Created Tire Master");
         } catch (\Throwable $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
