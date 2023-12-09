@@ -15,6 +15,8 @@ class DailyInspect extends Model
         "tire_id",
         "unit_id",
         "tire_damage_id",
+        "km_unit",
+        "hm_unit",
         "rtd",
         "position",
         "location",

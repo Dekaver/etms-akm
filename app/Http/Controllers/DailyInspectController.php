@@ -207,6 +207,8 @@ class DailyInspectController extends Controller
                     "remark" => $request->remark[$position],
                     "lifetime_hm" => $tire->lifetime_hm,
                     "lifetime_km" => $tire->lifetime_km,
+                    "km_unit" => $unit->km,
+                    "hm_unit" => $unit->hm,
                 ],
             );
             $tire_inspection->driver = $request->driver;
