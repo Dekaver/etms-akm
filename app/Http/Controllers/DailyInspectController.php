@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ReportDailyInspect;
 use App\Models\DailyInspect;
+use App\Models\HistoryDailyInspect;
 use App\Models\Site;
 use App\Models\TireDamage;
 use App\Models\TireMaster;
@@ -151,7 +152,7 @@ class DailyInspectController extends Controller
                     }
                 }
 
-                // update HM
+                // update KM
                 if ($request->km > $unit->km) {
                     $diff_smu = (int) $request->km - (int) $unit->km;
 
@@ -163,8 +164,6 @@ class DailyInspectController extends Controller
                         $tire->lifetime_retread_km += $diff_smu;
                     }
                 }
-
-
 
                 $tire->save();
             }
@@ -226,8 +225,12 @@ class DailyInspectController extends Controller
             $tire_inspection->remark = $request->remark[$position];
             $tire_inspection->lifetime_hm = $tire->lifetime_hm;
             $tire_inspection->lifetime_km = $tire->lifetime_km;
+            $tire_inspection->km_unit = $unit->km;
+            $tire_inspection->hm_unit = $unit->hm;
 
             $tire_inspection->save();
+
+            HistoryDailyInspect::create($tire_inspection->toArray());
 
             TireMaster::where('id', $request->tire_id[$position])->update([
                 'tube' => $request->tire_tube[$position],

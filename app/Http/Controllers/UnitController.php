@@ -137,6 +137,12 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
+         // Manually check if the condition is met
+
+        // If the condition is not met, return a custom error message
+        if ($unit->tire_runnings->count() > 0 && ($request->km != $unit->km || $request->hm != $unit->hm)) {
+            return redirect()->back()->withErrors(['error' => 'Unit Tersebut memiliki Ban, Tidak boleh Update HM/KM manual']);
+        }
         $request->validate([
             "unit_number" => [
                 "required",
