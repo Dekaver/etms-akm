@@ -1362,6 +1362,7 @@ class GrafikController extends Controller
     public function tireScrapInjuryCause(Request $request)
     {
         $current_year = date('Y');
+        $company = auth()->user()->company;
         $date_range1 = range($current_year, $current_year + 3);
         $date_range2 = range($current_year, $current_year - 3);
         $date_range = array_merge($date_range1, $date_range2);
@@ -1420,6 +1421,8 @@ class GrafikController extends Controller
                 $q->on('sl.tire', '=', 'tires.serial_number');
             });
         $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
+        $tire = $tire->where('tires.company_id', $company->id);
+
         if ($model_type) {
             $tire = $tire->whereHas('unit', function ($q) use ($model_type) {
                 $q->whereHas('unit_model', function ($q) use ($model_type) {
@@ -1505,6 +1508,7 @@ class GrafikController extends Controller
     public function tireScrapInjury(Request $request)
     {
         $current_year = date('Y');
+        $company = auth()->user()->company;
         $date_range1 = range($current_year, $current_year + 3);
         $date_range2 = range($current_year, $current_year - 3);
         $date_range = array_merge($date_range1, $date_range2);
@@ -1556,6 +1560,7 @@ class GrafikController extends Controller
         //     ->selectRaw('COUNT(tire_damages.damage_name) as total')
         //     ->join('tire_damages', 'tire_movements.tire_damage_id', '=', 'tire_damages.id')
         //     ->join('tires', 'tire_movements.tire_serial_number', '=', 'tires.serial_number');
+        $tire = $tire->where('tires.company_id', $company->id);
 
         if ($name) {
             $tire = $tire->whereHas('site', function ($q) use ($name) {
