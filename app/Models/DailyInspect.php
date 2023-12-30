@@ -12,37 +12,22 @@ class DailyInspect extends Model
     protected $fillable = [
         "company_id",
         "site_id",
-        "tire_id",
         "unit_id",
-        "tire_damage_id",
         "km_unit",
         "hm_unit",
-        "rtd",
-        "position",
+        "updated_km_unit",
+        "updated_hm_unit",
         "location",
         "shift",
         "pic",
         "driver",
-        "rtd",
-        "pressure",
-        "lifetime_hm",
-        "lifetime_km",
         "date",
-        "tube",
-        "flap",
-        "rim",
-        "t_pentil",
-        "remark",
+        "time",
     ];
 
     protected $casts = [
         "date" => "date:Y-m-d"
     ];
-
-    function tire()
-    {
-        return $this->belongsTo(TireMaster::class, "tire_id", "id");
-    }
 
     function site()
     {
@@ -57,5 +42,10 @@ class DailyInspect extends Model
     function tire_damage()
     {
         return $this->belongsTo(TireDamage::class);
+    }
+
+    function details()
+    {
+        return $this->hasMany(DailyInspectDetail::class);
     }
 }

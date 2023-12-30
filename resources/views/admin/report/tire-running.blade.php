@@ -179,8 +179,8 @@
                             name: 'lifetime_hm',
                         },
                         {
-                            data: 'lifetime_hm',
-                            name: 'lifetime_hm',
+                            data: 'lifetime_km',
+                            name: 'lifetime_km',
                         },
                         {
                             data: 'rtd',

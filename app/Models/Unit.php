@@ -39,7 +39,7 @@ class Unit extends Model
 
     public function daily_inspect()
     {
-        return $this->hasMany(DailyInspect::class);
+        return $this->hasMany(DailyInspect::class)->orderBy('id', 'desc');
     }
 
     public function history_tire_movement()
@@ -58,12 +58,14 @@ class Unit extends Model
             get: function () {
                 $date = $this->daily_inspect
                     ->sortByDesc('date')
+                    ->sortByDesc('time')
                     ->pluck('date')
                     ->first()?->format("Y-m-d");
-                $time = $this->daily_inspect
+                    $time = $this->daily_inspect
                     ->sortByDesc('date')
-                    ->pluck('updated_at')
-                    ->first()?->format("H:i:s");
+                    ->sortByDesc('time')
+                    ->pluck('time')
+                    ->first();
                 if ($date == null) {
                     return null;
                 }

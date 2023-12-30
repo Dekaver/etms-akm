@@ -126,7 +126,12 @@ Route::middleware(['auth'])->group(function () {
 
     //EXPORT
     Route::middleware(['permission:EXPORT'])->group(function () {
-        Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export']);
+        Route::get('report-daily-inspect-export', [DailyInspectController::class, 'export'])->name('daily-inspect.export');
+    });
+
+    Route::middleware(['permission:IMPORT'])->group(function () {
+        Route::get('daily-inspect-import', [DailyInspectController::class, 'importView'])->name('daily-inspect.import');
+        Route::POST('daily-inspect-import', [DailyInspectController::class, 'import'])->name('daily-inspect.import.store');
     });
 
     //REPORT
@@ -136,6 +141,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('report-tire-target-km', [ReportController::class, 'tireTargetKm'])->name('report.tiretargetkm');
         Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name('report.tirerunning');
         Route::get('report-tire-inventory', [ReportController::class, 'tireInventory'])->name('report.tireinventory');
+    });
+
+    Route::middleware(['permission:ADJUSTKMPASANG'])->group(function(){
+        Route::post('adjust-km-pasang', [TireRunningController::class, 'adjustKmPasang'])->name('adjust-km-pasang.store');
     });
 
     // Route::get('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');

@@ -1734,7 +1734,7 @@ class GrafikController extends Controller
         $data['value'] = [];
         $data['max'] = 0;
         // foreach ($site as $key => $item) {
-        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm - history_tire_movements.hm_tire),0) as avg_lifetime_hm'), DB::raw('round(AVG(tires.lifetime_km - history_tire_movements.km_tire),0) as avg_lifetime_km'));
+        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm),0) as avg_lifetime_hm'), DB::raw('round(AVG(tires.lifetime_km ),0) as avg_lifetime_km'));
         $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
         $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
         $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');

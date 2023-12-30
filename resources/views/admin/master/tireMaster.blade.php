@@ -71,7 +71,7 @@
                                                 <option value="">Choose Size</option>
                                                 @foreach ($tiresize as $item2)
                                                     <option value="{{ $item2->id }}" @selected($item2->id == $tiresize_id)>
-                                                        {{ $item2->size }}</option>
+                                                        {{ $item2->size }} {{ $item2->tire_pattern->manufacture->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -207,7 +207,7 @@
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>RTD</label>
-                                    <input type="number" class="form-control" value="0" name="rtd"
+                                    <input type="number" class="form-control" value="0" name="rtd" step="0.1"
                                         required>
                                 </div>
                             </div>

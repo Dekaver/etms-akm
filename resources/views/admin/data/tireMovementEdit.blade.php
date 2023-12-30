@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    width: 90px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 150px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -91,7 +91,16 @@
 
     <div class="card ">
         <div class="card-body">
-            <h5 class="mb-3" id="widget">Tire Movement Update</h5>
+            <h5 class="mb-3" id="widget">Tire Movement Update
+                @can('ADJUSTKMPASANG')
+                    <div class="float-end">
+                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-modal-adjust"
+                            data-post="new">Adjust KM PASANG</a>
+                    </div>
+                @endcan
+
+            </h5>
+
             <div class="row d-sm-none">
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">ID</p>
@@ -102,46 +111,49 @@
                     <p class="fs-6 fw-bold">{{ $unit->unit_model->model ?? '' }}</p>
                 </div>
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
-                    <p class="mb-0 text-secondary">KM</p>
-                    <p class="fs-6 fw-bold">{{ $unit->km }}</p>
-                </div>
-                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">HM</p>
                     <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                </div>
+                <div class="mb-2 col-6 col-sm-4 col-md col-lg">
+                    <p class="mb-0 text-secondary">KM</p>
+                    <p class="fs-6 fw-bold">{{ $unit->km }}</p>
                 </div>
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">Tire Size</p>
                     <p class="fs-6 fw-bold">{{ $unit->unit_model->tire_size->size ?? '' }}</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <table>
-                        <tr>
-                            <td>ID</td>
-                            <td class="px-4">: </td>
-                            <td>{{ $unit->unit_number }}</td>
-                            <td></td>
-                            <td class="px-4">MODEL</td>
-                            <td class="px-4">: </td>
-                            <td>{{ $unit->unit_model->model ?? '' }}</td>
-                        </tr>
-                        <tr>
-                            <td>HM</td>
-                            <td class="px-4">: </td>
-                            <td>{{ $unit->hm }}</td>
-                            <td></td>
-                            <td class="px-4">KM</td>
-                            <td class="px-4">: </td>
-                            <td>{{ $unit->km }}</td>
-                        </tr>
-                        <tr>
-                            <td>TIRE SIZE</td>
-                            <td class="">: </td>
-                            <td>{{ $unit->unit_model->tire_size->size ?? '' }}</td>
-                        </tr>
-                    </table>
+            <div class="d-none d-md-block">
+                <div class="row">
+                    <div class="col">
+                        <table>
+                            <tr>
+                                <td>ID</td>
+                                <td class="px-4">: </td>
+                                <td>{{ $unit->unit_number }}</td>
+                                <td></td>
+                                <td class="px-4">MODEL</td>
+                                <td class="px-4">: </td>
+                                <td>{{ $unit->unit_model->model ?? '' }}</td>
+                            </tr>
+                            <tr>
+                                <td>HM</td>
+                                <td class="px-4">: </td>
+                                <td>{{ $unit->hm }}</td>
+                                <td></td>
+                                <td class="px-4">KM</td>
+                                <td class="px-4">: </td>
+                                <td>{{ $unit->km }}</td>
+                            </tr>
+                            <tr>
+                                <td>TIRE SIZE</td>
+                                <td class="px-4">: </td>
+                                <td>{{ $unit->unit_model->tire_size->size ?? '' }}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -260,6 +272,7 @@
         </div>
     </div>
 
+    {{-- DESKTOP --}}
     <div class="card page-body d-sm-none d-none d-xxl-block">
         {{-- <div class="card page-body "> --}}
         <div class="card-body px-5 py-4">
@@ -420,6 +433,7 @@
         </div>
     </div>
 
+    {{-- SWITCH --}}
     <div class="modal fade" id="switchTireModal" tabindex="-1" role="dialog"
         aria-labelledby="removeTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -515,8 +529,8 @@
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                         <label for="">Unit HM</label>
-                                        <input type="text" class="form-control" name="hm_actual"
-                                            value="" required>
+                                        <input type="text" class="form-control" name="hm_actual" value=""
+                                            required>
                                         <div class="text-danger d-none" id="display_error_hm">
                                             <p>HM Tidak Boleh kurang dari sebelumnya</p>
                                         </div>
@@ -524,8 +538,8 @@
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                         <label for="">Unit KM</label>
-                                        <input type="text" class="form-control" name="km_actual"
-                                            value="" required>
+                                        <input type="text" class="form-control" name="km_actual" value=""
+                                            required>
                                         <div class="text-danger d-none" id="display_error_hm">
                                             <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                         </div>
@@ -618,6 +632,7 @@
         </div>
     </div>
 
+    {{-- REMOVE --}}
     <div class="modal fade" id="removeTireModal" tabindex="-1" role="dialog"
         aria-labelledby="removeTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -668,8 +683,7 @@
                         <div class="row">
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Unit HM Remove</label>
-                                <input type="text" class="form-control" name="hm_actual"
-                                    value="0" required>
+                                <input type="text" class="form-control" name="hm_actual" value="0" required>
                                 <div class="text-danger d-none" id="display_error_hm">
                                     <p>HM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
@@ -677,8 +691,7 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Unit KM Remove</label>
-                                <input type="text" class="form-control" name="km_actual"
-                                    value="0" required>
+                                <input type="text" class="form-control" name="km_actual" value="0" required>
                                 <div class="text-danger d-none" id="display_error_hm">
                                     <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
@@ -766,6 +779,7 @@
         </div>
     </div>
 
+    {{-- INSTALL --}}
     <div class="modal fade" id="installTireModal" tabindex="-1" role="dialog"
         aria-labelledby="installTireModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -874,6 +888,119 @@
                 </div>
             </form>
         </div>
+    </div>
+
+    <div class="modal fade" id="form-modal-adjust" tabindex="-1" role="dialog" aria-hidden="true">
+        <form method="POST" action="{{ route('adjust-km-pasang.store') }}">
+            @csrf
+            <div class=" modal-xl modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adjust KM Pasang</h5>
+
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>Unit number</label>
+                                    <input type="text" name="unit_number" value="{{ $unit->unit_number }}"
+                                        disabled>
+                                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="date" name="tanggal" class="form-control"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>HM</label>
+                                    <input class="form-control" type="number" name="hm"
+                                        value="{{ $unit->hm }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>KM</label>
+                                    <input class="form-control" type="number" name="km"
+                                        value="{{ $unit->km }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>Adjust HM</label>
+                                    <input class="form-control" type="number" name="adjust_hm"
+                                        value="{{ $unit->hm }}" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label>Adjust KM</label>
+                                    <input class="form-control" type="number" name="adjust_km"
+                                        value="{{ $unit->km }}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="overflow-x: scroll; white-space:nowrap">
+                            <table class="table table-bordered" id="table-tire-inspection">
+                                <thead>
+                                    <tr>
+                                        <th style="display: none;">#</th>
+                                        <th style="width: 40px">Pos</th>
+                                        <th>Serial Number</th>
+                                        <th style="width: 100px">HM</th>
+                                        <th style="width: 100px">Adjust HM</th>
+                                        <th style="width: 100px">KM</th>
+                                        <th style="width: 100px">Adjust KM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($unit->tire_runnings as $tire_running)
+                                        <tr>
+                                            <td>
+                                                {{ $tire_running->position }}
+                                                <input type="hidden" name="position[{{ $tire_running->position }}]"
+                                                    value="{{ $tire_running->position }}">
+                                            </td>
+                                            <td>
+                                                {{ $tire_running->tire->serial_number }}
+                                            </td>
+                                            <td>{{ $tire_running->tire->last_update_hm_unit }}</td>
+                                            <td>
+                                                <input class="form-control" type="number" min="0"
+                                                    name="hm[{{ $tire_running->position }}]"
+                                                    value="{{ $tire_running->tire->last_update_hm_unit }}" required>
+                                            </td>
+                                            <td>{{ $tire_running->tire->last_update_km_unit }}</td>
+                                            <td>
+                                                <input class="form-control" type="number" min="0"
+                                                    name="km[{{ $tire_running->position }}]"
+                                                    value="{{ $tire_running->tire->last_update_km_unit }}" required>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-submit">Save</button>
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     @push('js')

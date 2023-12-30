@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdjustKmPasang;
 use App\Models\HistoryTireMovement;
 use App\Models\TireDamage;
 use App\Models\TireMaster;
@@ -445,4 +446,65 @@ class TireRunningController extends Controller
         //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         // }
     }
+    public function adjustKmPasang(Request $request)
+    {
+        $request->validate([
+            'unit_id' => 'required',
+            'tanggal' => 'required',
+            'adjust_km' => 'required|numeric|min:0',
+            'adjust_hm' => 'required|numeric|min:0',
+            'position' => 'required|array',
+            'hm' => 'required|array',
+            'km' => 'required|array',
+        ]);
+
+
+        try {
+
+            $unit = Unit::whereId($request->unit_id)->with('tire_runnings.tire')->first();
+
+            if ($unit->daily_inspect()->exists()) {
+                return redirect()->back()->with('error', 'Tidak bisa adjust KM/HM Pasang Jika sudah ada inspection');
+            }
+
+            foreach ($request->position as $position) {
+                $tire_running = $unit->tire_runnings->where('position', $position)->first();
+                $tire_movement = $tire_running->tire_movement;
+                $tire_movement->km = $request->km[$position];
+                $tire_movement->hm = $request->hm[$position];
+                $tire_movement->unit_lifetime_km = $request->km[$position];
+                $tire_movement->unit_lifetime_hm = $request->hm[$position];
+                $tire_movement->save();
+
+                AdjustKmPasang::create([
+                    "unit_id" => $request->unit_id,
+                    "tire_id" => $tire_running->tire->serial_number,
+                    "tanggal" => $request->tanggal,
+                    "position" => $position,
+                    "km_unit" => $unit->km,
+                    "updated_km_unit" => $request->adjust_km,
+                    "hm_unit" => $unit->hm,
+                    "updated_hm_unit" => $request->adjust_hm,
+                    "km" => $tire_running->tire->lifetime_km,
+                    "updated_km" => $request->km[$position],
+                    "hm" => $tire_running->tire->lifetime_hm,
+                    "updated_hm" => $request->hm[$position],
+                ]);
+
+                $unit->km = $request->adjust_km;
+                $unit->hm = $request->adjust_hm;
+                $unit->save();
+            }
+
+            // Jika semuanya berhasil, commit transaksi
+            DB::commit();
+        } catch (\Exception $e) {
+            // Blok ini hanya dijalankan jika terjadi pengecualian (exception)
+            // Handle atau log kesalahan
+            return "Transaction failed: " . $e->getMessage();
+        }
+        return redirect()->back()->with("success", "Created Adjust KM / HM Pasang");
+
+    }
 }
+

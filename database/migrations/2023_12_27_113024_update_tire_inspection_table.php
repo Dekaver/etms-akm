@@ -4,12 +4,40 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
+        Schema::dropIfExists('daily_inspects');
+
+        Schema::create('daily_inspects', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId("company_id")->constrained("companies");
+            $table->foreignId("site_id")->constrained("sites");
+            $table->foreignId("unit_id")->constrained("units");
+            $table->string("location")->nullable();
+            $table->string("shift")->nullable();
+            $table->string("pic")->nullable();
+            $table->string("driver")->nullable();
+            $table->integer("hm_unit")->default(0);
+            $table->integer("km_unit")->default(0);
+            $table->integer("updated_hm_unit")->default(0);
+            $table->integer("updated_km_unit")->default(0);
+            $table->date("date");
+            $table->time("time");
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('daily_inspects');
         Schema::create('daily_inspects', function (Blueprint $table) {
             $table->id();
             $table->foreignId("company_id")->constrained("companies");
@@ -38,13 +66,5 @@ return new class extends Migration {
             $table->foreign('tire_damage_id')->references('id')->on('tire_damages');
             $table->unique(["company_id", "site_id", "position", "date", "unit_id", "tire_id"], "daily_inspect_multi_unique");
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('daily_inspects');
     }
 };

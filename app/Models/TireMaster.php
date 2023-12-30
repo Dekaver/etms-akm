@@ -74,9 +74,12 @@ class TireMaster extends Model
         return $this->hasMany(HistoryTireMovement::class, "tire", "serial_number");
     }
 
-    public function daily_inspect()
+    public function daily_inspect_detail($unit_id)
     {
-        return $this->hasMany(DailyInspect::class, "tire_id", "id");
+        return $this->hasMany(DailyInspectDetail::class, 'tire_id')
+            ->join('daily_inspects', 'daily_inspects.id', '=', 'daily_inspect_details.daily_inspect_id')
+            ->where('daily_inspects.unit_id', $unit_id)
+            ->orderBy('daily_inspects.created_at', 'desc');
     }
 
     public function countDay(): Attribute
@@ -97,6 +100,48 @@ class TireMaster extends Model
         }else{
             return Attribute::make(
                 get: fn($value) => NULL,
+            );
+        }
+    }
+
+    public function lastUpdateKmUnit(): Attribute
+    {
+        $tire_running = $this->tire_running;
+        if($tire_running){
+            $daily_inspect = $this->daily_inspect_detail($tire_running->unit_id)->first();
+            if($daily_inspect){
+                return Attribute::make(
+                    get: fn($value) => $daily_inspect->last_km_unit
+                );
+            }else{
+                return Attribute::make(
+                    get: fn($value) => $tire_running->tire_movement->km
+                );
+            }
+        }else{
+            return Attribute::make(
+                get: fn($value) => 0
+            );
+        }
+    }
+
+    public function lastUpdateHmUnit(): Attribute
+    {
+        $tire_running = $this->tire_running;
+        if($tire_running){
+            $daily_inspect = $this->daily_inspect_detail($tire_running->unit_id)->first();
+            if($daily_inspect){
+                return Attribute::make(
+                    get: fn($value) => $daily_inspect->last_hm_unit
+                );
+            }else{
+                return Attribute::make(
+                    get: fn($value) => $tire_running->tire_movement->hm
+                );
+            }
+        }else{
+            return Attribute::make(
+                get: fn($value) => 0
             );
         }
     }
