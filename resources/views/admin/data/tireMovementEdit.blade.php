@@ -958,10 +958,10 @@
                                         <th style="display: none;">#</th>
                                         <th style="width: 40px">Pos</th>
                                         <th>Serial Number</th>
-                                        <th style="width: 100px">HM</th>
-                                        <th style="width: 100px">Adjust HM</th>
-                                        <th style="width: 100px">KM</th>
-                                        <th style="width: 100px">Adjust KM</th>
+                                        <th style="width: 150px">HM</th>
+                                        <th style="width: 150px">Adjust HM</th>
+                                        <th style="width: 150px">KM</th>
+                                        <th style="width: 150px">Adjust KM</th>
                                     </tr>
                                 </thead>
                                 <tbody>
