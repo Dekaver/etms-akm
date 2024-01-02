@@ -478,7 +478,7 @@ class TireRunningController extends Controller
 
                 AdjustKmPasang::create([
                     "unit_id" => $request->unit_id,
-                    "tire_id" => $tire_running->tire->serial_number,
+                    "tire_id" => $tire_running->tire->id,
                     "tanggal" => $request->tanggal,
                     "position" => $position,
                     "km_unit" => $unit->km,
