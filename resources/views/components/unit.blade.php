@@ -8,11 +8,11 @@
         padding: 0;
     }
 
-    .unit-view{
+    .unit-view {
         border: 1px rgb(105, 105, 105) solid
     }
 
-    .unit-view .col .axle{
+    .unit-view .col .axle {
         width: 100%;
         height: 10px;
         background: #000;
@@ -22,7 +22,7 @@
         position: relative;
     }
 
-    .unit-view .unit-tires .axle-y{
+    .unit-view .unit-tires .axle-y {
         position: absolute;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -43,13 +43,21 @@
                 <div class="row justify-content-center align-items-center mb-2">
                     <div class="col"></div>
                     <div class="col">
-                        <x-tire-rtd :position="++$position" :tire="$tire_running->where('position', $position)->pluck('tire')->first()" />
+                        @php $position += 1 @endphp
+                        <x-tire-rtd :tire="$tire_running
+                            ->where('position', $position)
+                            ->pluck('tire')
+                            ->first()" />
                     </div>
                     <div class="col">
                         <div class="axle"></div>
                     </div>
                     <div class="col">
-                        <x-tire-rtd :position="$position" :tire="$tire_running->where('position', $position)->pluck('tire')->first()" />
+                        @php $position += 1 @endphp
+                        <x-tire-rtd :tire="$tire_running
+                            ->where('position', $position)
+                            ->pluck('tire')
+                            ->first()" />
                     </div>
                     <div class="col"></div>
                 </div>
@@ -58,20 +66,36 @@
             @for ($i = 0; $i < $unit_model->axle_4_tire; $i++)
                 <div class="row justify-content-center align-items-center mb-2">
                     <div class="col">
-                        <x-tire-rtd :position="++$position" :tire="$tire_running->where('position', $position)->pluck('tire')->first()" />
+                        @php $position += 1 @endphp
+                        <x-tire-rtd :tire="$tire_running
+                            ->where('position', $position)
+                            ->pluck('tire')
+                            ->first()" />
                     </div>
                     <div class="col">
-                        <x-tire-rtd :position="$position" :tire="$tire_running->where('position', $position)->pluck('tire')->first()" />
+                        @php $position += 1 @endphp
+                        <x-tire-rtd :tire="$tire_running
+                            ->where('position', $position)
+                            ->pluck('tire')
+                            ->first()" />
                     </div>
                     <div class="col">
                         <div class="axle"></div>
 
-                        </div>
-                    <div class="col">
-                        <x-tire-rtd :position="++$position" :tire="$tire_running->where('position', $position)->pluck('tire')->first()" />
                     </div>
                     <div class="col">
-                        <x-tire-rtd :position="$position" :tire="$tire_running->where('position', $position)->pluck('tire')->first()" />
+                        @php $position += 1 @endphp
+                        <x-tire-rtd :tire="$tire_running
+                            ->where('position', $position)
+                            ->pluck('tire')
+                            ->first()" />
+                    </div>
+                    <div class="col">
+                        @php $position += 1 @endphp
+                        <x-tire-rtd :tire="$tire_running
+                            ->where('position', $position)
+                            ->pluck('tire')
+                            ->first()" />
                     </div>
                 </div>
             @endfor

@@ -1,4 +1,4 @@
-@props(['position', 'tire'])
+@props(['tire'])
 <style>
     .container-bar {
         width: 100%;
@@ -87,7 +87,6 @@
     <script>
         tire = @json($tire);
         if (tire != null) {
-            position = @json($position);
             // Example: Set the background color based on battery percentage (replace this with your actual battery percentage)
             setDynamicGradientColor(`tire-image-movement-${tire.id}`, parseFloat(tire.rtd / tire.tire_size.otd * 100));
         }
