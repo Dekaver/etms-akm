@@ -460,7 +460,7 @@ class ReportController extends Controller
         if ($unitmodel_id) {
             $units = $units->where('unit_model_id', $unitmodel_id);
         }
-        if ($unitsite_id) {
+        if ($unitstatus_id) {
             $units = $units->where('unit_status_id', $unitstatus_id);
         }
         if ($unitsite_id) {
