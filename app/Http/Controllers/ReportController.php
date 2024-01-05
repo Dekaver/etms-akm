@@ -456,7 +456,17 @@ class ReportController extends Controller
         $unit_status = UnitStatus::all();
         $unit_model = UnitModel::with('tire_size')->where('company_id', $company->id)->get();
 
-        $units = Unit::with('tire_runnings.tire.tire_size', 'unit_model')->where('unit_model_id', $unitmodel_id)->where('unit_status_id', $unitstatus_id)->where('site_id', $unitsite_id)->orderBy('unit_number')->get();
+        $units = Unit::with('tire_runnings.tire.tire_size', 'unit_model');
+        if ($unitmodel_id) {
+            $units = $units->where('unit_model_id', $unitmodel_id);
+        }
+        if ($unitsite_id) {
+            $units = $units->where('unit_status_id', $unitstatus_id);
+        }
+        if ($unitsite_id) {
+            $unit = $units->where('site_id', $unitsite_id);
+        }
+        $units = $units->orderBy('unit_number')->get();
 
 
         return view("admin.report.tire-rtd-per-unit", compact('unitmodel_id', 'unitsite_id', 'unitstatus_id', 'unit_status', 'unit_model', 'sites', 'units'));
