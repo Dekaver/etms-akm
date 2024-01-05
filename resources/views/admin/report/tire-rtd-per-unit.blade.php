@@ -40,7 +40,7 @@
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
                                             <select class="select" name="unitmodel">
-                                                <option>Choose Unit Model</option>
+                                                <option value="">Choose Unit Model</option>
                                                 @foreach ($unit_model as $item)
                                                     <option value="{{ $item->id }}" @selected($item->id == $unitmodel_id)>
                                                         {{ $item->model }}</option>
@@ -51,7 +51,7 @@
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
                                             <select class="select" name="unitsite">
-                                                <option>Choose Site</option>
+                                                <option value="">Choose Site</option>
                                                 @foreach ($sites as $item)
                                                     <option value="{{ $item->id }}" @selected($item->id == $unitsite_id)>
                                                         {{ $item->name }}</option>
@@ -62,7 +62,7 @@
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
                                             <select class="select" name="unitstatus">
-                                                <option>Choose Status</option>
+                                                <option value="">Choose Status</option>
                                                 @foreach ($unit_status as $item)
                                                     <option value="{{ $item->id }}" @selected($item->id == $unitstatus_id)>
                                                         {{ $item->status_code }}</option>
