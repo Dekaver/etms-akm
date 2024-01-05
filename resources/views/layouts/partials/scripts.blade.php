@@ -96,29 +96,27 @@
     var tire;
     var position;
 
-    function calculateDynamicColor(startColor, endColor, percentage) {
-        const color = [];
-        for (let i = 0; i < 3; i++) {
-            // Interpolasi linear untuk setiap komponen warna (R, G, B)
-            color[i] = Math.round(startColor[i] + (endColor[i] - startColor[i]) * (percentage / 100));
-        }
-        return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-    }
-
     function setDynamicGradientColor(id, percentage) {
         const gradientContainer = document.getElementById(id);
-
-        // Warna awal (merah)
-        const startColor = [255, 0, 0];
-
-        // Warna akhir (hijau)
-        const endColor = [0, 255, 0];
-
-        // Hitung warna dinamis berdasarkan persentase
-        const dynamicColor = calculateDynamicColor(startColor, endColor, percentage);
-
-        // Set warna latar belakang dinamis
-        gradientContainer.style.backgroundColor = dynamicColor;
+        const hue = (parseFloat(percentage) / 100) * 120; // 120 is the hue for green
+        gradientContainer.style.backgroundColor = `hsl(${percentage}, 100%, 50%)`;
     }
+
+    var containerBars = document.querySelectorAll('.container-tooltip');
+
+    containerBars.forEach(function(containerBar) {
+        var tooltipTire = containerBar.querySelector('.tooltip-tire');
+
+        if (tooltipTire) {
+            containerBar.addEventListener('mousemove', function(e) {
+                console.log(e);
+                var x = e.clientX;
+                var y = e.clientY;
+
+                tooltipTire.style.left = x + 'px';
+                tooltipTire.style.top = y + 'px';
+            });
+        }
+    });
 </script>
 @stack('js')

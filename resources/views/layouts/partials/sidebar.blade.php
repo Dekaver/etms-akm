@@ -119,6 +119,9 @@
                             <li><a href="/report-tire-target-km"
                                     class="{{ Request::routeIs('report.tiretargetkm') ? 'active' : '' }}">Report Tire
                                     Target KM</a></li>
+                            <li><a href="/report-tire-rtd-per-unit"
+                                    class="{{ Request::routeIs('report.tirertdperunit') ? 'active' : '' }}">Report Tire
+                                    RTD Per UNIT</a></li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"

@@ -11,7 +11,9 @@ use App\Models\TireRunning;
 use App\Models\TireSize;
 use App\Models\TireStatus;
 use App\Models\TireTargetKm;
+use App\Models\Unit;
 use App\Models\UnitModel;
+use App\Models\UnitStatus;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -439,5 +441,24 @@ class ReportController extends Controller
             $tiretargetkm = TireTargetKm::find($id_tire_target_km);
 
         return view("admin.report.tire-target-km", compact('tiretargetkm', 'list_tire_target_km'));
+    }
+
+    public function tireRtdPerUnit(Request $request)
+    {
+
+        $unitmodel_id = $request->query("unitmodel");
+        $unitsite_id = $request->query("unitsite");
+        $unitstatus_id = $request->query("unitstatus");
+
+        $company = auth()->user()->company;
+
+        $sites = Site::where('company_id', $company->id)->get();
+        $unit_status = UnitStatus::all();
+        $unit_model = UnitModel::with('tire_size')->where('company_id', $company->id)->get();
+
+        $units = Unit::with('tire_runnings.tire.tire_size', 'unit_model')->where('unit_model_id', $unitmodel_id)->where('unit_status_id', $unitstatus_id)->where('site_id', $unitsite_id)->orderBy('unit_number')->get();
+
+
+        return view("admin.report.tire-rtd-per-unit", compact('unitmodel_id', 'unitsite_id', 'unitstatus_id', 'unit_status', 'unit_model', 'sites', 'units'));
     }
 }

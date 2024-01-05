@@ -141,6 +141,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('report-tire-target-km', [ReportController::class, 'tireTargetKm'])->name('report.tiretargetkm');
         Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name('report.tirerunning');
         Route::get('report-tire-inventory', [ReportController::class, 'tireInventory'])->name('report.tireinventory');
+        Route::get('report-tire-rtd-per-unit', [ReportController::class, 'tireRtdPerUnit'])->name('report.tirertdperunit');
     });
 
     Route::middleware(['permission:ADJUSTKMPASANG'])->group(function(){
