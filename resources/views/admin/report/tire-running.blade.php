@@ -114,6 +114,8 @@
                             <th>Tire HM</th>
                             <th>Tire KM</th>
                             <th>RTD</th>
+                            <th>TUR</th>
+                            <th>KM Per MM</th>
                             <th>Damage</th>
                         </tr>
                     </thead>
@@ -185,6 +187,14 @@
                         {
                             data: 'rtd',
                             name: 'rtd',
+                        },
+                        {
+                            data: 'tur',
+                            name: 'tur',
+                        },
+                        {
+                            data: 'km_per_mm',
+                            name: 'km_per_mm',
                         },
                         {
                             data: 'damage',

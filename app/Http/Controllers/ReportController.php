@@ -172,6 +172,12 @@ class ReportController extends Controller
                 ->addColumn('damage', function ($row) {
                     return $row->tire->tire_damage?->damage;
                 })
+                ->addColumn('km_per_mm', function ($row) {
+                    return $row->tire->km_per_mm;
+                })
+                ->addColumn('tur', function ($row) {
+                    return $row->tire->tur;
+                })
                 ->make(true);
         }
         return view("admin.report.tire-running", compact('tirepattern', 'tire_manufactures', 'tire_sizes', 'tire_patterns', 'tire_pattern', 'tire_size', 'tire_manufacture', 'type_pattern', 'tire_statuses', 'tire_status'));

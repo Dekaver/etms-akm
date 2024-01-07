@@ -82,6 +82,21 @@ class TireMaster extends Model
             ->orderBy('daily_inspects.created_at', 'desc');
     }
 
+
+    public function tur(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => ((int) $this->tire_size->otd - (int) $this->rtd),
+        );
+    }
+
+    public function kmPerMm(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $this->tur == 0 ? 0: round((int) $this->lifetime_km / ((int) $this->tur ), 1),
+        );
+    }
+
     public function countDay(): Attribute
     {
         $tire_size = $this->tire_size;
