@@ -110,15 +110,24 @@ var tireoptions = {
 
 //tire average
 if ($("#chart-tire-lifetime").length > 0) {
+    // const colors = ["#2196F3","#8E24AA","#FF6E40" ];
+    const colors = undefined;
     const optionTireAverage = {
         series: [],
         legend: {
+            labels: {
+                colors: colors,
+            },
             position: "top",
+            markers: {
+                fillColor: colors,
+            },
         },
         chart: {
             type: "line",
             height: 720,
-            stacked:false
+            stacked: true,
+            stackType: "",
         },
 
         plotOptions: {
@@ -126,7 +135,7 @@ if ($("#chart-tire-lifetime").length > 0) {
                 horizontal: false,
                 columnWidth: "60%",
                 dataLabels: {
-                    position: 'top', // top, center, bottom
+                    position: "top", // top, center, bottom
                 },
             },
         },
@@ -145,37 +154,53 @@ if ($("#chart-tire-lifetime").length > 0) {
         dataLabels: {
             enabled: true,
             textAnchor: "middle",
+            style: {
+                colors: ["#fff"],
+            },
+            background: {
+                enabled: true,
+                foreColor: undefined,
+                padding: 4,
+                borderRadius: 2,
+                borderWidth: 1,
+                borderColor: "#fff",
+                opacity: 0.9,
+            },
+            formatter: function (val, opts) {
+                return val.toLocaleString("id-ID");
+            },
         },
         fill: {
             opacity: 1,
-            // colors: [vihoAdminConfig.primary, vihoAdminConfig.secondary],
+            colors: colors,
             type: "gradient",
             gradient: {
                 shade: "light",
                 type: "vertical",
                 shadeIntensity: 0.4,
                 inverseColors: false,
-                opacityFrom: 0.9,
+                opacityFrom: 0.8,
                 opacityTo: 1,
                 stops: [0, 100],
             },
         },
         stroke: {
+            colors: colors,
             show: true,
             width: 2,
-            curve: "smooth"
+            curve: "smooth",
         },
         tooltip: {
             shared: true,
             y: [
                 {
                     formatter(val) {
-                        return val;
+                        return val.toLocaleString("id-ID");
                     },
                 },
                 {
                     formatter(val) {
-                        return val;
+                        return val.toLocaleString("id-ID");
                     },
                 },
             ],
@@ -192,9 +217,25 @@ if ($("#chart-tire-lifetime").length > 0) {
     var url = $("#chart-tire-lifetime").data("url");
 
     $.getJSON(url, (response) => {
-        const dynamicMax = Math.max(
-            ...response.value.map((item) => Math.max(...item.data))
-        );
+        const dynamicMaxKM =
+            Math.max(...response.value[0].data) +
+            Math.max(...response.value[2].data);
+        // const dynamicMaxKM = 8390;
+        const dynamicMaxHM = Math.max(...response.value[1].data);
+
+        const roundedResultKM =
+            parseInt(dynamicMaxKM).toString()[1] > 8
+                ? Math.ceil(
+                      dynamicMaxKM /
+                          10 ** (parseInt(dynamicMaxKM).toString().length - 1)
+                  ) *
+                  10 ** (parseInt(dynamicMaxKM).toString().length - 1)
+                : Math.ceil(
+                      dynamicMaxKM /
+                          10 ** (parseInt(dynamicMaxKM).toString().length - 2)
+                  ) *
+                  10 ** (parseInt(dynamicMaxKM).toString().length - 2);
+
         tire_lifetime_average.updateSeries(response.value);
         tire_lifetime_average.updateOptions({
             series: response.value,
@@ -211,21 +252,7 @@ if ($("#chart-tire-lifetime").length > 0) {
                         show: true,
                     },
                     min: 0,
-                    float: false,
-                },
-                {
-                    opposite: true,
-                    seriesName: "HM",
-                    title: {
-                        text: "Hours",
-                    },
-                    axisTicks: {
-                        show: true,
-                    },
-                    axisBorder: {
-                        show: true,
-                    },
-                    min: 0,
+                    max: roundedResultKM,
                     float: false,
                 },
             ],
@@ -237,8 +264,7 @@ if ($("#chart-tire-lifetime").length > 0) {
                     style: {
                         fontSize: "9px",
                     },
-                    maxHeight: 650,
-                    trim: false,
+                    // trim: false,
                     // height: 440,
                 },
                 categories: response.xaxis,

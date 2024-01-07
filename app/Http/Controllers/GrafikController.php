@@ -6,6 +6,7 @@ use App\Models\HistoryTireMovement;
 use App\Models\Site;
 use App\Models\TireMaster as Tire;
 use App\Models\DailyInspect as TireInspection;
+use App\Models\TireMovement;
 use App\Models\TireSize;
 use App\Models\TireStatus;
 use App\Models\Unit;
@@ -1734,7 +1735,15 @@ class GrafikController extends Controller
         $data['value'] = [];
         $data['max'] = 0;
         // foreach ($site as $key => $item) {
-        $tire = Tire::select('tire_patterns.type_pattern', 'tire_manufactures.name', 'tire_sizes.size', 'tire_patterns.pattern', DB::raw('round(AVG(tires.lifetime_hm),0) as avg_lifetime_hm'), DB::raw('round(AVG(tires.lifetime_km ),0) as avg_lifetime_km'));
+        $tire = Tire::select(
+            'tire_patterns.type_pattern',
+            'tire_manufactures.name',
+            'tire_sizes.size',
+            'tire_patterns.pattern',
+            DB::raw('round(AVG(tires.lifetime_hm),1) as avg_lifetime_hm'),
+            DB::raw('round(AVG(tires.lifetime_km ),1) as avg_lifetime_km'),
+            DB::raw('round(AVG(tires.lifetime_km / (tire_sizes.otd - tires.rtd)), 1) as avg_km_per_mm')
+        );
         $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
         $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
         $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');
@@ -1748,6 +1757,7 @@ class GrafikController extends Controller
             });
         }
         $tire = $tire->whereIn("tires.id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id));
+        $tire = $tire->where('lifetime_km', '>', 0);
 
         if ($tahun) {
             if ($month) {
@@ -1787,9 +1797,12 @@ class GrafikController extends Controller
         $returning["value"][0]["type"] = "bar";
         $returning["value"][1]["name"] = "HM";
         $returning["value"][1]["type"] = "line";
+        $returning["value"][2]["name"] = "KM/MM";
+        $returning["value"][2]["type"] = "bar";
         foreach ($tire as $key => $item) {
             $returning["value"][0]["data"][] = $item->avg_lifetime_km;
             $returning["value"][1]["data"][] = $item->avg_lifetime_hm;
+            $returning["value"][2]["data"][] = $item->avg_km_per_mm;
             $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
         }
 
