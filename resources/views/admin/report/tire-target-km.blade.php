@@ -21,10 +21,13 @@
                     <div class="row">
                         <div class="col-6">
                             <form action="" method="get">
-                                <select name="tire_target_km_id"   class="form-control" onchange="this.parentElement.submit()">
+                                <select name="tire_target_km_id" class="form-control"
+                                    onchange="this.parentElement.submit()">
                                     <option value="">Tire Target KM</option>
                                     @foreach ($list_tire_target_km as $item)
-                                        <option value="{{ $item->id }}" @selected(Request::get("tire_target_km_id") == $item->id)>{{ $item->site->name }} | {{ $item->tire_size->size }} | {{ $item->tire_size->tire_pattern->manufacture->name }}</option>
+                                        <option value="{{ $item->id }}" @selected(Request::get('tire_target_km_id') == $item->id)>
+                                            {{ $item->site->name }} | {{ $item->tire_size->size }} |
+                                            {{ $item->tire_size->tire_pattern->manufacture->name }}</option>
                                     @endforeach
                                 </select>
                             </form>
@@ -36,26 +39,35 @@
                                 <tr>
                                     <td>Size</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->tire_size->size ?? "-" }}</td>
+                                    <td>{{ $tiretargetkm->tire_size->size ?? '-' }}</td>
                                     <td>Jarak Hauling</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->site->jarak_hauling ?? "-" }}</td>
+                                    <td>{{ $tiretargetkm->site->jarak_hauling ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Site</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->site->name ?? "-" }}</td>
+                                    <td>{{ $tiretargetkm->site->name ?? '-' }}</td>
                                     <td>Rit/Hari</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->site->rit_per_hari ?? "-" }}</td>
+                                    <td>{{ $tiretargetkm->site->rit_per_hari ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Target KM/mili (RTD)</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->rtd_target_km ?? "-" }}</td>
+                                    <td>{{ number_format($tiretargetkm->rtd_target_km) ?? '-' }}</td>
                                     <td>Total Jarak</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->site->total_jarak ?? "-" }}</td>
+                                    <td>{{ number_format($tiretargetkm->site->total_jarak) ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Actual Avg KM/MM</td>
+                                    <td>:</td>
+                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_km_per_mm) ?? '-' }}</td>
+                                    <td>Actual Total KM</td>
+                                    <td>:</td>
+                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_lifetime_km) ?? '-' }}
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -68,25 +80,38 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Target KM</th>
+                                <th>Target KM/MM</th>
                                 <th>OTD</th>
                                 <th>RTD</th>
                                 <th>TUR</th>
                                 <th>Remaining Day</th>
+                                <th>Actual KM/MM</th>
+                                <th>selisih KM/MM</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($tiretargetkm)
-                            @for ($rtd = (int) $tiretargetkm->tire_size->otd-1; $rtd >= 0; --$rtd)
-                                <tr>
-                                    <td>{{ (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
-                                    <td>{{ (int) $tiretargetkm->rtd_target_km * ((int) $tiretargetkm->tire_size->otd - $rtd) }}</td>
-                                    <td>{{ (int) $tiretargetkm->tire_size->otd }}</td>
-                                    <td>{{ $rtd }}</td>
-                                    <td>{{ (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
-                                    <td>{{ round((int) $tiretargetkm->rtd_target_km * $rtd / (int) $tiretargetkm->site->total_jarak)  }}</td>
-                                </tr>
-                            @endfor
+                                @for ($rtd = (int) $tiretargetkm->tire_size->otd - 1; $rtd >= 0; --$rtd)
+                                    <tr>
+                                        <td>{{ (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
+                                        <td>{{ number_format((int) ($target_km = $tiretargetkm->rtd_target_km * ((int) $tiretargetkm->tire_size->otd - $rtd))) }}
+                                        </td>
+                                        <td>{{ (int) $tiretargetkm->tire_size->otd }}</td>
+                                        <td>{{ $rtd }}</td>
+                                        <td>{{ $tur = (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
+                                        <td>{{ round(((int) $tiretargetkm->rtd_target_km * $rtd) / (int) $tiretargetkm->site->total_jarak) }}
+                                        </td>
+                                        @if (floor((int) $tiretargetkm->tire_size->actual_avg_tur) >= $tur)
+                                            <td>{{ number_format($actual = (int) $tiretargetkm->tire_size->actual_avg_km_per_mm * $tur) }}
+                                            </td>
+                                            <td class="{{ $target_km - $actual < 0 ? 'text-red' : '' }}">
+                                                {{ number_format($target_km - $actual) }}</td>
+                                        @else
+                                            <td>-</td>
+                                            <td>-</td>
+                                        @endif
+                                    </tr>
+                                @endfor
                             @else
                                 <tr>
                                     <td colspan="5">Empty</td>

@@ -88,4 +88,49 @@ class TireSize extends Model
                 ->count(),
         );
     }
+
+
+    public function actualAvgKmPerMm(): Attribute
+    {
+        $actual_km_per_mm = [];
+        foreach ($this->tire as $tire){
+            $actual_km_per_mm[] = $tire->km_per_mm;
+        }
+        return Attribute::make(
+             get: fn($value) => round(count($actual_km_per_mm) > 0 ? array_sum($actual_km_per_mm) / count($actual_km_per_mm) : 0, 1)
+        );
+    }
+
+    public function actualAvgRtd(): Attribute
+    {
+        $actual_rtd = [];
+        foreach ($this->tire as $tire){
+            $actual_rtd[] = $tire->rtd;
+        }
+        return Attribute::make(
+             get: fn($value) => round(count($actual_rtd) > 0 ? array_sum($actual_rtd) / count($actual_rtd) : 0, 1)
+        );
+    }
+
+    public function actualAvgTur(): Attribute
+    {
+        $actual_tur = [];
+        foreach ($this->tire as $tire){
+            $actual_tur[] = $this->otd - $tire->rtd;
+        }
+        return Attribute::make(
+             get: fn($value) => round(count($actual_tur) > 0 ? array_sum($actual_tur) / count($actual_tur) : 0, 1)
+        );
+    }
+
+    public function actualAvgLifetimeKm(): Attribute
+    {
+        $actual_km = [];
+        foreach ($this->tire as $tire){
+            $actual_km[] = $tire->lifetime_km;
+        }
+        return Attribute::make(
+             get: fn($value) => round(count($actual_km) > 0 ? array_sum($actual_km) / count($actual_km) : 0, 1)
+        );
+    }
 }

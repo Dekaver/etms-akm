@@ -80,7 +80,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Tire Target KM<span class="manitory">*</span></label>
+                                    <label>Tire Target KM/MM<span class="manitory">*</span></label>
                                     <input type="number" class="form-control" name="rtd_target_km" max="99999" required>
                                 </div>
                             </div>
