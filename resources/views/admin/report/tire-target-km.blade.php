@@ -104,7 +104,7 @@
                                         @if (floor((int) $tiretargetkm->tire_size->actual_avg_tur) >= $tur)
                                             <td>{{ number_format($actual = (int) $tiretargetkm->tire_size->actual_avg_km_per_mm * $tur) }}
                                             </td>
-                                            <td class="{{ $actual - $target_km < 0 ? 'text-red' : '' }}">
+                                            <td class="{{ $actual - $target_km < 0 ? 'text-green' : 'text-red' }}">
                                                 {{ number_format($target_km - $actual) }}</td>
                                         @else
                                             <td>-</td>
