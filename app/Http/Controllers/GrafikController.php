@@ -1894,12 +1894,14 @@ class GrafikController extends Controller
                     ->where('history_tire_movements.status', '=', $status);
             });
 
-            $history = $history->whereRaw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') BETWEEN ? AND ?", [Carbon::parse(reset($ranges))->format("Y-m"), Carbon::parse(end($ranges))->format("Y-m")]);
+
+            // $history = $history->whereRaw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') BETWEEN ? AND ?", [Carbon::parse(reset($ranges))->format("Y-m"), Carbon::parse(end($ranges))->format("Y-m")]);
 
             if ($tahun) {
 
                 $history = $history->whereYear('history_tire_movements.start_date', $tahun);
             }
+
 
             $history = $history->whereHas('tire_size', function ($q) use ($brand_tire, $tire_pattern, $type_pattern) {
                 $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $tire_pattern, $type_pattern) {
@@ -1917,6 +1919,8 @@ class GrafikController extends Controller
                 });
             });
 
+
+
             if ($site) {
                 $history = $history->whereHas('site', function ($q) use ($site) {
                     $q->where('name', $site);
@@ -1925,11 +1929,10 @@ class GrafikController extends Controller
 
             $history = $history
                 ->get()
-                ->map(function ($tire) use ($ranges) {
+                ->map(function ($tire) use ($ranges, $tahun) {
                     $start_date = $tire->start_date;
-
                     foreach ($ranges as $key => $breakpoint) {
-                        if (Carbon::parse($breakpoint)->format('Y-m') == Carbon::parse($start_date)->format('Y-m')) { // check for year and month equal
+                        if (Carbon::parse("$tahun $breakpoint")->format('Y-m') == Carbon::parse($start_date)->format('Y-m')) { // check for year and month equal
                             $tire->range = $key;
                             break;
                         }
@@ -1944,6 +1947,7 @@ class GrafikController extends Controller
                     return count($group);
                 })
                 ->toArray();
+
             $d = [];
             foreach ($ranges as $k => $value) {
                 $d['name'] = $status;
@@ -1952,6 +1956,7 @@ class GrafikController extends Controller
             }
             $data['value'][] = $d;
         }
+
 
         $max = 0;
         foreach ($data['value'] as $key => $value) {
@@ -2274,11 +2279,11 @@ class GrafikController extends Controller
 
             $history = $history
                 ->get()
-                ->map(function ($tire) use ($ranges) {
+                ->map(function ($tire) use ($ranges, $tahun) {
                     $start_date = $tire->start_date;
 
                     foreach ($ranges as $key => $breakpoint) {
-                        if (Carbon::parse($breakpoint)->format('Y-m') == Carbon::parse($start_date)->format('Y-m')) { // check for year and month equal
+                        if (Carbon::parse("$tahun $breakpoint")->format('Y-m') == Carbon::parse($start_date)->format('Y-m')) { // check for year and month equal
                             $tire->range = $key;
                             break;
                         }
