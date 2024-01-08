@@ -55,18 +55,18 @@
                                 <tr>
                                     <td>Target KM/mili (RTD)</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->rtd_target_km) ?? '-' }}</td>
+                                    <td>{{ number_format($tiretargetkm->rtd_target_km ?? 0)  }}</td>
                                     <td>Total Jarak</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->site->total_jarak) ?? '-' }}</td>
+                                    <td>{{ number_format($tiretargetkm->site->total_jarak ?? 0)  }}</td>
                                 </tr>
                                 <tr>
                                     <td>Actual Avg KM/MM</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_km_per_mm) ?? '-' }}</td>
+                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_km_per_mm ?? 0)  }}</td>
                                     <td>Actual Total KM</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_lifetime_km) ?? '-' }}
+                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_lifetime_km ?? 0)  }}
                                     </td>
                                 </tr>
                             </table>
