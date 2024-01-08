@@ -451,9 +451,9 @@ class ReportController extends Controller
 
     public function tireRtdPerUnit(Request $request)
     {
-
+        $site = auth()->user()->site;
         $unitmodel_id = $request->query("unitmodel");
-        $unitsite_id = $request->query("unitsite");
+        $unitsite_id = $request->query("unitsite") ?? $site->id;
         $unitstatus_id = $request->query("unitstatus");
 
         $company = auth()->user()->company;
