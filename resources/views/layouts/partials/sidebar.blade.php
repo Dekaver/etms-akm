@@ -17,6 +17,8 @@
                             </li>
                             <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                     Scrap</a></li>
+                            <li><a href="/tire-cause-damage" class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
+                                    Cause Damage</a></li>
                         @endcan
                     </ul>
                 </li>
