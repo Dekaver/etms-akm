@@ -416,8 +416,8 @@ class DashboardController extends Controller
                 $q->where("status", "running");
             })
             ->whereNull('tires.deleted_at')
-            ->leftJoin(DB::raw("(select max(id) as id, tire_serial_number from history_tire_movements group by tire_serial_number) as sl"), function ($q) {
-                $q->on('sl.tire_serial_number', '=', 'tires.serial_number');
+            ->leftJoin(DB::raw("(select max(id) as id, serial_number from history_tire_movements group by serial_number) as sl"), function ($q) {
+                $q->on('sl.serial_number', '=', 'tires.serial_number');
             })
             ->with('tire_damage');
         $history = $history->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
@@ -492,8 +492,8 @@ class DashboardController extends Controller
                 $q->where("status", "running");
             })
             ->whereNull('tires.deleted_at')
-            ->leftJoin(DB::raw("(select max(id) as id, tire_serial_number from history_tire_movements group by tire_serial_number) as sl"), function ($q) {
-                $q->on('sl.tire_serial_number', '=', 'tires.serial_number');
+            ->leftJoin(DB::raw("(select max(id) as id, serial_number from history_tire_movements group by serial_number) as sl"), function ($q) {
+                $q->on('sl.serial_number', '=', 'tires.serial_number');
             })
 
             ->with('tire_damage');
@@ -594,5 +594,36 @@ class DashboardController extends Controller
         $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
 
         return view('admin.grafik.scrap', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
+    }
+
+    public function tireCauseDamage(Request $request)
+    {
+        $current_year = date('Y');
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_merge($date_range1, $date_range2);
+        $date_range = array_unique($date_range);
+        asort($date_range);
+        $tahun = $request->query('tahun');
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $site_name = $request->query('site');
+        } else {
+            $site_name = $request->query('site') ?? auth()->user()->site->site_name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $type_pattern = $request->query('type_pattern');
+        $tire_size = $request->query('tire_size');
+        $month = $request->query('month');
+        $week = $request->query('week');
+        $tire_pattern = $request->query('tire_pattern');
+        $tire_patterns = TirePattern::select('pattern')->groupBy('pattern')->get();
+        $site = Site::all();
+        $tire_sizes = TireSize::select('size')->groupBy('size')->get();
+        $type = UnitModel::select("type")->groupby('type')->get();
+        $manufacturer = TireManufacture::all();
+        $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
+
+        return view('admin.grafik.cause-damage', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
     }
 }

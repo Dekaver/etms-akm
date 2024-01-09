@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HistoryTireMovement;
 use App\Models\Site;
+use App\Models\TireDamage;
 use App\Models\TireMaster as Tire;
 use App\Models\DailyInspect as TireInspection;
 use App\Models\TireMovement;
@@ -1619,6 +1620,121 @@ class GrafikController extends Controller
         $bulat = pow(10, strlen($max) - 1);
         $data['max'] = ceil($max / $bulat) * $bulat;
         return $data;
+    }
+
+    public function tireCauseDamage(Request $request)
+    {
+        $current_year = date('Y');
+        $company = auth()->user()->company;
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_merge($date_range1, $date_range2);
+        $date_range = array_unique($date_range);
+        asort($date_range);
+        $tahun = $request->query('tahun');
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $name = $request->query('site');
+        } else {
+            $name = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $type_pattern = $request->query('type_pattern');
+        $tire_pattern = $request->query('tire_pattern');
+        $tire_size = $request->query('tire_size');
+        $month = $request->query('month');
+        $week = $request->query('week');
+
+
+        $data['damage'] = [];
+        $data['value'] = [];
+        $data['max'] = 0;
+        // foreach ($site as $key => $item) {
+        // $tire = TireDamage::select('tire_damages.damage')
+        $tire = TireDamage::select('tire_manufactures.name', 'tire_damages.damage', 'tire_damages.cause')
+            ->selectRaw('COUNT(tire_manufactures.name) as total')
+            // ->selectRaw('COUNT(tire_damages.damage) as total')
+
+            ->join('history_tire_movements', 'history_tire_movements.tire_damage_id', '=', 'tire_damages.id')
+            ->join('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+            ->join('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
+            ->join('tire_patterns', 'tire_patterns.id', '=', 'tire_sizes.tire_pattern_id')
+            ->join('tire_manufactures', 'tire_manufactures.id', '=', 'tire_patterns.tire_manufacture_id');
+
+        $tire = $tire->whereIn('history_tire_movements.status', ['REPAIR', 'SCRAP']);
+        $tire = $tire->where('history_tire_movements.company_id', $company->id);
+
+        // dd($tire->get());
+
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
+            });
+        }
+        if ($tahun) {
+            if ($month) {
+                if ($week) {
+                    $tire = $tire->whereRaw("EXTRACT(week from history_tire_movements.start_date) = $week");
+                } else {
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
+                }
+            } else {
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
+            }
+        }
+
+
+        if ($tire_size) {
+            $tire = $tire->where('tire_sizes.sizes', $tire_size);
+        }
+        if ($type_pattern) {
+            $tire = $tire->where('tire_patterns.type_pattern', $type_pattern);
+        }
+        if ($tire_pattern) {
+            $tire = $tire->where('tire_patterns.pattern', $tire_pattern);
+        }
+        if ($brand_tire) {
+            $tire = $tire->where('tire_manufactures.name', $brand_tire);
+        }
+
+
+        $tire = $tire->groupBy('tire_manufactures.name', "tire_damages.damage", "tire_damages.cause")->get();
+
+        $data = [];
+
+        // Create an array to store unique 'name' values
+        $nameValues = [];
+
+        // Iterate through the original data
+        foreach ($tire as $item) {
+            $name = $item['name'];
+            $damage = $item['damage'];
+            $total = $item['total'];
+
+            if (!in_array($name, $nameValues)) {
+                $nameValues[] = $name;
+            }
+
+            if (!isset($data[$damage])) {
+                $data[$damage] = ['name' => $damage, 'data' => array_fill(0, count($nameValues), 0)];
+            }
+
+            // Find the index of the 'name' value in $nameValues
+
+            // dd($nameValues);
+            $nameIndex = array_search($name, $nameValues);
+
+            // Update the 'data' array with the 'total' value at the correct index
+            $data[$damage]['data'][$nameIndex] = ($data[$damage]['data'][$nameIndex] ?? 0) + $total;
+        }
+
+        // Reindex the array to start from index 0
+        $data = array_values($data);
+
+        $result['data'] = $data;
+        $result['xaxis'] = $nameValues;
+
+        return $result;
     }
 
     public function brandUsage(Request $request)

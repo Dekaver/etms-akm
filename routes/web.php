@@ -101,19 +101,21 @@ Route::middleware(['auth'])->group(function () {
         Route::get('grafik-tire-inflation', [GrafikController::class, 'tireInflation']);
         Route::get('grafik-tire-inventory', [GrafikController::class, 'tireInventory']);
         Route::get('grafik-tire-consumption-by-unit', [GrafikController::class, 'tireConsumptionByModelUnit']);
-        Route::get('grafik-tire-cost-perhm', [GrafikController::class, 'tireCostPerHM']);
-        Route::get('grafik-tire-cost-perkm', [GrafikController::class, 'tireCostPerKM']);
-        Route::get('grafik-tire-cost-per-hm-by-pattern', [GrafikController::class, 'tireCostPerHMByPattern']);
-        Route::get('grafik-tire-cost-per-km-by-pattern', [GrafikController::class, 'tireCostPerKMByPattern']);
+        // Route::get('grafik-tire-cost-perhm', [GrafikController::class, 'tireCostPerHM']);
+        // Route::get('grafik-tire-cost-perkm', [GrafikController::class, 'tireCostPerKM']);
+        // Route::get('grafik-tire-cost-per-hm-by-pattern', [GrafikController::class, 'tireCostPerHMByPattern']);
+        // Route::get('grafik-tire-cost-per-km-by-pattern', [GrafikController::class, 'tireCostPerKMByPattern']);
         Route::get('grafik-tire-scrap-injury', [GrafikController::class, 'tireScrapInjury']);
         Route::get('grafik-tire-scrap-injury-cause', [GrafikController::class, 'tireScrapInjuryCause']);
-        Route::get('grafik-tire-runnning-conditional-hm', [GrafikController::class, 'tireRunningConditionalHm']);
-        Route::get('grafik-brand-usage', [GrafikController::class, 'brandUsage']);
+        // Route::get('grafik-tire-runnning-conditional-hm', [GrafikController::class, 'tireRunningConditionalHm']);
+        // Route::get('grafik-brand-usage', [GrafikController::class, 'brandUsage']);
         Route::get('grafik-tire-lifetime-average', [GrafikController::class, 'tireLifetimeAverage']);
         Route::get('tire-performance', [DashboardController::class, 'tirePerformance'])->name('tire-performance');
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
+        Route::get('tire-cause-damage', [DashboardController::class, 'tireCauseDamage'])->name('tire-cause-damage');
 
+        Route::get('grafik-tire-cause-damage', [GrafikController::class, 'tireCauseDamage']);
         // AKM
         Route::get('grafik-tire-fitment', [GrafikController::class, 'tireFitment']);
         Route::get('grafik-tire-fitment-month', [GrafikController::class, 'tireFitmentMonth']);
