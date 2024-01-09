@@ -116,6 +116,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('tire-cause-damage', [DashboardController::class, 'tireCauseDamage'])->name('tire-cause-damage');
 
         Route::get('grafik-tire-cause-damage', [GrafikController::class, 'tireCauseDamage']);
+        Route::get('grafik-tire-cause-damage-injury', [GrafikController::class, 'tireCauseDamageInjury']);
         // AKM
         Route::get('grafik-tire-fitment', [GrafikController::class, 'tireFitment']);
         Route::get('grafik-tire-fitment-month', [GrafikController::class, 'tireFitmentMonth']);

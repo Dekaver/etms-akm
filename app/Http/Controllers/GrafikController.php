@@ -1398,18 +1398,6 @@ class GrafikController extends Controller
                 $ranges[4] = [22, $days];
             }
         }
-
-        $data['damage'] = [
-            "Maintenance",
-            "Normal",
-            "Operational",
-        ];
-        $data['value'] = [
-            0,
-            0,
-            0,
-        ];
-        $data['max'] = 0;
         // foreach ($site as $key => $item) {
         // $tire = TireMovement::select('tire_damages.cause')
         //     ->selectRaw('COUNT(tire_damages.cause) as total')
@@ -1424,7 +1412,6 @@ class GrafikController extends Controller
             });
         $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
         $tire = $tire->where('tires.company_id', $company->id);
-
         if ($model_type) {
             $tire = $tire->whereHas('unit', function ($q) use ($model_type) {
                 $q->whereHas('unit_model', function ($q) use ($model_type) {
@@ -1467,43 +1454,20 @@ class GrafikController extends Controller
                 }
             });
         });
+        $tire = $tire->whereHas('tire_status', function ($query) {
+            $query->where('status', 'scrap');
+        });
+
 
         $tire = $tire
-
-            // ->where('tire_movements.site_id', $item->id)
-            ->whereHas('tire_status', function ($query) {
-                $query->where('status', 'scrap');
-            })
             ->groupBy('tire_damages.cause')
             ->get();
 
-        foreach ($tire as $key => $value) {
-            switch ($value->cause) {
-                case 'Maintenance':
-                    $data['value'][0] = (int) $value->total;
-                    break;
-
-                case 'Normal':
-                    $data['value'][1] = (int) $value->total;
-                    break;
-
-                case 'Operational':
-                    $data['value'][2] = (int) $value->total;
-                    break;
-
-                default:
-                    # code...
-                    break;
-            }
+        foreach ($tire as $item) {
+            $data['data'][] = $item->total;
+            $data['xaxis'][] = $item->cause;
         }
-        // }
-        $data['max'] = 0;
-        $max = 0;
-        if (!empty($data['value'])) {
-            $max = max($data['value']);
-        }
-        $bulat = pow(10, strlen($max) - 1);
-        $data['max'] = ceil($max / $bulat) * $bulat;
+
         return $data;
     }
 
@@ -1735,6 +1699,92 @@ class GrafikController extends Controller
         $result['xaxis'] = $nameValues;
 
         return $result;
+    }
+
+    public function tireCauseDamageInjury(Request $request)
+    {
+        $current_year = date('Y');
+        $company = auth()->user()->company;
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_merge($date_range1, $date_range2);
+        $date_range = array_unique($date_range);
+        asort($date_range);
+        $tahun = $request->query('tahun');
+        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
+            $name = $request->query('site');
+        } else {
+            $name = $request->query('site') ?? auth()->user()->site->name;
+        }
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $type_pattern = $request->query('type_pattern');
+        $tire_pattern = $request->query('tire_pattern');
+        $tire_size = $request->query('tire_size');
+        $month = $request->query('month');
+        $week = $request->query('week');
+
+
+        $data['damage'] = [];
+        $data['value'] = [];
+        $data['max'] = 0;
+        // foreach ($site as $key => $item) {
+        // $tire = TireDamage::select('tire_damages.damage')
+        $tire = TireDamage::select('tire_damages.cause')
+            ->selectRaw('COUNT(tire_damages.cause) as total')
+            // ->selectRaw('COUNT(tire_damages.damage) as total')
+
+            ->join('history_tire_movements', 'history_tire_movements.tire_damage_id', '=', 'tire_damages.id')
+            ->join('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+            ->join('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
+            ->join('tire_patterns', 'tire_patterns.id', '=', 'tire_sizes.tire_pattern_id')
+            ->join('tire_manufactures', 'tire_manufactures.id', '=', 'tire_patterns.tire_manufacture_id');
+
+        $tire = $tire->whereIn('history_tire_movements.status', ['REPAIR', 'SCRAP']);
+        $tire = $tire->where('history_tire_movements.company_id', $company->id);
+
+        // dd($tire->get());
+
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
+            });
+        }
+        if ($tahun) {
+            if ($month) {
+                if ($week) {
+                    $tire = $tire->whereRaw("EXTRACT(week from history_tire_movements.start_date) = $week");
+                } else {
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
+                }
+            } else {
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
+            }
+        }
+
+
+        if ($tire_size) {
+            $tire = $tire->where('tire_sizes.sizes', $tire_size);
+        }
+        if ($type_pattern) {
+            $tire = $tire->where('tire_patterns.type_pattern', $type_pattern);
+        }
+        if ($tire_pattern) {
+            $tire = $tire->where('tire_patterns.pattern', $tire_pattern);
+        }
+        if ($brand_tire) {
+            $tire = $tire->where('tire_manufactures.name', $brand_tire);
+        }
+
+
+        $tire = $tire->groupBy("tire_damages.cause")->get();
+        $data = [];
+        foreach ($tire as $item) {
+            $data['data'][] = $item->total;
+            $data['xaxis'][] = $item->cause;
+        }
+
+        return $data;
     }
 
     public function brandUsage(Request $request)

@@ -137,7 +137,7 @@
             </div>
         </div>
     </div>
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-xl-12">
             <div class="card o-hidden">
                 <div class="card-header pb-0">
@@ -151,8 +151,8 @@
                     <div class="bottom-content card-body">
                         <div class="row">
                             <div class="col-12">
-                                <div id="chart-tire-scrap-injury-cause"
-                                    data-url="{{ str_replace(Request::url(), url('grafik-tire-scrap-injury-cause'), Request::fullUrl()) }}">
+                                <div id="chart-tire-cause-damage-injury"
+                                    data-url="{{ str_replace(Request::url(), url('grafik-tire-cause-damage-injury'), Request::fullUrl()) }}">
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     @push('js')
         <script src="{{ asset('assets\view\grafik-cause.js') }}"></script>
         <script>
