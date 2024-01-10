@@ -1908,7 +1908,8 @@ class GrafikController extends Controller
             'tire_patterns.pattern',
             DB::raw('round(AVG(tires.lifetime_hm),1) as avg_lifetime_hm'),
             DB::raw('round(AVG(tires.lifetime_km ),1) as avg_lifetime_km'),
-            DB::raw('round(AVG(tires.lifetime_km / (tire_sizes.otd - tires.rtd)), 1) as avg_km_per_mm')
+            DB::raw('round(AVG(tires.lifetime_km / (tire_sizes.otd - tires.rtd)), 1) as avg_km_per_mm'),
+            DB::raw('round(AVG(tire_sizes.otd - tires.rtd), 1) as avg_tur')
         );
         $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
         $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
@@ -1957,17 +1958,17 @@ class GrafikController extends Controller
             ->groupBy('tire_patterns.type_pattern', 'tire_sizes.size', 'tire_manufactures.name', 'tire_patterns.pattern')
             ->orderBy('tire_patterns.type_pattern', 'ASC')
             ->get();
-
         $returning = [];
         $returning["value"][0]["name"] = "KM";
         $returning["value"][0]["type"] = "bar";
-        $returning["value"][1]["name"] = "HM";
+        $returning["value"][1]["name"] = "TUR";
         $returning["value"][1]["type"] = "line";
         $returning["value"][2]["name"] = "KM/MM";
         $returning["value"][2]["type"] = "bar";
+
         foreach ($tire as $key => $item) {
             $returning["value"][0]["data"][] = $item->avg_lifetime_km;
-            $returning["value"][1]["data"][] = $item->avg_lifetime_hm;
+            $returning["value"][1]["data"][] = $item->avg_tur;
             $returning["value"][2]["data"][] = $item->avg_km_per_mm;
             $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
         }

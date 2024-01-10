@@ -127,7 +127,6 @@ if ($("#chart-tire-lifetime").length > 0) {
             type: "line",
             height: 720,
             stacked: true,
-            stackType: "",
         },
 
         plotOptions: {
@@ -221,7 +220,7 @@ if ($("#chart-tire-lifetime").length > 0) {
             Math.max(...response.value[0].data) +
             Math.max(...response.value[2].data);
         // const dynamicMaxKM = 8390;
-        const dynamicMaxHM = Math.max(...response.value[1].data);
+        const dynamicMaxTUR = Math.ceil(Math.max(...response.value[1].data));
 
         const roundedResultKM =
             parseInt(dynamicMaxKM).toString()[1] > 8
@@ -236,7 +235,6 @@ if ($("#chart-tire-lifetime").length > 0) {
                   ) *
                   10 ** (parseInt(dynamicMaxKM).toString().length - 2);
 
-        tire_lifetime_average.updateSeries(response.value);
         tire_lifetime_average.updateOptions({
             series: response.value,
             yaxis: [
@@ -244,6 +242,38 @@ if ($("#chart-tire-lifetime").length > 0) {
                     seriesName: "KM",
                     title: {
                         text: "KM",
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    min: 0,
+                    max: roundedResultKM,
+                    float: false,
+                },
+                {
+                    opposite: true,
+                    seriesName: "TUR",
+                    title: {
+                        text: "TUR",
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    min: 0,
+                    max: dynamicMaxTUR,
+                    float: false,
+                },
+                {
+                    show:false,
+                    seriesName: "KM/MM",
+                    title: {
+                        text: "KM/MM",
                     },
                     axisTicks: {
                         show: true,
