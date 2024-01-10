@@ -71,7 +71,8 @@
                                                 <option value="">Choose Size</option>
                                                 @foreach ($tiresize as $item2)
                                                     <option value="{{ $item2->id }}" @selected($item2->id == $tiresize_id)>
-                                                        {{ $item2->size }} {{ $item2->tire_pattern->manufacture->name }}</option>
+                                                        {{ $item2->size }}
+                                                        {{ $item2->tire_pattern->manufacture->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -207,8 +208,8 @@
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>RTD</label>
-                                    <input type="number" class="form-control" value="0" name="rtd" step="0.1"
-                                        required>
+                                    <input type="number" class="form-control" value="0" name="rtd"
+                                        step="0.1" required>
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
@@ -362,6 +363,49 @@
         </form>
     </div>
 
+    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            @can('RESETTIREHISTORY')
+                <form method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="resetModalLabel">Confirmation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Are you sure you want to RESET TIRE <span class="text-primary" id="message"></span>
+                            </h5>
+                        </div>
+                        @csrf
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">RESET</button>
+                        </div>
+                    </div>
+                </form>
+            @else
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resetModalLabel">Access Denied</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>You not access Reset Tire History <span class="text-primary" id="message"></span></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            @endcan
+        </div>
+    </div>
+
     @push('js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
             integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA=="
@@ -422,6 +466,15 @@
                     });
 
 
+                });
+
+                $('#resetModal').on('show.bs.modal', function(event) {
+                    var button = $(event.relatedTarget)
+                    var message = button.data('message');
+                    var action = button.data('action');
+                    var modal = $(this)
+                    modal.find('form').attr('action', action);
+                    modal.find('#message').html(message);
                 });
 
                 $('#form-modal-edit').on('show.bs.modal', function(event) {

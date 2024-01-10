@@ -54,7 +54,7 @@ class TireMasterController extends Controller
                     return $row->tire_status->status;
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = "<a class='me-3 text-warning' href='#'
+                    $actionBtn = "<a class='text-warning' href='#'
                                     data-bs-target='#form-modal-edit'  data-bs-toggle='modal' data-id='$row->id'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
                                 </a>
@@ -63,6 +63,12 @@ class TireMasterController extends Controller
                                                     data-action='" . route('tiremaster.destroy', $row->id) . "'
                                                     data-message='$row->name'>
                                     <img src='assets/img/icons/delete.svg' alt='img'>
+                                </a>
+                                <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
+                                                    data-bs-target='#resetModal' data-id='$row->id'
+                                                    data-action='" . route('tiremaster.reset', $row->id) . "'
+                                                    data-message='$row->name'>
+                                    <img src='assets/img/icons/reset.svg' alt='img'>
                                 </a>";
                     return $actionBtn;
                 })
@@ -205,5 +211,46 @@ class TireMasterController extends Controller
     {
         $tiremaster->delete();
         return redirect()->back()->with("success", "Deleted Tire Master $tiremaster->serial_number");
+    }
+
+    public function resetHistory(TireMaster $tiremaster)
+    {
+        DB::beginTransaction();
+        try {
+            // REMOVE ALL RELATION
+            foreach ($tiremaster->daily_inspect_details as $key => $value) {
+                if ($value->daily_inspect) {
+                    $value->daily_inspect->details()->delete();
+                    $value->daily_inspect()->delete();
+                }
+            }
+            $tiremaster->daily_inspect_details()->delete();
+            $tiremaster->tire_adjust_km()->delete();
+            $tiremaster->tire_running()->delete();
+            $tiremaster->tire_repair()->delete();
+            $tiremaster->history_tire_movement()->delete();
+
+            // RESET ALL VALUE
+            $tiremaster->rtd = $tiremaster->tire_size->otd;
+            $tiremaster->lifetime_km = 0;
+            $tiremaster->lifetime_hm = 0;
+            $tiremaster->lifetime_retread_km = 0;
+            $tiremaster->lifetime_retread_hm = 0;
+            $tiremaster->lifetime_repair_km = 0;
+            $tiremaster->lifetime_repair_hm = 0;
+            $tiremaster->is_repair = false;
+            $tiremaster->is_retread = false;
+            $tiremaster->is_repairing = false;
+            $tiremaster->is_retreading = false;
+            $tiremaster->tire_damage_id = null;
+
+            $tiremaster->save();
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+        // $tiremaster->delete();
+        return redirect()->back()->with("success", "RESET Tire Master $tiremaster->serial_number");
     }
 }

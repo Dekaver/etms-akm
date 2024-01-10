@@ -34,4 +34,9 @@ class DailyInspectDetail extends Model
     {
         return $this->belongsTo(TireMaster::class);
     }
+
+    public function daily_inspect()
+    {
+        return $this->belongsTo(DailyInspect::class, 'daily_inspect_id', 'id');
+    }
 }

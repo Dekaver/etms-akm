@@ -151,6 +151,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('adjust-km-pasang', [TireRunningController::class, 'adjustKmPasang'])->name('adjust-km-pasang.store');
     });
 
+    Route::middleware(['permission:RESETTIREHISTORY'])->group(function(){
+        Route::post('tire-reset/{tiremaster}', [TireMasterController::class, 'resetHistory'])->name('tiremaster.reset');
+    });
+
     // Route::get('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
 });
 

@@ -69,6 +69,21 @@ class TireMaster extends Model
         return $this->hasOne(TireRunning::class, "tire_id", "id");
     }
 
+    public function tire_repair()
+    {
+        return $this->hasOne(TireRepair::class, "tire_id", "id");
+    }
+
+    public function tire_adjust_km()
+    {
+        return $this->hasMany(AdjustKmPasang::class, "tire_id", "id");
+    }
+
+    public function daily_inspect_details()
+    {
+        return $this->hasMany(DailyInspectDetail::class, "tire_id", "id");
+    }
+
     public function history_tire_movement()
     {
         return $this->hasMany(HistoryTireMovement::class, "tire", "serial_number");
