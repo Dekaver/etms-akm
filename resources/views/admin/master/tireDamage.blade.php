@@ -11,7 +11,8 @@
             </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
+            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
+                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
         </div>
     </div>
 
@@ -76,11 +77,8 @@
                             <div class="col-12">
                                 <div class="form-group ">
                                     <label>Cause</label>
-                                    <select class="select" name="cause" required>
+                                    <select class="select-with-input form-control" name="cause" required>
                                         <option>Choose Cause</option>
-                                        <option> NORMAL</option>
-                                        <option> OPERATIONAL</option>
-                                        <option> MAINTENANCE</option>
                                     </select>
                                 </div>
                             </div>
@@ -133,34 +131,52 @@
                         },
                     ]
                 });
-
-
-            });
-
-            $('#form-modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var post = button.data('post');
-                var modal = $(this)
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('tiredamage.store') }}`)
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ route('tiredamage.index') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('input[name="damage"]').val(response.damage).trigger('change');
-                        modal.find('select[name="cause"]').val(response.cause).trigger('change');
-                        modal.find('input[name="rating"]').val(response.rating).trigger('change');
-                        modal.find('input[name="_method"]').val('PUT');
+                $('#form-modal').on('show.bs.modal', function(event) {
+                    var button = $(event.relatedTarget)
+                    var post = button.data('post');
+                    var modal = $(this)
+                    var damage = table.rows().data().toArray().map(k => k.cause);
+                    let causes = [...new Set(damage)];
+                    causes.forEach(cause => {
+                        modal.find('select[name="cause"]').append($('<option>', {
+                            value: cause.toLowerCase(),
+                            text: cause.toUpperCase()
+                        }))
+                        console.log(modal.find('select[name="cause"]'));
                     });
-                    modal.find('form').attr('action', `{{ route('tiredamage.index') }}/${id}`)
-                }
+
+                    if (post == 'new') {
+                        modal.find('input[name="_method"]').val('POST');
+                        modal.find('form').attr('action', `{{ route('tiredamage.store') }}`)
+                    } else {
+                        var id = button.data('id');
+                        $.ajax({
+                            method: "GET",
+                            url: `{{ route('tiredamage.index') }}/${id}/edit`
+                        }).done(function(response) {
+                            modal.find('input[name="damage"]').val(response.damage).trigger('change');
+                            modal.find('select[name="cause"]').val(response.cause).trigger('change');
+                            modal.find('input[name="rating"]').val(response.rating).trigger('change');
+                            modal.find('input[name="_method"]').val('PUT');
+                        });
+                        modal.find('form').attr('action', `{{ route('tiredamage.index') }}/${id}`)
+                    }
+                });
+                $('#form-modal').on('hide.bs.modal', function(event) {
+                    $(this).find('form')[0].reset();
+                });
             });
-            $('#form-modal').on('hide.bs.modal', function(event) {
-                $(this).find('form')[0].reset();
-            });
+
+
+
+            if ($('.select-with-input').length > 0) {
+                $('.select-with-input').select2({
+                    tags: true,
+                    dropdownParent: $("#form-modal"),
+                    // minimumResultsForSearch: 5,
+                    width: '100%'
+                });
+            }
         </script>
     @endpush
 </x-app-layout>
