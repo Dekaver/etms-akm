@@ -26,6 +26,7 @@ class TireRunningController extends Controller
 
         if ($request->ajax()) {
             $data = Unit::where('company_id', $company->id)->where('site_id', $site->id);
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("unit_model", function ($row) {
