@@ -161,7 +161,7 @@ class TireRunningController extends Controller
         $tire_inventory = TireMaster::where('is_repairing', false)->where('is_retreading', false)
             ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))
             ->whereHas("tire_size", function ($query) use ($tire_size) {
-                $query->where("size", $tire_size->size);
+                $query->where("size", 'like', substr($tire_size->size,0,5) . '%');
             })
             ->whereHas('tire_status', function ($query) {
                 $query->whereIn('status', ['spare', 'new', 'repair']);
