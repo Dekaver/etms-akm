@@ -139,7 +139,7 @@
                     let causes = [...new Set(damage)];
                     causes.forEach(cause => {
                         modal.find('select[name="cause"]').append($('<option>', {
-                            value: cause.toLowerCase(),
+                            value: cause.toUpperCase(),
                             text: cause.toUpperCase()
                         }))
                         console.log(modal.find('select[name="cause"]'));
