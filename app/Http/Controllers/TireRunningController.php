@@ -178,7 +178,7 @@ class TireRunningController extends Controller
         // }
         // dd($tire_running);
         $unit_model = $unit->unit_model;
-        $tire_damage = TireDamage::all();
+        $tire_damage = TireDamage::where('company_id', $unit->company_id)->get();
         $tire_status = TireStatus::all();
 
         // $trailermovement = HistoryTrailerMovement::where('unit_install', $unit->unit_number)->orderBy('date_end', 'desc')->get();
