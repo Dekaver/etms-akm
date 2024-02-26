@@ -153,8 +153,7 @@ if($("#chart-tire-scrap-injury-cause").length > 0) {
                 fontSize: '12pt',
             },
             formatter: function (val, opt) {
-                // console.log(opt)
-                return   opt.w.globals.series[opt.seriesIndex]+" : " + val.toFixed(0)+ " %"
+                return   opt.w.globals.series[opt.seriesIndex] +" : " + val.toFixed(0) + " %"
             },
             offsetX: 0,
               dropShadow: {
@@ -172,7 +171,6 @@ if($("#chart-tire-scrap-injury-cause").length > 0) {
     var url = $("#chart-tire-scrap-injury-cause").data("url");
 
     $.getJSON(url, (response) => {
-        console.log(response);
         tire_scrap_injury_cause.updateOptions({
             series: response.data,
             labels: response.xaxis,
