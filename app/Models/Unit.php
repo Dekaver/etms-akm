@@ -69,7 +69,23 @@ class Unit extends Model
                 if ($date == null) {
                     return null;
                 }
-                return Carbon::parse("$date $time");
+                return Carbon::parse("$date $time")->format('Y-m-d H:i');
+            }
+        );
+    }
+
+    public function replaceLastUpdate(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $date = $this->history_tire_movement
+                    ->sortByDesc('date')
+                    ->sortByDesc('time')
+                    ->pluck('start_date')->first();
+                if ($date == null) {
+                    return null;
+                }
+                return Carbon::parse("$date")->format('Y-m-d H:i');
             }
         );
     }
