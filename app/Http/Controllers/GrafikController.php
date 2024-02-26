@@ -1667,25 +1667,18 @@ class GrafikController extends Controller
         $data = [];
 
         // Create an array to store unique 'name' values
-        $nameValues = [];
-
+        $nameValues = $tire->pluck('name')->unique()->values()->toArray();
         // Iterate through the original data
         foreach ($tire as $item) {
             $name = $item['name'];
             $damage = $item['damage'];
             $total = $item['total'];
 
-            if (!in_array($name, $nameValues)) {
-                $nameValues[] = $name;
-            }
-
             if (!isset($data[$damage])) {
                 $data[$damage] = ['name' => $damage, 'data' => array_fill(0, count($nameValues), 0)];
             }
 
             // Find the index of the 'name' value in $nameValues
-
-            // dd($nameValues);
             $nameIndex = array_search($name, $nameValues);
 
             // Update the 'data' array with the 'total' value at the correct index
