@@ -172,7 +172,7 @@ if($("#chart-tire-scrap-injury-cause").length > 0) {
 
     $.getJSON(url, (response) => {
         tire_scrap_injury_cause.updateOptions({
-            series: response.data,
+            series: response.data.map(a=>parseFloat(a)),
             labels: response.xaxis,
             responsive: [
                 {
