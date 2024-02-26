@@ -19,7 +19,7 @@ class TireRepairController extends Controller
     public function index(Request $request)
     {
         $company = auth()->user()->company;
-        $tire_damages = TireDamage::all();
+        $tire_damages = TireDamage::where("company_id", $company->id)->get();
         if ($request->ajax()) {
             $data = TireMaster::where('company_id', $company->id)->where('is_repairing', true);
             return DataTables::of($data)

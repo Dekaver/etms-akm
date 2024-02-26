@@ -26,7 +26,7 @@ class DailyInspectController extends Controller
         $company = auth()->user()->company;
         $site = auth()->user()->site;
         $sites = Site::where("company_id", $company->id)->get();
-        $tire_damages = TireDamage::all();
+        $tire_damages = TireDamage::where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
             $data = Unit::where('company_id', $company->id)->where('site_id', $site->id);
@@ -199,7 +199,7 @@ class DailyInspectController extends Controller
         $company = auth()->user()->company;
         $site = auth()->user()->site;
         $sites = Site::where("company_id", $company->id)->get();
-        $tire_damages = TireDamage::all();
+        $tire_damages = TireDamage::where("company_id", $company->id)->get();
         $unit = Unit::whereId($id)->with('tire_runnings.tire')->first();
         if ($request->ajax()) {
             $data = DailyInspect::where('company_id', $company->id)->where("unit_id", $id)->where('site_id', $site->id);
