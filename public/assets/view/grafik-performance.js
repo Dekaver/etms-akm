@@ -166,7 +166,10 @@ if ($("#chart-tire-lifetime").length > 0) {
                 opacity: 0.9,
             },
             formatter: function (val, opts) {
-                return val.toLocaleString("id-ID");
+                if(val){
+                    return val.toLocaleString("id-ID");
+                }
+                return null
             },
         },
         fill: {
@@ -194,12 +197,18 @@ if ($("#chart-tire-lifetime").length > 0) {
             y: [
                 {
                     formatter(val) {
-                        return val.toLocaleString("id-ID");
+                        if (val) {
+                            return val.toLocaleString("id-ID");
+                        }
+                        return "0";
                     },
                 },
                 {
                     formatter(val) {
-                        return val.toLocaleString("id-ID");
+                        if (val) {
+                            return val.toLocaleString("id-ID");
+                        }
+                        return "0";
                     },
                 },
             ],
@@ -234,7 +243,6 @@ if ($("#chart-tire-lifetime").length > 0) {
                           10 ** (parseInt(dynamicMaxKM).toString().length - 2)
                   ) *
                   10 ** (parseInt(dynamicMaxKM).toString().length - 2);
-
         tire_lifetime_average.updateOptions({
             series: response.value,
             yaxis: [
@@ -270,7 +278,7 @@ if ($("#chart-tire-lifetime").length > 0) {
                     float: false,
                 },
                 {
-                    show:false,
+                    show: false,
                     seriesName: "KM/MM",
                     title: {
                         text: "KM/MM",
