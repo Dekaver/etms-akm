@@ -1596,11 +1596,7 @@ class GrafikController extends Controller
         $date_range = array_unique($date_range);
         asort($date_range);
         $tahun = $request->query('tahun');
-        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $name = $request->query('site');
-        } else {
-            $name = $request->query('site') ?? auth()->user()->site->name;
-        }
+        $name = $request->query('site') ?? auth()->user()->site->name;
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
         $type_pattern = $request->query('type_pattern');
@@ -1631,9 +1627,7 @@ class GrafikController extends Controller
         // dd($tire->get());
 
         if ($name) {
-            $tire = $tire->whereHas('site', function ($q) use ($name) {
-                $q->where('name', $name);
-            });
+            $tire = $tire->join('sites', 'tires.site_id', '=', 'sites.id')->where('sites.name', $name);
         }
         if ($tahun) {
             if ($month) {
@@ -1704,11 +1698,7 @@ class GrafikController extends Controller
         $date_range = array_unique($date_range);
         asort($date_range);
         $tahun = $request->query('tahun');
-        if (Gate::any(['isSuperAdmin', 'isViewer', 'isManager'])) {
-            $name = $request->query('site');
-        } else {
-            $name = $request->query('site') ?? auth()->user()->site->name;
-        }
+        $name = $request->query('site') ?? auth()->user()->site->name;
         $model_type = $request->query('model_type');
         $brand_tire = $request->query('brand_tire');
         $type_pattern = $request->query('type_pattern');
@@ -1739,9 +1729,7 @@ class GrafikController extends Controller
         // dd($tire->get());
 
         if ($name) {
-            $tire = $tire->whereHas('site', function ($q) use ($name) {
-                $q->where('name', $name);
-            });
+            $tire = $tire->join('sites', 'tires.site_id', '=', 'sites.id')->where('sites.name', $name);
         }
         if ($tahun) {
             if ($month) {
