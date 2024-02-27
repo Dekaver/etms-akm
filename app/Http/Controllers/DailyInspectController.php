@@ -273,6 +273,16 @@ class DailyInspectController extends Controller
                 return redirect()->back()->with('error', 'Cant Update, Because This Inspection Not the last Inspection');
             }
 
+            $lTireMovement = TireRunning::where('unit_id', $unit->id)->get();
+            if ($dailyinspect->details->count() != $lTireMovement->count()) {
+                return redirect()->back()->with('error', 'Tire Inspection tidak sama dengan tire install, Tidak dapat di ubah');
+            }
+            foreach ($dailyinspect->details as $value) {
+                if ($value->tire_id != $lTireMovement->where('position', $value->position)->pluck('tire_id')->first()) {
+                    return redirect()->back()->with('error', 'Tire Inspection tidak sama dengan tire install, Tidak dapat di ubah');
+                }
+            }
+
             $dailyinspect->updated_hm_unit = $request->hm;
             $dailyinspect->updated_km_unit = $request->km;
             $dailyinspect->shift = $request->shift;
