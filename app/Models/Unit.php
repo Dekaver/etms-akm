@@ -61,8 +61,7 @@ class Unit extends Model
                     ->pluck('date')
                     ->first()?->format("Y-m-d");
                     $time = $this->daily_inspect
-                    ->sortByDesc('date')
-                    ->sortByDesc('time')
+                    ->sortByDesc('id')
                     ->pluck('time')
                     ->first();
                 if ($date == null) {
