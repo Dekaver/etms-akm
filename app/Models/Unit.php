@@ -57,8 +57,7 @@ class Unit extends Model
         return Attribute::make(
             get: function () {
                 $date = $this->daily_inspect
-                    ->sortByDesc('date')
-                    ->sortByDesc('time')
+                    ->sortByDesc('id')
                     ->pluck('date')
                     ->first()?->format("Y-m-d");
                     $time = $this->daily_inspect
@@ -79,8 +78,7 @@ class Unit extends Model
         return Attribute::make(
             get: function () {
                 $date = $this->history_tire_movement
-                    ->sortByDesc('date')
-                    ->sortByDesc('time')
+                    ->sortByDesc('id')
                     ->pluck('start_date')->first();
                 if ($date == null) {
                     return null;
