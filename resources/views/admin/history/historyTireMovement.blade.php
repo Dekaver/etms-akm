@@ -60,6 +60,7 @@
                             <th>Unit HM</th>
                             <th>Unit KM</th>
                             <th>RTD</th>
+                            <th>Driver</th>
                             <th>PIC</th>
                             <th>Man Power</th>
                             <th>Damage</th>
@@ -139,6 +140,10 @@
                         {
                             data: 'rtd',
                             name: 'rtd'
+                        },
+                        {
+                            data: 'driver',
+                            name: 'driver'
                         },
                         {
                             data: 'pic',
