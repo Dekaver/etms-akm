@@ -17,7 +17,8 @@
                             </li>
                             <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                     Scrap</a></li>
-                            <li><a href="/tire-cause-damage" class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
+                            <li><a href="/tire-cause-damage"
+                                    class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
                                     Cause Damage</a></li>
                         @endcan
                     </ul>
@@ -69,7 +70,8 @@
                             </li>
                         @endcan
                         @can('TIRE_TARGETKM')
-                            <li><a href="/tiretargetkm" class="{{ Request::routeIs('tiretargetkm.*') ? 'active' : '' }}">Target KM</a>
+                            <li><a href="/tiretargetkm"
+                                    class="{{ Request::routeIs('tiretargetkm.*') ? 'active' : '' }}">Target KM</a>
                             </li>
                         @endcan
 
@@ -100,6 +102,10 @@
                             <li><a href="/dailyinspect"
                                     class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily Monitoring</a>
                             </li>
+                        @endcan
+                        @can('DRIVER')
+                            <li><a href="/driver" class="{{ Request::routeIs('driver.*') ? 'active' : '' }}">
+                                    Data Driver</a></li>
                         @endcan
                     </ul>
                 </li>
