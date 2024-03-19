@@ -208,7 +208,7 @@
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>RTD</label>
-                                    <input type="number" class="form-control" value="0" name="rtd"
+                                    <input type="text" class="form-control" value="0" name="rtd"
                                         step="0.1" required>
                                 </div>
                             </div>
@@ -321,7 +321,7 @@
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
-                                    <label>RTD</label><input type="number" class="form-control" value="0"
+                                    <label>RTD</label><input type="text" class="form-control" value="0"
                                         name="rtd" required>
 
                                 </div>
