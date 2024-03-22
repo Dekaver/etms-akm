@@ -18,109 +18,119 @@
             <h5>Filter</h5>
         </div>
         <div class="card-body">
-            <form action=""> 
-            <div class="row">
-                <div class="form-group col-lg-3 col-sm-3 col-6">
-                    <label>Year</label>
-                    {{-- <input class="form-control" type="text" name="tahun" max="9999" min="2000"
+            <form action="">
+                <div class="row">
+                    <div class="form-group col-lg-3 col-sm-3 col-6">
+                        <label>Group</label>
+                        <select class="form-control" name="grup">
+                            <option value="">Choose Group</option>
+                            <option value="unit" @selected($grup == 'unit')>Unit</option>
+                            <option value="driver" @selected($grup == 'driver')>Driver</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3 col-sm-3 col-6">
+                        <label>Year</label>
+                        {{-- <input class="form-control" type="text" name="tahun" max="9999" min="2000"
                                 maxlength="4" value="{{ $tahun }}"> --}}
-                    <select class="select" name="year">
-                        <option value="">Choose Years</option>
-                        @for ($i = 2022; $i < \Carbon\Carbon::now()->format('Y') + 1; $i++)
-                            <option value="{{ $i }}" @selected($year == $i)>
-                                {{ $i }}</option>
-                        @endfor
-                    </select>
+                        <select class="select" name="year">
+                            <option value="">Choose Years</option>
+                            @for ($i = 2022; $i < \Carbon\Carbon::now()->format('Y') + 1; $i++)
+                                <option value="{{ $i }}" @selected($year == $i)>
+                                    {{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-3 col-sm-3 col-6">
+                        <label>Month</label>
+                        <select class="form-control" name="month">
+                            <option value="">Choose Month</option>
+                            <option value="1" @selected($month == '1')>Jan</option>
+                            <option value="2" @selected($month == '2')>Feb</option>
+                            <option value="3" @selected($month == '3')>Mar</option>
+                            <option value="4" @selected($month == '4')>Apr</option>
+                            <option value="5" @selected($month == '5')>Mey</option>
+                            <option value="6" @selected($month == '6')>Jun</option>
+                            <option value="7" @selected($month == '7')>Jul</option>
+                            <option value="8" @selected($month == '8')>Aug</option>
+                            <option value="9" @selected($month == '9')>Sep</option>
+                            <option value="10" @selected($month == '10')>Okt</option>
+                            <option value="11" @selected($month == '11')>Nov</option>
+                            <option value="12" @selected($month == '12')>Des</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group col-lg-3 col-sm-3 col-6">
-                    <label>Month</label>
-                    <select class="form-control" name="month">
-                        <option value="">Choose Month</option>
-                        <option value="1" @selected($month == '1')>Jan</option>
-                        <option value="2" @selected($month == '2')>Feb</option>
-                        <option value="3" @selected($month == '3')>Mar</option>
-                        <option value="4" @selected($month == '4')>Apr</option>
-                        <option value="5" @selected($month == '5')>Mey</option>
-                        <option value="6" @selected($month == '6')>Jun</option>
-                        <option value="7" @selected($month == '7')>Jul</option>
-                        <option value="8" @selected($month == '8')>Aug</option>
-                        <option value="9" @selected($month == '9')>Sep</option>
-                        <option value="10" @selected($month == '10')>Okt</option>
-                        <option value="11" @selected($month == '11')>Nov</option>
-                        <option value="12" @selected($month == '12')>Des</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
+                <div class="row">
 
-                <div class="form-group col-lg-2 col-sm-2 col-6">
-                    <label>Unit</label>
-                    <select class="form-control" name="unit">
-                        <option value="">Choose Unit</option>
-                        @foreach ($units as $item)
-                            <option value="{{ $item->unit_number }}" @selected($item->unit_number == $unit)>
-                                {{ $item->unit_number }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-2 col-sm-2 col-6">
-                    <label>Tire Size</label>
-                    <select class="form-control" name="tire_size">
-                        <option value="">Choose Tire Size</option>
-                        @foreach ($tire_sizes as $item)
-                            <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
-                                {{ $item->size }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-2 col-sm-2 col-6">
-                    <label>Brand Tire</label>
-                    <select class="form-control" name="brand_tire">
-                        <option value="">Choose Brand Tire</option>
-                        @foreach ($manufacturer as $item)
-                            <option value="{{ $item->name }}" @selected($item->name == $brand_tire)>
-                                {{ $item->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-2 col-sm-2 col-6">
-                    <label>Type Pattern</label>
-                    <select class="form-control" name="type_pattern">
-                        <option value="">Choose Type Pattern</option>
-                        @foreach ($type_patterns as $item)
-                            <option value="{{ $item->type_pattern }}" @selected($item->type_pattern == $type_pattern)>
-                                {{ $item->type_pattern }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-2 col-sm-2 col-6">
-                    <label>Tire Pattern</label>
-                    <select class="form-control" name="tire_pattern">
-                        <option value="">Choose Tire Pattern</option>
-                        @foreach ($tire_patterns as $item)
-                            <option value="{{ $item->pattern }}" @selected($item->pattern == $tire_pattern)>
-                                {{ $item->pattern }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                        <label>Unit</label>
+                        <select class="form-control" name="unit">
+                            <option value="">Choose Unit</option>
+                            @foreach ($units as $item)
+                                <option value="{{ $item->unit_number }}" @selected($item->unit_number == $unit)>
+                                    {{ $item->unit_number }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                        <label>Tire Size</label>
+                        <select class="form-control" name="tire_size">
+                            <option value="">Choose Tire Size</option>
+                            @foreach ($tire_sizes as $item)
+                                <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
+                                    {{ $item->size }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                        <label>Brand Tire</label>
+                        <select class="form-control" name="brand_tire">
+                            <option value="">Choose Brand Tire</option>
+                            @foreach ($manufacturer as $item)
+                                <option value="{{ $item->name }}" @selected($item->name == $brand_tire)>
+                                    {{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                        <label>Type Pattern</label>
+                        <select class="form-control" name="type_pattern">
+                            <option value="">Choose Type Pattern</option>
+                            @foreach ($type_patterns as $item)
+                                <option value="{{ $item->type_pattern }}" @selected($item->type_pattern == $type_pattern)>
+                                    {{ $item->type_pattern }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                        <label>Tire Pattern</label>
+                        <select class="form-control" name="tire_pattern">
+                            <option value="">Choose Tire Pattern</option>
+                            @foreach ($tire_patterns as $item)
+                                <option value="{{ $item->pattern }}" @selected($item->pattern == $tire_pattern)>
+                                    {{ $item->pattern }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                <div class="form-group col-lg-2 col-sm-2 col-6">
-                    <label>Driver</label>
-                    <select class="form-control" name="driver">
-                        <option value="">Choose Driver</option>
-                        @foreach ($drivers as $item)
-                            <option value="{{ $item->id }}" @selected($item->id == $driver)>
-                                {{ $item->nama }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group col-lg-2 col-sm-2 col-6">
+                        <label>Driver</label>
+                        <select class="form-control" name="driver">
+                            <option value="">Choose Driver</option>
+                            @foreach ($drivers as $item)
+                                <option value="{{ $item->id }}" @selected($item->id == $driver)>
+                                    {{ $item->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <button class="btn btn-primary" type="submit">Filter</button>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" type="submit">Filter</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
 
@@ -138,7 +148,11 @@
                                 {{ $year }}</th>
                         </tr>
                         <tr>
-                            <th style="text-align: center" rowspan="2">Unit</th>
+                            @if ($grup == 'driver')
+                                <th style="text-align: center" rowspan="2">Driver</th>
+                            @else
+                                <th style="text-align: center" rowspan="2">Unit</th>
+                            @endif
                             <th style="text-align: center" colspan="3">Week 1</th>
                             <th style="text-align: center" colspan="3">Week 2</th>
                             <th style="text-align: center" colspan="3">Week 3</th>

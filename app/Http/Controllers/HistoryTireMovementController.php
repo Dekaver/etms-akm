@@ -168,7 +168,6 @@ class HistoryTireMovementController extends Controller
         $year = $request->query('year') ?? Carbon::now()->format("Y");
         $month = $request->query('month') ?? Carbon::now()->format("m");
         $company = auth()->user()->company;
-        
         $tire_sizes = TireSize::select('size')->where('company_id', $company->id)->groupBy('size')->get();
         $manufacturer = TireManufacture::where('company_id', $company->id)->get();
         $type_patterns = TirePattern::select('type_pattern')->where('company_id', $company->id)->groupBy('type_pattern')->get();
@@ -176,6 +175,7 @@ class HistoryTireMovementController extends Controller
         $drivers = Driver::where('company_id', $company->id)->get();
         $units = Unit::orderBy('unit_number')->where('company_id', $company->id)->get();
 
+        $grup = $request->query('grup') ?? 'unit';
         $tire_pattern = $request->query('tire_pattern');
         $tire_size = $request->query('tire_size');
         $brand_tire = $request->query('brand_tire');
@@ -183,7 +183,23 @@ class HistoryTireMovementController extends Controller
         $tire_size = $request->query('tire_size');
         $unit = $request->query('unit');
         $driver = $request->query('driver');
-        if ($request->ajax()) {
+        if ($grup == 'driver') {
+            $query = HistoryTireMovement::select(
+                "drivers.nama as unit",
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 1 AND 7 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new1'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 1 AND 7 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare1'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 1 AND 7 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap1'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 8 AND 14 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new2'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 8 AND 14 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare2'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 8 AND 14 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap2'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 15 AND 21 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new3'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 15 AND 21 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare3'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 15 AND 21 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap3'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.created_at)) AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new4'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.created_at)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.created_at)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
+            )->leftJoin("drivers","drivers.id","=","history_tire_movements.driver_id");
+        } else {
             $query = HistoryTireMovement::select(
                 'unit',
                 DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new1'"),
@@ -199,6 +215,44 @@ class HistoryTireMovementController extends Controller
                 DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
                 DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
             );
+        }
+
+      
+        if ($request->ajax()) {
+            if ($grup == 'driver') {
+                $query = HistoryTireMovement::select(
+                    "drivers.nama as unit",
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 1 AND 7 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new1'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 1 AND 7 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare1'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 1 AND 7 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap1'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 8 AND 14 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new2'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 8 AND 14 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare2'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 8 AND 14 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap2'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 15 AND 21 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new3'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 15 AND 21 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare3'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 15 AND 21 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap3'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.created_at)) AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new4'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.created_at)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.created_at) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.created_at)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
+                )->leftJoin("drivers","drivers.id","=","history_tire_movements.driver_id");
+            } else {
+                $query = HistoryTireMovement::select(
+                    'unit',
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new1'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare1'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap1'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 8 AND 14 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new2'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 8 AND 14 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare2'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 8 AND 14 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap2'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 15 AND 21 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new3'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 15 AND 21 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare3'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 15 AND 21 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap3'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new4'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
+                );
+            }
+
             // dd($query);
             $query = $query->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_pattern, $tire_size) {
                 if ($tire_size) {
@@ -227,15 +281,11 @@ class HistoryTireMovementController extends Controller
                 $query = $query->where("unit", $unit);
             }
 
-            if ($month) {
-                $query = $query->whereMonth("created_at", $month);
+            if ($grup == 'driver') {
+                $queryAkhir = $query->whereYear("drivers.created_at", $year)->whereMonth("drivers.created_at", $month)->where('drivers.company_id', $company->id)->groupBy('drivers.id', 'drivers.nama')->get();
+            } else {
+                $queryAkhir = $query->whereYear("created_at", $year)->whereMonth("created_at", $month)->where('company_id', $company->id)->groupBy('unit')->get();
             }
-
-            if ($year) {
-                $query = $query->whereYear("created_at", $year);
-            }
-
-            $queryAkhir = $query->where('company_id', $company->id)->groupBy('unit')->get();
             // dd($queryAkhir->get());
             return DataTables::of($queryAkhir)
                 ->addIndexColumn()
@@ -287,6 +337,6 @@ class HistoryTireMovementController extends Controller
                 ->make(true);
         }
 
-        return view("admin.history.historyTireConsumption",  compact('unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
+        return view("admin.history.historyTireConsumption",  compact('grup', 'unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
     }
 }
