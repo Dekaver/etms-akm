@@ -167,13 +167,14 @@ class HistoryTireMovementController extends Controller
     {
         $year = $request->query('year') ?? Carbon::now()->format("Y");
         $month = $request->query('month') ?? Carbon::now()->format("m");
-
-        $tire_sizes = TireSize::select('size')->groupBy('size')->get();
-        $manufacturer = TireManufacture::all();
-        $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
-        $tire_patterns = TirePattern::select('pattern')->groupBy('pattern')->get();
-        $drivers = Driver::all();
-        $units = Unit::orderBy('unit_number')->get();
+        $company = auth()->user()->company;
+        
+        $tire_sizes = TireSize::select('size')->where('company_id', $company->id)->groupBy('size')->get();
+        $manufacturer = TireManufacture::where('company_id', $company->id)->get();
+        $type_patterns = TirePattern::select('type_pattern')->where('company_id', $company->id)->groupBy('type_pattern')->get();
+        $tire_patterns = TirePattern::select('pattern')->where('company_id', $company->id)->groupBy('pattern')->get();
+        $drivers = Driver::where('company_id', $company->id)->get();
+        $units = Unit::orderBy('unit_number')->where('company_id', $company->id)->get();
 
         $tire_pattern = $request->query('tire_pattern');
         $tire_size = $request->query('tire_size');
@@ -226,7 +227,6 @@ class HistoryTireMovementController extends Controller
                 $query = $query->where("unit", $unit);
             }
 
-
             if ($month) {
                 $query = $query->whereMonth("created_at", $month);
             }
@@ -235,7 +235,7 @@ class HistoryTireMovementController extends Controller
                 $query = $query->whereYear("created_at", $year);
             }
 
-            $queryAkhir = $query->groupBy('unit')->get();
+            $queryAkhir = $query->where('company_id', $company->id)->groupBy('unit')->get();
             // dd($queryAkhir->get());
             return DataTables::of($queryAkhir)
                 ->addIndexColumn()
