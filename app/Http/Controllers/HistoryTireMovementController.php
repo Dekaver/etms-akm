@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Driver;
 use App\Models\HistoryTireMovement;
+use App\Models\TireManufacture;
 use App\Models\TireMaster;
 use App\Models\TireSize;
 use App\Models\TirePattern;
 use App\Models\TireStatus;
+use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class HistoryTireMovementController extends Controller
 {
@@ -132,6 +137,7 @@ class HistoryTireMovementController extends Controller
 
         return view("admin.history.historyTireMovement", compact("tire"));
     }
+
     public function tireinspect(Request $request, TireMaster $tire)
     {
         if ($request->ajax()) {
@@ -155,5 +161,132 @@ class HistoryTireMovementController extends Controller
         }
 
         return view("admin.history.historyTireInspect", compact("tire"));
+    }
+
+    public function tireconsumption(Request $request, TireMaster $tire)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        $month = $request->query('month') ?? Carbon::now()->format("m");
+
+        $tire_sizes = TireSize::select('size')->groupBy('size')->get();
+        $manufacturer = TireManufacture::all();
+        $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
+        $tire_patterns = TirePattern::select('pattern')->groupBy('pattern')->get();
+        $drivers = Driver::all();
+        $units = Unit::orderBy('unit_number')->get();
+
+        $tire_pattern = $request->query('tire_pattern');
+        $tire_size = $request->query('tire_size');
+        $brand_tire = $request->query('brand_tire');
+        $type_pattern = $request->query('type_pattern');
+        $tire_size = $request->query('tire_size');
+        $unit = $request->query('unit');
+        $driver = $request->query('driver');
+        if ($request->ajax()) {
+            $query = HistoryTireMovement::select(
+                'unit',
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new1'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare1'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 1 AND 7 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap1'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 8 AND 14 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new2'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 8 AND 14 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare2'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 8 AND 14 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap2'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 15 AND 21 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new3'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 15 AND 21 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare3'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 15 AND 21 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap3'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new4'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
+                DB::raw("SUM(CASE WHEN DAYOFMONTH(created_at) BETWEEN 22 AND DAY(LAST_DAY(created_at)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
+            );
+            // dd($query);
+            $query = $query->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_pattern, $tire_size) {
+                if ($tire_size) {
+                    $q->where('size', $tire_size);
+                }
+                $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $type_pattern, $tire_pattern) {
+                    if ($type_pattern) {
+                        $q->where('type_pattern', $type_pattern);
+                    }
+                    if ($tire_pattern) {
+                        $q->where('pattern', $tire_pattern);
+                    }
+                    if ($brand_tire) {
+                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
+                            $q->where('name', $brand_tire);
+                        });
+                    }
+                });
+            });
+
+            if ($driver) {
+                $query = $query->where("driver_id", $driver);
+            }
+
+            if ($unit) {
+                $query = $query->where("unit", $unit);
+            }
+
+
+            if ($month) {
+                $query = $query->whereMonth("created_at", $month);
+            }
+
+            if ($year) {
+                $query = $query->whereYear("created_at", $year);
+            }
+
+            $queryAkhir = $query->groupBy('unit')->get();
+            // dd($queryAkhir->get());
+            return DataTables::of($queryAkhir)
+                ->addIndexColumn()
+                ->addColumn("unit", function ($row) {
+                    return $row->unit;
+                })
+                ->addColumn("new1", function ($row) {
+                    return $row->new1;
+                })
+                ->addColumn("spare1", function ($row) {
+                    return $row->spare1;
+                })
+                ->addColumn("scrap1", function ($row) {
+                    return $row->scrap1;
+                })
+                ->addColumn("new2", function ($row) {
+                    return $row->new2;
+                })
+                ->addColumn("spare2", function ($row) {
+                    return $row->spare2;
+                })
+                ->addColumn("scrap2", function ($row) {
+                    return $row->scrap2;
+                })
+                ->addColumn("new3", function ($row) {
+                    return $row->new3;
+                })
+                ->addColumn("spare3", function ($row) {
+                    return $row->spare3;
+                })
+                ->addColumn("scrap3", function ($row) {
+                    return $row->scrap3;
+                })
+                ->addColumn("new4", function ($row) {
+                    return $row->new4;
+                })
+                ->addColumn("spare4", function ($row) {
+                    return $row->spare4;
+                })
+                ->addColumn("scrap4", function ($row) {
+                    return $row->scrap4;
+                })
+                ->addColumn("total", function ($row) {
+                    $totalNew = $row->new1 + $row->new2 + $row->new3 + $row->new4;
+                    $totalSpare = $row->spare1 + $row->spare2 + $row->spare3 + $row->spare4;
+                    $totalScrap = $row->scrap1 + $row->scrap2 + $row->scrap3 + $row->scrap4;
+                    return $totalNew + $totalSpare + $totalScrap;
+                })
+                ->make(true);
+        }
+
+        return view("admin.history.historyTireConsumption",  compact('unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
     }
 }
