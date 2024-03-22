@@ -173,8 +173,15 @@ class ReportController extends Controller
                     return $row->tire->tire_damage?->damage;
                 })
                 ->addColumn('km_per_mm', function ($row) {
-                    return $row->tire->km_per_mm;
-                })
+                    if (!empty($row->tire) && !empty($row->tire->tire_size) && isset($row->tire->rtd)) {
+                        $rtd = $row->tire->tire_size->otd - $row->tire->rtd;
+                        if ($rtd == 0) {
+                            return null; // Atau return nilai default yang sesuai
+                        }
+                        return round((int)$row->tire->lifetime_km / $rtd,1);
+                    }
+                    return null; // Atau nilai default jika relasi tidak lengkap
+                })    
                 ->addColumn('tur', function ($row) {
                     return $row->tire->tur;
                 })
