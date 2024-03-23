@@ -155,7 +155,7 @@
                             alt="img"><span>
                             Manajemen User</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        @if (Auth()->user->id == 1)
+                        @if (Auth()->user()->id == 1)
                             @can('COMPANY')
                                 <li><a href="/company" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">Data
                                         Customer</a></li>
