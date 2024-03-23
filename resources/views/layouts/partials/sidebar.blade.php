@@ -155,12 +155,12 @@
                             alt="img"><span>
                             Manajemen User</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        @if (Auth()->user()->id == 1)
+                        {{-- @if (Auth()->user()->id == 1) --}}
                             @can('COMPANY')
                                 <li><a href="/company" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">Data
                                         Customer</a></li>
                             @endcan
-                        @endif
+                        {{-- @endif --}}
                         @can('USER')
                             <li><a href="/user" class="{{ Request::routeIs('user.*') ? 'active' : '' }}">User</a></li>
                         @endcan
