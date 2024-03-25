@@ -24,8 +24,11 @@
 
 
                         @can('HISTORY_TIRE_MOVEMENT')
-                            <li><a href="/history-tire-consumption"
-                                    class="{{ Request::routeIs('tireconsumption') ? 'active' : '' }}">Tire
+                            <li><a href="/history-tire-consumption/monthly"
+                                    class="{{ Request::routeIs('tireconsumption') ? 'active' : '' }}">Monthly Tire
+                                    Consumption</a></li>
+                            <li><a href="/history-tire-consumption/annual"
+                                    class="{{ Request::routeIs('tireconsumption.annual') ? 'active' : '' }}">Annual Tire
                                     Consumption</a></li>
                         @endcan
                     </ul>

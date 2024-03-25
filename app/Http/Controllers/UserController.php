@@ -64,9 +64,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required','string','max:255'],
-            'email' => ['required','string', 'email','max:255', 'unique:users'],
-            'password' => ['required','string','min:8',],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8',],
         ]);
         User::create([
             'name' => $request->name,
@@ -133,8 +133,11 @@ class UserController extends Controller
     public function updatePermission(Request $request, string $id)
     {
         $user = User::findOrFail($id);
-        $user->syncRoles([$request->role]);
+        // dd($request->permission);
+        $user->revokePermissionTo($request->permission);
+        $user->removeRole([$request->role]);
         $user->syncPermissions($request->permission);
+        $user->syncRoles([$request->role]);
         if ($request->site_id) {
             $user->company_id = auth()->user()->company->id;
             $user->save();
