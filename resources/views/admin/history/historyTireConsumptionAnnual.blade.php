@@ -145,49 +145,50 @@
                             <th style="text-align: center" colspan="3">Oktober</th>
                             <th style="text-align: center" colspan="3">November</th>
                             <th style="text-align: center" colspan="3">Desember</th>
-                            <th style="text-align: center" colspan="4">Total</th>
+                            <th style="text-align: center" colspan="3">Total</th>
+                            <th style="text-align: center" rowspan="2">Total</th>
+
                         </tr>
                         <tr>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">N</th>
-                            <th style="text-align: center">SP</th>
-                            <th style="text-align: center">SC</th>
-                            <th style="text-align: center">Total</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center">New</th>
+                            <th style="text-align: center">Spare</th>
+                            <th style="text-align: center">Scrap</th>
+                            <th style="text-align: center; background : #0d6efd;" class="text-white">New</th>
+                            <th style="text-align: center; background : #ffc107;" class="text-dark">Spare</th>
+                            <th style="text-align: center; background : #dc3545;" class="text-white">Scrap</th>
                         </tr>
                     </thead>
 
@@ -340,7 +341,30 @@
                     }, {
                         data: 'total',
                         name: 'total'
-                    }]
+                    }],
+                    columnDefs: [
+                    {
+                        targets: [37], // Indeks kolom yang ingin Anda beri warna
+                        render: function(data, type, row, meta) {
+                                return '<div class="text-center text-white" style="background-color: #0d6efd; margin: -10px!important; padding: 10px 0;">' + data +
+                                '</div>'; // Warna hijau\
+                        }
+                    },
+                    {
+                        targets: [38], // Indeks kolom yang ingin Anda beri warna
+                        render: function(data, type, row, meta) {
+                                return '<div class="text-center text-dark" style="background-color: #ffc107; margin: -10px!important; padding: 10px 0;">' + data +
+                                '</div>'; // Warna hijau\
+                        }
+                    },
+                    {
+                        targets: [39], // Indeks kolom yang ingin Anda beri warna
+                        render: function(data, type, row, meta) {
+                                return '<div class="text-center text-white" style="background-color: #dc3545; margin: -10px!important; padding: 10px 0;">' + data +
+                                '</div>'; // Warna hijau\
+                        }
+                    }
+                ]
                 });
             });
         </script>
