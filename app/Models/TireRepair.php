@@ -46,6 +46,12 @@ class TireRepair extends Model
         return $this->belongsTo(TireMaster::class);
     }
 
+    public function history_tire_movement()
+    {
+        return $this->belongsTo(HistoryTireMovement::class);
+    }
+
+
     public function tire_damage()
     {
         return $this->belongsTo(TireDamage::class);

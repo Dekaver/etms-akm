@@ -26,6 +26,7 @@ use App\Http\Controllers\TireRunningController;
 use App\Http\Controllers\DailyInspectController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\HistoryTireController;
+use App\Http\Controllers\HistoryTireRepairController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,6 +83,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('unit', UnitController::class)->middleware('permission:UNIT');
 
     Route::resource('tirerepair', TireRepairController::class)->middleware('permission:TIRE_REPAIR');
+    
+    Route::resource('historytirerepair', HistoryTireRepairController::class)->middleware('permission:TIRE_REPAIR');
+
     Route::resource('tirerunning', TireRunningController::class)->middleware('permission:TIRE_RUNNING');
 
     Route::resource('dailyinspect', DailyInspectController::class)->middleware('permission:DAILY_INSPECT');
@@ -91,10 +95,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('historytiremovement', HistoryTireMovementController::class)->middleware('permission:HISTORY_TIRE_MOVEMENT');
 
     Route::get('history-tire-consumption/monthly', [HistoryTireMovementController::class, 'monthlytireconsumption'])
-    ->name('tireconsumption')->middleware('permission:HISTORY_TIRE_MOVEMENT');
+        ->name('tireconsumption')->middleware('permission:HISTORY_TIRE_MOVEMENT');
 
     Route::get('history-tire-consumption/annual', [HistoryTireMovementController::class, 'annualtireconsumption'])
-    ->name('tireconsumption.annual')->middleware('permission:HISTORY_TIRE_MOVEMENT');
+        ->name('tireconsumption.annual')->middleware('permission:HISTORY_TIRE_MOVEMENT');
 
 
     Route::get('tiremovement/{tire}/history', [HistoryTireMovementController::class, 'tiremovement'])
@@ -134,7 +138,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('grafik-tire-removed', [GrafikController::class, 'tireRemoved']);
         Route::get('grafik-tire-removed-month', [GrafikController::class, 'tireRemovedMonth']);
         Route::get('grafik-tire-removed-week', [GrafikController::class, 'tireRemovedWeek']);
-
     });
 
     //EXPORT
@@ -157,11 +160,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('report-tire-rtd-per-unit', [ReportController::class, 'tireRtdPerUnit'])->name('report.tirertdperunit');
     });
 
-    Route::middleware(['permission:ADJUSTKMPASANG'])->group(function(){
+    Route::middleware(['permission:ADJUSTKMPASANG'])->group(function () {
         Route::post('adjust-km-pasang', [TireRunningController::class, 'adjustKmPasang'])->name('adjust-km-pasang.store');
     });
 
-    Route::middleware(['permission:RESETTIREHISTORY'])->group(function(){
+    Route::middleware(['permission:RESETTIREHISTORY'])->group(function () {
         Route::post('tire-reset/{tiremaster}', [TireMasterController::class, 'resetHistory'])->name('tiremaster.reset');
     });
 
