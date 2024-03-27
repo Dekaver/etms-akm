@@ -6,6 +6,7 @@ use App\Models\HistoryTireMovement;
 use App\Models\TireDamage;
 use App\Models\TireRepair;
 use App\Models\TireMaster;
+use App\Models\TireRunning;
 use App\Models\TireStatus;
 use DB;
 use Yajra\DataTables\DataTables;
@@ -56,9 +57,7 @@ class HistoryTireRepairController extends Controller
                     return $row->pic;
                 })
                 ->addColumn("action", function ($row) {
-                    return "<a class='me-3 text-warning' href='#'
-                                    data-bs-target='#form-modal-spare'  data-bs-toggle='modal' data-id='$row->id'
-                                    data-action='" . route('historytirerepair.edit', $row->id) . "'>
+                    return "<a class='me-3 text-warning' href='" . route('historytirerepair.edit', $row->id) . "'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
                                 </a>";
                 })
@@ -68,13 +67,6 @@ class HistoryTireRepairController extends Controller
         return view("admin.history.historyTireRepair", compact("tire_damages"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function ubah()
-    {
-        return view("admin.history.historyTireRepairEdit");
-    }
     public function create()
     {
         //
@@ -99,114 +91,95 @@ class HistoryTireRepairController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $tireRepairId)
+    public function edit($id)
     {
-        $historyTire = TireRepair::with([
-            'history_tire_movement'
-        ])->where('id', $tireRepairId)->first();
-        return $historyTire;
+        $company = auth()->user()->company;
+        $tire_damages = TireDamage::where("company_id", $company->id)->get();
+        $tire_repair = TireRepair::find($id);
+
+        // Get the current selections
+        $selectedDamages = [
+            $tire_repair->tire_damage_id,
+            $tire_repair->tire_damage_2_id,
+            $tire_repair->tire_damage_3_id,
+        ];
+        $isrunning = TireRunning::where('tire_id', $tire_repair->tire_id)->first();
+        return view("admin.history.historyTireRepairEdit", compact("tire_repair", "tire_damages", "selectedDamages"));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TireMaster $tirerepair)
+    public function update(Request $request, $tireRepairId)
     {
         $request->validate([
             "man_power" => "required",
             "pic" => "required"
         ]);
+
         try {
-            // dd($request->tire_damage);
-            DB::transaction(function () use ($tirerepair, $request) {
-                $tire_status_new = TireStatus::where('status', $request->tire_status)->first();
+            DB::transaction(function () use ($request, $tireRepairId) {
+                $tireRepair = TireRepair::findOrFail($tireRepairId);
                 $company = auth()->user()->company;
 
-                // Define an array to hold the filenames for easier assignment to the model later
-                $filenames = [
-                    "foto_before_1" => null, "keterangan_before_1" => null,
-                    "foto_after_1" => null, "keterangan_after_1" => null,
-                    "foto_before_2" => null, "keterangan_before_2" => null,
-                    "foto_after_2" => null, "keterangan_after_2" => null,
-                    "foto_before_3" => null, "keterangan_before_3" => null,
-                    "foto_after_3" => null, "keterangan_after_3" => null,
-                ];
+                // Assume tire_status is provided to update the tire's status
+                // if ($request->has('tire_status')) {
+                //     $tire_status_new = TireStatus::where('status', $request->tire_status)->firstOrFail();
+                //     $tireRepair->tire_status_id = $tire_status_new->id;
+                // }
 
-                // Loop through each "before" and "after" pair
+                // Update tire damages if provided
+                $tireRepair->tire_damage_id = $request->tire_damage[0] ?? null;
+                $tireRepair->tire_damage_2_id = $request->tire_damage[1] ?? null;
+                $tireRepair->tire_damage_3_id = $request->tire_damage[2] ?? null;
+
+                // Loop to handle foto and keterangan updates as in your original code
+                $filenames = []; // This will hold the new filenames for updating
+
                 foreach (['before', 'after'] as $type) {
                     for ($i = 1; $i <= 3; $i++) {
                         $key = "foto_{$type}_{$i}";
                         if ($request->hasFile($key)) {
                             $file = $request->file($key);
                             $extension = $file->extension();
-                            $filename = time() . $tirerepair->serial_number . "{$type}{$i}" . '.' . $extension;
+                            $filename = time() . $tireRepair->serial_number . "{$type}{$i}" . '.' . $extension;
                             $filePath = $file->storeAs("uploads/{$type}", $filename, 'public');
-                            $filenames[$key] = $filename; // Store filename for later assignment
+                            $filenames[$key] = $filename;
                         }
-                        // Assign description (keterangan) for each foto
                         $descKey = "keterangan_{$type}_{$i}";
-                        $filenames[$descKey] = $request->$descKey;
+                        $filenames[$descKey] = $request->$descKey ?? null; // Ensure null if not provided
                     }
                 }
 
-                // Now create the TireRepair record using the $filenames array for foto and keterangan assignments
-                $repair = TireRepair::create(array_merge([
-                    "tire_id" => $tirerepair->id,
-                    "company_id" => $company->id,
-                    "tire_damage_id" => $request->tire_damage[0] ?? null,
-                    "tire_damage_2_id" => $request->tire_damage[1] ?? null,
-                    "tire_damage_3_id" => $request->tire_damage[2] ?? null,
-                    "tire_status_id" => $tirerepair->tire_status_id,
-                    "reason" => $request->reason,
-                    "analisa" => $request->analisa,
-                    "alasan" => $request->alasan,
-                    "man_power" => $request->man_power,
-                    "pic" => $request->pic,
-                    "start_date" => $request->start_date,
-                    "end_date" => $request->end_date,
-                    "move" => $tirerepair->tire_status->status,
-                    "history_tire_movement_id" => $request->history_tire_movement_id,
-                ], $filenames)); // Merge the dynamic filenames with the static data
+                // Update the tire repair record with new filenames and descriptions
+                $tireRepair->update($filenames);
 
-                // $tirerepair->tire_status_id = $tire_status_new->id; // tidak update status
-                $tirerepair->is_repair = true;
-                $tirerepair->is_repairing = false;
-                $tirerepair->save();
-
-
-                HistoryTireMovement::create([
-                    "user_id" => auth()->id(),
-                    "company_id" => $company->id,
-                    "site_id" => auth()->user()->site->id,
-                    "tire_damage_id" => $request->tire_damage_id,
-                    "unit" => null,
-                    "position" => null,
-                    "tire" => $tirerepair->serial_number,
-                    "status" => $tirerepair->tire_status->status,
-                    "km_unit" => null,
-                    "hm_unit" => null,
-                    "pic" => $request->pic,
-                    "pic_man_power" => $request->man_power,
-                    "des" => $request->reason,
-                    "process" => "REPAIR",
-                    "km_tire" => $tirerepair->lifetime_km,
-                    "hm_tire" => $tirerepair->lifetime_hm,
-                    "km_tire_repair" => $tirerepair->lifetime_repair_km,
-                    "hm_tire_repair" => $tirerepair->lifetime_repair_hm,
-                    "km_tire_retread" => $tirerepair->lifetime_retread_km,
-                    "hm_tire_retread" => $tirerepair->lifetime_retread_hm,
-                    "rtd" => $tirerepair->rtd,
-                    "start_date" => $request->start_date,
-                    "end_date" => $request->end_date
+                // Additional fields to update
+                $tireRepair->fill([
+                    'reason' => $request->reason,
+                    'analisa' => $request->analisa,
+                    'alasan' => $request->alasan,
+                    'man_power' => $request->man_power,
+                    'pic' => $request->pic,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date
                 ]);
+
+                // $tireRepair->is_repair = true;
+                // $tireRepair->is_repairing = false;
+                $tireRepair->save();
+
+                // For HistoryTireMovement, if you're just updating the last entry or a specific entry, fetch and update it. 
+                // This example assumes a new history record for each update - adjust based on your logic.
+                // Example: $history = HistoryTireMovement::where('tire_repair_id', $tireRepair->id)->latest()->first();
+
+                // If updating an existing HistoryTireMovement is needed, fetch it using an appropriate identifier and update instead of creating a new one
             });
-            return redirect()->back()->with("success", "Move Tire Status");
+
+            return redirect()->back()->with("success", "Tire Repair Updated Successfully.");
         } catch (\Throwable $e) {
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

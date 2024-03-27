@@ -87,9 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('historytirerepair', HistoryTireRepairController::class)->middleware('permission:TIRE_REPAIR');
     // Route::resource('historytirerepairedit', HistoryTireRepairController::class, 'ubah');
     // Route::get('/historytirerepairedit', [HistoryTireRepairController::class, 'ubah'])->name('admin.history.historyTireRepairEdit');
-    Route::get("/historytirerepairedit", function(){
-        return view("admin.history.historyTireRepairEdit");
-     });
+  
 
     // Route::post('user/{id}/company', [UserController::class, 'updateCompany'])->name('user.company.update');
 
