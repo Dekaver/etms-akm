@@ -241,7 +241,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-submit">Save</button>
-                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                <a href="{{route('historytirerepair.index')}}" class="btn btn-cancel">Cancel</a>
             </form>
         </div>
     </div>
