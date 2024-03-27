@@ -6,6 +6,7 @@ use App\Models\HistoryTireMovement;
 use App\Models\TireDamage;
 use App\Models\TireMaster;
 use App\Models\TireRepair;
+use App\Models\TireRepairPhoto;
 use App\Models\TireStatus;
 use DB;
 use Illuminate\Http\Request;
@@ -86,8 +87,12 @@ class TireRepairController extends Controller
      */
     public function edit(string $tirerepair)
     {
-        $tire = TireMaster::with("site")->where("id", $tirerepair)->first();
-        return $tire;
+        $historyTire = HistoryTireMovement::with(['tire_number', 'site', 'unit_number', 'driver'])
+            ->whereHas('tire_number', function ($query) use ($tirerepair) {
+                $query->where('id', $tirerepair);
+            })->where('STATUS', 'REPAIR')->first();
+
+        return $historyTire;
     }
 
     /**
@@ -97,17 +102,48 @@ class TireRepairController extends Controller
     {
         $request->validate([
             "man_power" => "required",
-            "pic" => "required",
+            "pic" => "required"
         ]);
         try {
+            // dd($request->tire_damage);
             DB::transaction(function () use ($tirerepair, $request) {
                 $tire_status_new = TireStatus::where('status', $request->tire_status)->first();
                 $company = auth()->user()->company;
 
-                TireRepair::create([
+                // Define an array to hold the filenames for easier assignment to the model later
+                $filenames = [
+                    "foto_before_1" => null, "keterangan_before_1" => null,
+                    "foto_after_1" => null, "keterangan_after_1" => null,
+                    "foto_before_2" => null, "keterangan_before_2" => null,
+                    "foto_after_2" => null, "keterangan_after_2" => null,
+                    "foto_before_3" => null, "keterangan_before_3" => null,
+                    "foto_after_3" => null, "keterangan_after_3" => null,
+                ];
+
+                // Loop through each "before" and "after" pair
+                foreach (['before', 'after'] as $type) {
+                    for ($i = 1; $i <= 3; $i++) {
+                        $key = "foto_{$type}_{$i}";
+                        if ($request->hasFile($key)) {
+                            $file = $request->file($key);
+                            $extension = $file->extension();
+                            $filename = time() . $tirerepair->serial_number . "{$type}{$i}" . '.' . $extension;
+                            $filePath = $file->storeAs("uploads/{$type}", $filename, 'public');
+                            $filenames[$key] = $filename; // Store filename for later assignment
+                        }
+                        // Assign description (keterangan) for each foto
+                        $descKey = "keterangan_{$type}_{$i}";
+                        $filenames[$descKey] = $request->$descKey;
+                    }
+                }
+
+                // Now create the TireRepair record using the $filenames array for foto and keterangan assignments
+                $repair = TireRepair::create(array_merge([
                     "tire_id" => $tirerepair->id,
                     "company_id" => $company->id,
-                    "tire_damage_id" => $request->tire_damage_id,
+                    "tire_damage_id" => $request->tire_damage[0] ?? null,
+                    "tire_damage_2_id" => $request->tire_damage[1] ?? null,
+                    "tire_damage_3_id" => $request->tire_damage[2] ?? null,
                     "tire_status_id" => $tirerepair->tire_status_id,
                     "reason" => $request->reason,
                     "analisa" => $request->analisa,
@@ -116,8 +152,9 @@ class TireRepairController extends Controller
                     "pic" => $request->pic,
                     "start_date" => $request->start_date,
                     "end_date" => $request->end_date,
-                    "move" => $request->tire_status,
-                ]);
+                    "move" => $tirerepair->tire_status->status,
+                    "history_tire_movement_id" => $request->history_tire_movement_id,
+                ], $filenames)); // Merge the dynamic filenames with the static data
 
                 // $tirerepair->tire_status_id = $tire_status_new->id; // tidak update status
                 $tirerepair->is_repair = true;
@@ -150,16 +187,12 @@ class TireRepairController extends Controller
                     "start_date" => $request->start_date,
                     "end_date" => $request->end_date
                 ]);
-
             });
             return redirect()->back()->with("success", "Move Tire Status");
         } catch (\Throwable $e) {
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-
         }
-
-
     }
 
     /**

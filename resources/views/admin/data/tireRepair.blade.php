@@ -112,9 +112,10 @@
 
     <!-- add Modal -->
     <div class="modal fade" id="form-modal-spare" tabindex="-1" role="dialog" aria-hidden="true">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <input type="hidden" name="tire_id">
             <input type="hidden" name="tire_status_id">
+            <input type="hidden" name="history_tire_movement_id">
             @csrf
             @method('PUT')
             <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
@@ -127,31 +128,55 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label>Site</label>
                                     <input type="text" name="site" readonly>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Unit</label>
+                                    <input type="text" name="unit" readonly>
+                                </div>
+                            </div>
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label>Serial Number</label>
                                     <input type="text" name="serial_number" readonly>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Driver</label>
+                                    <input type="text" name="driver" readonly>
+                                </div>
+                            </div>
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label>Tire Lifetime HM</label>
                                     <input type="text" name="lifetime_hm" readonly>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label>KM Unit</label>
+                                    <input type="text" name="km_unit" readonly>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label>Position</label>
+                                    <input type="text" name="position" readonly>
+                                </div>
+                            </div>
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label>Tire Lifetime KM</label>
                                     <input type="text" name="lifetime_km" readonly>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label>RTD</label>
                                     <input type="text" name="rtd" readonly>
@@ -167,6 +192,35 @@
                                 <div class="form-group">
                                     <label>Material</label>
                                     <input type="text" name="material">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Reason</label>
+                                    <input type="text" name="man_power">
+                                </div>
+                            </div>
+                            {{-- <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tire Damage</label>
+                                    <select name="tire_damage_id" class="form-control">
+                                        <option value="">Select Damage</option>
+                                        @foreach ($tire_damages as $item)
+                                            <option value="{{ $item->id }}">{{ $item->damage }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div> --}}
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tire Damage<span class="manitory">*</span></label>
+                                    <select class="js-example-basic-multiple" id="tire_damage" name="tire_damage[]"
+                                        multiple="multiple" limit="3">
+                                        @foreach ($tire_damages as $item)
+                                            <option value="{{ $item->id }}">{{ $item->damage }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -192,7 +246,72 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Tire Status Update</label>
-                                    <input type="text" name="tire_status" value="SPARE" readonly>
+                                    <input type="text" name="tire_status" placeholder="SPARE" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto Before 1</label>
+                                    <input type="file" class="foto-input" data-type="before" data-id="1"
+                                        name="foto_before_1">
+                                    <input class="mt-2" type="text" name="keterangan_before_1"
+                                        placeholder="Keterangan">
+                                    <div class="mt-3" id="preview_before_1"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto After 1</label>
+                                    <input type="file" class="foto-input" data-type="after" data-id="1"
+                                        name="foto_after_1">
+                                    <input class="mt-2" type="text" name="keterangan_after_1"
+                                        placeholder="Keterangan">
+                                    <div class="mt-3" id="preview_after_1"></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto Before 2</label>
+                                    <input type="file" class="foto-input" data-type="before" data-id="2"
+                                        name="foto_before_2">
+                                    <input class="mt-2" type="text" name="keterangan_before_2"
+                                        placeholder="Keterangan">
+                                    <div class="mt-3" id="preview_before_2"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto After 2</label>
+                                    <input type="file" class="foto-input" data-type="after" data-id="2"
+                                        name="foto_after_2">
+                                    <input class="mt-2" type="text" name="keterangan_after_2"
+                                        placeholder="Keterangan">
+                                    <div class="mt-3" id="preview_after_2"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto Before 3</label>
+                                    <input type="file" class="foto-input" data-type="before" data-id="3"
+                                        name="foto_before_3">
+                                    <input class="mt-2" type="text" name="keterangan_before_3"
+                                        placeholder="Keterangan">
+                                    <div class="mt-3" id="preview_before_3"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Foto After 3</label>
+                                    <input type="file" class="foto-input" data-type="after" data-id="3"
+                                        name="foto_after_3">
+                                    <input class="mt-2" type="text" name="keterangan_after_3"
+                                        placeholder="Keterangan">
+                                    <div class="mt-3" id="preview_after_3"></div>
                                 </div>
                             </div>
                         </div>
@@ -307,6 +426,50 @@
     </div>
 
     @push('js')
+        <script>
+            document.querySelectorAll('.foto-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const fileType = this.getAttribute('data-type'); // "before" or "after"
+                    const fileId = this.getAttribute('data-id'); // "1", "2", "3", etc.
+                    const previewContainerId = `preview_${fileType}_${fileId}`;
+                    const previewContainer = document.getElementById(previewContainerId);
+
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            // Clear the preview container
+                            previewContainer.innerHTML = '';
+                            // Create an img element and set its src to the selected file
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.maxWidth = '100%'; // Set max width to fit the container
+                            img.style.height = 'auto';
+                            // Append the img to the preview container
+                            previewContainer.appendChild(img);
+                        };
+
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-multiple').on('change', function() {
+                    if ($(this).val().length > 3) {
+                        alert('Anda hanya dapat memilih maksimal 3 item.');
+                        // Menghapus seleksi terakhir jika pengguna memilih lebih dari 3 item
+                        var selectedOptions = $(this).val();
+                        selectedOptions.pop(); // Menghapus item terakhir dari array
+                        $(this).val(selectedOptions).trigger(
+                            'change'); // Memperbarui nilai dengan array yang dimodifikasi
+                    }
+                });
+            });
+        </script>
+
         <script type="text/javascript">
             $(function() {
                 var table = $('table.data-table').DataTable({
@@ -372,13 +535,18 @@
                     method: "GET",
                     url: `{{ route('tirerepair.index') }}/${id}/edit`
                 }).done(function(response) {
+                    modal.find('input[name="driver"]').val(response.driver.nama);
+                    modal.find('input[name="position"]').val(response.position);
+                    modal.find('input[name="km_unit"]').val(response.km_unit);
+                    modal.find('input[name="history_tire_movement_id"]').val(response.id);
+                    modal.find('input[name="unit"]').val(response.unit_number.unit_number);
                     modal.find('input[name="site"]').val(response.site.name);
-                    modal.find('input[name="serial_number"]').val(response.serial_number);
-                    modal.find('input[name="tire_id"]').val(response.id);
-                    modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
-                    modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
-                    modal.find('input[name="tire_status_id"]').val(response.tire_status_id);
-                    modal.find('input[name="rtd"]').val(response.rtd);
+                    modal.find('input[name="serial_number"]').val(response.tire_number.serial_number);
+                    modal.find('input[name="tire_id"]').val(response.tire_number.id);
+                    modal.find('input[name="lifetime_hm"]').val(response.tire_number.lifetime_hm);
+                    modal.find('input[name="lifetime_km"]').val(response.tire_number.lifetime_km);
+                    modal.find('input[name="tire_status_id"]').val(response.tire_number.tire_status_id);
+                    modal.find('input[name="rtd"]').val(response.tire_number.rtd);
                 });
                 modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
             });
@@ -393,12 +561,12 @@
                     url: `{{ route('tirerepair.index') }}/${id}/edit`
                 }).done(function(response) {
                     modal.find('input[name="site"]').val(response.site.name);
-                    modal.find('input[name="tire_id"]').val(response.id);
-                    modal.find('input[name="serial_number"]').val(response.serial_number);
-                    modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
-                    modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
-                    modal.find('input[name="rtd"]').val(response.rtd);
-                    modal.find('input[name="tire_status_id"]').val(response.tire_status_id);
+                    modal.find('input[name="tire_id"]').val(response.tire_number.id);
+                    modal.find('input[name="serial_number"]').val(response.tire_number.serial_number);
+                    modal.find('input[name="lifetime_hm"]').val(response.tire_number.lifetime_hm);
+                    modal.find('input[name="lifetime_km"]').val(response.tire_number.lifetime_km);
+                    modal.find('input[name="rtd"]').val(response.tire_number.rtd);
+                    modal.find('input[name="tire_status_id"]').val(response.tire_number.tire_status_id);
                 });
                 modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
             });

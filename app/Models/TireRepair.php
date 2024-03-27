@@ -12,6 +12,9 @@ class TireRepair extends Model
     protected $fillable = [
         "tire_id",
         "tire_damage_id",
+        "tire_damage_2_id",
+        "tire_damage_3_id",
+        "history_tire_movement_id",
         "tire_status_id",
         "company_id",
         "reason",
@@ -21,8 +24,22 @@ class TireRepair extends Model
         "pic",
         "start_date",
         "end_date",
-        "move"
+        "move",
+        // Add the new fields for fotos and their descriptions
+        "foto_before_1",
+        "keterangan_before_1",
+        "foto_after_1",
+        "keterangan_after_1",
+        "foto_before_2",
+        "keterangan_before_2",
+        "foto_after_2",
+        "keterangan_after_2",
+        "foto_before_3",
+        "keterangan_before_3",
+        "foto_after_3",
+        "keterangan_after_3",
     ];
+    
 
     public function tire()
     {
@@ -43,4 +60,9 @@ class TireRepair extends Model
     {
         return $this->hasOne(TireMovement::class);
     }
+
+    // public function tire_repair_photo()
+    // {
+    //     return $this->hasMany(TireRepairPhoto::class, "tire_repair_id");
+    // }
 }

@@ -44,6 +44,11 @@ class HistoryTireMovement extends Model
         return $this->belongsTo(TireMaster::class, "tire", "serial_number");
     }
 
+    public function unit_number()
+    {
+        return $this->belongsTo(Unit::class, "unit", "unit_number");
+    }
+
     public function driver()
     {
         return $this->belongsTo(Driver::class, "driver_id", "id");
