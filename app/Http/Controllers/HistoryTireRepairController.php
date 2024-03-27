@@ -71,6 +71,10 @@ class HistoryTireRepairController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    public function ubah()
+    {
+        return view("admin.history.historyTireRepairEdit");
+    }
     public function create()
     {
         //
