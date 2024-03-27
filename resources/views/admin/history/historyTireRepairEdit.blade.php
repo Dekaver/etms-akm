@@ -150,8 +150,12 @@
                                 name="foto_before_1">
                             <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_before_1 }}"
                                 name="keterangan_before_1" placeholder="Keterangan">
-                            <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_1) }}" />
-                            <div class="mt-3" id="preview_before_1"></div>
+                            <div class="mt-3" id="preview_before_1">
+                                @if ($tire_repair->foto_before_1)
+                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_1) }}"
+                                        style="max-width: 100%; height: 400px;" />
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -162,8 +166,12 @@
                                 name="foto_after_1">
                             <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_after_1 }}"
                                 name="keterangan_after_1" placeholder="Keterangan">
-                            <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_1) }}" />
-                            <div class="mt-3" id="preview_after_1"></div>
+                            <div class="mt-3" id="preview_after_1">
+                                @if ($tire_repair->foto_after_1)
+                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_1) }}"
+                                        style="max-width: 100%; height: 400px;" />
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="col-6">
@@ -173,8 +181,12 @@
                                 name="foto_before_2">
                             <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_before_2 }}"
                                 name="keterangan_before_2" placeholder="Keterangan">
-                            <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_2) }}" />
-                            <div class="mt-3" id="preview_before_2"></div>
+                            <div class="mt-3" id="preview_before_2">
+                                @if ($tire_repair->foto_before_2)
+                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_2) }}"
+                                        style="max-width: 100%; height: 400px;" />
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -185,8 +197,12 @@
                                 name="foto_after_2">
                             <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_after_2 }}"
                                 name="keterangan_after_2" placeholder="Keterangan">
-                            <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_2) }}" />
-                            <div class="mt-3" id="preview_after_2"></div>
+                            <div class="mt-3" id="preview_after_2">
+                                @if ($tire_repair->foto_after_2)
+                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_2) }}"
+                                        style="max-width: 100%; height: 400px;" />
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -197,8 +213,12 @@
                                 name="foto_before_3">
                             <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_before_3 }}"
                                 name="keterangan_before_3" placeholder="Keterangan">
-                            <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_3) }}" />
-                            <div class="mt-3" id="preview_before_3"></div>
+                            <div class="mt-3" id="preview_before_3">
+                                @if ($tire_repair->foto_before_3)
+                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_3) }}"
+                                        style="max-width: 100%; height: 400px;" />
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -209,10 +229,15 @@
                                 name="foto_after_3">
                             <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_after_3 }}"
                                 name="keterangan_after_3" placeholder="Keterangan">
-                            <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_3) }}" />
-                            <div class="mt-3" id="preview_after_3"></div>
+                            <div class="mt-3" id="preview_after_3">
+                                @if ($tire_repair->foto_after_3)
+                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_3) }}"
+                                        style="max-width: 100%; height: 400px;" />
+                                @endif
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
                 <button type="submit" class="btn btn-submit">Save</button>
