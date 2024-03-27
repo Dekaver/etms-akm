@@ -24,82 +24,73 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label>Site</label>
-                            <input type="text" name="site"
-                                value="{{ $tire_repair->history_tire_movement->site->name }}" readonly>
+                            <input type="text" name="site">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Unit</label>
-                            <input type="text" name="unit"
-                                value="{{ $tire_repair->history_tire_movement->unit_number->unit_number }}" readonly>
+                            <input type="text" name="unit">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Serial Number</label>
-                            <input type="text" name="serial_number"
-                                value="{{ $tire_repair->history_tire_movement->tire_number->serial_number }}" readonly>
+                            <input type="text" name="serial_number">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Driver</label>
-                            <input type="text" name="driver"
-                                value="{{ $tire_repair->history_tire_movement->driver->nama }}" readonly>
+                            <input type="text" name="driver">
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group">
                             <label>Tire Lifetime HM</label>
-                            <input type="text" name="lifetime_hm"
-                                value="{{ $tire_repair->history_tire_movement->tire_number->lifetime_hm }}" readonly>
+                            <input type="text" name="lifetime_hm">
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group">
                             <label>KM Unit</label>
-                            <input type="text" name="km_unit"
-                                value="{{ $tire_repair->history_tire_movement->km_unit }}" readonly>
+                            <input type="text" name="km_unit">
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group">
                             <label>Position</label>
-                            <input type="text" name="position"
-                                value="{{ $tire_repair->history_tire_movement->position }}" readonly>
+                            <input type="text" name="position">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Tire Lifetime KM</label>
-                            <input type="text" name="lifetime_km"
-                                value="{{ $tire_repair->history_tire_movement->tire_number->lifetime_km }}" readonly>
+                            <input type="text" name="lifetime_km">
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>RTD</label>
-                            <input type="text" name="rtd"
-                                value="{{ $tire_repair->history_tire_movement->tire_number->rtd }}" readonly>
+                            <input type="text" name="rtd">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>Man Power</label>
-                            <input type="text" value="{{ $tire_repair->man_power }}" name="man_power">
+                            <input type="text">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>Material</label>
-                            <input type="text" value="{{ $tire_repair->material }}" name="material">
+                            <input type="text" name="material">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>Reason</label>
-                            <input type="text" value="{{ $tire_repair->reason }}" name="reason">
+                            <input type="text" name="reason ">
                         </div>
                     </div>
                     <div class="col-6">
@@ -133,7 +124,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label>PIC</label>
-                            <input type="text" value="{{ $tire_repair->pic }}" name="pic">
+                            <input>
                         </div>
                     </div>
                     <div class="col-6">
@@ -144,96 +135,97 @@
                     </div>
 
                     <div class="col-6">
-                        <div class="form-group">
-                            <label>Foto Before 1</label>
-                            <input type="file" class="foto-input" data-type="before" data-id="1"
-                                name="foto_before_1">
-                            <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_before_1 }}"
-                                name="keterangan_before_1" placeholder="Keterangan">
-                            <div class="mt-3" id="preview_before_1">
+                        <div class="d-flex mb-3 overflow-hidden">
+                            <div class="m-2 w-25 position-relative preview-foto" id="preview_before_1" style="height: 200px; background:gray; border-radius: 0.25rem; overflow:hidden;">
                                 @if ($tire_repair->foto_before_1)
-                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_1) }}"
-                                        style="max-width: 100%; height: 400px;" />
+                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_1) }}"/>
                                 @endif
+                            </div>
+                            <div class="p-2 w-75 form-group">
+                                <label>Foto Before 1</label>
+                                <input type="file" class="foto-input" data-type="before" data-id="1"
+                                    name="foto_before_1">
+                                <input type="text" class="mt-2" name="keterangan_before_1" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-6">
-                        <div class="form-group">
-                            <label>Foto After 1</label>
-                            <input type="file" class="foto-input" data-type="after" data-id="1"
-                                name="foto_after_1">
-                            <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_after_1 }}"
-                                name="keterangan_after_1" placeholder="Keterangan">
-                            <div class="mt-3" id="preview_after_1">
+                        <div class="d-flex mb-3 overflow-hidden">
+                            <div class="m-2 w-25 position-relative preview-foto" id="preview_after_1" style="height: 200px; background:gray; border-radius: 0.25rem; overflow:hidden;">
                                 @if ($tire_repair->foto_after_1)
-                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_1) }}"
-                                        style="max-width: 100%; height: 400px;" />
+                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_1) }}"/>
                                 @endif
+                            </div>
+                            <div class="p-2 w-75 form-group">
+                                <label>Foto After 1</label>
+                                <input type="file" class="foto-input" data-type="after" data-id="1"
+                                    name="foto_after_1">
+                                <input type="text" class="mt-2" name="keterangan_after_1" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>
+
                     <div class="col-6">
-                        <div class="form-group">
-                            <label>Foto Before 2</label>
-                            <input type="file" class="foto-input" data-type="before" data-id="2"
-                                name="foto_before_2">
-                            <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_before_2 }}"
-                                name="keterangan_before_2" placeholder="Keterangan">
-                            <div class="mt-3" id="preview_before_2">
+                        <div class="d-flex mb-3 overflow-hidden">
+                            <div class="m-2 w-25 position-relative preview-foto" id="preview_before_2" style="height: 200px; background:gray; border-radius: 0.25rem; overflow:hidden;">
                                 @if ($tire_repair->foto_before_2)
-                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_2) }}"
-                                        style="max-width: 100%; height: 400px;" />
+                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_2) }}"/>
                                 @endif
+                            </div>
+                            <div class="p-2 w-75 form-group">
+                                <label>Foto Before 2</label>
+                                <input type="file" class="foto-input" data-type="before" data-id="2"
+                                    name="foto_before_2">
+                                <input type="text" class="mt-2" name="keterangan_before_2" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-6">
-                        <div class="form-group">
-                            <label>Foto After 2</label>
-                            <input type="file" class="foto-input" data-type="after" data-id="2"
-                                name="foto_after_2">
-                            <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_after_2 }}"
-                                name="keterangan_after_2" placeholder="Keterangan">
-                            <div class="mt-3" id="preview_after_2">
+                        <div class="d-flex mb-3 overflow-hidden">
+                            <div class="m-2 w-25 position-relative preview-foto" id="preview_after_2" style="height: 200px; background:gray; border-radius: 0.25rem; overflow:hidden;">
                                 @if ($tire_repair->foto_after_2)
-                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_2) }}"
-                                        style="max-width: 100%; height: 400px;" />
+                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_2) }}"/>
                                 @endif
+                            </div>
+                            <div class="p-2 w-75 form-group">
+                                <label>Foto After 2</label>
+                                <input type="file" class="foto-input" data-type="after" data-id="2"
+                                    name="foto_after_2">
+                                <input type="text" class="mt-2" name="keterangan_after_2" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-6">
-                        <div class="form-group">
-                            <label>Foto Before 3</label>
-                            <input type="file" class="foto-input" data-type="before" data-id="3"
-                                name="foto_before_3">
-                            <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_before_3 }}"
-                                name="keterangan_before_3" placeholder="Keterangan">
-                            <div class="mt-3" id="preview_before_3">
+                        <div class="d-flex mb-3 overflow-hidden">
+                            <div class="m-2 w-25 position-relative preview-foto" id="preview_before_3" style="height: 200px; background:gray; border-radius: 0.25rem; overflow:hidden;">
                                 @if ($tire_repair->foto_before_3)
-                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_3) }}"
-                                        style="max-width: 100%; height: 400px;" />
+                                    <img src="{{ asset('storage/uploads/before/' . $tire_repair->foto_before_3) }}"/>
                                 @endif
+                            </div>
+                            <div class="p-2 w-75 form-group">
+                                <label>Foto Before 3</label>
+                                <input type="file" class="foto-input" data-type="before" data-id="3"
+                                    name="foto_before_3">
+                                <input type="text" class="mt-2" name="keterangan_before_3" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-6">
-                        <div class="form-group">
-                            <label>Foto After 3</label>
-                            <input type="file" class="foto-input" data-type="after" data-id="3"
-                                name="foto_after_3">
-                            <input class="mt-2" type="text" value="{{ $tire_repair->keterangan_after_3 }}"
-                                name="keterangan_after_3" placeholder="Keterangan">
-                            <div class="mt-3" id="preview_after_3">
+                        <div class="d-flex mb-3 overflow-hidden">
+                            <div class="m-2 w-25 position-relative preview-foto" id="preview_after_3" style="height: 200px; background:gray; border-radius: 0.25rem; overflow:hidden;">
                                 @if ($tire_repair->foto_after_3)
-                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_3) }}"
-                                        style="max-width: 100%; height: 400px;" />
+                                    <img src="{{ asset('storage/uploads/after/' . $tire_repair->foto_after_3) }}"/>
                                 @endif
+                            </div>
+                            <div class="p-2 w-75 form-group">
+                                <label>Foto After 3</label>
+                                <input type="file" class="foto-input" data-type="after" data-id="3"
+                                    name="foto_after_3">
+                                <input type="text" class="mt-2" name="keterangan_after_3" placeholder="Keterangan">
                             </div>
                         </div>
                     </div>

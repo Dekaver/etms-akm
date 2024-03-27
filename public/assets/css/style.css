@@ -11,6 +11,10 @@
   -webkit-flex-wrap: wrap;
 }
 
+.preview-foto img{
+  height: 200px!important
+}
+
 .activity .activity-list, .notifications .notification-list, .sidebar .sidebar-right ul {
   list-style: none;
   padding: 0;
