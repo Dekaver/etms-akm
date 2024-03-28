@@ -103,8 +103,14 @@ class HistoryTireRepairController extends Controller
             $tire_repair->tire_damage_2_id,
             $tire_repair->tire_damage_3_id,
         ];
-        $isrunning = TireRunning::where('tire_id', $tire_repair->tire_id)->first();
-        return view("admin.history.historyTireRepairEdit", compact("tire_repair", "tire_damages", "selectedDamages"));
+
+        $tire_repair_last = TireRepair::where('tire_id', $tire_repair->tire_id)->orderBy('id', 'DESC')->first();
+        $isrunning = TireRunning::where('tire_id', $tire_repair->tire_id)->exists();
+        $isTrue = true;
+        if ($tire_repair_last->id != $tire_repair->id || $isrunning) {
+            $isTrue = false;
+        }
+        return view("admin.history.historyTireRepairEdit", compact("isTrue", "tire_repair", "tire_damages", "selectedDamages"));
     }
 
     public function update(Request $request, $tireRepairId)

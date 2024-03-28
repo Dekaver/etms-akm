@@ -39,7 +39,7 @@ class TireRepair extends Model
         "foto_after_3",
         "keterangan_after_3",
     ];
-    
+
 
     public function tire()
     {

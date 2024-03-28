@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Repair</h4>
+            <h4>History Tire Repair</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Repair</li>
+                    <li class="breadcrumb-item active" aria-current="page"> History Tire Repair</li>
                 </ol>
             </nav>
         </div>

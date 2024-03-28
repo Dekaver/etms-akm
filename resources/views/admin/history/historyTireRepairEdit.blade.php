@@ -240,8 +240,10 @@
 
                 </div>
 
-                <button type="submit" class="btn btn-submit">Save</button>
-                <a href="{{route('historytirerepair.index')}}" class="btn btn-cancel">Cancel</a>
+                @if ($isTrue)
+                    <button type="submit" class="btn btn-submit">Save</button>
+                @endif
+                <a href="{{ route('historytirerepair.index') }}" class="btn btn-cancel">Cancel</a>
             </form>
         </div>
     </div>
