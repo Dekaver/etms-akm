@@ -99,8 +99,8 @@
                             <th>Pattern</th>
                             <th>Compound</th>
                             <th>Status</th>
-                            <th>RTD</th>
-                            <th>Lifetime</th>
+                            <th>Lifetime HM</th>
+                            <th>Lifetime KM</th>
                             <th>Action</th>
                         </tr>
                     </thead>

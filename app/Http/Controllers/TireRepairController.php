@@ -168,7 +168,7 @@ class TireRepairController extends Controller
                     "user_id" => auth()->id(),
                     "company_id" => $company->id,
                     "site_id" => auth()->user()->site->id,
-                    "tire_damage_id" => $request->tire_damage_id,
+                    "tire_damage_id" => $request->tire_damage[0] ?? null,
                     "unit" => null,
                     "position" => null,
                     "tire" => $tirerepair->serial_number,
