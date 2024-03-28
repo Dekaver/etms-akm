@@ -197,7 +197,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Reason</label>
-                                    <input type="text" name="man_power">
+                                    <input type="text" name="reason">
                                 </div>
                             </div>
                             {{-- <div class="col-6">
@@ -246,7 +246,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Tire Status Update</label>
-                                    <input type="text" name="tire_status" placeholder="SPARE" readonly>
+                                    <input type="text" name="tire_status" value="SPARE" readonly>
                                 </div>
                             </div>
 
@@ -535,18 +535,18 @@
                     method: "GET",
                     url: `{{ route('tirerepair.index') }}/${id}/edit`
                 }).done(function(response) {
-                    modal.find('input[name="driver"]').val(response.driver.nama);
-                    modal.find('input[name="position"]').val(response.position);
-                    modal.find('input[name="km_unit"]').val(response.km_unit);
-                    modal.find('input[name="history_tire_movement_id"]').val(response.id);
-                    modal.find('input[name="unit"]').val(response.unit_number.unit_number);
-                    modal.find('input[name="site"]').val(response.site.name);
-                    modal.find('input[name="serial_number"]').val(response.tire_number.serial_number);
-                    modal.find('input[name="tire_id"]').val(response.tire_number.id);
-                    modal.find('input[name="lifetime_hm"]').val(response.tire_number.lifetime_hm);
-                    modal.find('input[name="lifetime_km"]').val(response.tire_number.lifetime_km);
-                    modal.find('input[name="tire_status_id"]').val(response.tire_number.tire_status_id);
-                    modal.find('input[name="rtd"]').val(response.tire_number.rtd);
+                    modal.find('input[name="driver"]').val(response.driver?.nama || '');
+                    modal.find('input[name="position"]').val(response.position || '');
+                    modal.find('input[name="km_unit"]').val(response.km_unit || '');
+                    modal.find('input[name="history_tire_movement_id"]').val(response.id || '');
+                    modal.find('input[name="unit"]').val(response.unit_number?.unit_number || '');
+                    modal.find('input[name="site"]').val(response.site?.name || '');
+                    modal.find('input[name="serial_number"]').val(response.tire_number?.serial_number || '');
+                    modal.find('input[name="tire_id"]').val(response.tire_number?.id || '');
+                    modal.find('input[name="lifetime_hm"]').val(response.tire_number?.lifetime_hm || '');
+                    modal.find('input[name="lifetime_km"]').val(response.tire_number?.lifetime_km || '');
+                    modal.find('input[name="tire_status_id"]').val(response.tire_number?.tire_status_id || '');
+                    modal.find('input[name="rtd"]').val(response.rtd || '');
                 });
                 modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
             });

@@ -91,6 +91,7 @@ class TireRepairController extends Controller
             ->whereHas('tire_number', function ($query) use ($tirerepair) {
                 $query->where('id', $tirerepair);
             })->where('STATUS', 'REPAIR')->first();
+            // dd($historyTire);
 
         return $historyTire;
     }
@@ -108,6 +109,7 @@ class TireRepairController extends Controller
             // dd($request->tire_damage);
             DB::transaction(function () use ($tirerepair, $request) {
                 $tire_status_new = TireStatus::where('status', $request->tire_status)->first();
+                // dd($tire_status_new->status);
                 $company = auth()->user()->company;
 
                 // Define an array to hold the filenames for easier assignment to the model later
@@ -170,7 +172,7 @@ class TireRepairController extends Controller
                     "unit" => null,
                     "position" => null,
                     "tire" => $tirerepair->serial_number,
-                    "status" => $tirerepair->tire_status->status,
+                    "status" => $tire_status_new->status,
                     "km_unit" => null,
                     "hm_unit" => null,
                     "pic" => $request->pic,
