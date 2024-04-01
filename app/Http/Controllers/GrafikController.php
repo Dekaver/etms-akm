@@ -1946,11 +1946,14 @@ class GrafikController extends Controller
         $returning["value"][1]["type"] = "line";
         $returning["value"][2]["name"] = "KM/MM";
         $returning["value"][2]["type"] = "bar";
+        $returning["value"][3]["name"] = "HM";
+        $returning["value"][3]["type"] = "bar";
 
         foreach ($tire as $key => $item) {
             $returning["value"][0]["data"][] = $item->avg_lifetime_km;
             $returning["value"][1]["data"][] = $item->avg_tur;
             $returning["value"][2]["data"][] = $item->avg_km_per_mm;
+            $returning["value"][3]["data"][] = $item->avg_lifetime_hm;
             $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
         }
 
@@ -1960,6 +1963,7 @@ class GrafikController extends Controller
                 'size' => $tire->size,
             ];
         });
+        // dd($returning);
         return $returning;
     }
 

@@ -293,6 +293,22 @@ if ($("#chart-tire-lifetime").length > 0) {
                     max: roundedResultKM,
                     float: false,
                 },
+                {
+                    show: false,
+                    seriesName: "HM",
+                    title: {
+                        text: "HM",
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    min: 0,
+                    max: roundedResultKM,
+                    float: false,
+                },
             ],
             xaxis: {
                 labels: {
