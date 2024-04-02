@@ -34,8 +34,8 @@
                                     class="{{ Request::routeIs('report.tirertdperunit') ? 'active' : '' }}">Report Tire
                                     RTD Per UNIT</a></li>
                             <li><a href="/historytirerepair"
-                                    class="{{ Request::routeIs('historytirerepair.*') ? 'active' : '' }}">Report Tire
-                                    Repairing</a></li>
+                                    class="{{ Request::routeIs('historytirerepair.*') ? 'active' : '' }}">Report After Tire
+                                    Repair</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -112,7 +112,7 @@
                         @endcan
                         @can('TIRE_REPAIR')
                             <li><a href="/tirerepair" class="{{ Request::routeIs('tirerepair.*') ? 'active' : '' }}">Tire
-                                    Repair</a></li>
+                                    Repair Proccess</a></li>
                         @endcan
                         @can('DAILY_INSPECT')
                             <li><a href="/dailyinspect"
