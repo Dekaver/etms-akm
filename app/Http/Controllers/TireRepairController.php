@@ -101,10 +101,10 @@ class TireRepairController extends Controller
      */
     public function update(Request $request, TireMaster $tirerepair)
     {
-        $request->validate([
-            "man_power" => "required",
-            "pic" => "required"
-        ]);
+        // $request->validate([
+        //     "man_power" => "required",
+        //     "pic" => "required"
+        // ]);
         try {
             // dd($request->tire_damage);
             DB::transaction(function () use ($tirerepair, $request) {
@@ -158,7 +158,7 @@ class TireRepairController extends Controller
                     "history_tire_movement_id" => $request->history_tire_movement_id,
                 ], $filenames)); // Merge the dynamic filenames with the static data
 
-                // $tirerepair->tire_status_id = $tire_status_new->id; // tidak update status
+                $tirerepair->tire_status_id = $tire_status_new->id; // tidak update status
                 $tirerepair->is_repair = true;
                 $tirerepair->is_repairing = false;
                 $tirerepair->save();

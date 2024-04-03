@@ -327,7 +327,9 @@
         </form>
     </div>
 
-   
+    @push('css')
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/buttons.dataTables.min.css') }}">
+    @endpush
 
     @push('js')
         <script>
@@ -374,12 +376,28 @@
             });
         </script>
 
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jszip.min.js') }}"></script>
         <script type="text/javascript">
             $(function() {
                 var table = $('table.data-table').DataTable({
+                    dom: 'Bfrtlip',
+                    buttons: [{
+                            extend: 'excel',
+                            text: 'Export Excel',
+                            filename: `Report After Tire Repair ${new Date().getTime()}`
+                        },
+                        'copy', 'csv'
+                    ],
                     processing: true,
                     serverSide: false,
-                    ajax: "{{ route('historytirerepair.index') }}",
+                    order: [
+                        [3, 'asc']
+                    ],
+                    processing: true,
+                    serverSide: false,
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -457,19 +475,24 @@
                     modal.find('input[name="position"]').val(response.history_tire_movement.position);
                     modal.find('input[name="km_unit"]').val(response.history_tire_movement.km_unit);
                     modal.find('input[name="history_tire_movement_id"]').val(response.history_tire_movement.id);
-                    modal.find('input[name="unit"]').val(response.history_tire_movement.unit_number.unit_number);
+                    modal.find('input[name="unit"]').val(response.history_tire_movement.unit_number
+                        .unit_number);
                     modal.find('input[name="site"]').val(response.history_tire_movement.site.name);
-                    modal.find('input[name="serial_number"]').val(response.history_tire_movement.tire_number.serial_number);
+                    modal.find('input[name="serial_number"]').val(response.history_tire_movement.tire_number
+                        .serial_number);
                     modal.find('input[name="tire_id"]').val(response.history_tire_movement.tire_number.id);
-                    modal.find('input[name="lifetime_hm"]').val(response.history_tire_movement.tire_number.lifetime_hm);
-                    modal.find('input[name="lifetime_km"]').val(response.history_tire_movement.tire_number.lifetime_km);
-                    modal.find('input[name="tire_status_id"]').val(response.history_tire_movement.tire_number.tire_status_id);
+                    modal.find('input[name="lifetime_hm"]').val(response.history_tire_movement.tire_number
+                        .lifetime_hm);
+                    modal.find('input[name="lifetime_km"]').val(response.history_tire_movement.tire_number
+                        .lifetime_km);
+                    modal.find('input[name="tire_status_id"]').val(response.history_tire_movement.tire_number
+                        .tire_status_id);
                     modal.find('input[name="rtd"]').val(response.history_tire_movement.tire_number.rtd);
                 });
                 modal.find('form').attr('action', `{{ route('historytirerepair.index') }}/${id}`)
             });
 
-           
+
             $('#form-modal-spare').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
             });

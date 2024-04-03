@@ -221,6 +221,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="inputcheck">Repairing
+                                    <input type="checkbox" name="is_repairing">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -184,20 +184,20 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Man Power</label>
-                                    <input type="text" name="man_power">
+                                    <label>Man Power<span class="manitory">*</span></label>
+                                    <input type="text" name="man_power" required>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Material</label>
-                                    <input type="text" name="material">
+                                    <label>Material<span class="manitory">*</span></label>
+                                    <input type="text" name="material" required>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Reason</label>
-                                    <input type="text" name="reason">
+                                    <label>Reason<span class="manitory">*</span></label>
+                                    <input type="text" name="reason" required>
                                 </div>
                             </div>
                             {{-- <div class="col-6">
@@ -239,8 +239,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>PIC</label>
-                                    <input type="text" name="pic">
+                                    <label>PIC<span class="manitory">*</span></label>
+                                    <input type="text" name="pic" required>
                                 </div>
                             </div>
                             <div class="col-6">
