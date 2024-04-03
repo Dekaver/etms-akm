@@ -352,6 +352,13 @@
                                     <textarea name="serial_number" rows="5"></textarea>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="inputcheck">Repairing
+                                    <input type="checkbox" name="is_repairing">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -412,7 +419,11 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-
+                $("input[name='is_repairing']").change(function() {
+                    if ($(this).is(":checked")) {
+                        $("select[name='tire_status_id']").val("3").trigger('change');
+                    }
+                });
                 $(function() {
                     var table = $('table.data-table').DataTable({
                         processing: true,
@@ -584,6 +595,8 @@
                     $("#form-modal-edit input[name='rtd']").val(otd)
                     $("#form-modal-edit input[name='rtd']").attr("max", otd)
                 });
+
+
             });
         </script>
     @endpush

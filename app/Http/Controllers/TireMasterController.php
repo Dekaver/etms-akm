@@ -135,6 +135,7 @@ class TireMasterController extends Controller
                         'lifetime_km' => $request->lifetime_km,
                         'lifetime_hm' => $request->lifetime_hm,
                         'rtd' => $request->rtd,
+                        'is_repairing' => $request->is_repairing === 'on' ? 1 : 0,
                         'date' => $request->date,
                     ]);
                 }
@@ -199,6 +200,7 @@ class TireMasterController extends Controller
         $tiremaster->lifetime_hm = $request->lifetime_hm;
         $tiremaster->rtd = $request->rtd;
         $tiremaster->date = $request->date;
+        $tiremaster->is_repairing = $request->is_repairing === 'on' ? 1 : 0;
         $tiremaster->save();
 
         return redirect()->back()->with("success", "Updated Tire Master");
