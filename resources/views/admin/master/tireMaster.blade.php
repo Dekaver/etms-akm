@@ -516,6 +516,7 @@
                         modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
                         modal.find('input[name="rtd"]').val(response.rtd);
                         modal.find('input[name="date"]').val(response.date);
+                        modal.find('input[name="is_repairing"]').prop('checked', response.is_repairing == 1);
 
                         modal.find('input[name="_method"]').val('PUT');
                     });
