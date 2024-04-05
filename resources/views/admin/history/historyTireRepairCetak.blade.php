@@ -37,13 +37,13 @@
                                                             <tr>
                                                                 <td width="8%" class="fw-bold">Site</td>
                                                                 <td width="2%">:</td>
-                                                                <td width="40%">{{ $historyTire->site->name }}</td>
+                                                                <td width="40%">{{ $historyTire->site->name??null }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td width="8%" class="fw-bold">Unit</td>
                                                                 <td width="2%">:</td>
                                                                 <td width="40%">
-                                                                    {{ $historyTire->unit_number->unit_number }}</td>
+                                                                    {{ $historyTire->unit_number->unit_number??null }}</td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -52,13 +52,13 @@
                                                             <tr>
                                                                 <td width="25%" class="fw-bold">Driver</td>
                                                                 <td width="2%">:</td>
-                                                                <td width="40%">{{ $historyTire->driver->nama }}</td>
+                                                                <td width="40%">{{ $historyTire->driver->nama??null }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td width="25%" class="fw-bold">Serial Number</td>
                                                                 <td width="2%">:</td>
                                                                 <td width="40%">
-                                                                    {{ $historyTire->tire_number->serial_number }}</td>
+                                                                    {{ $historyTire->tire_number->serial_number??null }}</td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -91,14 +91,14 @@
                                                                     <td width="45%" class="fw-bold">Tire Lifetime HM
                                                                     </td>
                                                                     <td width="10px">:</td>
-                                                                    <td>{{ $historyTire->tire_number->lifetime_hm }}
+                                                                    <td>{{ $historyTire->tire_number->lifetime_hm??null }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="45%" class="fw-bold">Tire Lifetime KM
                                                                     </td>
                                                                     <td width="10px">:</td>
-                                                                    <td>{{ $historyTire->tire_number->lifetime_km }}
+                                                                    <td>{{ $historyTire->tire_number->lifetime_km??null }}
                                                                     </td>
                                                                 </tr>
                                                             </table>
