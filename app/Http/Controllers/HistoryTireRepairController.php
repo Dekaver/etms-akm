@@ -96,13 +96,13 @@ class HistoryTireRepairController extends Controller
         $company = auth()->user()->company;
         $tire_damages = TireDamage::where("company_id", $company->id)->get();
         $tire_repair = TireRepair::find($id);
-        
+
         $historyTire = HistoryTireMovement::with(['tire_number', 'site', 'unit_number', 'driver'])
-        ->whereHas('tire_number', function ($query) use ($tire_repair) {
-            $query->where('id', $tire_repair->tire_id);
-        })->where('STATUS', 'REPAIR')->first();
+            ->whereHas('tire_number', function ($query) use ($tire_repair) {
+                $query->where('id', $tire_repair->tire_id);
+            })->where('STATUS', 'REPAIR')->where('id', $tire_repair->history_tire_movement_id)->first();
         // Get the current selections
-            // dd($historyTire);
+        // dd($historyTire);
         $selectedDamages = [
             $tire_repair->tire_damage_id,
             $tire_repair->tire_damage_2_id,
@@ -115,7 +115,7 @@ class HistoryTireRepairController extends Controller
         if ($tire_repair_last->id != $tire_repair->id || $isrunning) {
             $isTrue = false;
         }
-        return view("admin.history.historyTireRepairEdit", compact("historyTire","isTrue", "tire_repair", "tire_damages", "selectedDamages"));
+        return view("admin.history.historyTireRepairEdit", compact("historyTire", "isTrue", "tire_repair", "tire_damages", "selectedDamages"));
     }
 
     public function update(Request $request, $tireRepairId)
@@ -198,5 +198,27 @@ class HistoryTireRepairController extends Controller
     public function destroy(TireRepair $tireRepair)
     {
         //
+    }
+
+    public function cetak($id)
+    {
+        $company = auth()->user()->company;
+        $tire_damages = TireDamage::where("company_id", $company->id)->get();
+        $tire_repair = TireRepair::find($id);
+
+        $historyTire = HistoryTireMovement::with(['tire_number', 'site', 'unit_number', 'driver'])
+            ->whereHas('tire_number', function ($query) use ($tire_repair) {
+                $query->where('id', $tire_repair->tire_id);
+            })->where('STATUS', 'REPAIR')->where('id', $tire_repair->history_tire_movement_id)->first();
+
+        $selectedDamages = array_filter([
+            $tire_repair->tire_damage->damage ?? null,
+            $tire_repair->tire_damage2->damage ?? null,
+            $tire_repair->tire_damage3->damage ?? null,
+        ], function ($value) {
+            return !is_null($value);
+        });
+
+        return view("admin.history.historyTireRepairCetak", compact("historyTire", "tire_repair", "tire_damages", "selectedDamages"));
     }
 }

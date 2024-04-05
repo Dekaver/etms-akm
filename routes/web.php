@@ -85,6 +85,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tirerepair', TireRepairController::class)->middleware('permission:TIRE_REPAIR');
     
     Route::resource('historytirerepair', HistoryTireRepairController::class)->middleware('permission:TIRE_REPAIR');
+
+    Route::get('historytirerepair/{id}/cetak', [HistoryTireRepairController::class, 'cetak'])
+        ->name('historytiremovement.cetak')
+        ->middleware('permission:HISTORY_TIRE_MOVEMENT');
     // Route::resource('historytirerepairedit', HistoryTireRepairController::class, 'ubah');
     // Route::get('/historytirerepairedit', [HistoryTireRepairController::class, 'ubah'])->name('admin.history.historyTireRepairEdit');
   
