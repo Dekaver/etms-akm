@@ -114,6 +114,8 @@
                             <th>Lifetime KM</th>
                             <th>RTD</th>
                             <th>Date</th>
+                            <th>Total Repair</th>
+                            <th>Total Damage</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -473,6 +475,14 @@
                             {
                                 data: 'date',
                                 name: 'date'
+                            },
+                            {
+                                data: 'tire_repair',
+                                name: 'tire_repair'
+                            },
+                            {
+                                data: 'tire_damage',
+                                name: 'tire_damage'
                             },
                             {
                                 data: 'action',

@@ -50,12 +50,6 @@ class TireMaster extends Model
         return $this->hasMany(TireRunning::class, 'tire_id', 'id');
     }
 
-    public function repairs()
-    {
-        return $this->hasMany(TireRepair::class, 'tire_id', 'id');
-        // Assuming 'tire_master_id' is the foreign key in the 'repairs' table
-    }
-
     public function site()
     {
         return $this->belongsTo(Site::class);
@@ -121,6 +115,40 @@ class TireMaster extends Model
     {
         return Attribute::make(
             get: fn ($value) => $this->tur == 0 ? 0 : round((int) $this->lifetime_km / ((int) $this->tur), 1),
+        );
+    }
+
+    public function repairs()
+    {
+        return $this->hasMany(TireRepair::class, 'tire_id', 'id');
+        // Assuming 'tire_master_id' is the foreign key in the 'repairs' table
+    }
+
+
+    public function countTireRepair(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->repairs->count(),
+        );
+    }
+
+ 
+    // Menggunakan Eloquent Accessor untuk menghitung total tire damages
+    protected function countTireDamage(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // Mengambil semua repairs yang terkait dan menghitung tire damages untuk setiap record
+                $totalDamages = $this->repairs->sum(function ($repair) {
+                    $count = 0;
+                    if (!empty($repair->tire_damage_id)) $count++;
+                    if (!empty($repair->tire_damage_2_id)) $count++;
+                    if (!empty($repair->tire_damage_3_id)) $count++;
+                    return $count;
+                });
+
+                return $totalDamages;
+            }
         );
     }
 

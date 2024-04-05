@@ -31,8 +31,12 @@ class TireMasterController extends Controller
         $tirecompound = TireCompound::where('company_id', $company->id)->get();
         $tirestatus = TireStatus::where('status', '!=', 'Scrap')->get();
 
+        // foreach ($data as $item) {
+        //     dd($item->countTireDamage);
+        // }
+        // dd($data);   
         if ($request->ajax()) {
-            $data = TireMaster::where('company_id', $company->id);
+            $data = TireMaster::where('company_id', $company->id)->get();
             if ($tiresite_id) {
                 $data = $data->where('site_id', $tiresite_id);
             }
@@ -49,6 +53,12 @@ class TireMasterController extends Controller
                 })
                 ->addColumn("site", function ($row) {
                     return $row->site->name;
+                })
+                ->addColumn("tire_repair", function ($row) {
+                    return $row->countTireRepair;
+                })
+                ->addColumn("tire_damage", function ($row) {
+                    return $row->countTireDamage;
                 })
                 ->addColumn("status", function ($row) {
                     return $row->tire_status->status;
@@ -139,7 +149,6 @@ class TireMasterController extends Controller
                         'date' => $request->date,
                     ]);
                 }
-
             });
             return redirect()->back()->with("success", "Created Tire Master");
         } catch (\Throwable $e) {
