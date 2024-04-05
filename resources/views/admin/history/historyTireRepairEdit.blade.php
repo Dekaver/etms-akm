@@ -27,13 +27,13 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label>Site</label>
-                            <input type="text" name="site" value="{{ $historyTire->site->name }}" readonly>
+                            <input type="text" name="site" value="{{ $historyTire->site->name??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Unit</label>
-                            <input type="text" name="unit" value="{{ $historyTire->unit_number->unit_number }}"
+                            <input type="text" name="unit" value="{{ $historyTire->unit_number->unit_number??null }}"
                                 readonly>
                         </div>
                     </div>
@@ -41,13 +41,13 @@
                         <div class="form-group">
                             <label>Serial Number</label>
                             <input type="text" name="serial_number"
-                                value="{{ $historyTire->tire_number->serial_number }}" readonly>
+                                value="{{ $historyTire->tire_number->serial_number??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Driver</label>
-                            <input type="text" name="driver" value="{{ $historyTire->driver->nama }}" readonly>
+                            <input type="text" name="driver" value="{{ $historyTire->driver->nama??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-2">
@@ -66,14 +66,14 @@
                         <div class="form-group">
                             <label>Tire Lifetime HM</label>
                             <input type="text" name="lifetime_km"
-                                value="{{ $historyTire->tire_number->lifetime_hm }}" readonly>
+                                value="{{ $historyTire->tire_number->lifetime_hm??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group">
                             <label>Tire Lifetime KM</label>
                             <input type="text" name="lifetime_km"
-                                value="{{ $historyTire->tire_number->lifetime_km }}" readonly>
+                                value="{{ $historyTire->tire_number->lifetime_km??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-1">
