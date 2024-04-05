@@ -82,13 +82,13 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label>Man Power</label>
-                            <input type="text" value="{{ $tire_repair->man_power }}" readonly>
+                            <input type="text" value="{{ $tire_repair->man_power }}" name="man_power" >
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>Reason</label>
-                            <input type="text" name="reason" value="{{ $tire_repair->reason }}" readonly>
+                            <input type="text" name="reason" value="{{ $tire_repair->reason }}" >
                         </div>
                     </div>
                     <div class="col-6">
@@ -122,7 +122,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label>PIC</label>
-                            <input type="text" name="reason" value="{{ $tire_repair->pic }}" readonly>
+                            <input type="text" name="pic" value="{{ $tire_repair->pic }}" >
                         </div>
                     </div>
                     <div class="col-6">
@@ -145,7 +145,7 @@
                                 <input type="file" class="foto-input" data-type="before" data-id="1"
                                     name="foto_before_1">
                                 <input type="text" class="mt-2" name="keterangan_before_1"
-                                    value="{{ $tire_repair->keterangan_before_1 }}" readonly
+                                    value="{{ $tire_repair->keterangan_before_1 }}" 
                                     placeholder="Keterangan">
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                 <input type="file" class="foto-input" data-type="after" data-id="1"
                                     name="foto_after_1">
                                 <input type="text" class="mt-2" name="keterangan_after_1"
-                                    placeholder="Keterangan" value="{{ $tire_repair->keterangan_after_1 }}" readonly>
+                                    placeholder="Keterangan" value="{{ $tire_repair->keterangan_after_1 }}" >
                             </div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                                     name="foto_before_2">
                                 <input type="text" class="mt-2" name="keterangan_before_2"
                                     placeholder="Keterangan" value="{{ $tire_repair->keterangan_before_2 }}"
-                                    readonly>
+                                    >
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
                                 <input type="file" class="foto-input" data-type="after" data-id="2"
                                     name="foto_after_2">
                                 <input type="text" class="mt-2" name="keterangan_after_2"
-                                    placeholder="Keterangan" value="{{ $tire_repair->keterangan_after_2 }}" readonly>
+                                    placeholder="Keterangan" value="{{ $tire_repair->keterangan_after_2 }}" >
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                                     name="foto_before_3">
                                 <input type="text" class="mt-2" name="keterangan_before_3"
                                     placeholder="Keterangan" value="{{ $tire_repair->keterangan_before_3 }}"
-                                    readonly>
+                                    >
                             </div>
                         </div>
                     </div>
@@ -238,7 +238,7 @@
                                 <input type="file" class="foto-input" data-type="after" data-id="3"
                                     name="foto_after_3">
                                 <input type="text" class="mt-2" name="keterangan_after_3"
-                                    placeholder="Keterangan" value="{{ $tire_repair->keterangan_after_3 }}" readonly>
+                                    placeholder="Keterangan" value="{{ $tire_repair->keterangan_after_3 }}" >
                             </div>
                         </div>
                     </div>
