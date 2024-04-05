@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Repair</h4>
+            <h4>Tire Repair Proccess</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

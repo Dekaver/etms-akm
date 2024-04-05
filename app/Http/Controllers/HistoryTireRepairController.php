@@ -96,8 +96,13 @@ class HistoryTireRepairController extends Controller
         $company = auth()->user()->company;
         $tire_damages = TireDamage::where("company_id", $company->id)->get();
         $tire_repair = TireRepair::find($id);
-
+        
+        $historyTire = HistoryTireMovement::with(['tire_number', 'site', 'unit_number', 'driver'])
+        ->whereHas('tire_number', function ($query) use ($tire_repair) {
+            $query->where('id', $tire_repair->tire_id);
+        })->where('STATUS', 'REPAIR')->first();
         // Get the current selections
+            // dd($historyTire);
         $selectedDamages = [
             $tire_repair->tire_damage_id,
             $tire_repair->tire_damage_2_id,
@@ -110,7 +115,7 @@ class HistoryTireRepairController extends Controller
         if ($tire_repair_last->id != $tire_repair->id || $isrunning) {
             $isTrue = false;
         }
-        return view("admin.history.historyTireRepairEdit", compact("isTrue", "tire_repair", "tire_damages", "selectedDamages"));
+        return view("admin.history.historyTireRepairEdit", compact("historyTire","isTrue", "tire_repair", "tire_damages", "selectedDamages"));
     }
 
     public function update(Request $request, $tireRepairId)
