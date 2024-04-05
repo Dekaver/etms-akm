@@ -90,7 +90,9 @@ Route::middleware(['auth'])->group(function () {
   
 
     // Route::post('user/{id}/company', [UserController::class, 'updateCompany'])->name('user.company.update');
-
+    Route::get("/historytirerepaircetak", function(){
+        return view("admin.history.historyTireRepairCetak");
+     });
 
     Route::resource('tirerunning', TireRunningController::class)->middleware('permission:TIRE_RUNNING');
 

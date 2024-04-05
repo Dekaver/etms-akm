@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="page-header">
+    <div class="page-header position-relative">
         <div class="page-title">
             <h4>Update Status To Spare </h4>
             <!-- <h6>Manage your products</h6> -->
@@ -9,6 +9,9 @@
                     <li class="breadcrumb-item active" aria-current="page">Tire Repair</li>
                 </ol>
             </nav>
+        </div>
+        <div class="position-absolute" style="right: 0">
+            <a href="/historytirerepaircetak" class="btn btn-primary">Cetak</a>
         </div>
     </div>
 
