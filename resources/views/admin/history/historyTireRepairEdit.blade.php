@@ -53,13 +53,13 @@
                     <div class="col-2">
                         <div class="form-group">
                             <label>KM Unit</label>
-                            <input type="text" name="km_unit" value="{{ $historyTire->km_unit }}" readonly>
+                            <input type="text" name="km_unit" value="{{ $historyTire->km_unit??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="form-group">
                             <label>Position</label>
-                            <input type="text" name="position" value="{{ $historyTire->position }}" readonly>
+                            <input type="text" name="position" value="{{ $historyTire->position??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-2">
@@ -79,19 +79,19 @@
                     <div class="col-1">
                         <div class="form-group">
                             <label>RTD</label>
-                            <input type="text" name="rtd" value="{{ $historyTire->rtd }}" readonly>
+                            <input type="text" name="rtd" value="{{ $historyTire->rtd??null }}" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label>Man Power</label>
-                            <input type="text" value="{{ $tire_repair->man_power }}" name="man_power">
+                            <input type="text" value="{{ $tire_repair->man_power??null }}" name="man_power">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>Reason</label>
-                            <input type="text" name="reason" value="{{ $tire_repair->reason }}">
+                            <input type="text" name="reason" value="{{ $tire_repair->reason??null }}">
                         </div>
                     </div>
                     <div class="col-6">
@@ -112,20 +112,20 @@
                         <div class="form-group">
                             <label>Start Date</label>
                             <input type="datetime-local" class="form-control" name="start_date"
-                                value="{{ $tire_repair->start_date }}">
+                                value="{{ $tire_repair->start_date??null }}">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>End Date</label>
                             <input type="datetime-local" class="form-control" name="end_date"
-                                value="{{ $tire_repair->end_date }}">
+                                value="{{ $tire_repair->end_date??null }}">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>PIC</label>
-                            <input type="text" name="pic" value="{{ $tire_repair->pic }}">
+                            <input type="text" name="pic" value="{{ $tire_repair->pic??null }}">
                         </div>
                     </div>
                     <div class="col-6">
