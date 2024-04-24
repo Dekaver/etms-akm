@@ -329,7 +329,7 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>HM</label>
-                                    <input class="form-control" type="number" name="hm" required>
+                                    <input class="form-control" type="text" name="hm" required>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
