@@ -64,6 +64,7 @@
                             <th>PIC</th>
                             <th>Man Power</th>
                             <th>Damage</th>
+                            <th>Duration</th>
                         </tr>
                     </thead>
 
@@ -157,6 +158,10 @@
                             data: 'damage',
                             name: 'damage'
                         },
+                        {
+                            data: 'duration',
+                            name: 'duration'
+                        }
                     ]
                 });
             });

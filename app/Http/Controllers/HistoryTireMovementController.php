@@ -117,8 +117,21 @@ class HistoryTireMovementController extends Controller
 
     public function tiremovement(Request $request, TireMaster $tire)
     {
-        // dd($tire->history_tire_movement);
-        $data = HistoryTireMovement::with(["site", "tire_damage", "driver"])->where("tire", $tire->serial_number);
+        $data = HistoryTireMovement::with(['site', 'tire_damage', 'driver'])
+            ->where('tire', $tire->serial_number)
+            ->get()
+            ->map(function ($item) {
+                if (!empty($item->start_date) && !empty($item->end_date)) {
+                    $start = Carbon::parse($item->start_date);
+                    $end = Carbon::parse($item->end_date);
+                    $hours = $end->diffInHours($start);
+                    $minutes = $end->diffInMinutes($start) % 60;
+                    $item->duration = "{$hours} Hours {$minutes} Minutes";
+                } else {
+                    $item->duration = "0 Hours 0 Minutes";
+                }
+                return $item;
+            });
 
         if ($request->ajax()) {
             return DataTables::of($data)
@@ -134,7 +147,6 @@ class HistoryTireMovementController extends Controller
                 })
                 ->make(true);
         }
-
         return view("admin.history.historyTireMovement", compact("tire"));
     }
 
