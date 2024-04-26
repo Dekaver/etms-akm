@@ -330,6 +330,7 @@ class DashboardController extends Controller
     public function tirePerformance(Request $request)
     {
         $company = auth()->user()->company;
+        $site = Site::where("company_id", $company->id)->get();
         $current_year = date('Y');
         $date_range1 = range($current_year, $current_year + 3);
         $date_range2 = range($current_year, $current_year - 3);
@@ -346,6 +347,56 @@ class DashboardController extends Controller
         $week = $request->query('week');
         $tire_pattern = $request->query('tire_pattern');
 
+        $tire = TireMaster::select(
+            DB::raw('SUM(tires.lifetime_hm) as sum_lifetime_hm'),
+            DB::raw('SUM(tires.lifetime_km) as sum_lifetime_km'),
+        );
+        $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
+        $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
+        $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');
+        $tire = $tire->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+            $q->on('sl.tire', '=', 'tires.serial_number');
+        });
+        $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
+        if ($site_name) {
+            $tire = $tire->whereHas('site', function ($q) use ($site_name) {
+                $q->where('name', $site_name);
+            });
+        }
+        $tire = $tire->whereIn("tires.id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id));
+
+        if ($tahun) {
+            if ($month) {
+                if ($week) {
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                } else {
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
+                }
+            } else {
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
+            }
+        }
+
+        $tire = $tire->whereHas('tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_size) {
+            if ($tire_size) {
+                $q->where('size', $tire_size);
+            }
+            $q->whereHas("tire_pattern", function ($q) use ($brand_tire, $type_pattern) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas("manufacture", function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+            });
+        });
+
+        $tire = $tire
+            ->orderBy('tire_patterns.type_pattern', 'ASC')
+            ->first();
+
         $tire_patterns = TirePattern::select('pattern')->where("company_id", $company->id)->groupBy('pattern')->get();
         $site = Site::where("company_id", $company->id)->get();
         $tire_sizes = TireSize::select('size')->where("company_id", $company->id)->groupBy('size')->get();
@@ -353,7 +404,7 @@ class DashboardController extends Controller
         $manufacturer = TireManufacture::where("company_id", $company->id)->get();
         $type_patterns = TirePattern::select('type_pattern')->where("company_id", $company->id)->groupBy('type_pattern')->get();
 
-        return view('admin.grafik.performance', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
+        return view('admin.grafik.performance', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range', 'tire'));
     }
 
     public function tireMaintenance(Request $request)

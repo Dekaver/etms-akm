@@ -112,6 +112,7 @@
                             {{-- <th>Pattern</th> --}}
                             <th>Status</th>
                             <th>Lifetime KM</th>
+                            <th>Lifetime HM</th>
                             <th>RTD</th>
                             <th>Date</th>
                             <th>Action</th>
@@ -447,6 +448,10 @@
                             {
                                 data: 'lifetime_km',
                                 name: 'lifetime_km'
+                            },
+                            {
+                                data: 'lifetime_hm',
+                                name: 'lifetime_hm'
                             },
                             {
                                 data: 'rtd',

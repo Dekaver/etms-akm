@@ -117,11 +117,13 @@
         </div>
     </div>
     <h4 class="text-center">TYRE PERFORMANCE</h4>
+
+    @if ($tire && $tire->sum_lifetime_km)
     <div class="row">
         <div class="col-xl-12">
             <div class="card o-hidden">
                 <div class="card-header pb-0">
-                    <h5>Average Lifetime
+                    <h5>Average Lifetime KM
                         <a class="float-end" href="#" onclick="toggleFullScreen(this)">
                             <i data-feather="maximize"></i>
                         </a>
@@ -132,8 +134,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="graphic-container">
-                                    <div id="chart-tire-lifetime"
-                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-lifetime-average'), Request::fullUrl()) }}">
+                                    <div id="chart-tire-lifetime-km"
+                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-lifetime-average-km'), Request::fullUrl()) }}">
                                     </div>
                                 </div>
                             </div>
@@ -143,6 +145,36 @@
             </div>
         </div>
     </div>
+    @endif
+
+    @if ($tire && $tire->sum_lifetime_hm)
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card o-hidden">
+                <div class="card-header pb-0">
+                    <h5>Average Lifetime HM
+                        <a class="float-end" href="#" onclick="toggleFullScreen(this)">
+                            <i data-feather="maximize"></i>
+                        </a>
+                    </h5>
+                </div>
+                <div class="bar-chart-widget">
+                    <div class="bottom-content card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="graphic-container">
+                                    <div id="chart-tire-lifetime-hm"
+                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-lifetime-average-hm'), Request::fullUrl()) }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     {{-- <div class="row">
         <div class="col-xl-6">
             <div class="card o-hidden">

@@ -109,7 +109,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('grafik-tire-scrap-injury-cause', [GrafikController::class, 'tireScrapInjuryCause']);
         // Route::get('grafik-tire-runnning-conditional-hm', [GrafikController::class, 'tireRunningConditionalHm']);
         // Route::get('grafik-brand-usage', [GrafikController::class, 'brandUsage']);
-        Route::get('grafik-tire-lifetime-average', [GrafikController::class, 'tireLifetimeAverage']);
+        Route::get('grafik-tire-lifetime-average-km', [GrafikController::class, 'tireLifetimeAverageKM']);
+        Route::get('grafik-tire-lifetime-average-hm', [GrafikController::class, 'tireLifetimeAverageHM']);
         Route::get('tire-performance', [DashboardController::class, 'tirePerformance'])->name('tire-performance');
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
