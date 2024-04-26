@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Tire Repair Proccess</h4>
+            <h4>History Tire Repair</h4>
             <!-- <h6>Manage your products</h6> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Data</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tire Repair</li>
+                    <li class="breadcrumb-item active" aria-current="page"> History Tire Repair</li>
                 </ol>
             </nav>
         </div>
@@ -98,9 +98,11 @@
                             <th>Size</th>
                             <th>Pattern</th>
                             <th>Compound</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Man Power</th>
+                            <th>PIC</th>
                             <th>Status</th>
-                            <th>Lifetime HM</th>
-                            <th>Lifetime KM</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -184,20 +186,20 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Man Power<span class="manitory">*</span></label>
-                                    <input type="text" name="man_power" required>
+                                    <label>Man Power</label>
+                                    <input type="text" name="man_power">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Material<span class="manitory">*</span></label>
-                                    <input type="text" name="material" required>
+                                    <label>Material</label>
+                                    <input type="text" name="material">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Reason<span class="manitory">*</span></label>
-                                    <input type="text" name="reason" required>
+                                    <label>Reason</label>
+                                    <input type="text" name="reason">
                                 </div>
                             </div>
                             {{-- <div class="col-6">
@@ -239,14 +241,14 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>PIC<span class="manitory">*</span></label>
-                                    <input type="text" name="pic" required>
+                                    <label>PIC</label>
+                                    <input type="text" name="pic">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Tire Status Update</label>
-                                    <input type="text" name="tire_status" value="SPARE" readonly>
+                                    <input type="text" name="tire_status" placeholder="SPARE" readonly>
                                 </div>
                             </div>
 
@@ -325,105 +327,9 @@
         </form>
     </div>
 
-    <div class="modal fade" id="form-modal-scrap" tabindex="-1" role="dialog" aria-hidden="true">
-        <form method="POST">
-            <input type="hidden" name="tire_id">
-            <input type="hidden" name="tire_status_id">
-            @csrf
-            @method('PUT')
-            <div class=" modal-lg modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Update Status To Scrap </h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Site</label>
-                                    <input type="text" name="site" readonly>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Serial Number</label>
-                                    <input type="text" name="serial_number" readonly>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <label>Tire Lifetime HM</label>
-                                    <input type="text" name="lifetime_hm" readonly>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <label>Tire Lifetime KM</label>
-                                    <input type="text" name="lifetime_km" readonly>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <label>RTD</label>
-                                    <input type="text" name="rtd" readonly>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Reason</label>
-                                    <input type="text" name="man_power">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Tire Damage</label>
-                                    <select name="tire_damage_id" class="form-control">
-                                        <option value="">Select Damage</option>
-                                        @foreach ($tire_damages as $item)
-                                            <option value="{{ $item->id }}">{{ $item->damage }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Start Date</label>
-                                    <input type="datetime-local" class="form-control" name="start_date"
-                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>End Date</label>
-                                    <input type="datetime-local" class="form-control" name="end_date"
-                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>PIC</label>
-                                    <input type="text" name="pic">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Tire Status Update</label>
-                                    <input type="text" name="tire_status" value="SCRAP" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-submit">Save</button>
-                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+    @push('css')
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/buttons.dataTables.min.css') }}">
+    @endpush
 
     @push('js')
         <script>
@@ -470,12 +376,28 @@
             });
         </script>
 
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jszip.min.js') }}"></script>
         <script type="text/javascript">
             $(function() {
                 var table = $('table.data-table').DataTable({
+                    dom: 'Bfrtlip',
+                    buttons: [{
+                            extend: 'excel',
+                            text: 'Export Excel',
+                            filename: `Report After Tire Repair ${new Date().getTime()}`
+                        },
+                        'copy', 'csv'
+                    ],
                     processing: true,
                     serverSide: false,
-                    ajax: "{{ route('tirerepair.index') }}",
+                    order: [
+                        [3, 'asc']
+                    ],
+                    processing: true,
+                    serverSide: false,
+                    ajax: window.location.href,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
@@ -503,16 +425,24 @@
                             name: 'compound'
                         },
                         {
+                            data: 'start_date',
+                            name: 'start_date'
+                        },
+                        {
+                            data: 'end_date',
+                            name: 'end_date'
+                        },
+                        {
+                            data: 'pic',
+                            name: 'pic'
+                        },
+                        {
+                            data: 'man_power',
+                            name: 'man_power'
+                        },
+                        {
                             data: 'status',
                             name: 'status'
-                        },
-                        {
-                            data: 'lifetime_hm',
-                            name: 'lifetime_hm'
-                        },
-                        {
-                            data: 'lifetime_km',
-                            name: 'lifetime_km'
                         },
                         {
                             data: 'action',
@@ -533,47 +463,36 @@
                 var id = button.data('id');
                 $.ajax({
                     method: "GET",
-                    url: `{{ route('tirerepair.index') }}/${id}/edit`
+                    url: `{{ route('historytirerepair.index') }}/${id}/edit`
                 }).done(function(response) {
-                    modal.find('input[name="driver"]').val(response.driver?.nama || '');
-                    modal.find('input[name="position"]').val(response.position || '');
-                    modal.find('input[name="km_unit"]').val(response.km_unit || '');
-                    modal.find('input[name="history_tire_movement_id"]').val(response.id || '');
-                    modal.find('input[name="unit"]').val(response.unit_number?.unit_number || '');
-                    modal.find('input[name="site"]').val(response.site?.name || '');
-                    modal.find('input[name="serial_number"]').val(response.tire_number?.serial_number || '');
-                    modal.find('input[name="tire_id"]').val(response.tire_number?.id || '');
-                    modal.find('input[name="lifetime_hm"]').val(response.tire_number?.lifetime_hm || '');
-                    modal.find('input[name="lifetime_km"]').val(response.tire_number?.lifetime_km || '');
-                    modal.find('input[name="tire_status_id"]').val(response.tire_number?.tire_status_id || '');
-                    modal.find('input[name="rtd"]').val(response.rtd || '');
+                    modal.find('input[name="man_power"]').val(response.man_power);
+                    modal.find('input[name="foto_before_1"]').val(response.foto_before_1);
+                    modal.find('input[name="keterangan_before_1"]').val(response.keterangan_before_1);
+                    modal.find('input[name="material"]').val(response.material);
+                    modal.find('input[name="reason"]').val(response.reason);
+                    modal.find('input[name="pic"]').val(response.pic);
+                    modal.find('input[name="driver"]').val(response.history_tire_movement.driver.nama);
+                    modal.find('input[name="position"]').val(response.history_tire_movement.position);
+                    modal.find('input[name="km_unit"]').val(response.history_tire_movement.km_unit);
+                    modal.find('input[name="history_tire_movement_id"]').val(response.history_tire_movement.id);
+                    modal.find('input[name="unit"]').val(response.history_tire_movement.unit_number
+                        .unit_number);
+                    modal.find('input[name="site"]').val(response.history_tire_movement.site.name);
+                    modal.find('input[name="serial_number"]').val(response.history_tire_movement.tire_number
+                        .serial_number);
+                    modal.find('input[name="tire_id"]').val(response.history_tire_movement.tire_number.id);
+                    modal.find('input[name="lifetime_hm"]').val(response.history_tire_movement.tire_number
+                        .lifetime_hm);
+                    modal.find('input[name="lifetime_km"]').val(response.history_tire_movement.tire_number
+                        .lifetime_km);
+                    modal.find('input[name="tire_status_id"]').val(response.history_tire_movement.tire_number
+                        .tire_status_id);
+                    modal.find('input[name="rtd"]').val(response.history_tire_movement.tire_number.rtd);
                 });
-                modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
+                modal.find('form').attr('action', `{{ route('historytirerepair.index') }}/${id}`)
             });
 
-            $('#form-modal-scrap').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var post = button.data('post');
-                var modal = $(this)
-                var id = button.data('id');
-                $.ajax({
-                    method: "GET",
-                    url: `{{ route('tirerepair.index') }}/${id}/edit`
-                }).done(function(response) {
-                    modal.find('input[name="site"]').val(response.site.name);
-                    modal.find('input[name="tire_id"]').val(response.tire_number.id);
-                    modal.find('input[name="serial_number"]').val(response.tire_number.serial_number);
-                    modal.find('input[name="lifetime_hm"]').val(response.tire_number.lifetime_hm);
-                    modal.find('input[name="lifetime_km"]').val(response.tire_number.lifetime_km);
-                    modal.find('input[name="rtd"]').val(response.tire_number.rtd);
-                    modal.find('input[name="tire_status_id"]').val(response.tire_number.tire_status_id);
-                });
-                modal.find('form').attr('action', `{{ route('tirerepair.index') }}/${id}`)
-            });
-            $('#form-modal-scrap').on('hide.bs.modal', function(event) {
-                $(this).find('form')[0].reset();
-                $(this).find('select[name="tire_damage_id"]').trigger('change');
-            });
+
             $('#form-modal-spare').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();
             });

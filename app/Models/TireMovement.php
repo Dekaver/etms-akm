@@ -27,6 +27,14 @@ class TireMovement extends Model
         "desc",
         "start_breakdown",
         "status_schedule",
-        "lokasi_breakdown"
+        "lokasi_breakdown",
+        "driver_id",
     ];
+
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
+
 }

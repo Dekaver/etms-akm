@@ -10,6 +10,7 @@ use App\Models\TireMovement;
 use App\Models\TireRunning;
 use App\Models\TireStatus;
 use App\Models\Unit;
+use App\Models\Driver;
 use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -105,6 +106,7 @@ class TireRunningController extends Controller
                     "start_breakdown" => $request->start_breakdown,
                     "status_schedule" => $request->status_schedule,
                     "lokasi_breakdown" => $request->lokasi_breakdown,
+                    "driver_id" => $request->driver_id,
                 ]);
 
 
@@ -129,9 +131,9 @@ class TireRunningController extends Controller
                     "end_date" => $request->end_date,
                     "pic" => $request->pic,
                     "pic_man_power" => $request->pic_man_power,
-                    "desc" => $request->explanation
+                    "desc" => $request->explanation,
+                    "driver_id" => $request->driver_id,
                 ]);
-
             });
             // redirect the page
             return redirect()->back()->with('success', "install tire");
@@ -156,12 +158,14 @@ class TireRunningController extends Controller
     {
         $unit = Unit::where("id", $tirerunning->id)->with("unit_model")->first();
         $tire_size = $unit->unit_model->tire_size;
+
+        $driver = Driver::where("company_id", auth()->user()->company->id)->get();
         $tire_running = TireRunning::with("tire", "tire.tire_size")->where('unit_id', $unit->id)->orderBy("position")->get();
 
         $tire_inventory = TireMaster::where('is_repairing', false)->where('is_retreading', false)
             ->whereNotIn("id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id))
             ->whereHas("tire_size", function ($query) use ($tire_size) {
-                $query->where("size", 'like', substr($tire_size->size,0,5) . '%');
+                $query->where("size", 'like', substr($tire_size->size, 0, 5) . '%');
             })
             ->whereHas('tire_status', function ($query) {
                 $query->whereIn('status', ['spare', 'new', 'repair']);
@@ -183,7 +187,7 @@ class TireRunningController extends Controller
 
         // $trailermovement = HistoryTrailerMovement::where('unit_install', $unit->unit_number)->orderBy('date_end', 'desc')->get();
 
-        return view("admin.data.tireMovementEdit", compact("tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
+        return view("admin.data.tireMovementEdit", compact("driver", "tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
     }
 
     /**
@@ -286,6 +290,7 @@ class TireRunningController extends Controller
                     "start_breakdown" => $request->start_breakdown,
                     "status_schedule" => $request->status_schedule,
                     "lokasi_breakdown" => $request->lokasi_breakdown,
+                    "driver_id" => $request->driver_id,
                 ]);
 
                 HistoryTireMovement::create([
@@ -311,6 +316,7 @@ class TireRunningController extends Controller
                     "start_breakdown" => $request->start_breakdown,
                     "status_schedule" => $request->status_schedule,
                     "lokasi_breakdown" => $request->lokasi_breakdown,
+                    "driver_id" => $request->driver_id,
                 ]);
 
                 // dd($tire_1->tire_running);
@@ -322,9 +328,7 @@ class TireRunningController extends Controller
             DB::rollBack();
             // return redirect()->back()->with('error', "remove tire");
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-
         }
-
     }
 
     /**
@@ -353,92 +357,93 @@ class TireRunningController extends Controller
         try {
 
 
-                // start update lifetime
-                $unit = Unit::findOrFail($request->unit_id);
+            // start update lifetime
+            $unit = Unit::findOrFail($request->unit_id);
 
-                if ($request->hm_actual > $unit->hm || $request->km_actual > $unit->km) {
-                    // update tire lifetime
-                    $tire_running = TireRunning::where('unit_id', $request->unit_id)->get();
-                    foreach ($tire_running as $key => $running) {
-                        $tire = $running->tire;
+            if ($request->hm_actual > $unit->hm || $request->km_actual > $unit->km) {
+                // update tire lifetime
+                $tire_running = TireRunning::where('unit_id', $request->unit_id)->get();
+                foreach ($tire_running as $key => $running) {
+                    $tire = $running->tire;
 
 
 
-                        // update ALL HM Tire
-                        if ($request->hm_actual > $unit->hm) {
-                            $diff_smu = (int) $request->hm_actual - (int) $unit->hm;
-                            $tire->lifetime_hm += $diff_smu;
-                            if ($tire->is_repair)
-                                $tire->lifetime_repair_hm += $diff_smu;
-                            if ($tire->is_retread)
-                                $tire->lifetime_retread_hm += $diff_smu;
-                        }
-                        // update ALL KM Tire
-                        if ($request->km_actual > $unit->km) {
-                            $diff_smu = (int) $request->km_actual - (int) $unit->km;
-                            $tire->lifetime_km += $diff_smu;
-                            if ($tire->is_repair)
-                                $tire->lifetime_repair_km += $diff_smu;
-                            if ($tire->is_retread)
-                                $tire->lifetime_retread_km += $diff_smu;
-                        }
-                        $tire->save();
+                    // update ALL HM Tire
+                    if ($request->hm_actual > $unit->hm) {
+                        $diff_smu = (int) $request->hm_actual - (int) $unit->hm;
+                        $tire->lifetime_hm += $diff_smu;
+                        if ($tire->is_repair)
+                            $tire->lifetime_repair_hm += $diff_smu;
+                        if ($tire->is_retread)
+                            $tire->lifetime_retread_hm += $diff_smu;
                     }
-                    if ($request->hm_actual > $unit->hm)
-                        $unit->hm = (int) $request->hm_actual;
-                    if ($request->km_actual > $unit->km)
-                        $unit->km = (int) $request->km_actual;
-                    $unit->save();
+                    // update ALL KM Tire
+                    if ($request->km_actual > $unit->km) {
+                        $diff_smu = (int) $request->km_actual - (int) $unit->km;
+                        $tire->lifetime_km += $diff_smu;
+                        if ($tire->is_repair)
+                            $tire->lifetime_repair_km += $diff_smu;
+                        if ($tire->is_retread)
+                            $tire->lifetime_retread_km += $diff_smu;
+                    }
+                    $tire->save();
                 }
+                if ($request->hm_actual > $unit->hm)
+                    $unit->hm = (int) $request->hm_actual;
+                if ($request->km_actual > $unit->km)
+                    $unit->km = (int) $request->km_actual;
+                $unit->save();
+            }
 
-                //endupdate lifetime
+            //endupdate lifetime
 
-                // update removed tire
-                $tire = TireMaster::findOrFail($request->tire_id);
-                $tire->tire_status_id = $request->tire_status_id; // Update status
-                if ($request->tire_status_id == 3) { // repairing
-                    $tire->is_repairing = true;
-                }
-                if ($request->tire_status_id == 4) { // retreading
-                    $tire->is_retreading = true;
-                }
+            // update removed tire
+            $tire = TireMaster::findOrFail($request->tire_id);
+            $tire->tire_status_id = $request->tire_status_id; // Update status
+            if ($request->tire_status_id == 3) { // repairing
+                $tire->is_repairing = true;
+            }
+            if ($request->tire_status_id == 4) { // retreading
+                $tire->is_retreading = true;
+            }
 
-                $tire->rtd = $request->rtd;
-                $tire->tire_damage_id = $request->tire_damage_id;
-                $tire->save();
+            $tire->rtd = $request->rtd;
+            $tire->tire_damage_id = $request->tire_damage_id;
+            $tire->save();
 
-                HistoryTireMovement::create([
-                    "user_id" => auth()->id(),
-                    "company_id" => $company->id,
-                    "site_id" => auth()->user()->site->id,
-                    "tire_damage_id" => $request->tire_damage_id,
-                    "unit" => $unit->unit_number,
-                    "tire" => $tire->serial_number,
-                    "position" => $request->position,
-                    "status" => $tire->tire_status->status,
-                    "km_unit" => $unit->km,
-                    "hm_unit" => $unit->hm,
-                    "pic" => $request->pic,
-                    "pic_man_power" => $request->pic_man_power,
-                    "des" => $request->explanation,
-                    "process" => "REMOVE",
-                    "km_tire" => $tire->lifetime_km,
-                    "hm_tire" => $tire->lifetime_hm,
-                    "km_tire_repair" => $tire->lifetime_repair_km,
-                    "hm_tire_repair" => $tire->lifetime_repair_hm,
-                    "km_tire_retread" => $tire->lifetime_retread_km,
-                    "hm_tire_retread" => $tire->lifetime_retread_hm,
-                    "rtd" => $request->rtd,
-                    "start_date" => $request->start_date,
-                    "end_date" => $request->end_date,
-                    "start_breakdown" => $request->start_breakdown,
-                    "status_schedule" => $request->status_schedule,
-                    "lokasi_breakdown" => $request->lokasi_breakdown,
+            HistoryTireMovement::create([
+                "user_id" => auth()->id(),
+                "company_id" => $company->id,
+                "site_id" => auth()->user()->site->id,
+                "tire_damage_id" => $request->tire_damage_id,
+                "unit" => $unit->unit_number,
+                "tire" => $tire->serial_number,
+                "position" => $request->position,
+                "status" => $tire->tire_status->status,
+                "km_unit" => $unit->km,
+                "hm_unit" => $unit->hm,
+                "pic" => $request->pic,
+                "pic_man_power" => $request->pic_man_power,
+                "des" => $request->explanation,
+                "process" => "REMOVE",
+                "km_tire" => $tire->lifetime_km,
+                "hm_tire" => $tire->lifetime_hm,
+                "km_tire_repair" => $tire->lifetime_repair_km,
+                "hm_tire_repair" => $tire->lifetime_repair_hm,
+                "km_tire_retread" => $tire->lifetime_retread_km,
+                "hm_tire_retread" => $tire->lifetime_retread_hm,
+                "rtd" => $request->rtd,
+                "start_date" => $request->start_date,
+                "end_date" => $request->end_date,
+                "start_breakdown" => $request->start_breakdown,
+                "status_schedule" => $request->status_schedule,
+                "lokasi_breakdown" => $request->lokasi_breakdown,
+                "driver_id" => $request->driver_id,
 
-                ]);
+            ]);
 
-                $tirerunning->delete();
-                // $this->createActivity("Add History Tire Movement $tirerunning->id");
+            $tirerunning->delete();
+            // $this->createActivity("Add History Tire Movement $tirerunning->id");
 
             // redirect the page
             DB::commit();
@@ -507,7 +512,5 @@ class TireRunningController extends Controller
             return "Transaction failed: " . $e->getMessage();
         }
         return redirect()->back()->with("success", "Created Adjust KM / HM Pasang");
-
     }
 }
-

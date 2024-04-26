@@ -17,8 +17,25 @@
                             </li>
                             <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                     Scrap</a></li>
-                            <li><a href="/tire-cause-damage" class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
+                            <li><a href="/tire-cause-damage"
+                                    class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
                                     Cause Damage</a></li>
+                        @endcan
+
+
+                        @can('HISTORY_TIRE_MOVEMENT')
+                            <li><a href="/history-tire-consumption/monthly"
+                                    class="{{ Request::routeIs('tireconsumption') ? 'active' : '' }}">Monthly Tire
+                                    Consumption</a></li>
+                            <li><a href="/history-tire-consumption/annual"
+                                    class="{{ Request::routeIs('tireconsumption.annual') ? 'active' : '' }}">Annual Tire
+                                    Consumption</a></li>
+                            <li><a href="/report-tire-rtd-per-unit"
+                                    class="{{ Request::routeIs('report.tirertdperunit') ? 'active' : '' }}">Report Tire
+                                    RTD Per UNIT</a></li>
+                            <li><a href="/historytirerepair"
+                                    class="{{ Request::routeIs('historytirerepair.*') ? 'active' : '' }}">Report After Tire
+                                    Repair</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -69,7 +86,8 @@
                             </li>
                         @endcan
                         @can('TIRE_TARGETKM')
-                            <li><a href="/tiretargetkm" class="{{ Request::routeIs('tiretargetkm.*') ? 'active' : '' }}">Target KM</a>
+                            <li><a href="/tiretargetkm"
+                                    class="{{ Request::routeIs('tiretargetkm.*') ? 'active' : '' }}">Target KM</a>
                             </li>
                         @endcan
 
@@ -94,12 +112,16 @@
                         @endcan
                         @can('TIRE_REPAIR')
                             <li><a href="/tirerepair" class="{{ Request::routeIs('tirerepair.*') ? 'active' : '' }}">Tire
-                                    Repair</a></li>
+                                    Repair Proccess</a></li>
                         @endcan
                         @can('DAILY_INSPECT')
                             <li><a href="/dailyinspect"
                                     class="{{ Request::routeIs('dailyinspect.*') ? 'active' : '' }}">Daily Monitoring</a>
                             </li>
+                        @endcan
+                        @can('DRIVER')
+                            <li><a href="/driver" class="{{ Request::routeIs('driver.*') ? 'active' : '' }}">
+                                    Data Driver</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -121,9 +143,6 @@
                             <li><a href="/report-tire-target-km"
                                     class="{{ Request::routeIs('report.tiretargetkm') ? 'active' : '' }}">Report Tire
                                     Target KM</a></li>
-                            <li><a href="/report-tire-rtd-per-unit"
-                                    class="{{ Request::routeIs('report.tirertdperunit') ? 'active' : '' }}">Report Tire
-                                    RTD Per UNIT</a></li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"
@@ -142,11 +161,12 @@
                             alt="img"><span>
                             Manajemen User</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        @can('COMPANY')
-                            <li><a href="/company" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">Data
-                                    Customer</a></li>
-                        @endcan
-
+                        @if (Auth()->user()->id == 1)
+                            @can('COMPANY')
+                                <li><a href="/company" class="{{ Request::routeIs('company.*') ? 'active' : '' }}">Data
+                                        Customer</a></li>
+                            @endcan
+                        @endif
                         @can('USER')
                             <li><a href="/user" class="{{ Request::routeIs('user.*') ? 'active' : '' }}">User</a></li>
                         @endcan

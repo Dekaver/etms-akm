@@ -115,6 +115,8 @@
                             <th>Lifetime HM</th>
                             <th>RTD</th>
                             <th>Date</th>
+                            <th>Total Repair</th>
+                            <th>Total Damage</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -209,7 +211,7 @@
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>RTD</label>
-                                    <input type="number" class="form-control" value="0" name="rtd"
+                                    <input type="text" class="form-control" value="0" name="rtd"
                                         step="0.1" required>
                                 </div>
                             </div>
@@ -221,6 +223,13 @@
                                             value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="inputcheck">Repairing
+                                    <input type="checkbox" name="is_repairing">
+                                    <span class="checkmark"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -322,7 +331,7 @@
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
-                                    <label>RTD</label><input type="number" class="form-control" value="0"
+                                    <label>RTD</label><input type="text" class="form-control" value="0"
                                         name="rtd" required>
 
                                 </div>
@@ -352,6 +361,13 @@
                                     <label>Serial Number</label>
                                     <textarea name="serial_number" rows="5"></textarea>
                                 </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="inputcheck">Repairing
+                                    <input type="checkbox" name="is_repairing">
+                                    <span class="checkmark"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -413,7 +429,11 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-
+                $("input[name='is_repairing']").change(function() {
+                    if ($(this).is(":checked")) {
+                        $("select[name='tire_status_id']").val("3").trigger('change');
+                    }
+                });
                 $(function() {
                     var table = $('table.data-table').DataTable({
                         processing: true,
@@ -462,6 +482,14 @@
                                 name: 'date'
                             },
                             {
+                                data: 'tire_repair',
+                                name: 'tire_repair'
+                            },
+                            {
+                                data: 'tire_damage',
+                                name: 'tire_damage'
+                            },
+                            {
                                 data: 'action',
                                 name: 'action',
                                 orderable: false,
@@ -503,6 +531,7 @@
                         modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
                         modal.find('input[name="rtd"]').val(response.rtd);
                         modal.find('input[name="date"]').val(response.date);
+                        modal.find('input[name="is_repairing"]').prop('checked', response.is_repairing == 1);
 
                         modal.find('input[name="_method"]').val('PUT');
                     });
@@ -589,6 +618,8 @@
                     $("#form-modal-edit input[name='rtd']").val(otd)
                     $("#form-modal-edit input[name='rtd']").attr("max", otd)
                 });
+
+
             });
         </script>
     @endpush

@@ -31,8 +31,12 @@ class TireMasterController extends Controller
         $tirecompound = TireCompound::where('company_id', $company->id)->get();
         $tirestatus = TireStatus::where('status', '!=', 'Scrap')->get();
 
+        // foreach ($data as $item) {
+        //     dd($item->countTireDamage);
+        // }
+        // dd($data);   
         if ($request->ajax()) {
-            $data = TireMaster::where('company_id', $company->id);
+            $data = TireMaster::where('company_id', $company->id)->get();
             if ($tiresite_id) {
                 $data = $data->where('site_id', $tiresite_id);
             }
@@ -49,6 +53,12 @@ class TireMasterController extends Controller
                 })
                 ->addColumn("site", function ($row) {
                     return $row->site->name;
+                })
+                ->addColumn("tire_repair", function ($row) {
+                    return $row->countTireRepair;
+                })
+                ->addColumn("tire_damage", function ($row) {
+                    return $row->countTireDamage;
                 })
                 ->addColumn("status", function ($row) {
                     return $row->tire_status->status;
@@ -135,10 +145,10 @@ class TireMasterController extends Controller
                         'lifetime_km' => $request->lifetime_km,
                         'lifetime_hm' => $request->lifetime_hm,
                         'rtd' => $request->rtd,
+                        'is_repairing' => $request->is_repairing === 'on' ? 1 : 0,
                         'date' => $request->date,
                     ]);
                 }
-
             });
             return redirect()->back()->with("success", "Created Tire Master");
         } catch (\Throwable $e) {
@@ -199,6 +209,7 @@ class TireMasterController extends Controller
         $tiremaster->lifetime_hm = $request->lifetime_hm;
         $tiremaster->rtd = $request->rtd;
         $tiremaster->date = $request->date;
+        $tiremaster->is_repairing = $request->is_repairing === 'on' ? 1 : 0;
         $tiremaster->save();
 
         return redirect()->back()->with("success", "Updated Tire Master");

@@ -36,11 +36,22 @@ class HistoryTireMovement extends Model
         "start_breakdown",
         "status_schedule",
         "lokasi_breakdown",
+        "driver_id",
     ];
 
     public function tire_number()
     {
         return $this->belongsTo(TireMaster::class, "tire", "serial_number");
+    }
+
+    public function unit_number()
+    {
+        return $this->belongsTo(Unit::class, "unit", "unit_number");
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class, "driver_id", "id");
     }
 
     public function site()
