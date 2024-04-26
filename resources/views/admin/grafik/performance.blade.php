@@ -118,7 +118,7 @@
     </div>
     <h4 class="text-center">TYRE PERFORMANCE</h4>
 
-    @if ($tire && $tire->sum_lifetime_km)
+    @if ($sum_lifetime_km)
     <div class="row">
         <div class="col-xl-12">
             <div class="card o-hidden">
@@ -147,7 +147,7 @@
     </div>
     @endif
 
-    @if ($tire && $tire->sum_lifetime_hm)
+    @if ($sum_lifetime_hm)
     <div class="row">
         <div class="col-xl-12">
             <div class="card o-hidden">

@@ -348,6 +348,10 @@ class DashboardController extends Controller
         $tire_pattern = $request->query('tire_pattern');
 
         $tire = TireMaster::select(
+            'tire_patterns.type_pattern',
+            'tire_manufactures.name',
+            'tire_sizes.size',
+            'tire_patterns.pattern',
             DB::raw('SUM(tires.lifetime_hm) as sum_lifetime_hm'),
             DB::raw('SUM(tires.lifetime_km) as sum_lifetime_km'),
         );
@@ -394,8 +398,21 @@ class DashboardController extends Controller
         });
 
         $tire = $tire
+            ->groupBy('tire_patterns.type_pattern', 'tire_sizes.size', 'tire_manufactures.name', 'tire_patterns.pattern')
             ->orderBy('tire_patterns.type_pattern', 'ASC')
-            ->first();
+            ->get();
+
+        $array_data = $tire->toArray();
+
+        // Inisialisasi total sum_lifetime_hm dan sum_lifetime_km
+        $sum_lifetime_hm = 0;
+        $sum_lifetime_km = 0;
+
+        // Menghitung total sum_lifetime_hm dan sum_lifetime_km
+        foreach ($array_data as $data) {
+            $sum_lifetime_hm += intval($data['sum_lifetime_hm']);
+            $sum_lifetime_km += intval($data['sum_lifetime_km']);
+        }
 
         $tire_patterns = TirePattern::select('pattern')->where("company_id", $company->id)->groupBy('pattern')->get();
         $site = Site::where("company_id", $company->id)->get();
@@ -404,7 +421,54 @@ class DashboardController extends Controller
         $manufacturer = TireManufacture::where("company_id", $company->id)->get();
         $type_patterns = TirePattern::select('type_pattern')->where("company_id", $company->id)->groupBy('type_pattern')->get();
 
-        return view('admin.grafik.performance', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range', 'tire'));
+        return view('admin.grafik.performance', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range', 'sum_lifetime_hm', 'sum_lifetime_km'));
+    }
+
+    public function tireLifetimeAverageKM(Request $request)
+    {
+
+
+        $ranges = [
+            1 => [1, 7],
+            2 => [8, 14],
+            3 => [15, 21],
+        ];
+        if ($week == 4) {
+            if ($month) {
+                $month_carbon = Carbon::parse("$tahun-$month");
+                $days = $month_carbon->daysInMonth;
+                $ranges[4] = [22, $days];
+            }
+        }
+
+        $data['type_pattern'] = [];
+        $data['brand_size'] = [];
+        $data['value'] = [];
+        $data['max'] = 0;
+        // foreach ($site as $key => $item) {
+
+        $returning = [];
+        $returning["value"][0]["name"] = "KM";
+        $returning["value"][0]["type"] = "bar";
+        $returning["value"][1]["name"] = "TUR";
+        $returning["value"][1]["type"] = "line";
+        $returning["value"][2]["name"] = "KM/MM";
+        $returning["value"][2]["type"] = "bar";
+
+        foreach ($tire as $key => $item) {
+            $returning["value"][0]["data"][] = $item->avg_lifetime_km;
+            $returning["value"][1]["data"][] = $item->avg_tur;
+            $returning["value"][2]["data"][] = $item->avg_km_per_mm;
+            $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
+        }
+
+        $tire = $tire->map(function ($tire) {
+            return [
+                'type_pattern' => $tire->type_pattern,
+                'size' => $tire->size,
+            ];
+        });
+        return $returning;
     }
 
     public function tireMaintenance(Request $request)
