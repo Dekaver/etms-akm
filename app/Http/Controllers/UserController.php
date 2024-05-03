@@ -135,7 +135,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         // dd($request->permission);
         $user->revokePermissionTo($request->permission);
-        $user->removeRole([$request->role]);
+        // $user->removeRole([$request->role]); //Di KOMEN karena error, di cek belum tau apa akibatnya
         $user->syncPermissions($request->permission);
         $user->syncRoles([$request->role]);
         if ($request->site_id) {
