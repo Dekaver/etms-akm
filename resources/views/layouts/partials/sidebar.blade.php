@@ -15,6 +15,9 @@
                             <li><a href="/tire-performance"
                                     class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
                             </li>
+                            <li><a href="/tire-performance-scrap"
+                                    class="{{ Request::routeIs('tire-performance-scrap') ? 'active' : '' }}">Tire Scrap Performance</a>
+                            </li>
                             <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                     Scrap</a></li>
                             <li><a href="/tire-cause-damage"

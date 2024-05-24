@@ -17,6 +17,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Builder;
 
 class GrafikController extends Controller
 {
@@ -1964,6 +1965,236 @@ class GrafikController extends Controller
     }
 
     public function tireLifetimeAverageHM(Request $request)
+    {
+        $company = auth()->user()->company;
+        $tahun = $request->query('tahun');
+        $name = $request->query('site') ?? auth()->user()->site->name;
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $type_pattern = $request->query('type_pattern');
+        $tire_pattern = $request->query('tire_pattern');
+        $tire_size = $request->query('tire_size');
+        $month = $request->query('month');
+        $week = $request->query('week');
+
+        $site = Site::where("company_id", $company->id)->get();
+
+        $ranges = [
+            1 => [1, 7],
+            2 => [8, 14],
+            3 => [15, 21],
+        ];
+        if ($week == 4) {
+            if ($month) {
+                $month_carbon = Carbon::parse("$tahun-$month");
+                $days = $month_carbon->daysInMonth;
+                $ranges[4] = [22, $days];
+            }
+        }
+
+        $data['type_pattern'] = [];
+        $data['brand_size'] = [];
+        $data['value'] = [];
+        $data['max'] = 0;
+        // foreach ($site as $key => $item) {
+        $tire = Tire::select(
+            'tire_patterns.type_pattern',
+            'tire_manufactures.name',
+            'tire_sizes.size',
+            'tire_patterns.pattern',
+            DB::raw('round(AVG(tires.lifetime_hm ),1) as avg_lifetime_hm'),
+            DB::raw('round(AVG(tires.lifetime_hm / (tire_sizes.otd - tires.rtd)), 1) as avg_km_per_mm'),
+            DB::raw('round(AVG(tire_sizes.otd - tires.rtd), 1) as avg_tur')
+        );
+        $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
+        $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
+        $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');
+        $tire = $tire->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+            $q->on('sl.tire', '=', 'tires.serial_number');
+        });
+        $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
+            });
+        }
+        $tire = $tire->whereIn("tires.id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id));
+        $tire = $tire->where('lifetime_hm', '>', 0);
+
+        if ($tahun) {
+            if ($month) {
+                if ($week) {
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                } else {
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
+                }
+            } else {
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
+            }
+        }
+
+        $tire = $tire->whereHas('tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_size) {
+            if ($tire_size) {
+                $q->where('size', $tire_size);
+            }
+            $q->whereHas("tire_pattern", function ($q) use ($brand_tire, $type_pattern) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas("manufacture", function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+            });
+        });
+
+        $tire = $tire
+            ->groupBy('tire_patterns.type_pattern', 'tire_sizes.size', 'tire_manufactures.name', 'tire_patterns.pattern')
+            ->orderBy('tire_patterns.type_pattern', 'ASC')
+            ->get();
+        $returning = [];
+        $returning["value"][0]["name"] = "HM";
+        $returning["value"][0]["type"] = "bar";
+        $returning["value"][1]["name"] = "TUR";
+        $returning["value"][1]["type"] = "line";
+        $returning["value"][2]["name"] = "HM/MM";
+        $returning["value"][2]["type"] = "bar";
+
+        foreach ($tire as $key => $item) {
+            $returning["value"][0]["data"][] = $item->avg_lifetime_hm;
+            $returning["value"][1]["data"][] = $item->avg_tur;
+            $returning["value"][2]["data"][] = $item->avg_km_per_mm;
+            $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
+        }
+
+        $tire = $tire->map(function ($tire) {
+            return [
+                'type_pattern' => $tire->type_pattern,
+                'size' => $tire->size,
+            ];
+        });
+        return $returning;
+    }
+
+    //SCRAP
+    public function tireLifetimeAverageScrapKM(Request $request)
+    {
+        $company = auth()->user()->company;
+        $tahun = $request->query('tahun');
+        $name = $request->query('site') ?? auth()->user()->site->name;
+        $model_type = $request->query('model_type');
+        $brand_tire = $request->query('brand_tire');
+        $type_pattern = $request->query('type_pattern');
+        $tire_pattern = $request->query('tire_pattern');
+        $tire_size = $request->query('tire_size');
+        $month = $request->query('month');
+        $week = $request->query('week');
+
+        $site = Site::where("company_id", $company->id)->get();
+
+        $ranges = [
+            1 => [1, 7],
+            2 => [8, 14],
+            3 => [15, 21],
+        ];
+        if ($week == 4) {
+            if ($month) {
+                $month_carbon = Carbon::parse("$tahun-$month");
+                $days = $month_carbon->daysInMonth;
+                $ranges[4] = [22, $days];
+            }
+        }
+
+        $data['type_pattern'] = [];
+        $data['brand_size'] = [];
+        $data['value'] = [];
+        $data['max'] = 0;
+        // foreach ($site as $key => $item) {
+        $tire = Tire::select(
+            'tire_patterns.type_pattern',
+            'tire_manufactures.name',
+            'tire_sizes.size',
+            'tire_patterns.pattern',
+            DB::raw('round(AVG(tires.lifetime_km ),1) as avg_lifetime_km'),
+            DB::raw('round(AVG(tires.lifetime_km / (tire_sizes.otd - tires.rtd)), 1) as avg_km_per_mm'),
+            DB::raw('round(AVG(tire_sizes.otd - tires.rtd), 1) as avg_tur')
+        );
+        $tire = $tire->leftJoin('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id');
+        $tire = $tire->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id');
+        $tire = $tire->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id');
+        $tire = $tire->leftJoin(DB::raw("(select max(id) as id, tire from history_tire_movements group by tire) as sl"), function ($q) {
+            $q->on('sl.tire', '=', 'tires.serial_number');
+        });
+        $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
+        if ($name) {
+            $tire = $tire->whereHas('site', function ($q) use ($name) {
+                $q->where('name', $name);
+            });
+        }
+        $tire = $tire->whereExists(function($query){
+            $query->select(DB::raw(1))->from('history_tire_movements')->whereColumn('tires.serial_number' , 'history_tire_movements.tire')->where('history_tire_movements.status', 'SCRAP');
+        } );
+        $tire = $tire->where('lifetime_km', '>', 0);
+
+        if ($tahun) {
+            if ($month) {
+                if ($week) {
+                    $tire = $tire->whereBetween('history_tire_movements.start_date', ["$tahun-$month-{$ranges[$week][0]}", "$tahun-$month-{$ranges[$week][1]}"]);
+                } else {
+                    $tire = $tire->whereMonth('history_tire_movements.start_date', $month);
+                }
+            } else {
+                $tire = $tire->whereYear('history_tire_movements.start_date', $tahun);
+            }
+        }
+
+        $tire = $tire->whereHas('tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_size) {
+            if ($tire_size) {
+                $q->where('size', $tire_size);
+            }
+            $q->whereHas("tire_pattern", function ($q) use ($brand_tire, $type_pattern) {
+                if ($type_pattern) {
+                    $q->where('type_pattern', $type_pattern);
+                }
+                if ($brand_tire) {
+                    $q->whereHas("manufacture", function ($q) use ($brand_tire) {
+                        $q->where('name', $brand_tire);
+                    });
+                }
+            });
+        });
+
+        $tire = $tire
+            ->groupBy('tire_patterns.type_pattern', 'tire_sizes.size', 'tire_manufactures.name', 'tire_patterns.pattern')
+            ->orderBy('tire_patterns.type_pattern', 'ASC')
+            ->get();
+
+        $returning = [];
+        $returning["value"][0]["name"] = "KM";
+        $returning["value"][0]["type"] = "bar";
+        $returning["value"][1]["name"] = "TUR";
+        $returning["value"][1]["type"] = "line";
+        $returning["value"][2]["name"] = "KM/MM";
+        $returning["value"][2]["type"] = "bar";
+
+        foreach ($tire as $key => $item) {
+            $returning["value"][0]["data"][] = $item->avg_lifetime_km;
+            $returning["value"][1]["data"][] = $item->avg_tur;
+            $returning["value"][2]["data"][] = $item->avg_km_per_mm;
+            $returning["xaxis"][] = "$item->size-$item->name-$item->pattern";
+        }
+
+        $tire = $tire->map(function ($tire) {
+            return [
+                'type_pattern' => $tire->type_pattern,
+                'size' => $tire->size,
+            ];
+        });
+        return $returning;
+    }
+
+    public function tireLifetimeAverageScrapHM(Request $request)
     {
         $company = auth()->user()->company;
         $tahun = $request->query('tahun');

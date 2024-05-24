@@ -83,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('unit', UnitController::class)->middleware('permission:UNIT');
 
     Route::resource('tirerepair', TireRepairController::class)->middleware('permission:TIRE_REPAIR');
-    
+
     Route::resource('historytirerepair', HistoryTireRepairController::class)->middleware('permission:TIRE_REPAIR');
 
     Route::get('historytirerepair/{id}/cetak', [HistoryTireRepairController::class, 'cetak'])
@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('permission:HISTORY_TIRE_MOVEMENT');
     // Route::resource('historytirerepairedit', HistoryTireRepairController::class, 'ubah');
     // Route::get('/historytirerepairedit', [HistoryTireRepairController::class, 'ubah'])->name('admin.history.historyTireRepairEdit');
-  
+
 
     // Route::post('user/{id}/company', [UserController::class, 'updateCompany'])->name('user.company.update');
     Route::get("/historytirerepaircetak", function(){
@@ -137,7 +137,10 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('grafik-brand-usage', [GrafikController::class, 'brandUsage']);
         Route::get('grafik-tire-lifetime-average-km', [GrafikController::class, 'tireLifetimeAverageKM']);
         Route::get('grafik-tire-lifetime-average-hm', [GrafikController::class, 'tireLifetimeAverageHM']);
+        Route::get('grafik-tire-lifetime-scrap-average-km', [GrafikController::class, 'tireLifetimeAverageScrapKM']);
+        Route::get('grafik-tire-lifetime-scrap-average-hm', [GrafikController::class, 'tireLifetimeAverageScrapHM']);
         Route::get('tire-performance', [DashboardController::class, 'tirePerformance'])->name('tire-performance');
+        Route::get('tire-performance-scrap', [DashboardController::class, 'tirePerformanceScrap'])->name('tire-performance-scrap');
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
         Route::get('tire-cause-damage', [DashboardController::class, 'tireCauseDamage'])->name('tire-cause-damage');

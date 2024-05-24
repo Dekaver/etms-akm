@@ -312,8 +312,8 @@ if ($("#chart-tire-lifetime-km").length > 0) {
     });
 }
 
-//tire average hm
-if ($("#chart-tire-lifetime-hm").length > 0) {
+//tire average scrap km
+if ($("#chart-tire-lifetime-scrap-km").length > 0) {
     // const colors = ["#2196F3","#8E24AA","#FF6E40" ];
     const colors = undefined;
     const optionTireAverage = {
@@ -420,13 +420,217 @@ if ($("#chart-tire-lifetime-hm").length > 0) {
     };
 
     const tire_lifetime_average = new ApexCharts(
-        document.querySelector("#chart-tire-lifetime-hm"),
+        document.querySelector("#chart-tire-lifetime-scrap-km"),
         optionTireAverage
         // tireoptions
     );
     tire_lifetime_average.render();
 
-    var url = $("#chart-tire-lifetime-hm").data("url");
+    var url = $("#chart-tire-lifetime-scrap-km").data("url");
+
+    $.getJSON(url, (response) => {
+        const dynamicMaxKM =
+            Math.max(...response.value[0].data) +
+            Math.max(...response.value[2].data);
+        // const dynamicMaxKM = 8390;
+        const dynamicMaxTUR = Math.ceil(Math.max(...response.value[1].data));
+
+        const roundedResultKM =
+            parseInt(dynamicMaxKM).toString()[1] > 8
+                ? Math.ceil(
+                      dynamicMaxKM /
+                          10 ** (parseInt(dynamicMaxKM).toString().length - 1)
+                  ) *
+                  10 ** (parseInt(dynamicMaxKM).toString().length - 1)
+                : Math.ceil(
+                      dynamicMaxKM /
+                          10 ** (parseInt(dynamicMaxKM).toString().length - 2)
+                  ) *
+                  10 ** (parseInt(dynamicMaxKM).toString().length - 2);
+        tire_lifetime_average.updateOptions({
+            series: response.value,
+            yaxis: [
+                {
+                    seriesName: "KM",
+                    title: {
+                        text: "KM",
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    min: 0,
+                    max: roundedResultKM,
+                    float: false,
+                },
+                {
+                    opposite: true,
+                    seriesName: "TUR",
+                    title: {
+                        text: "TUR",
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    min: 0,
+                    max: dynamicMaxTUR,
+                    float: false,
+                },
+                {
+                    show: false,
+                    seriesName: "KM/MM",
+                    title: {
+                        text: "KM/MM",
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    min: 0,
+                    max: roundedResultKM,
+                    float: false,
+                },
+            ],
+            xaxis: {
+                labels: {
+                    rotate: -55,
+                    rotateAlways: false,
+                    // hideOverlappingLabels: false,
+                    style: {
+                        fontSize: "9px",
+                    },
+                    // trim: false,
+                    // height: 440,
+                },
+                categories: response.xaxis,
+                tickPlacement: "on",
+            },
+        });
+    });
+}
+
+//tire average scrap hm
+if ($("#chart-tire-lifetime-scrap-hm").length > 0) {
+    // const colors = ["#2196F3","#8E24AA","#FF6E40" ];
+    const colors = undefined;
+    const optionTireAverage = {
+        series: [],
+        legend: {
+            labels: {
+                colors: colors,
+            },
+            position: "top",
+            markers: {
+                fillColor: colors,
+            },
+        },
+        chart: {
+            type: "line",
+            height: 720,
+            stacked: true,
+        },
+
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: "60%",
+                dataLabels: {
+                    position: "top", // top, center, bottom
+                },
+            },
+        },
+        noData: {
+            text: "No Data",
+        },
+
+        // dataLabels: {
+        //     enabled: true,
+        //     offsetY: -20,
+        //     style: {
+        //         fontSize: "12px",
+        //         colors: ["#304758"],
+        //     },
+        // },
+        dataLabels: {
+            enabled: true,
+            textAnchor: "middle",
+            style: {
+                colors: ["#fff"],
+            },
+            background: {
+                enabled: true,
+                foreColor: undefined,
+                padding: 4,
+                borderRadius: 2,
+                borderWidth: 1,
+                borderColor: "#fff",
+                opacity: 0.9,
+            },
+            formatter: function (val, opts) {
+                if(val){
+                    return val.toLocaleString("id-ID");
+                }
+                return null
+            },
+        },
+        fill: {
+            opacity: 1,
+            colors: colors,
+            type: "gradient",
+            gradient: {
+                shade: "light",
+                type: "vertical",
+                shadeIntensity: 0.4,
+                inverseColors: false,
+                opacityFrom: 0.8,
+                opacityTo: 1,
+                stops: [0, 100],
+            },
+        },
+        stroke: {
+            colors: colors,
+            show: true,
+            width: 2,
+            curve: "smooth",
+        },
+        tooltip: {
+            shared: true,
+            y: [
+                {
+                    formatter(val) {
+                        if (val) {
+                            return val.toLocaleString("id-ID");
+                        }
+                        return "0";
+                    },
+                },
+                {
+                    formatter(val) {
+                        if (val) {
+                            return val.toLocaleString("id-ID");
+                        }
+                        return "0";
+                    },
+                },
+            ],
+        },
+    };
+
+    const tire_lifetime_average = new ApexCharts(
+        document.querySelector("#chart-tire-lifetime-scrap-hm"),
+        optionTireAverage
+        // tireoptions
+    );
+    tire_lifetime_average.render();
+
+    var url = $("#chart-tire-lifetime-scrap-hm").data("url");
 
     $.getJSON(url, (response) => {
         const dynamicMaxKM =
