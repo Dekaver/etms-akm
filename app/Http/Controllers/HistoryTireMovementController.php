@@ -262,7 +262,7 @@ class HistoryTireMovementController extends Controller
             if ($grup == 'driver') {
                 $queryAkhir = $query->whereYear("drivers.created_at", $year)->where('drivers.company_id', $company->id)->groupBy('drivers.id', 'drivers.nama')->get();
             } else {
-                $queryAkhir = $query->whereYear("created_at", $year)->whereMonth("created_at", $month)->where('company_id', $company->id)->groupBy('unit')->get();
+                $queryAkhir = $query->whereYear("start_date", $year)->whereMonth("start_date", $month)->where('company_id', $company->id)->groupBy('unit')->get();
             }
             // dd($queryAkhir->get());
             return DataTables::of($queryAkhir)
