@@ -102,7 +102,7 @@ class DailyInspectController extends Controller
 
             // update lifetime
 
-            if ($request->hm >= $unit->hm || $request->km >= $unit->km) {
+            if ($request->hm >= $unit->hm && $request->km >= $unit->km) {
 
                 $tire_running = TireRunning::where('unit_id', $unit->id)->get();
                 foreach ($tire_running as $key => $running) {
@@ -135,6 +135,9 @@ class DailyInspectController extends Controller
                             }
                         }
 
+                        $diff_rtd = $is_selected ? (int) $tire->rtd - (int) $request->rtd[$running->position] : 0;
+                        $diff_pressure = $is_selected ? (int) $tire->pressure - (int) $request->pressure[$running->position]:0;
+
                         // update tire
                         $tire->tube = $request->tire_tube[$running->position];
                         $tire->rim = $request->tire_rim[$running->position];
@@ -145,6 +148,7 @@ class DailyInspectController extends Controller
                         $tire->pressure = $request->pressure[$running->position];
                         $tire->tire_damage_id = $request->tire_damage_id[$running->position] ?? null;
                     }
+
                     // end update lifetime
 
                     $tire_inspection = DailyInspectDetail::create([
@@ -159,6 +163,8 @@ class DailyInspectController extends Controller
                         "lifetime_km" => $tire->lifetime_km,
                         "diff_hm" => $diff_hm,
                         "diff_km" => $diff_km,
+                        "diff_rtd" => $diff_rtd,
+                        "diff_pressure" => $diff_pressure,
                         "rtd" => $is_selected ? $request->rtd[$running->position] : 0,
                         "pressure" => $is_selected ? $request->pressure[$running->position] : 0,
                         "tube" => $is_selected ? $request->tire_tube[$running->position] : 'Good',
@@ -342,8 +348,12 @@ class DailyInspectController extends Controller
                     $daily_inspect_detail->last_km_unit += $diff_km;
                     $daily_inspect_detail->lifetime_km = $tire->lifetime_km;
 
+                    // dd($daily_inspect_detail);
+
                     // UPDATE RTD PRESSURE OTHER
                     $daily_inspect_detail->is_selected = $is_selected ? 1 : 0;
+                    $daily_inspect_detail->diff_rtd = $daily_inspect_detail->rtd - $request->rtd[$running->position] + $daily_inspect_detail->diff_rtd;
+                    $daily_inspect_detail->diff_pressure = $daily_inspect_detail->pressure - $request->pressure[$running->position] + $daily_inspect_detail->diff_pressure;
                     $daily_inspect_detail->rtd = $request->rtd[$running->position];
                     $daily_inspect_detail->pressure = $request->pressure[$running->position];
                     $daily_inspect_detail->tube = $request->tire_tube[$running->position];
@@ -416,6 +426,9 @@ class DailyInspectController extends Controller
                 $daily_inspect_detail = $dailyinspect->details->where('position', $running->position)->first();
                 $diff_hm = (int) $daily_inspect_detail->diff_hm * -1;
                 $diff_km = (int) $daily_inspect_detail->diff_km * -1;
+                $diff_rtd = (int) $daily_inspect_detail->diff_rtd;
+                $diff_pressure = (int) $daily_inspect_detail->diff_pressure;
+
                 // update HM
                 $tire->lifetime_hm += $diff_hm;
                 if ($tire->is_repair) {
@@ -424,7 +437,6 @@ class DailyInspectController extends Controller
                 if ($tire->is_retread) {
                     $tire->lifetime_retread_hm += $diff_hm;
                 }
-
 
                 // update KM
                 $tire->lifetime_km += $diff_km;
@@ -435,8 +447,8 @@ class DailyInspectController extends Controller
                     $tire->lifetime_retread_km += $diff_km;
                 }
 
-                // $tire->rtd = $request->rtd[$running->position];
-                // $tire->pressure = $request->pressure[$running->position];
+                $tire->rtd = $daily_inspect_detail->rtd + $diff_rtd;
+                $tire->pressure = $daily_inspect_detail->pressure + $diff_pressure;
 
                 $daily_inspect_detail->save();
                 $tire->save();
