@@ -106,7 +106,7 @@
             <br>
             <hr>
             <p>KM : <small class="float-end">{{ $unit->km }}</small></p>
-            <p>HM : <small class="float-end">{{ $unit->km }}</small></p>
+            <p>HM : <small class="float-end">{{ $unit->hm }}</small></p>
             <p>Total Inspection : <small class="float-end">{{ $unit->daily_inspect->count() }}</small></p>
             <p>Last Inpection : <small class="float-end">{{ $unit->inspection_last_update }}</small></p>
             <p style="font-weight: bold !important">Last Replacement : <small class="float-end">{{ $unit->replace_last_update }}</small></p>

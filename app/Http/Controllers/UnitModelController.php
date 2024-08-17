@@ -153,10 +153,6 @@ class UnitModelController extends Controller
             "tire_qty" => "required",
             "axle_2_tire" => "required",
             "axle_4_tire" => "required",
-            "axle_8_tire" => "required",
-            "informasi_berat_kosong" => "required",
-            "distribusi_beban" => "required",
-            "standar_load_capacity" => "required",
         ]);
 
         $unitmodel->tire_size_id = $request->tire_size_id;
