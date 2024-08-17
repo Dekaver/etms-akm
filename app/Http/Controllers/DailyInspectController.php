@@ -110,7 +110,7 @@ class DailyInspectController extends Controller
                     $tire = $running->tire;
                     $diff_hm = 0;
                     $diff_km = 0;
-                    if ($is_selected = $request->has("is_selected.{$running->position}")) {
+                    if ($request->has("is_selected.{$running->position}")) {
                         // update HM
                         if ($request->hm > $tire->last_update_hm_unit) {
                             $diff_hm = (int) $request->hm - (int) $tire->last_update_hm_unit;
@@ -135,8 +135,8 @@ class DailyInspectController extends Controller
                             }
                         }
 
-                        $diff_rtd = $is_selected ? (int) $tire->rtd - (int) $request->rtd[$running->position] : 0;
-                        $diff_pressure = $is_selected ? (int) $tire->pressure - (int) $request->pressure[$running->position]:0;
+                        $diff_rtd = (int) $tire->rtd - (int) $request->rtd[$running->position] ;
+                        $diff_pressure = (int) $tire->pressure - (int) $request->pressure[$running->position] ;
 
                         // update tire
                         $tire->tube = $request->tire_tube[$running->position];
@@ -147,34 +147,58 @@ class DailyInspectController extends Controller
                         $tire->rtd = $request->rtd[$running->position];
                         $tire->pressure = $request->pressure[$running->position];
                         $tire->tire_damage_id = $request->tire_damage_id[$running->position] ?? null;
+
+
+                        DailyInspectDetail::create([
+                            "daily_inspect_id" => $daily_inspect->id,
+                            "tire_id" => $tire->id,
+                            "tire_damage_id" =>  $request->tire_damage_id[$running->position] ?? null,
+                            "position" => $request->position[$running->position],
+                            "is_selected" => 1,
+                            "last_km_unit" =>  $request->km,
+                            "last_hm_unit" =>  $request->hm,
+                            "lifetime_hm" => $tire->lifetime_hm,
+                            "lifetime_km" => $tire->lifetime_km,
+                            "diff_hm" => $diff_hm,
+                            "diff_km" => $diff_km,
+                            "diff_rtd" => $diff_rtd,
+                            "diff_pressure" => $diff_pressure,
+                            "rtd" =>  $request->rtd[$running->position] ,
+                            "pressure" =>  $request->pressure[$running->position] ,
+                            "tube" =>  $request->tire_tube[$running->position] ,
+                            "flap" =>  $request->tire_flap[$running->position] ,
+                            "rim" =>  $request->tire_rim[$running->position] ,
+                            "t_pentil" =>  $request->has("tire_t_pentil.$running->position"),
+                            "remark" =>  $request->remark[$running->position],
+                        ]);
+                        $tire->save();
+                    } else {
+
+                        DailyInspectDetail::create([
+                            "daily_inspect_id" => $daily_inspect->id,
+                            "tire_id" => $tire->id,
+                            "tire_damage_id" =>  null,
+                            "position" => $request->position[$running->position],
+                            "is_selected" => 0,
+                            "last_km_unit" => $tire->last_update_km_unit,
+                            "last_hm_unit" => $tire->last_update_hm_unit,
+                            "lifetime_hm" => $tire->lifetime_hm,
+                            "lifetime_km" => $tire->lifetime_km,
+                            "diff_hm" => 0,
+                            "diff_km" => 0,
+                            "diff_rtd" => 0,
+                            "diff_pressure" => 0,
+                            "rtd" =>  0,
+                            "pressure" =>  0,
+                            "tube" =>  'Good',
+                            "flap" =>  'Good',
+                            "rim" =>  'Good',
+                            "t_pentil" => 1,
+                            "remark" =>  '',
+                        ]);
                     }
 
                     // end update lifetime
-
-                    $tire_inspection = DailyInspectDetail::create([
-                        "daily_inspect_id" => $daily_inspect->id,
-                        "tire_id" => $tire->id,
-                        "tire_damage_id" => $is_selected ? $request->tire_damage_id[$running->position] ?? null : null,
-                        "position" => $request->position[$running->position],
-                        "is_selected" => $is_selected,
-                        "last_km_unit" => $is_selected ? $request->km : $tire->last_update_km_unit,
-                        "last_hm_unit" => $is_selected ? $request->hm : $tire->last_update_hm_unit,
-                        "lifetime_hm" => $tire->lifetime_hm,
-                        "lifetime_km" => $tire->lifetime_km,
-                        "diff_hm" => $diff_hm,
-                        "diff_km" => $diff_km,
-                        "diff_rtd" => $diff_rtd,
-                        "diff_pressure" => $diff_pressure,
-                        "rtd" => $is_selected ? $request->rtd[$running->position] : 0,
-                        "pressure" => $is_selected ? $request->pressure[$running->position] : 0,
-                        "tube" => $is_selected ? $request->tire_tube[$running->position] : 'Good',
-                        "flap" => $is_selected ? $request->tire_flap[$running->position] : 'Good',
-                        "rim" => $is_selected ? $request->tire_rim[$running->position] : 'Good',
-                        "t_pentil" => $is_selected ? $request->has("tire_t_pentil.$running->position") : 1,
-                        "remark" => $is_selected ? $request->remark[$running->position] : '',
-                    ]);
-
-                    $tire->save();
                 }
 
 
@@ -409,6 +433,7 @@ class DailyInspectController extends Controller
         if ($unit->km != $dailyinspect->updated_km_unit || $unit->hm != $dailyinspect->updated_hm_unit) {
             return redirect()->back()->with('error', 'Cant Delete, Because KM Unit telad updated another fitur');
         }
+        DB::beginTransaction();
         try {
             $unit = Unit::find($dailyinspect->unit_id);
 
