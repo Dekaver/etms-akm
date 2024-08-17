@@ -424,6 +424,9 @@ class DailyInspectController extends Controller
                 $diff_hm = 0;
                 $diff_km = 0;
                 $daily_inspect_detail = $dailyinspect->details->where('position', $running->position)->first();
+                if ($daily_inspect_detail->is_selected) {
+                    continue;
+                }
                 $diff_hm = (int) $daily_inspect_detail->diff_hm * -1;
                 $diff_km = (int) $daily_inspect_detail->diff_km * -1;
                 $diff_rtd = (int) $daily_inspect_detail->diff_rtd;
