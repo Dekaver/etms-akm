@@ -319,7 +319,7 @@ class HistoryTireMovementController extends Controller
                     $totalNew = $row->new1 + $row->new2 + $row->new3 + $row->new4;
                     $totalSpare = $row->spare1 + $row->spare2 + $row->spare3 + $row->spare4;
                     $totalScrap = $row->scrap1 + $row->scrap2 + $row->scrap3 + $row->scrap4;
-                    return $totalNew + $totalSpare + $totalScrap;
+                    return $totalNew + $totalSpare;
                 })
                 ->make(true);
         }
