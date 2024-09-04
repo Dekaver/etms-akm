@@ -324,7 +324,7 @@ class HistoryTireMovementController extends Controller
                 ->make(true);
         }
 
-        return view("admin.history.historyTireConsumption",  compact('grup', 'unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
+        return view("admin.history.historyTireConsumption", compact('grup', 'unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
     }
 
     public function annualtireconsumption(Request $request, TireMaster $tire)
@@ -600,11 +600,11 @@ class HistoryTireMovementController extends Controller
                     $totalNew = $row->new1 + $row->new2 + $row->new3 + $row->new4 + $row->new5 + $row->new6 + $row->new7 + $row->new8 + $row->new9 + $row->new10 + $row->new11 + $row->new12;
                     $totalSpare = $row->spare1 + $row->spare2 + $row->spare3 + $row->spare4 + $row->spare5 + $row->spare6 + $row->spare7 + $row->spare8 + $row->spare9 + $row->spare10 + $row->spare11 + $row->spare12;
                     $totalScrap = $row->scrap1 + $row->scrap2 + $row->scrap3 + $row->scrap4 + $row->scrap5 + $row->scrap6 + $row->scrap7 + $row->scrap8 + $row->scrap9 + $row->scrap10 + $row->scrap11 + $row->scrap12;
-                    return $totalNew + $totalSpare + $totalScrap;
+                    return $totalNew + $totalSpare;
                 })
                 ->make(true);
         }
 
-        return view("admin.history.historyTireConsumptionAnnual",  compact('grup', 'unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
+        return view("admin.history.historyTireConsumptionAnnual", compact('grup', 'unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
     }
 }
