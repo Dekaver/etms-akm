@@ -2127,14 +2127,13 @@ class GrafikController extends Controller
             $q->on('sl.tire', '=', 'tires.serial_number');
         });
         $tire = $tire->leftJoin('history_tire_movements', 'sl.id', '=', 'history_tire_movements.id');
-        if ($name) {
-            $tire = $tire->whereHas('site', function ($q) use ($name) {
-                $q->where('name', $name);
-            });
-        }
-        $tire = $tire->whereExists(function($query){
-            $query->select(DB::raw(1))->from('history_tire_movements')->whereColumn('tires.serial_number' , 'history_tire_movements.tire')->where('history_tire_movements.status', 'SCRAP');
-        } );
+
+        $tire = $tire->whereHas('tire_status', function ($q) {
+            $q->where('status', 'SCRAP');
+        });
+        $tire = $tire->whereHas('site', function ($q) {
+            $q->where('company_id', auth()->user()->company_id);
+        });
         $tire = $tire->where('lifetime_km', '>', 0);
 
         if ($tahun) {
@@ -2248,7 +2247,12 @@ class GrafikController extends Controller
                 $q->where('name', $name);
             });
         }
-        $tire = $tire->whereIn("tires.id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id));
+        $tire = $tire->whereHas('tire_status', function ($q) {
+            $q->where('status', 'SCRAP');
+        });
+        $tire = $tire->whereHas('site', function ($q) {
+            $q->where('company_id', auth()->user()->company_id);
+        });
         $tire = $tire->where('lifetime_hm', '>', 0);
 
         if ($tahun) {
@@ -2283,6 +2287,7 @@ class GrafikController extends Controller
             ->groupBy('tire_patterns.type_pattern', 'tire_sizes.size', 'tire_manufactures.name', 'tire_patterns.pattern')
             ->orderBy('tire_patterns.type_pattern', 'ASC')
             ->get();
+
         $returning = [];
         $returning["value"][0]["name"] = "HM";
         $returning["value"][0]["type"] = "bar";
