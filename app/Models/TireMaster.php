@@ -107,14 +107,14 @@ class TireMaster extends Model
     public function tur(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ((int) $this->tire_size->otd - (int) $this->rtd),
+            get: fn($value) => ((int) $this->tire_size?->otd - (int) $this->rtd),
         );
     }
 
     public function kmPerMm(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->tur == 0 ? 0 : round((int) $this->lifetime_km / ((int) $this->tur), 1),
+            get: fn($value) => $this->tur == 0 ? 0 : round((int) $this->lifetime_km / ((int) $this->tur), 1),
         );
     }
 
@@ -128,11 +128,11 @@ class TireMaster extends Model
     public function countTireRepair(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->repairs->count(),
+            get: fn($value) => $this->repairs->count(),
         );
     }
 
- 
+
     // Menggunakan Eloquent Accessor untuk menghitung total tire damages
     protected function countTireDamage(): Attribute
     {
@@ -141,9 +141,12 @@ class TireMaster extends Model
                 // Mengambil semua repairs yang terkait dan menghitung tire damages untuk setiap record
                 $totalDamages = $this->repairs->sum(function ($repair) {
                     $count = 0;
-                    if (!empty($repair->tire_damage_id)) $count++;
-                    if (!empty($repair->tire_damage_2_id)) $count++;
-                    if (!empty($repair->tire_damage_3_id)) $count++;
+                    if (!empty($repair->tire_damage_id))
+                        $count++;
+                    if (!empty($repair->tire_damage_2_id))
+                        $count++;
+                    if (!empty($repair->tire_damage_3_id))
+                        $count++;
                     return $count;
                 });
 
@@ -158,18 +161,18 @@ class TireMaster extends Model
         $site = $this->site;
         if ($site == null) {
             return Attribute::make(
-                get: fn ($value) => NULL,
+                get: fn($value) => NULL,
             );
         }
         $total_jarak = (int) $site->total_jarak;
         $km_per_mil = $tire_size->target_km->where("site_id", $site->id)->pluck("rtd_target_km")->first();
         if ($total_jarak && $km_per_mil) {
             return Attribute::make(
-                get: fn ($value) => round($this->rtd * (int) $km_per_mil / (int) $total_jarak),
+                get: fn($value) => round($this->rtd * (int) $km_per_mil / (int) $total_jarak),
             );
         } else {
             return Attribute::make(
-                get: fn ($value) => NULL,
+                get: fn($value) => NULL,
             );
         }
     }
@@ -181,16 +184,16 @@ class TireMaster extends Model
             $daily_inspect = $this->daily_inspect_detail($tire_running->unit_id)->first();
             if ($daily_inspect) {
                 return Attribute::make(
-                    get: fn ($value) => $daily_inspect->last_km_unit
+                    get: fn($value) => $daily_inspect->last_km_unit
                 );
             } else {
                 return Attribute::make(
-                    get: fn ($value) => $tire_running->tire_movement->km
+                    get: fn($value) => $tire_running->tire_movement->km
                 );
             }
         } else {
             return Attribute::make(
-                get: fn ($value) => 0
+                get: fn($value) => 0
             );
         }
     }
@@ -202,16 +205,16 @@ class TireMaster extends Model
             $daily_inspect = $this->daily_inspect_detail($tire_running->unit_id)->first();
             if ($daily_inspect) {
                 return Attribute::make(
-                    get: fn ($value) => $daily_inspect->last_hm_unit
+                    get: fn($value) => $daily_inspect->last_hm_unit
                 );
             } else {
                 return Attribute::make(
-                    get: fn ($value) => $tire_running->tire_movement->hm
+                    get: fn($value) => $tire_running->tire_movement->hm
                 );
             }
         } else {
             return Attribute::make(
-                get: fn ($value) => 0
+                get: fn($value) => 0
             );
         }
     }

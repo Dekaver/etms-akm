@@ -109,7 +109,29 @@ class ReportController extends Controller
         $tire_manufactures = TireManufacture::where('company_id', $company)->get();
 
         if ($request->ajax()) {
-            $data = $data = TireRunning::with(["unit", "site", "tire_movement", "tire.tire_size.tire_pattern.manufacture", "tire.tire_status"])->where("company_id", Auth::user()->company_id);
+            // Mulai query
+            $data = TireRunning::join('units', 'tire_runnings.unit_id', '=', 'units.id')
+                ->join('sites', 'tire_runnings.site_id', '=', 'sites.id')
+                ->join('tires', 'tire_runnings.tire_id', '=', 'tires.id')
+                ->join('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id')
+                ->join('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
+                ->join('tire_statuses', 'tires.tire_status_id', '=', 'tire_statuses.id')
+                ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
+                ->leftJoin('tire_damages', 'tires.tire_damage_id', '=', 'tire_damages.id')
+                ->select(
+                    'tire_runnings.*',
+                    'tire_sizes.size as tire_size',
+                    'tire_patterns.pattern',
+                    'tire_patterns.type_pattern',
+                    'tire_statuses.status',
+                    'sites.name as site_name',
+                    'units.unit_number',
+                    'tire_manufactures.name as manufacture',
+                    'tire_damages.damage',
+                    DB::raw('(tire_sizes.otd - tires.rtd) as rtd') // Misalnya jika `otd` dan `rtd` tersedia
+                )
+                ->where('tire_runnings.company_id', Auth::user()->company_id);
+            // $data = $data = TireRunning::with(["unit", "site", "tire_movement", "tire.tire_size.tire_pattern.manufacture", "tire.tire_status"])->where("company_id", Auth::user()->company_id);
             if ($tire_manufacture || $tire_pattern || $type_pattern) {
                 $data = $data->whereHas("tire.tire_size.tire_pattern", function ($q) use ($tire_manufacture, $tire_pattern, $type_pattern) {
                     if ($tire_manufacture) {
@@ -134,56 +156,57 @@ class ReportController extends Controller
                 });
             }
             $data = $data->orderBy("unit_id", "asc")->orderBy("position", "asc");
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('pattern', function ($row) {
-                    return $row->tire->tire_size->tire_pattern->pattern;
+                    return $row->tire?->tire_size?->tire_pattern?->pattern;
                 })
                 ->addColumn('serial_number', function ($row) {
-                    return $row->tire->serial_number;
+                    return $row->tire?->serial_number;
                 })
                 ->addColumn('status', function ($row) {
-                    return $row->tire->tire_status->status;
+                    return $row->tire?->tire_status?->status;
                 })
                 ->addColumn('site_name', function ($row) {
-                    return $row->site->name;
+                    return $row->site?->name;
                 })
                 ->addColumn('unit_number', function ($row) {
-                    return $row->unit->unit_number;
+                    return $row->unit?->unit_number;
                 })
                 ->addColumn('lifetime_hm', function ($row) {
-                    return $row->tire->lifetime_hm;
+                    return $row->tire?->lifetime_hm;
                 })
                 ->addColumn('lifetime_km', function ($row) {
-                    return $row->tire->lifetime_km;
+                    return $row->tire?->lifetime_km;
                 })
                 ->addColumn('rtd', function ($row) {
-                    return $row->tire->rtd;
+                    return $row->tire?->rtd;
                 })
                 ->addColumn('manufacture', function ($row) {
-                    return $row->tire->tire_size->tire_pattern->manufacture->name;
+                    return $row->tire?->tire_size?->tire_pattern?->manufacture?->name;
                 })
                 ->addColumn('manufacture_pattern', function ($row) {
-                    return "{$row->tire->tire_size->tire_pattern->type_pattern}-{$row->tire->tire_size->tire_pattern->manufacture->name}-{$row->tire->tire_size->tire_pattern->pattern}";
+                    return "{$row->tire?->tire_size?->tire_pattern?->type_pattern}-{$row->tire?->tire_size?->tire_pattern?->manufacture?->name}-{$row->tire?->tire_size?->tire_pattern?->pattern}";
                 })
                 ->addColumn('type', function ($row) {
-                    return $row->tire->tire_size->tire_pattern->type_pattern;
+                    return $row->tire?->tire_size?->tire_pattern?->type_pattern;
                 })
                 ->addColumn('damage', function ($row) {
-                    return $row->tire->tire_damage?->damage;
+                    return $row->tire?->tire_damage?->damage;
                 })
                 ->addColumn('km_per_mm', function ($row) {
-                    if (!empty($row->tire) && !empty($row->tire->tire_size) && isset($row->tire->rtd)) {
-                        $rtd = $row->tire->tire_size->otd - $row->tire->rtd;
+                    if (!empty($row->tire) && !empty($row->tire?->tire_size) && isset($row->tire?->rtd)) {
+                        $rtd = (int) $row->tire?->tire_size?->otd - (int) $row->tire?->rtd;
                         if ($rtd == 0) {
                             return null; // Atau return nilai default yang sesuai
                         }
-                        return round((int)$row->tire->lifetime_km / $rtd,1);
+                        return round((int) $row->tire?->lifetime_km / ($rtd || 1), 1);
                     }
                     return null; // Atau nilai default jika relasi tidak lengkap
-                })    
+                })
                 ->addColumn('tur', function ($row) {
-                    return $row->tire->tur;
+                    return $row->tire?->tur;
                 })
                 ->make(true);
         }
@@ -339,24 +362,24 @@ class ReportController extends Controller
             ->where("company_id", auth()->user()->company->id)
             ->whereIn("tires.id", DB::table('tire_runnings')->select("tire_id")->where("company_id", auth()->user()->company_id));
 
-            $running = $running->whereHas('tire_size', function ($q) use ($filter) {
-                $q->whereHas('tire_pattern', function ($q) use ($filter) {
-                    if ($filter["type_pattern"]) {
-                        $q->where('type_pattern', $filter["type_pattern"]);
-                    }
-                    if ($filter["tire_pattern"]) {
-                        $q->where('pattern', $filter["tire_pattern"]);
-                    }
-                    if ($filter["brand_tire"]) {
-                        $q->whereHas('manufacture', function ($q) use ($filter) {
-                            $q->where('name', $filter["brand_tire"]);
-                        });
-                    }
-                    if ($filter["tire_size"]) {
-                        $q->where('size', $filter["tire_size"]);
-                    }
-                });
+        $running = $running->whereHas('tire_size', function ($q) use ($filter) {
+            $q->whereHas('tire_pattern', function ($q) use ($filter) {
+                if ($filter["type_pattern"]) {
+                    $q->where('type_pattern', $filter["type_pattern"]);
+                }
+                if ($filter["tire_pattern"]) {
+                    $q->where('pattern', $filter["tire_pattern"]);
+                }
+                if ($filter["brand_tire"]) {
+                    $q->whereHas('manufacture', function ($q) use ($filter) {
+                        $q->where('name', $filter["brand_tire"]);
+                    });
+                }
+                if ($filter["tire_size"]) {
+                    $q->where('size', $filter["tire_size"]);
+                }
             });
+        });
         $running = $running->groupBy('tire_statuses.status')->get();
 
 
@@ -399,7 +422,7 @@ class ReportController extends Controller
                     $days["running_days"]["day3"] += 1;
                     break;
 
-                case $tire->count_day > 60 :
+                case $tire->count_day > 60:
                     $days["running_days"]["day3"] += 1;
                     break;
 
@@ -431,7 +454,7 @@ class ReportController extends Controller
                     $days["stok_days"]["day3"] += 1;
                     break;
 
-                case $tire->count_day > 60 :
+                case $tire->count_day > 60:
                     $days["stok_days"]["day3"] += 1;
                     break;
 
@@ -450,7 +473,7 @@ class ReportController extends Controller
         $list_tire_target_km = TireTargetKm::where("company_id", auth()->user()->company->id)->get();
         $tiretargetkm = null;
 
-        if ($id_tire_target_km =$request->query('tire_target_km_id'))
+        if ($id_tire_target_km = $request->query('tire_target_km_id'))
             $tiretargetkm = TireTargetKm::find($id_tire_target_km);
 
         return view("admin.report.tire-target-km", compact('tiretargetkm', 'list_tire_target_km'));
