@@ -120,6 +120,11 @@ class ReportController extends Controller
                 ->leftJoin('tire_damages', 'tires.tire_damage_id', '=', 'tire_damages.id')
                 ->select(
                     'tire_runnings.*',
+                    'tires.serial_number',
+                    'tires.lifetime_km',
+                    'tires.lifetime_hm',
+                    'tires.rtd',
+                    'tire_sizes.otd',
                     'tire_sizes.size as tire_size',
                     'tire_patterns.pattern',
                     'tire_patterns.type_pattern',
@@ -128,7 +133,8 @@ class ReportController extends Controller
                     'units.unit_number',
                     'tire_manufactures.name as manufacture',
                     'tire_damages.damage',
-                    DB::raw('(tire_sizes.otd - tires.rtd) as rtd') // Misalnya jika `otd` dan `rtd` tersedia
+                    DB::raw('(tire_sizes.otd - tires.rtd) AS tur'),
+                    DB::raw('CONCAT(tire_patterns.type_pattern, "-", tire_manufactures.name, "-", tire_patterns.pattern) AS manufacture_pattern'),
                 )
                 ->where('tire_runnings.company_id', Auth::user()->company_id);
             // $data = $data = TireRunning::with(["unit", "site", "tire_movement", "tire.tire_size.tire_pattern.manufacture", "tire.tire_status"])->where("company_id", Auth::user()->company_id);
@@ -160,53 +166,53 @@ class ReportController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('pattern', function ($row) {
-                    return $row->tire?->tire_size?->tire_pattern?->pattern;
+                    return $row->pattern;
                 })
                 ->addColumn('serial_number', function ($row) {
-                    return $row->tire?->serial_number;
+                    return $row->serial_number;
                 })
                 ->addColumn('status', function ($row) {
-                    return $row->tire?->tire_status?->status;
+                    return $row->status;
                 })
                 ->addColumn('site_name', function ($row) {
-                    return $row->site?->name;
+                    return $row->site_name;
                 })
                 ->addColumn('unit_number', function ($row) {
-                    return $row->unit?->unit_number;
+                    return $row->unit_number;
                 })
                 ->addColumn('lifetime_hm', function ($row) {
-                    return $row->tire?->lifetime_hm;
+                    return $row->lifetime_hm;
                 })
                 ->addColumn('lifetime_km', function ($row) {
-                    return $row->tire?->lifetime_km;
+                    return $row->lifetime_km;
                 })
                 ->addColumn('rtd', function ($row) {
-                    return $row->tire?->rtd;
+                    return $row->rtd;
                 })
                 ->addColumn('manufacture', function ($row) {
-                    return $row->tire?->tire_size?->tire_pattern?->manufacture?->name;
+                    return $row->manufacture;
                 })
                 ->addColumn('manufacture_pattern', function ($row) {
-                    return "{$row->tire?->tire_size?->tire_pattern?->type_pattern}-{$row->tire?->tire_size?->tire_pattern?->manufacture?->name}-{$row->tire?->tire_size?->tire_pattern?->pattern}";
+                    return $row->manufacture_pattern;
                 })
                 ->addColumn('type', function ($row) {
-                    return $row->tire?->tire_size?->tire_pattern?->type_pattern;
+                    return $row->type_pattern;
                 })
                 ->addColumn('damage', function ($row) {
-                    return $row->tire?->tire_damage?->damage;
+                    return $row->damage;
                 })
                 ->addColumn('km_per_mm', function ($row) {
-                    if (!empty($row->tire) && !empty($row->tire?->tire_size) && isset($row->tire?->rtd)) {
-                        $rtd = (int) $row->tire?->tire_size?->otd - (int) $row->tire?->rtd;
-                        if ($rtd == 0) {
+                    if (isset($row->otd) && isset($row->rtd)) {
+                        $rtd = (int) $row->otd - (int) $row->rtd;
+                        if ($rtd === 0) {
                             return null; // Atau return nilai default yang sesuai
                         }
-                        return round((int) $row->tire?->lifetime_km / ($rtd || 1), 1);
+                        return round((int) $row->lifetime_km / ($rtd), 1);
                     }
                     return null; // Atau nilai default jika relasi tidak lengkap
                 })
                 ->addColumn('tur', function ($row) {
-                    return $row->tire?->tur;
+                    return $row->tur;
                 })
                 ->make(true);
         }
