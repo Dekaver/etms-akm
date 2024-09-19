@@ -208,38 +208,56 @@ class TireRunningController extends Controller
                 $tire_2 = TireMaster::find($request->tire_id_2);
                 $unit = Unit::findOrFail($request->unit_id);
 
-                // Update lifetime HM
-                if ($request->hm_actual > $unit->hm) {
+                // Update lifetime HM tire 1
+                if ($request->hm_actual > $tire_1->last_update_hm_unit) {
                     // get difference
-                    $diff_smu = (int) $request->hm_actual - (int) $unit->hm;
+                    $diff_smu = (int) $request->hm_actual - (int) $tire_1->last_update_hm_unit;
                     // Update lifetime HM tire
                     $tire_1->lifetime_hm += $diff_smu;
-                    $tire_2->lifetime_hm += $diff_smu;
                     if ($tire_1->is_repair)
                         $tire_1->lifetime_repair_hm += $diff_smu;
-                    if ($tire_2->is_repair)
-                        $tire_2->lifetime_repair_hm += $diff_smu;
                     if ($tire_1->is_retread)
                         $tire_1->lifetime_retread_hm += $diff_smu;
+                    // Update HM unit
+                    $unit->hm = (int) $request->hm_actual;
+                }
+
+                // Update lifetime HM tire 2
+                if ($request->hm_actual > $tire_2->last_update_hm_unit) {
+                    // get difference
+                    $diff_smu = (int) $request->hm_actual - (int) $tire_2->last_update_hm_unit;
+                    // Update lifetime HM tire
+                    $tire_2->lifetime_hm += $diff_smu;
+                    if ($tire_2->is_repair)
+                        $tire_2->lifetime_repair_hm += $diff_smu;
                     if ($tire_2->is_retread)
                         $tire_2->lifetime_retread_hm += $diff_smu;
                     // Update HM unit
                     $unit->hm = (int) $request->hm_actual;
                 }
 
-                // Update lifetime KM
-                if ($request->km_actual > $unit->km) {
+                // Update lifetime KM tire 1
+                if ($request->km_actual > $tire_1->last_update_km_unit) {
                     // get difference
-                    $diff_smu = (int) $request->km_actual - (int) $unit->km;
+                    $diff_smu = (int) $request->km_actual - (int) $tire_1->last_update_km_unit;
                     // Update lifetime KM tire
                     $tire_1->lifetime_km += $diff_smu;
-                    $tire_2->lifetime_km += $diff_smu;
                     if ($tire_1->is_repair)
                         $tire_1->lifetime_repair_km += $diff_smu;
-                    if ($tire_2->is_repair)
-                        $tire_2->lifetime_repair_km += $diff_smu;
                     if ($tire_1->is_retread)
                         $tire_1->lifetime_retread_km += $diff_smu;
+                    // Update KM unit
+                    $unit->km = (int) $request->km_actual;
+                }
+
+                // Update lifetime KM tire 2
+                if ($request->km_actual > $tire_2->last_update_km_unit) {
+                    // get difference
+                    $diff_smu = (int) $request->km_actual - (int) $tire_2->last_update_km_unit;
+                    // Update lifetime KM tire
+                    $tire_2->lifetime_km += $diff_smu;
+                    if ($tire_2->is_repair)
+                        $tire_2->lifetime_repair_km += $diff_smu;
                     if ($tire_2->is_retread)
                         $tire_2->lifetime_retread_km += $diff_smu;
                     // Update KM unit
@@ -369,9 +387,9 @@ class TireRunningController extends Controller
             // update removed tire
             $tire = TireMaster::findOrFail($request->tire_id);
             // update HM Tire
-            if ($request->hm_actual > $unit->hm) {
+            if ($request->hm_actual > $tire->last_update_hm_unit) {
                 // get difference
-                $diff_smu = (int) $request->hm_actual - (int) $unit->hm;
+                $diff_smu = (int) $request->hm_actual - (int) $tire->last_update_hm_unit;
                 // add to lifetime HM
                 $tire->lifetime_hm += $diff_smu;
                 if ($tire->is_repair)
@@ -382,9 +400,9 @@ class TireRunningController extends Controller
                 $unit->hm = (int) $request->hm_actual;
             }
             // update KM Tire
-            if ($request->km_actual > $unit->km) {
+            if ($request->km_actual > $tire->last_update_km_unit) {
                 // get difference
-                $diff_smu = (int) $request->km_actual - (int) $unit->km;
+                $diff_smu = (int) $request->km_actual - (int) $tire->last_update_km_unit;
                 // add to lifetime KM
                 $tire->lifetime_km += $diff_smu;
                 if ($tire->is_repair)
