@@ -36,7 +36,17 @@ class TireMasterController extends Controller
         // }
         // dd($data);   
         if ($request->ajax()) {
-            $data = TireMaster::where('company_id', $company->id)->get();
+            $data = TireMaster::select(
+                'tires.*',
+                'tire_sizes.size',
+                'tire_statuses.status',
+                'sites.name as site_name',
+            )
+                ->where('tires.company_id', $company->id)
+                ->join('sites', 'tires.site_id', '=', 'sites.id')
+                ->join('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id')
+                ->join('tire_statuses', 'tires.tire_status_id', '=', 'tire_statuses.id')
+                ->get();
             if ($tiresite_id) {
                 $data = $data->where('site_id', $tiresite_id);
             }
@@ -49,10 +59,10 @@ class TireMasterController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("size", function ($row) {
-                    return $row->tire_size->size;
+                    return $row->size;
                 })
                 ->addColumn("site", function ($row) {
-                    return $row->site->name;
+                    return $row->site_name;
                 })
                 ->addColumn("tire_repair", function ($row) {
                     return $row->countTireRepair;
@@ -61,7 +71,13 @@ class TireMasterController extends Controller
                     return $row->countTireDamage;
                 })
                 ->addColumn("status", function ($row) {
-                    return $row->tire_status->status;
+                    return $row->status;
+                })
+                ->addColumn("lifetime_km", function ($row) {
+                    return number_format($row->lifetime_km, 0, ',', '.');
+                })
+                ->addColumn("lifetime_hm", function ($row) {
+                    return number_format($row->lifetime_hm, 0, ',', '.');
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='text-warning' href='#'
@@ -142,8 +158,8 @@ class TireMasterController extends Controller
                         'tire_size_id' => $request->tire_size_id,
                         'tire_compound_id' => $request->tire_compound_id,
                         'tire_status_id' => $request->tire_status_id,
-                        'lifetime_km' => $request->lifetime_km,
-                        'lifetime_hm' => $request->lifetime_hm,
+                        'lifetime_km' => filter_var($request->lifetime_km, FILTER_SANITIZE_NUMBER_FLOAT),
+                        'lifetime_hm' => filter_var($request->lifetime_hm, FILTER_SANITIZE_NUMBER_FLOAT),
                         'rtd' => $request->rtd,
                         'is_repairing' => $request->is_repairing === 'on' ? 1 : 0,
                         'date' => $request->date,
@@ -205,8 +221,8 @@ class TireMasterController extends Controller
         $tiremaster->tire_size_id = $request->tire_size_id;
         $tiremaster->tire_compound_id = $request->tire_compound_id;
         $tiremaster->tire_status_id = $request->tire_status_id;
-        $tiremaster->lifetime_km = $request->lifetime_km;
-        $tiremaster->lifetime_hm = $request->lifetime_hm;
+        $tiremaster->lifetime_km = filter_var($request->lifetime_km, FILTER_SANITIZE_NUMBER_FLOAT);
+        $tiremaster->lifetime_hm = filter_var($request->lifetime_hm, FILTER_SANITIZE_NUMBER_FLOAT);
         $tiremaster->rtd = $request->rtd;
         $tiremaster->date = $request->date;
         $tiremaster->is_repairing = $request->is_repairing === 'on' ? 1 : 0;

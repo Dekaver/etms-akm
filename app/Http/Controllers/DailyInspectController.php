@@ -63,6 +63,7 @@ class DailyInspectController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'unit_id' => 'required',
             'date' => 'required',
@@ -75,6 +76,9 @@ class DailyInspectController extends Controller
             'pressure' => 'required|array',
             'rtd' => 'required|array',
         ]);
+        // Ubah menjadi number from format number eg: 1.000 to 1000
+        $request->hm = filter_var($request->hm, FILTER_SANITIZE_NUMBER_FLOAT);
+        $request->km = filter_var($request->km, FILTER_SANITIZE_NUMBER_FLOAT);
 
         DB::beginTransaction();
 
@@ -101,7 +105,6 @@ class DailyInspectController extends Controller
             ]);
 
             // update lifetime
-
             if ($request->hm >= $unit->hm && $request->km >= $unit->km) {
 
                 $tire_running = TireRunning::where('unit_id', $unit->id)->get();
@@ -293,6 +296,10 @@ class DailyInspectController extends Controller
             'pressure' => 'required|array',
             'rtd' => 'required|array',
         ]);
+
+        // Ubah menjadi number from format number eg: 1.000 to 1000
+        $request->hm = filter_var($request->hm, FILTER_SANITIZE_NUMBER_FLOAT);
+        $request->km = filter_var($request->km, FILTER_SANITIZE_NUMBER_FLOAT);
         DB::beginTransaction();
 
         try {

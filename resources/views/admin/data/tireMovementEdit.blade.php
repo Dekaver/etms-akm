@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            width: 90px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 150px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -112,11 +112,11 @@
                 </div>
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">HM</p>
-                    <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                    <p class="fs-6 fw-bold">{{ number_format($unit->hm, 0, ',', '.') }}</p>
                 </div>
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">KM</p>
-                    <p class="fs-6 fw-bold">{{ $unit->km }}</p>
+                    <p class="fs-6 fw-bold">{{ number_format($unit->km, 0, ',', '.') }}</p>
                 </div>
                 <div class="mb-2 col-6 col-sm-4 col-md col-lg">
                     <p class="mb-0 text-secondary">Tire Size</p>
@@ -139,11 +139,11 @@
                             <tr>
                                 <td>HM</td>
                                 <td class="px-4">: </td>
-                                <td>{{ $unit->hm }}</td>
+                                <td>{{ number_format($unit->hm, 0, ',', '.') }}</td>
                                 <td></td>
                                 <td class="px-4">KM</td>
                                 <td class="px-4">: </td>
-                                <td>{{ $unit->km }}</td>
+                                <td>{{ number_format($unit->km, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
                                 <td>TIRE SIZE</td>
@@ -185,8 +185,12 @@
                                         </div>
                                         <div class="w-auto">
                                             <p class=" mb-0 fw-bold">{{ $tire->serial_number }}</p>
-                                            <p class=" mb-0 ">{{ $tire->lifetime_hm }}</p>
-                                            <p class=" mb-0 ">{{ $tire->lifetime_km }}</p>
+                                            <p class=" mb-0 ">
+                                                {{ number_format($tire->lifetime_hm, 0, ',', '.') }}
+                                            </p>
+                                            <p class=" mb-0 ">
+                                                {{ number_format($tire->lifetime_km, 0, ',', '.') }}
+                                            </p>
                                             <p class=" mb-0 ">{{ $tire->rtd }}</p>
                                         </div>
                                     </div>
@@ -404,8 +408,12 @@
                                                         <p class="mb-0">:</p>
                                                     </div>
                                                     <div class="col-sm px-0">
-                                                        <p class="mb-0">{{ $tire->lifetime_hm ?? '-' }}</p>
-                                                        <p class="mb-0">{{ $tire->lifetime_km ?? '-' }}</p>
+                                                        <p class="mb-0">
+                                                            {{ number_format($tire->lifetime_hm, 0, ',', '.') ?? '-' }}
+                                                        </p>
+                                                        <p class="mb-0">
+                                                            {{ number_format($tire->lifetime_km, 0, ',', '.') ?? '-' }}
+                                                        </p>
                                                         <p class="mb-0">
                                                             {{ $tire->tire_size->tire_pattern->manufacture->name ?? '-' }}
                                                         </p>
@@ -529,8 +537,8 @@
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                         <label for="">Unit HM</label>
-                                        <input type="text" class="form-control" name="hm_actual" value=""
-                                            required>
+                                        <x-input-number class="form-control" name="hm_actual" id="hm_actual_switch"
+                                            required />
                                         <div class="text-danger d-none" id="display_error_hm">
                                             <p>HM Tidak Boleh kurang dari sebelumnya</p>
                                         </div>
@@ -538,8 +546,8 @@
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                         <label for="">Unit KM</label>
-                                        <input type="text" class="form-control" name="km_actual" value=""
-                                            required>
+                                        <x-input-number class="form-control" name="km_actual" id="km_actual_switch"
+                                            required />
                                         <div class="text-danger d-none" id="display_error_hm">
                                             <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                         </div>
@@ -664,11 +672,15 @@
                             </div>
                             <div class="mb-2 col-6 col-md-6 col-lg-4">
                                 <p class="mb-0 text-secondary">HM unit last update</p>
-                                <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                                <p class="fs-6 fw-bold">
+                                    {{ number_format($unit->hm, 0, ',', '.') }}
+                                </p>
                             </div>
                             <div class="mb-2 col-6 col-md-6 col-lg-4">
                                 <p class="mb-0 text-secondary">KM unit last update</p>
-                                <p class="fs-6 fw-bold">{{ $unit->km }}</p>
+                                <p class="fs-6 fw-bold">
+                                    {{ number_format($unit->km, 0, ',', '.') }}
+                                </p>
                             </div>
                             <div class="mb-2 col-6 col-md-6 col-lg-4">
                                 <p class="mb-0 text-secondary">Tire Serial Number</p>
@@ -683,7 +695,8 @@
                         <div class="row">
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Unit HM Remove</label>
-                                <input type="text" class="form-control" name="hm_actual" value="0" required>
+                                <x-input-number class="form-control" name="hm_actual" id="hm_actual_remove"
+                                    required />
                                 <div class="text-danger d-none" id="display_error_hm">
                                     <p>HM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
@@ -691,7 +704,8 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-4 col-lg-4">
                                 <label for="">Unit KM Remove</label>
-                                <input type="text" class="form-control" name="km_actual" value="0" required>
+                                <x-input-number class="form-control" name="km_actual" id="km_actual_remove"
+                                    required />
                                 <div class="text-danger d-none" id="display_error_hm">
                                     <p>KM Tidak Boleh kurang dari sebelumnya</p>
                                 </div>
@@ -819,11 +833,15 @@
                             </div>
                             <div class="mb-2 col-6 col-md-6 col-lg">
                                 <p class="mb-0 text-secondary">HM</p>
-                                <p class="fs-6 fw-bold">{{ $unit->hm }}</p>
+                                <p class="fs-6 fw-bold">
+                                    {{ number_format($unit->hm, 0, ',', '.') }}
+                                </p>
                             </div>
                             <div class="mb-2 col-6 col-md-6 col-lg">
                                 <p class="mb-0 text-secondary">KM</p>
-                                <p class="fs-6 fw-bold">{{ $unit->km }}</p>
+                                <p class="fs-6 fw-bold">
+                                    {{ number_format($unit->km, 0, ',', '.') }}
+                                </p>
                             </div>
                         </div>
 
@@ -1074,9 +1092,9 @@
 
                 $(".droppableInstall").droppable({
                     drop: function(e, ui) {
-                        var position = $(e.target).data('position');
-                        var lifetime = ui.draggable.data('lifetime');
-                        var id = ui.draggable.data('id');
+                        const position = $(e.target).data('position');
+                        const lifetime = ui.draggable.data('lifetime');
+                        const id = ui.draggable.data('id');
                         $('#installTireModal').find('select[name="tire_id"]').val(id).trigger("change");
                         $('#installTireModal').find('input[name="position"]').val(position);
                         $('#installTireModal').find('input[name="lifetime"]').val(lifetime);
@@ -1088,13 +1106,13 @@
                 $(".droppable").droppable({
                     accept: '.draggableUnit',
                     drop: function(e, ui) {
-                        var status = $(e.target).data('jenis');
-                        var id = ui.draggable.data('id');
-                        var position = ui.draggable.data('position');
-                        var lifetime = ui.draggable.data('lifetime');
-                        var tire_id = ui.draggable.data('tire_id');
-                        var serial_number = ui.draggable.data('serial_number');
-                        var rtd = ui.draggable.data('rtd');
+                        const status = $(e.target).data('jenis');
+                        const id = ui.draggable.data('id');
+                        const position = ui.draggable.data('position');
+                        const lifetime = ui.draggable.data('lifetime');
+                        const tire_id = ui.draggable.data('tire_id');
+                        const serial_number = ui.draggable.data('serial_number');
+                        const rtd = ui.draggable.data('rtd');
                         let hm_unit_actual = $('#removeTireModal').find(`input[name="hm_actual_check"]`)
                             .val()
                         let action = ui.draggable.data('action');
@@ -1212,10 +1230,10 @@
 
             // mobile
             document.getElementById('installTireModal').addEventListener('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var modal = $(event.target)
+                const button = $(event.relatedTarget)
+                const modal = $(event.target)
 
-                var position = button.data('position')
+                const position = button.data('position')
                 if (position) {
                     modal.find('input[name="position"]').val(position);
                 }
@@ -1225,34 +1243,31 @@
             })
 
             document.getElementById('removeTireModal').addEventListener('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var modal = $(event.target)
+                console.log('remove');
+                const button = $(event.relatedTarget)
+                const modal = $(event.target)
+                const position = button.data('position')
                 if (position) {
-                    var position = button.data('position')
                     modal.find('input[name="position"]').val(position);
                     modal.find('#position_install').html(position);
                     $("#position_remove").html(position);
                 }
+                const tire_id = button.data('tire_id')
                 if (tire_id) {
-                    var tire_id = button.data('tire_id')
                     modal.find('input[name="tire_id"]').val(tire_id);
                 }
+                const rtd = button.data('rtd')
                 if (rtd) {
-                    var rtd = button.data('rtd')
                     modal.find('input[name="rtd"]').val(rtd);
                     modal.find('input[name="rtd_remove"]').val(rtd);
                     $("#rtd_remove").html(rtd);
                 }
+                const status = button.data('status')
                 if (status) {
-                    modal.find(`select option`).attr('selected', false);
-                    var status = button.data('status')
-                    modal.find(`select option:contains('${status}')`).attr('selected', true);
+                    modal.find('input[name="tire_status"]').val(status);
                 }
-                var serial_number = button.data('serial_number')
-                var action = button.data('action')
-
-
-
+                const serial_number = button.data('serial_number')
+                const action = button.data('action')
 
                 modal.find('input[name="serial_number"]').val(serial_number);
                 $("#tire_serial_number_remove").html(serial_number);
@@ -1261,60 +1276,53 @@
             })
 
             document.getElementById('switchTireModal').addEventListener('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var modal = $(event.target)
+                const button = $(event.relatedTarget)
+                const modal = $(event.target)
+                console.log(button);
 
+
+                const position = button.data('position')
                 if (position) {
-                    var position = button.data('position')
-                    $("#position_remove").html(position);
-                    modal.find('input[name="position"]').val(position);
-                    modal.find('#position_install').html(position);
+                    $("#tire_position_switch_1").html(position);
+                    modal.find('input[name="tire_position_switch_1"]').val(position);
                 }
+                const tire_id = button.data('tire_id')
                 if (tire_id) {
-                    var tire_id = button.data('tire_id')
-                    modal.find('input[name="tire_id"]').val(tire_id);
+                    modal.find('input[name="tire_id_1"]').val(tire_id);
                 }
+                const rtd = button.data('rtd')
                 if (rtd) {
-                    var rtd = button.data('rtd')
-                    modal.find('input[name="rtd"]').val(rtd);
-                    modal.find('input[name="rtd_remove"]').val(rtd);
-                    $("#rtd_remove").html(rtd);
-
+                    modal.find('input[name="rtd_switch_1"]').val(rtd);
+                    $("#rtd_switch_1").html(rtd);
+                }
+                const hm = button.data('hm')
+                if (hm) {
+                    modal.find('input[name="hm_tire_switch_1"]').val(hm);
+                    $("#hm_tire_switch_1").html(hm);
+                }
+                const km = button.data('km')
+                if (km) {
+                    modal.find('input[name="km_tire_switch_1"]').val(km);
+                    $("#km_tire_switch_1").html(km);
                 }
                 modal.find(`select option`).attr('selected', false);
+                const status = button.data('status')
                 if (status) {
-                    var status = button.data('status')
                     modal.find(`select option:contains('${status}')`).attr('selected', true);
                 }
-                var serial_number = button.data('serial_number')
+                const serial_number = button.data('serial_number')
                 if (serial_number) {
                     modal.find('input[name="serial_number"]').val(serial_number);
-                    $("#tire_serial_number_remove").html(serial_number);
+                    $("#serial_number_switch_1").html(serial_number);
                 }
 
-                var action = button.data('action')
+                const action = button.data('action')
                 if (action) {
                     modal.find('form').attr('action', action);
                 }
 
             })
 
-            // document.getElementById('switchTireModal').addEventListener('show.bs.modal', function(event) {
-            //     let button = $(event.relatedTarget);
-            //     let modal = $(event.target);
-            //     $("#serial_number_switch_1").html(button.data("serial_number"));
-
-            //     $("#rtd_switch_1").html(button.data("rtd"));
-            //     $("#km_tire_switch_1").html(button.data("km"));
-            //     $("#hm_tire_switch_1").html(button.data("hm"));
-
-            //     modal.find('input[name="tire_position_switch_1"]').val(button.data(
-            //         "position"));
-            //     modal.find('input[name="tire_id_1"]').val(button.data("tire_id"));
-            //     modal.find('input[name="rtd_1"]').val(button.data("rtd"));
-
-            //     modal.find('form').attr('action', button.data('action'));
-            // })
             $('#widget').draggable();
         </script>
         <script>
@@ -1325,7 +1333,7 @@
             });
 
             $('#searchTire').on('keyup', function() {
-                var val = $(this).val().toLowerCase().split(" ");
+                const val = $(this).val().toLowerCase().split(" ");
                 $('#list-tire .w-full').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1);
                 });

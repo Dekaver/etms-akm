@@ -36,6 +36,12 @@ class TireRunningController extends Controller
                 ->addColumn("unit_status", function ($row) {
                     return $row->unit_status->status_code;
                 })
+                ->addColumn('hm', function ($row) {
+                    return number_format($row->hm, 0, ',', '.');
+                })
+                ->addColumn('km', function ($row) {
+                    return number_format($row->km, 0, ',', '.');
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='" . route('tirerunning.edit', $row->id) . "'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
@@ -381,6 +387,8 @@ class TireRunningController extends Controller
         $company = auth()->user()->company;
         DB::beginTransaction();
         try {
+            $request->hm_actual = (int) filter_var($request->hm_actual, FILTER_SANITIZE_NUMBER_FLOAT);
+            $request->km_actual = (int) filter_var($request->km_actual, FILTER_SANITIZE_NUMBER_FLOAT);
             // start update lifetime
             $unit = Unit::findOrFail($request->unit_id);
 

@@ -40,7 +40,8 @@
                                 <tr>
                                     <td>Target KM/mili (RTD)</td>
                                     <td>:</td>
-                                    <td>{{ $tiretargetkm->rtd_target_km }}</td>
+                                    <td>{{ number_format($tiretargetkm->rtd_target_km, 0, ',', '.') }}
+                                    </td>
                                     <td>Total Jarak</td>
                                     <td>:</td>
                                     <td>{{ $tiretargetkm->site->total_jarak }}</td>
@@ -64,14 +65,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($rtd = (int) $tiretargetkm->tire_size->otd-1; $rtd >= 0; --$rtd)
+                            @for ($rtd = (int) $tiretargetkm->tire_size->otd - 1; $rtd >= 0; --$rtd)
                                 <tr>
                                     <td>{{ (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
-                                    <td>{{ (int) $tiretargetkm->rtd_target_km * ((int) $tiretargetkm->tire_size->otd - $rtd) }}</td>
+                                    <td>
+                                        {{ number_format((int) $tiretargetkm->rtd_target_km * ((int) $tiretargetkm->tire_size->otd - $rtd), 0, ',', '.') }}
+                                    </td>
                                     <td>{{ (int) $tiretargetkm->tire_size->otd }}</td>
                                     <td>{{ $rtd }}</td>
                                     <td>{{ (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
-                                    <td>{{ round((int) $tiretargetkm->rtd_target_km * $rtd / (int) $tiretargetkm->site->total_jarak)  }}</td>
+                                    <td>{{ round(((int) $tiretargetkm->rtd_target_km * $rtd) / (int) $tiretargetkm->site->total_jarak) }}
+                                    </td>
                                 </tr>
                             @endfor
                         </tbody>

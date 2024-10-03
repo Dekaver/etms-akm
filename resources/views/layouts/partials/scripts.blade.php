@@ -118,5 +118,60 @@
             });
         }
     });
+
+    // Only allow input of numbers, navigation keys, and modifier keys
+    function keyDown(event) {
+        return (
+            // Allow Ctrl + any key
+            event.ctrlKey ||
+            // Allow Alt + any key
+            event.altKey ||
+            (
+                // Allow number keys 0-9
+                47 < event.keyCode &&
+                event.keyCode < 58 &&
+                // Don't allow shift key to be pressed
+                event.shiftKey == false
+            ) ||
+            (
+                // Allow numpad keys 0-9
+                95 < event.keyCode &&
+                event.keyCode < 106
+            ) ||
+            (
+                // Allow delete key
+                event.keyCode == 8
+            ) || (
+                // Allow tab key
+                event.keyCode == 9
+            ) ||
+            (
+                // Allow home, end, left, right, up, down
+                event.keyCode > 34 &&
+                event.keyCode < 40
+            ) || (
+                // Allow dot key
+                event.keyCode == 46
+            )
+        )
+    }
+
+    function fNumber(angka) {
+        var number_string = typeof angka === 'number' ? angka.toString() : parseFloat(angka && angka.replace(/[^,\d]/g,
+                '')).toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return rupiah;
+    }
 </script>
 @stack('js')

@@ -23,35 +23,6 @@
 
     <div class="card">
         <div class="card-body">
-            {{-- <div class="table-top">
-                <div class="search-set">
-                    <div class="search-path">
-                        <a class="btn btn-filter" id="filter_search">
-                            <img src="assets/img/icons/filter.svg" alt="img">
-                            <span><img src="assets/img/icons/closes.svg" alt="img"></span>
-                        </a>
-                    </div>
-                    <div class="search-input">
-                        <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
-                    </div>
-                </div>
-                <div class="wordset">
-                    <ul>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
-                                    src="assets/img/icons/pdf.svg" alt="img"></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img
-                                    src="assets/img/icons/excel.svg" alt="img"></a>
-                        </li>
-                        <li>
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img
-                                    src="assets/img/icons/printer.svg" alt="img"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div> --}}
             <!-- /Filter -->
             <div class="card mb-0" id="filter_inputs">
                 <div class="card-body pb-0">
@@ -116,6 +87,7 @@
         </div>
     </div>
 
+    {{-- Modal Create --}}
     <div class="modal fade" id="form-modal-add" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
             @csrf
@@ -160,13 +132,15 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>HM</label>
-                                    <input class="form-control" type="number" min="{{ $unit->hm }}" name="hm" required>
+                                    <x-input-number class="form-control" name="hm" id="hm_create"
+                                        min="{{ $unit->hm }}" required />
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>KM</label>
-                                    <input class="form-control" type="number" min="{{ $unit->km }}" name="km" required>
+                                    <x-input-number class="form-control" name="km" id="km_create"
+                                        min="{{ $unit->km }}" required />
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -230,8 +204,7 @@
                                             <td>
                                                 <input class="form-control" type="number" min="0"
                                                     max="999" name="rtd[{{ $tire_running->position }}]"
-                                                    step="0.1"
-                                                    required>
+                                                    step="0.1" required>
                                             </td>
                                             <td>
                                                 <select class="form-control"
@@ -285,6 +258,7 @@
         </form>
     </div>
 
+    {{-- Modal Update --}}
     <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <form method="POST">
             @csrf
@@ -329,13 +303,15 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>HM</label>
-                                    <input class="form-control" type="text" name="hm" required>
+                                    <x-input-number class="form-control" name="hm" id="hm_update"
+                                        min="{{ $unit->hm }}" required />
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>KM</label>
-                                    <input class="form-control" type="number" name="km" required>
+                                    <x-input-number class="form-control" name="hm" id="hm_create"
+                                        min="{{ $unit->km }}" required />
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">

@@ -13,14 +13,22 @@
                 data-lifetime="{{ $tire->lifetime }}">
             </div>
             <div class="progress progress-lg">
-                <div class="progress-bar"   id="tire-image-movement-{{ $position }}" role="progressbar" style="width: {{ round($tire->rtd / $tire->tire_size->otd * 100) }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" id="tire-image-movement-{{ $position }}" role="progressbar"
+                    style="width: {{ round(($tire->rtd / $tire->tire_size->otd) * 100) }}%" aria-valuenow="75"
+                    aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
         <figcaption class="pt-2">
             <p class="mb-0 fw-bold">{{ $tire->serial_number }}</p>
-            <p class=" mb-0">{{ $tire->lifetime_hm }} | {{ $tire->lifetime_km }}</p>
-            <p class="mb-0">{{ $tire->lifetime_repair_hm }} | {{ $tire->lifetime_repair_km }}</p>
-            <p class="mb-0">{{ $tire->rtd }} | {{ round($tire->rtd / $tire->tire_size->otd * 100) }}%</p>
+            <p class=" mb-0">
+                {{ number_format($tire->lifetime_hm, 0, ',', '.') }} |
+                {{ number_format($tire->lifetime_km, 0, ',', '.') }}
+            </p>
+            <p class="mb-0">
+                {{ number_format($tire->lifetime_repair_hm, 0, ',', '.') }} |
+                {{ number_format($tire->lifetime_repair_km, 0, ',', '.') }}
+            </p>
+            <p class="mb-0">{{ $tire->rtd }} | {{ round(($tire->rtd / $tire->tire_size->otd) * 100) }}%</p>
         </figcaption>
     @else
         <div class="droppableInstall" data-position="{{ $position }}">
@@ -43,6 +51,5 @@
             // Example: Set the background color based on battery percentage (replace this with your actual battery percentage)
             setDynamicGradientColor(`tire-image-movement-${position}`, parseFloat(tire.rtd / tire.tire_size.otd * 100));
         }
-
     </script>
 @endpush

@@ -11,7 +11,7 @@
             </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a>
+            {{-- <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Data</a> --}}
         </div>
     </div>
 

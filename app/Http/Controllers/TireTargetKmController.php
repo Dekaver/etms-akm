@@ -19,20 +19,23 @@ class TireTargetKmController extends Controller
         $sites = Site::where('company_id', $company->id)->get();
         $tire_sizes = TireSize::where("company_id", $company->id)->get();
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $data = TireTargetKm::where('company_id', $company->id);
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('site', function($row){
+                ->addColumn('site', function ($row) {
                     return $row->site->name;
                 })
-                ->addColumn('tire_size', function($row){
+                ->addColumn('tire_size', function ($row) {
                     return $row->tire_size->size;
                 })
-                ->addColumn('manufacture', function($row){
+                ->addColumn('manufacture', function ($row) {
                     return $row->tire_size->tire_pattern->manufacture->name;
                 })
-                ->addColumn('action', function($row){
+                ->addColumn('rtd_target_km', function ($row) {
+                    return number_format($row->rtd_target_km, 0, ',', '.');
+                })
+                ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
@@ -78,7 +81,7 @@ class TireTargetKmController extends Controller
         TireTargetKm::create([
             "site_id" => $request->site_id,
             "tire_size_id" => $request->tire_size_id,
-            "rtd_target_km" => $request->rtd_target_km,
+            "rtd_target_km" => filter_var($request->rtd_target_km, FILTER_SANITIZE_NUMBER_FLOAT),
             "company_id" => $company->id,
         ]);
 
@@ -115,7 +118,7 @@ class TireTargetKmController extends Controller
 
         $tiretargetkm->site_id = $request->site_id;
         $tiretargetkm->tire_size_id = $request->tire_size_id;
-        $tiretargetkm->rtd_target_km = $request->rtd_target_km;
+        $tiretargetkm->rtd_target_km = filter_var($request->rtd_target_km, FILTER_SANITIZE_NUMBER_FLOAT);
         $tiretargetkm->save();
 
         return redirect()->back()->with("success", "Updated Tire Target Km");

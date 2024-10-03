@@ -197,15 +197,15 @@
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>Lifetime HM</label>
-                                    <input type="number" class="form-control" value="0" name="lifetime_hm"
-                                        required>
+                                    <x-input-number class="form-control" name="lifetime_hm" id="lifetime_hm"
+                                        required />
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>Lifetime KM</label>
-                                    <input type="number" class="form-control" value="0" name="lifetime_km"
-                                        required>
+                                    <x-input-number class="form-control" name="lifetime_km" id="lifetime_km"
+                                        required />
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
@@ -318,15 +318,15 @@
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>Lifetime HM</label>
-                                    <input type="number" class="form-control" value="0" name="lifetime_hm"
-                                        required>
+                                    <x-input-number class="form-control" name="lifetime_hm" id="lifetime_hm"
+                                        required />
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
                                 <div class="form-group">
                                     <label>Lifetime KM</label>
-                                    <input type="number" class="form-control" value="0" name="lifetime_km"
-                                        required>
+                                    <x-input-number class="form-control" name="lifetime_km" id="lifetime_km"
+                                        required />
                                 </div>
                             </div>
                             <div class="col-6 col-md-3">
@@ -457,17 +457,14 @@
                                 data: 'size',
                                 name: 'size'
                             },
-                            // {
-                            //     data: 'tire_pattern_id',
-                            //     name: 'tire_pattern_id'
-                            // },
                             {
                                 data: 'status',
                                 name: 'status'
                             },
                             {
                                 data: 'lifetime_km',
-                                name: 'lifetime_km'
+                                name: 'lifetime_km',
+
                             },
                             {
                                 data: 'lifetime_hm',
@@ -495,10 +492,13 @@
                                 orderable: false,
                                 searchable: false
                             },
+                        ],
+                        columnDefs: [{
+                                className: 'text-right',
+                                targets: [5, 6, 7]
+                            } // Menetapkan kelas 'text-right' pada kolom ke-5, ke-6, dan ke-7
                         ]
                     });
-
-
                 });
 
                 $('#resetModal').on('show.bs.modal', function(event) {
@@ -527,11 +527,12 @@
                             .trigger('change');
                         modal.find('select[name="tire_status_id"]').val(response.tire_status_id)
                             .trigger('change');
-                        modal.find('input[name="lifetime_hm"]').val(response.lifetime_hm);
-                        modal.find('input[name="lifetime_km"]').val(response.lifetime_km);
+                        modal.find('input[name="lifetime_hm"]').val(fNumber(response.lifetime_hm));
+                        modal.find('input[name="lifetime_km"]').val(fNumber(response.lifetime_km));
                         modal.find('input[name="rtd"]').val(response.rtd);
                         modal.find('input[name="date"]').val(response.date);
-                        modal.find('input[name="is_repairing"]').prop('checked', response.is_repairing == 1);
+                        modal.find('input[name="is_repairing"]').prop('checked', response
+                            .is_repairing == 1);
 
                         modal.find('input[name="_method"]').val('PUT');
                     });

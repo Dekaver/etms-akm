@@ -44,7 +44,7 @@ class UnitController extends Controller
                     return $row->unit_status->status_code;
                 })
                 ->addColumn('value', function ($row) {
-                    return "$row->hm/$row->km";
+                    return number_format($row->hm, 0, ',', '.') . " / " . number_format($row->km, 0, ',', '.');
                 })
                 ->addColumn('site', function ($row) {
                     return $row->site->name;
@@ -90,7 +90,7 @@ class UnitController extends Controller
                 "required",
                 "string",
                 "max:255",
-                Rule::unique("units")->where(function($query) use($company){
+                Rule::unique("units")->where(function ($query) use ($company) {
                     return $query
                         ->where("company_id", $company->id);
                 })
@@ -109,8 +109,8 @@ class UnitController extends Controller
             "site_id" => $request->site_id,
             "unit_number" => $request->unit_number,
             "head" => $request->head,
-            "km" => $request->km,
-            "hm" => $request->hm,
+            "km" => filter_var($request->km, FILTER_SANITIZE_NUMBER_FLOAT),
+            "hm" => filter_var($request->hm, FILTER_SANITIZE_NUMBER_FLOAT),
         ]);
 
         return redirect()->back()->with("success", "Created Unit");
@@ -137,7 +137,7 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
-         // Manually check if the condition is met
+        // Manually check if the condition is met
 
         // If the condition is not met, return a custom error message
         if ($unit->tire_runnings->count() > 0 && ($request->km != $unit->km || $request->hm != $unit->hm)) {
@@ -148,7 +148,7 @@ class UnitController extends Controller
                 "required",
                 "string",
                 "max:255",
-                Rule::unique("units")->ignore($unit->id)->where(function($query) use($unit){
+                Rule::unique("units")->ignore($unit->id)->where(function ($query) use ($unit) {
                     return $query
                         ->where("company_id", $unit->company_id);
                 })
@@ -165,8 +165,8 @@ class UnitController extends Controller
         $unit->site_id = $request->site_id;
         $unit->unit_number = $request->unit_number;
         $unit->head = $request->head;
-        $unit->km = $request->km;
-        $unit->hm = $request->hm;
+        $unit->km = filter_var($request->km, FILTER_SANITIZE_NUMBER_FLOAT);
+        $unit->hm = filter_var($request->hm, FILTER_SANITIZE_NUMBER_FLOAT);
         $unit->save();
 
         return redirect()->back()->with("success", "Updated Unit");

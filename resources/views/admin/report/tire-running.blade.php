@@ -179,22 +179,27 @@
                         {
                             data: 'lifetime_hm',
                             name: 'lifetime_hm',
+                            className: 'text-right',
                         },
                         {
                             data: 'lifetime_km',
                             name: 'lifetime_km',
+                            className: 'text-right',
                         },
                         {
                             data: 'rtd',
                             name: 'rtd',
+                            className: 'text-right',
                         },
                         {
                             data: 'tur',
                             name: 'tur',
+                            className: 'text-right',
                         },
                         {
                             data: 'km_per_mm',
                             name: 'km_per_mm',
+                            className: 'text-right',
                         },
                         {
                             data: 'damage',

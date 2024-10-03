@@ -55,18 +55,21 @@
                                 <tr>
                                     <td>Target KM/mili (RTD)</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->rtd_target_km ?? 0)  }}</td>
+                                    <td>{{ number_format($tiretargetkm->rtd_target_km ?? 0, 0, ',', '.') }}</td>
                                     <td>Total Jarak</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->site->total_jarak ?? 0)  }}</td>
+                                    <td>{{ number_format($tiretargetkm->site->total_jarak ?? 0, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <td>Actual Avg KM/MM</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_km_per_mm ?? 0)  }}</td>
+                                    <td>
+                                        {{ number_format($tiretargetkm->tire_size->actual_avg_km_per_mm ?? 0, 0, ',', '.') }}
+                                    </td>
                                     <td>Actual Total KM</td>
                                     <td>:</td>
-                                    <td>{{ number_format($tiretargetkm->tire_size->actual_avg_lifetime_km ?? 0)  }}
+                                    <td>
+                                        {{ number_format($tiretargetkm->tire_size->actual_avg_lifetime_km ?? 0, 0, ',', '.') }}
                                     </td>
                                 </tr>
                             </table>
@@ -94,7 +97,8 @@
                                 @for ($rtd = (int) $tiretargetkm->tire_size->otd - 1; $rtd >= 0; --$rtd)
                                     <tr>
                                         <td>{{ (int) $tiretargetkm->tire_size->otd - $rtd }}</td>
-                                        <td>{{ number_format((int) ($target_km = $tiretargetkm->rtd_target_km * ((int) $tiretargetkm->tire_size->otd - $rtd))) }}
+                                        <td>
+                                            {{ number_format((int) ($target_km = $tiretargetkm->rtd_target_km * ((int) $tiretargetkm->tire_size->otd - $rtd)), 0, ',', '.') }}
                                         </td>
                                         <td>{{ (int) $tiretargetkm->tire_size->otd }}</td>
                                         <td>{{ $rtd }}</td>
@@ -102,10 +106,12 @@
                                         <td>{{ round(((int) $tiretargetkm->rtd_target_km * $rtd) / (int) $tiretargetkm->site->total_jarak) }}
                                         </td>
                                         @if (floor((int) $tiretargetkm->tire_size->actual_avg_tur) >= $tur)
-                                            <td>{{ number_format($actual = (int) $tiretargetkm->tire_size->actual_avg_km_per_mm * $tur) }}
+                                            <td>
+                                                {{ number_format($actual = (int) $tiretargetkm->tire_size->actual_avg_km_per_mm * $tur, 0, ',', '.') }}
                                             </td>
                                             <td class="{{ $actual - $target_km < 0 ? 'text-red' : 'text-green' }}">
-                                                {{ number_format($actual - $target_km) }}</td>
+                                                {{ number_format($actual - $target_km, 0, ',', '.') }}
+                                            </td>
                                         @else
                                             <td>-</td>
                                             <td>-</td>

@@ -36,7 +36,8 @@
                                     <img src="assets/img/dashboard/icon3.png" alt="">
                                 </div>
                                 <div class="dash-counts">
-                                    <h4>{{ (int) $stok_new + (int) $stok_spare + (int) $stok_repair }}</h4>
+                                    <h4>{{ number_format((int) $stok_new + (int) $stok_spare + (int) $stok_repair, 0, ',', '.') }}
+                                    </h4>
                                     <h5>TIRE INVENTORY</h5>
                                 </div>
                             </div>
@@ -47,7 +48,7 @@
                                             <img src="assets/img/dashboard/icon1.png" alt="">
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
-                                            <h4>{{ (int) $stok_new }}</h4>
+                                            <h4>{{ number_format(((int) $stok_new), 0, ',', '.') }}</h4>
                                             <h5>NEW</h5>
                                         </div>
                                     </div>
@@ -58,7 +59,7 @@
                                             <img src="assets/img/dashboard/icon3.png" alt="">
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
-                                            <h4>{{ (int) $stok_spare }}</h4>
+                                            <h4>{{ number_format(((int) $stok_spare), 0, ',', '.') }}</h4>
                                             <h5>SPARE</h5>
                                         </div>
                                     </div>
@@ -69,7 +70,7 @@
                                             <img src="assets/img/dashboard/icon4.png" alt="">
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
-                                            <h4>{{ (int) $stok_repair }}</h4>
+                                            <h4>{{ number_format(((int) $stok_repair), 0, ',', '.') }}</h4>
                                             <h5>REPAIR</h5>
                                         </div>
                                     </div>
@@ -88,7 +89,8 @@
                                     <img src="assets/img/dashboard/icon5.png" alt="">
                                 </div>
                                 <div class="dash-counts">
-                                    <h4>{{ (int) $install_new + (int) $install_spare + (int) $install_repair }}</h4>
+                                    <h4>{{ number_format((int) $install_new + (int) $install_spare + (int) $install_repair, 0, ',', '.') }}
+                                    </h4>
                                     <h5>TIRE INSTALL</h5>
                                 </div>
                             </div>
@@ -99,7 +101,7 @@
                                             <img src="assets/img/dashboard/icon1.png" alt="">
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
-                                            <h4>{{ (int) $install_new }}</h4>
+                                            <h4>{{ number_format(((int) $install_new), 0, ',', '.') }}</h4>
                                             <a href="/report-tire-running?tire_status=NEW">
                                                 <h5>NEW</h5>
                                             </a>
@@ -112,7 +114,8 @@
                                             <img src="assets/img/dashboard/icon3.png" alt="">
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
-                                            <h4>{{ (int) $install_spare }}</h4>
+                                            <h4>{{ number_format(((int) $install_spare), 0, ',', '.') }}
+                                            </h4>
                                             <a href="/report-tire-running?tire_status=SPARE">
                                                 <h5>SPARE</h5>
                                             </a>
@@ -125,7 +128,8 @@
                                             <img src="assets/img/dashboard/icon4.png" alt="">
                                         </div>
                                         <div class="dash-counts" style="width: 100px; text-align: right">
-                                            <h4>{{ (int) $install_repair }}</h4>
+                                            <h4>{{ number_format(((int) $install_repair), 0, ',', '.') }}
+                                            </h4>
                                             <a href="/report-tire-running?tire_status=REPAIR">
                                                 <h5>REPAIR</h5>
                                             </a>
@@ -182,7 +186,7 @@
                                     <img src="assets/img/dashboard/icon2.png" alt="">
                                 </div>
                                 <div class="dash-counts">
-                                    <h4>{{ (int) $schedule }}</h4>
+                                    <h4>{{ number_format(((int) $schedule), 0, ',', '.') }}</h4>
                                     <h5>SCHEDULE</h5>
                                 </div>
                             </div>
@@ -197,7 +201,7 @@
                                     <img src="assets/img/dashboard/icon6.png" alt="">
                                 </div>
                                 <div class="dash-counts">
-                                    <h4>{{ (int) $unschedule }}</h4>
+                                    <h4>{{ number_format(((int) $unschedule), 0, ',', '.') }}</h4>
                                     <h5>UNSCHEDULE</h5>
                                 </div>
                             </div>
@@ -225,10 +229,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ $stok_days["day1"] }}</td>
-                                    <td>{{ $stok_days["day2"] }}</td>
-                                    <td>{{ $stok_days["day3"] }}</td>
-                                    <td>{{ $stok_days["day4"] }}</td>
+                                    <td>{{ number_format($stok_days['day1'], 0, ',', '.') }}</td>
+                                    <td>{{ number_format($stok_days['day2'], 0, ',', '.') }}</td>
+                                    <td>{{ number_format($stok_days['day3'], 0, ',', '.') }}</td>
+                                    <td>{{ number_format($stok_days['day4'], 0, ',', '.') }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -252,10 +256,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ $running_days["day1"] }}</td>
-                                    <td>{{ $running_days["day2"] }}</td>
-                                    <td>{{ $running_days["day3"] }}</td>
-                                    <td>{{ $running_days["day4"] }}</td>
+                                    <td>{{ number_format($running_days['day1'], 0, ',', '.') }}</td>
+                                    <td>{{ number_format($running_days['day2'], 0, ',', '.') }}</td>
+                                    <td>{{ number_format($running_days['day3'], 0, ',', '.') }}</td>
+                                    <td>{{ number_format($running_days['day4'], 0, ',', '.') }}</td>
                                 </tr>
                             </tbody>
                         </table>

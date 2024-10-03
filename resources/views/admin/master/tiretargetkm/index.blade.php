@@ -54,8 +54,9 @@
                                     <label>Site<span class="manitory">*</span></label>
                                     <select name="site_id" class="form-select">
                                         <option value="">-- Select --</option>
-                                        @foreach ($sites  as $item)
-                                            <option value="{{ $item->id }}" @selected((auth()->user()->site->id ?? null) == $item->id)>{{ $item->name }}
+                                        @foreach ($sites as $item)
+                                            <option value="{{ $item->id }}" @selected((auth()->user()->site->id ?? null) == $item->id)>
+                                                {{ $item->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -67,7 +68,10 @@
                                     <select name="tire_size_id" class="form-select">
                                         <option value="">-- Select --</option>
                                         @foreach ($tire_sizes as $item)
-                                            <option value="{{ $item->id }}" data-manufacture="{{ $item->tire_pattern->manufacture->name }}">{{ $item->size }} - {{ $item->tire_pattern->manufacture->name }}</option>
+                                            <option value="{{ $item->id }}"
+                                                data-manufacture="{{ $item->tire_pattern->manufacture->name }}">
+                                                {{ $item->size }} - {{ $item->tire_pattern->manufacture->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -81,7 +85,8 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Tire Target KM/MM<span class="manitory">*</span></label>
-                                    <input type="number" class="form-control" name="rtd_target_km" max="99999" required>
+                                    <x-input-number class="form-control" name="rtd_target_km" id="rtd_target_km"
+                                        max="999999" required />
                                 </div>
                             </div>
                         </div>
@@ -150,13 +155,13 @@
                     }).done(function(response) {
                         modal.find('select[name="site_id"]').val(response.site_id);
                         modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger("change");
-                        modal.find('input[name="rtd_target_km"]').val(response.rtd_target_km);
+                        modal.find('input[name="rtd_target_km"]').val(fNumber(response.rtd_target_km));
                         modal.find('input[name="_method"]').val('PUT');
                     });
                     modal.find('form').attr('action', `{{ route('tiretargetkm.index') }}/${id}`)
                 }
             });
-            $("#form-modal").find('select[name="tire_size_id"]').change(function () {
+            $("#form-modal").find('select[name="tire_size_id"]').change(function() {
                 var value = $(this).find("option:selected").data("manufacture");
                 $("#form-modal").find('input[name="manufacture"]').val(value);
             });

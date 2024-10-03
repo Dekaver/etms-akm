@@ -59,7 +59,8 @@
                                             <select class="select" name="unitmodel">
                                                 <option>Choose Unit Model</option>
                                                 @foreach ($unit_model as $item)
-                                                    <option value="{{ $item->id }}" @selected($item->id == $unitmodel_id)>{{ $item->model }}</option>
+                                                    <option value="{{ $item->id }}" @selected($item->id == $unitmodel_id)>
+                                                        {{ $item->model }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -69,7 +70,8 @@
                                             <select class="select" name="sitemodel">
                                                 <option>Choose Site</option>
                                                 @foreach ($sites as $item2)
-                                                    <option value="{{ $item2->id }}" @selected($item2->id == $unitsite_id)>{{ $item2->name }}</option>
+                                                    <option value="{{ $item2->id }}" @selected($item2->id == $unitsite_id)>
+                                                        {{ $item2->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -79,7 +81,8 @@
                                             <select class="select" name="unitstatus">
                                                 <option>Choose Status</option>
                                                 @foreach ($unit_status as $item3)
-                                                    <option value="{{ $item3->id }}" @selected($item3->id == $unitstatus_id)>{{ $item3->status_code }}</option>
+                                                    <option value="{{ $item3->id }}" @selected($item3->id == $unitstatus_id)>
+                                                        {{ $item3->status_code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -87,7 +90,7 @@
                                     <div class="col-lg-1 col-sm-6 col-12">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-filters ms-auto"><img
-                                                src="assets/img/icons/search-whites.svg" alt="img"></button>
+                                                    src="assets/img/icons/search-whites.svg" alt="img"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +145,8 @@
                                     <select class="select" name="unit_model_id">
                                         <option value="">Choose Model</option>
                                         @foreach ($unit_model as $item)
-                                            <option value="{{ $item->id }}">{{ $item->model }} - {{ $item->tire_size->size }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->model }} -
+                                                {{ $item->tire_size->size }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -153,7 +157,8 @@
                                     <select class="select" name="site_id">
                                         <option value="">Choose Site</option>
                                         @foreach ($sites as $item)
-                                            <option value="{{ $item->id }}" @selected($item->id == auth()->user()->site->id)>{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @selected($item->id == auth()->user()->site->id)>
+                                                {{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -172,15 +177,13 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>HM</label>
-                                    <input class="form-control" min="0" type="number" value="0"
-                                        name="hm">
+                                    <x-input-number class="form-control" name="hm" id="hm" required />
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>KM</label>
-                                    <input class="form-control" min="0" type="number" value="0"
-                                        name="km">
+                                    <x-input-number class="form-control" name="km" id="km" required />
                                 </div>
                             </div>
                         </div>
@@ -258,8 +261,8 @@
                         modal.find('select[name="site_id"]').val(response.site_id).trigger('change');
                         modal.find('select[name="unit_status_id"]').val(response.unit_status_id)
                             .trigger('change');
-                        modal.find('input[name="hm"]').val(response.hm);
-                        modal.find('input[name="km"]').val(response.km);
+                        modal.find('input[name="hm"]').val(fNumber(response.hm));
+                        modal.find('input[name="km"]').val(fNumber(response.km));
 
                         modal.find('input[name="_method"]').val('PUT');
                     });
