@@ -103,13 +103,14 @@
                         <tr>
                             <th>Date</th>
                             <th>Serial Number</th>
+                            <th>Position</th>
                             <th>Site</th>
                             <th>Unit</th>
                             <th>HM</th>
                             <th>KM</th>
                             <th>RTD</th>
                             <th>Pressure</th>
-                            <th>Tire</th>
+                            {{-- <th>Tire</th> --}}
                             <th>Tube</th>
                             <th>Flap</th>
                             <th>Rim</th>
@@ -139,6 +140,10 @@
                             name: 'tire'
                         },
                         {
+                            data: 'position',
+                            name: 'position'
+                        },
+                        {
                             data: 'site',
                             name: 'site'
                         },
@@ -162,10 +167,10 @@
                             data: 'pressure',
                             name: 'pressure'
                         },
-                        {
-                            data: 'tire_condition',
-                            name: 'tire_condition'
-                        },
+                        // {
+                        //     data: 'tire_condition',
+                        //     name: 'tire_condition'
+                        // },
                         {
                             data: 'tube',
                             name: 'tube'
@@ -186,6 +191,9 @@
                             data: 'remark',
                             name: 'remark'
                         },
+                    ],
+                    order: [
+                        [0, 'desc']
                     ]
                 });
 

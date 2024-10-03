@@ -32,6 +32,7 @@ class TireMaster extends Model
         'tube',
         'flap',
         'rim',
+        'tire_condition',
         't_pentil',
         'is_repair',
         'is_retread',

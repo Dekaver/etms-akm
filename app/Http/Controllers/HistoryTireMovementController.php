@@ -165,15 +165,33 @@ class HistoryTireMovementController extends Controller
     public function tireinspect(Request $request, TireMaster $tire)
     {
         if ($request->ajax()) {
-            return DataTables::of(TireMaster::select('tires.*', 'units.unit_number', 'sites.name as site_name', 'daily_inspect_details.remark')
+            return DataTables::of(TireMaster::select(
+                'tires.serial_number',
+                'tires.tire_condition',
+                'daily_inspects.date',
+                'daily_inspect_details.position',
+                'daily_inspect_details.lifetime_hm',
+                'daily_inspect_details.lifetime_km',
+                'daily_inspect_details.rtd',
+                'daily_inspect_details.pressure',
+                'daily_inspect_details.tube',
+                'daily_inspect_details.flap',
+                'daily_inspect_details.rim',
+                'daily_inspect_details.t_pentil',
+                'units.unit_number',
+                'sites.name as site_name',
+                'daily_inspect_details.remark'
+            )
                 ->join('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
                 ->join('sites', 'sites.id', '=', 'tires.site_id')
                 ->join('daily_inspect_details', 'daily_inspect_details.tire_id', '=', 'tires.id')
                 ->join('daily_inspects', 'daily_inspect_details.daily_inspect_id', '=', 'daily_inspects.id')
                 ->join('units', 'units.id', '=', 'daily_inspects.unit_id')
+                ->where('daily_inspect_details.is_selected', true)
                 ->where('tires.company_id', auth()->user()->company->id)
                 ->where('tires.site_id', auth()->user()->site->id)
                 ->where('tires.id', $tire->id)
+                ->orderBy('daily_inspects.created_at', 'desc')
                 ->get())
                 ->addIndexColumn()
                 ->addColumn("tire", function ($row) {
