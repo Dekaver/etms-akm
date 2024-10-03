@@ -145,6 +145,18 @@ class HistoryTireMovementController extends Controller
                 ->addColumn("damage", function ($row) {
                     return $row->tire_damage->damage ?? null;
                 })
+                ->addColumn("hm_tire", function ($row) {
+                    return number_format($row->hm_tire, 0, ',', '.');
+                })
+                ->addColumn("km_tire", function ($row) {
+                    return number_format($row->km_tire, 0, ',', '.');
+                })
+                ->addColumn("hm_unit", function ($row) {
+                    return number_format($row->hm_unit, 0, ',', '.');
+                })
+                ->addColumn("km_unit", function ($row) {
+                    return number_format($row->km_unit, 0, ',', '.');
+                })
                 ->make(true);
         }
         return view("admin.history.historyTireMovement", compact("tire"));
@@ -153,16 +165,25 @@ class HistoryTireMovementController extends Controller
     public function tireinspect(Request $request, TireMaster $tire)
     {
         if ($request->ajax()) {
-            return DataTables::of($tire->daily_inspect)
+            return DataTables::of(TireMaster::select('tires.*', 'units.unit_number', 'sites.name as site_name', 'daily_inspect_details.remark')
+                ->join('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
+                ->join('sites', 'sites.id', '=', 'tires.site_id')
+                ->join('daily_inspect_details', 'daily_inspect_details.tire_id', '=', 'tires.id')
+                ->join('daily_inspects', 'daily_inspect_details.daily_inspect_id', '=', 'daily_inspects.id')
+                ->join('units', 'units.id', '=', 'daily_inspects.unit_id')
+                ->where('tires.company_id', auth()->user()->company->id)
+                ->where('tires.site_id', auth()->user()->site->id)
+                ->where('tires.id', $tire->id)
+                ->get())
                 ->addIndexColumn()
                 ->addColumn("tire", function ($row) {
-                    return $row->tire->serial_number;
+                    return $row->serial_number;
                 })
                 ->addColumn("unit", function ($row) {
-                    return $row->unit->unit_number;
+                    return $row->unit_number;
                 })
                 ->addColumn("site", function ($row) {
-                    return $row->site->name;
+                    return $row->site_name;
                 })
                 ->addColumn("tPentil", function ($row) {
                     $a = "<input type='checkbox' " . ($row->t_pentil ? 'checked' : '') . "> ";
