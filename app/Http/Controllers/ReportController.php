@@ -61,22 +61,22 @@ class ReportController extends Controller
                     return $row->tire_pattern->pattern;
                 })
                 ->addColumn('scrap', function ($row) {
-                    return $row->scrap_count;
+                    return number_format($row->scrap_count, 0, ',', '.');
                 })
                 ->addColumn('spare', function ($row) {
-                    return $row->spare_count;
+                    return number_format($row->spare_count, 0, ',', '.');
                 })
                 ->addColumn('running', function ($row) {
-                    return $row->running_count;
+                    return number_format($row->running_count, 0, ',', '.');
                 })
                 ->addColumn('new', function ($row) {
-                    return $row->new_count;
+                    return number_format($row->new_count, 0, ',', '.');
                 })
                 ->addColumn('repair', function ($row) {
-                    return $row->repair_count;
+                    return number_format($row->repair_count, 0, ',', '.');
                 })
                 ->addColumn('inventory', function ($row) {
-                    return $row->new_count + $row->spare_count;
+                    return number_format($row->new_count + $row->spare_count, 0, ',', '.');
                 })
                 ->addColumn('manufacture', function ($row) {
                     return $row->tire_pattern->manufacture->name;
@@ -90,6 +90,72 @@ class ReportController extends Controller
                 ->make(true);
         }
         return view("admin.report.tireSize", compact('tirepattern', 'tire_manufactures', 'tire_sizes', 'tire_patterns', 'tire_pattern', 'tire_size', 'tire_manufacture', 'type_pattern'));
+    }
+
+    public function scrapTireCount(Request $request)
+    {
+        $tire_manufacture = $request->query("tire_manufacture");
+        $tire_size = $request->query("tire_size");
+        $tire_pattern = $request->query("tire_pattern");
+        $type_pattern = $request->query("type_pattern");
+
+
+        $company = auth()->user()->company_id;
+        $tirepattern = TirePattern::with("manufacture")->where('company_id', $company)->get();
+        $tire_patterns = TirePattern::select("pattern")->where('company_id', $company)->groupBy("pattern")->get();
+        $tire_sizes = TireSize::select("size")->where('company_id', $company)->groupBy("size")->get();
+        $tire_manufactures = TireManufacture::where('company_id', $company)->get();
+
+        if ($request->ajax()) {
+            $data = TireMaster::select(
+                "tires.*",
+                "serial_number",
+                "size",
+                "pattern",
+                "type_pattern",
+                "tire_manufactures.name as manufacture",
+                'damage',
+            )
+                ->join('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
+                ->join('tire_patterns', 'tire_patterns.id', '=', 'tire_sizes.tire_pattern_id')
+                ->join('tire_manufactures', 'tire_manufactures.id', '=', 'tire_patterns.tire_manufacture_id')
+                ->join('tire_damages', 'tire_damages.id', '=', 'tires.tire_damage_id')
+                ->where('tires.company_id', $company)
+                ->where("tire_status_id", 5); // id 5 SCRAP
+            if ($tire_manufacture || $tire_pattern || $type_pattern) {
+                $data = $data->whereHas("tire_pattern", function ($q) use ($tire_manufacture, $tire_pattern, $type_pattern) {
+                    if ($tire_manufacture) {
+                        $q->where("tire_manufacture_id", $tire_manufacture);
+                    }
+                    if ($tire_pattern) {
+                        $q->where("pattern", $tire_pattern);
+                    }
+                    if ($type_pattern) {
+                        $q->where("type_pattern", $type_pattern);
+                    }
+                });
+            }
+            if ($tire_size) {
+                $data = $data->where("size", $tire_size);
+            }
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('pattern', function ($row) {
+                    return "$row->type_pattern - $row->pattern";
+                })
+                ->addColumn('damage', function ($row) {
+                    return "$row->damage";
+                })
+                ->addColumn('lifetime_hm', function ($row) {
+                    return number_format($row->lifetime_hm, 0, ',', '.');
+                })
+                ->addColumn('lifetime_km', function ($row) {
+                    return number_format($row->lifetime_km, 0, ',', '.');
+                })
+
+                ->make(true);
+        }
+        return view("admin.report.tire-scrap", compact('tirepattern', 'tire_manufactures', 'tire_sizes', 'tire_patterns', 'tire_pattern', 'tire_size', 'tire_manufacture', 'type_pattern'));
     }
 
     public function tireRunning(Request $request)
@@ -187,7 +253,7 @@ class ReportController extends Controller
                     return $row->lifetime_km;
                 })
                 ->addColumn('rtd', function ($row) {
-                    return $row->rtd;
+                    return number_format($row->rtd, 2, '.', ',');
                 })
                 ->addColumn('manufacture', function ($row) {
                     return $row->manufacture;
@@ -207,12 +273,12 @@ class ReportController extends Controller
                         if ($rtd === 0) {
                             return null; // Atau return nilai default yang sesuai
                         }
-                        return round((int) $row->lifetime_km / ($rtd), 1);
+                        return number_format((int) $row->lifetime_km / ($rtd), 2, ',', '.');
                     }
                     return null; // Atau nilai default jika relasi tidak lengkap
                 })
                 ->addColumn('tur', function ($row) {
-                    return $row->tur;
+                    return number_format($row->tur, 2, '.', ',');
                 })
                 ->make(true);
         }

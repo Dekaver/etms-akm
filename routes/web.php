@@ -94,9 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Route::post('user/{id}/company', [UserController::class, 'updateCompany'])->name('user.company.update');
-    Route::get("/historytirerepaircetak", function(){
+    Route::get("/historytirerepaircetak", function () {
         return view("admin.history.historyTireRepairCetak");
-     });
+    });
 
     Route::resource('tirerunning', TireRunningController::class)->middleware('permission:TIRE_RUNNING');
 
@@ -170,6 +170,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['permission:REPORT'])->group(function () {
         Route::get('report-tire-activity', [ReportController::class, 'tireActivity'])->name('report.activity');
         Route::get('report-tire-status', [ReportController::class, 'statusTireCount'])->name('report.tirestatus');
+        Route::get('report-tire-scrap', [ReportController::class, 'scrapTireCount'])->name('report.tirescrap');
         Route::get('report-tire-target-km', [ReportController::class, 'tireTargetKm'])->name('report.tiretargetkm');
         Route::get('report-tire-running', [ReportController::class, 'tireRunning'])->name('report.tirerunning');
         Route::get('report-tire-inventory', [ReportController::class, 'tireInventory'])->name('report.tireinventory');
