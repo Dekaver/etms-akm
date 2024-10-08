@@ -422,11 +422,17 @@
             @endcan
         </div>
     </div>
+    @push('css')
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/buttons.dataTables.min.css') }}">
+    @endpush
 
     @push('js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
             integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jszip.min.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $("input[name='is_repairing']").change(function() {
@@ -436,6 +442,14 @@
                 });
                 $(function() {
                     var table = $('table.data-table').DataTable({
+                        dom: 'Bfrtlip',
+                        buttons: [{
+                                extend: 'excel',
+                                text: 'Export Excel',
+                                filename: `Tire Running ${new Date().getTime()}`
+                            },
+                            'copy', 'csv'
+                        ],
                         processing: true,
                         serverSide: true,
                         ajax: window.location.href,
