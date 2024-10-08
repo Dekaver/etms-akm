@@ -310,7 +310,7 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>KM</label>
-                                    <x-input-number class="form-control" name="hm" id="hm_create"
+                                    <x-input-number class="form-control" name="km" id="km_update"
                                         min="{{ $unit->km }}" required />
                                 </div>
                             </div>
