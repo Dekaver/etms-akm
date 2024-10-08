@@ -446,12 +446,12 @@
                         buttons: [{
                                 extend: 'excel',
                                 text: 'Export Excel',
-                                filename: `Tire Running ${new Date().getTime()}`
+                                filename: `Tire Master ${new Date().getTime()}`
                             },
                             'copy', 'csv'
                         ],
                         processing: true,
-                        serverSide: true,
+                        serverSide: false,
                         ajax: window.location.href,
                         columns: [{
                                 data: 'DT_RowIndex',
