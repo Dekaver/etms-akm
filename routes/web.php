@@ -24,9 +24,12 @@ use App\Http\Controllers\UnitModelController;
 use App\Http\Controllers\TireRepairController;
 use App\Http\Controllers\TireRunningController;
 use App\Http\Controllers\DailyInspectController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\HistoryTireController;
 use App\Http\Controllers\HistoryTireRepairController;
+use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\TeknisiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +77,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
     Route::resource('tiretargetkm', TireTargetKmController::class)->middleware('permission:TIRE_TARGETKM');
     Route::resource('driver', DriverController::class)->middleware('permission:DRIVER');
+    Route::resource('jabatan', JabatanController::class)->middleware('permission:JABATAN');
+    Route::resource('department', DepartmentController::class)->middleware('permission:DEPARTMENT');
+    Route::resource('teknisi', TeknisiController::class)->middleware('permission:TEKNISI');
 
 
 

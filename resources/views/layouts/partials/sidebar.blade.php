@@ -126,6 +126,18 @@
                             <li><a href="/driver" class="{{ Request::routeIs('driver.*') ? 'active' : '' }}">
                                     Data Driver</a></li>
                         @endcan
+                        @can('JABATAN')
+                            <li><a href="/jabatan" class="{{ Request::routeIs('jabatan.*') ? 'active' : '' }}">
+                                    Data Jabatan</a></li>
+                        @endcan
+                        @can('DEPARTMENT')
+                            <li><a href="/department" class="{{ Request::routeIs('department.*') ? 'active' : '' }}">
+                                    Data Department</a></li>
+                        @endcan
+                        @can('TEKNISI')
+                            <li><a href="/teknisi" class="{{ Request::routeIs('teknisi.*') ? 'active' : '' }}">
+                                    Data Teknisi</a></li>
+                        @endcan
                     </ul>
                 </li>
                 <li class="submenu">
