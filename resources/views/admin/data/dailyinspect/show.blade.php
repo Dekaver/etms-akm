@@ -418,7 +418,9 @@
                                     <select class="js-example-basic-multiple" id="foreman3" name="foreman[]"
                                         multiple="multiple">
                                         @foreach ($teknisi as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                            <option value="{{ $item->id }}"
+                                                {{ in_array($item->id, $selectedForemans ?? []) ? 'selected' : '' }}>
+                                                {{ $item->nama }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">Please fill a foreman.</div>
@@ -431,7 +433,9 @@
                                     <select class="js-example-basic-multiple" id="man_power3" name="manpower[]"
                                         multiple="multiple">
                                         @foreach ($teknisi as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                            <option value="{{ $item->id }}"
+                                                {{ in_array($item->id, $selectedManpowers ?? []) ? 'selected' : '' }}>
+                                                {{ $item->nama }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">Please fill a pic man power.</div>
@@ -479,10 +483,6 @@
     @push('js')
         <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
         <script type="text/javascript">
-            $(document).ready(function() {
-                $('#foreman3').select2();
-                $('#man_power3').select2();
-            });
             var id_unit = @json($unit->id);
             $(function() {
                 var table = $('table.data-table').DataTable({
@@ -549,9 +549,6 @@
                 var button = $(event.relatedTarget);
                 var modal = $(this);
                 var id = button.data('id');
-                $('#foreman3').select2('destroy').select2();
-                $('#man_power3').select2('destroy').select2();
-
 
                 $.ajax({
                     method: "GET",
@@ -572,13 +569,8 @@
                     modal.find("input[name='end_date']").val(response.end_date ?? '');
                     modal.find("select[name='driver_id']").val(response.driver_id ?? '');
                     modal.find("select[name='pic_id']").val(response.pic_id ?? '');
-
-                    // Set selected options for foreman and manpower
-                    $('#foreman3').val(response.selectedForeman).select().trigger('change');
-                    $('#man_power3').val(response.selectedManPower).select().trigger('change');
-
-                    console.log('Selected Foreman:', response.selectedForeman);
-                    console.log('Selected Manpower:', response.selectedManPower);
+                    $('#foreman3').val(response.selectedForemans).trigger('change');
+                    $('#man_power3').val(response.selectedManpowers).trigger('change');
 
                     // Kosongkan tabel inspeksi ban sebelum menambahkan data baru
                     $('#table-tire-inspection-edit tbody').empty();

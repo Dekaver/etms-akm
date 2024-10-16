@@ -309,8 +309,8 @@ class DailyInspectController extends Controller
             ->with(['details.tire', 'foremans', 'manpowers'])
             ->first();
 
-        $data->selectedForeman = $data->foremans->pluck('id')->toArray();
-        $data->selectedManPower = $data->manpowers->pluck('id')->toArray();
+        $data->selectedForemans = $data->foremans->pluck('teknisi_id')->toArray();
+        $data->selectedManpowers = $data->manpowers->pluck('teknisi_id')->toArray();
 
         return response()->json($data);
     }
