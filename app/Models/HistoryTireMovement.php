@@ -37,6 +37,7 @@ class HistoryTireMovement extends Model
         "status_schedule",
         "lokasi_breakdown",
         "driver_id",
+        "pic_id",
     ];
 
     public function tire_number()
@@ -61,5 +62,13 @@ class HistoryTireMovement extends Model
     public function tire_damage()
     {
         return $this->belongsTo(TireDamage::class);
+    }
+    function foremans()
+    {
+        return $this->hasMany(HistoryTireMovementForeman::class);
+    }    
+    function manpowers()
+    {
+        return $this->hasMany(HistoryTireMovementManPower::class);
     }
 }

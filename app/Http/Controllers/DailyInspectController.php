@@ -6,13 +6,17 @@ use App\Exports\ReportDailyInspect;
 use App\Imports\DailyInspectImport;
 use App\Models\DailyInspect;
 use App\Models\DailyInspectDetail;
+use App\Models\DailyInspectForeman;
+use App\Models\DailyInspectManPower;
+use App\Models\Driver;
 use App\Models\Site;
+use App\Models\Teknisi;
 use App\Models\TireDamage;
 use App\Models\TireRunning;
 use App\Models\Unit;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
@@ -29,7 +33,10 @@ class DailyInspectController extends Controller
         $tire_damages = TireDamage::where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
-            $data = Unit::where('company_id', $company->id)->where('site_id', $site->id);
+            $data = Unit::where('company_id', $company->id)
+                ->where('site_id', $site->id)
+                ->with(['dailyInspects.foremans', 'dailyInspects.manpowers']); // Load related data
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("last_update", function ($row) {
@@ -39,9 +46,12 @@ class DailyInspectController extends Controller
                     return $row->unit_status->status_code;
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = "<a class='me-3 text-warning' href='" . route('dailyinspect.show', $row->id) . "'>
-                                    <img src='assets/img/icons/edit.svg' alt='img'>
-                                </a>";
+                    $actionBtn = "<a class='me-3 text-warning' href='#' data-bs-toggle='modal' data-bs-target='#form-modal'
+                        data-id='{$row->id}'
+                        data-foremans='" . json_encode($row->dailyInspects->foremans->pluck('id')) . "'
+                        data-manpowers='" . json_encode($row->dailyInspects->manpowers->pluck('id')) . "'>
+                        <img src='assets/img/icons/edit.svg' alt='img'>
+                    </a>";
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -66,15 +76,17 @@ class DailyInspectController extends Controller
 
         $request->validate([
             'unit_id' => 'required',
-            'date' => 'required',
             'hm' => 'required|numeric|min:0',
             'km' => 'required|numeric|min:0',
-            'pic' => 'required',
-            'driver' => 'required',
+            // 'date' => 'required',
+            // 'pic' => 'required',
+            // 'driver' => 'required',
             'position' => 'required|array',
             'serial_number' => 'required|array',
             'pressure' => 'required|array',
             'rtd' => 'required|array',
+            'pic_id' => 'required',
+            'driver_id' => 'required',
         ]);
         // Ubah menjadi number from format number eg: 1.000 to 1000
         $request->hm = filter_var($request->hm, FILTER_SANITIZE_NUMBER_FLOAT);
@@ -98,12 +110,30 @@ class DailyInspectController extends Controller
                 "updated_km_unit" => $request->km,
                 "location" => $site->name,
                 "shift" => $request->shift,
-                "pic" => $request->pic,
-                "driver" => $request->driver,
-                "date" => $request->date,
-                "time" => $request->time,
+                // "pic" => $request->pic,
+                // "driver" => $request->driver,
+                // "date" => $request->date,
+                // "time" => $request->time,
+                "start_date" => $request->start_date,
+                "end_date" => $request->end_date,
+                "pic_id" => $request->pic_id,
+                "driver_id" => $request->driver_id,
             ]);
 
+
+            foreach ($request->foreman as $value) {
+                DailyInspectForeman::create([
+                    "daily_inspect_id" => $daily_inspect->id,
+                    "teknisi_id" => $value,
+                ]);
+            }
+
+            foreach ($request->manpower as $value) {
+                DailyInspectManPower::create([
+                    "daily_inspect_id" => $daily_inspect->id,
+                    "teknisi_id" => $value,
+                ]);
+            }
             // update lifetime
             if ($request->hm >= $unit->hm && $request->km >= $unit->km) {
 
@@ -199,7 +229,6 @@ class DailyInspectController extends Controller
                             "remark" => '',
                         ]);
                     }
-
                     // end update lifetime
                 }
 
@@ -231,6 +260,8 @@ class DailyInspectController extends Controller
         $company = auth()->user()->company;
         $site = auth()->user()->site;
         $sites = Site::where("company_id", $company->id)->get();
+        $driver = Driver::where("company_id", $company->id)->get();
+        $teknisi = Teknisi::where("company_id", $company->id)->get();
         $tire_damages = TireDamage::where("company_id", $company->id)->get();
         $unit = Unit::whereId($id)->with('tire_runnings.tire')->first();
         if ($request->ajax()) {
@@ -266,7 +297,7 @@ class DailyInspectController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.dailyinspect.show", compact("tire_damages", "sites", "unit"));
+        return view("admin.data.dailyinspect.show", compact("teknisi", "driver", "tire_damages", "sites", "unit"));
     }
 
     /**
@@ -274,9 +305,14 @@ class DailyInspectController extends Controller
      */
     public function edit($dailyinspect)
     {
-        $data = DailyInspect::whereId($dailyinspect)->with("details.tire")->first()->toArray();
+        $data = DailyInspect::whereId($dailyinspect)
+            ->with(['details.tire', 'foremans', 'manpowers'])
+            ->first();
 
-        return $data;
+        $data->selectedForeman = $data->foremans->pluck('id')->toArray();
+        $data->selectedManPower = $data->manpowers->pluck('id')->toArray();
+
+        return response()->json($data);
     }
 
     /**
@@ -286,11 +322,11 @@ class DailyInspectController extends Controller
     {
         $request->validate([
             'unit_id' => 'required',
-            'date' => 'required',
             'hm' => 'required|numeric|min:0',
             'km' => 'required|numeric|min:0',
-            'pic' => 'required',
-            'driver' => 'required',
+            // 'date' => 'required',
+            // 'pic' => 'required',
+            // 'driver' => 'required',
             'position' => 'required|array',
             'serial_number' => 'required|array',
             'pressure' => 'required|array',
@@ -322,10 +358,31 @@ class DailyInspectController extends Controller
             $dailyinspect->updated_hm_unit = $request->hm;
             $dailyinspect->updated_km_unit = $request->km;
             $dailyinspect->shift = $request->shift;
-            $dailyinspect->pic = $request->pic;
-            $dailyinspect->driver = $request->driver;
-            $dailyinspect->date = $request->date;
-            $dailyinspect->time = $request->time;
+            // $dailyinspect->pic = $request->pic;
+            // $dailyinspect->driver = $request->driver;
+            // $dailyinspect->date = $request->date;
+            // $dailyinspect->time = $request->time;
+            $dailyinspect->pic_id = $request->pic_id;
+            $dailyinspect->driver_id = $request->driver_id;
+            $dailyinspect->start_date = $request->start_date;
+            $dailyinspect->end_date = $request->end_date;
+
+            DailyInspectForeman::where('daily_inspect_id', $dailyinspect->id)->delete();
+            DailyInspectManPower::where('daily_inspect_id', $dailyinspect->id)->delete();
+            foreach ($request->foreman as $value) {
+                DailyInspectForeman::create([
+                    "daily_inspect_id" => $dailyinspect->id,
+                    "teknisi_id" => $value,
+                ]);
+            }
+
+            foreach ($request->manpower as $value) {
+                DailyInspectManPower::create([
+                    "daily_inspect_id" => $dailyinspect->id,
+                    "teknisi_id" => $value,
+                ]);
+            }
+
             $dailyinspect->save();
 
             if ($request->hm >= $unit->hm || $request->km >= $unit->km) {
@@ -347,7 +404,6 @@ class DailyInspectController extends Controller
                     if (($is_selected = $request->has("is_selected.{$running->position}"))) {
                         $diff_hm = (int) $request->hm - (int) $tire->last_update_hm_unit;
                         $diff_km = (int) $request->km - (int) $tire->last_update_km_unit;
-
                     } else if (!($is_selected = $request->has("is_selected.{$running->position}")) && $daily_inspect_detail->is_selected) {
 
                         $diff_hm = (int) $daily_inspect_detail->diff_hm * -1;
@@ -489,6 +545,8 @@ class DailyInspectController extends Controller
             $unit->save();
 
             $dailyinspect->details()->delete();
+            DailyInspectForeman::where('daily_inspect_id', $dailyinspect->id)->delete();
+            DailyInspectManPower::where('daily_inspect_id', $dailyinspect->id)->delete();
             $dailyinspect->delete();
 
             // Jika semuanya berhasil, commit transaksi
@@ -499,7 +557,6 @@ class DailyInspectController extends Controller
             return "Transaction failed: " . $e->getMessage();
         }
         return redirect()->back()->with("success", "Deleted Daily Inspect");
-
     }
 
     public function export(Request $request)
@@ -516,5 +573,4 @@ class DailyInspectController extends Controller
 
         return Excel::download(new ReportDailyInspect($date, $site), 'daily_report.xlsx');
     }
-
 }

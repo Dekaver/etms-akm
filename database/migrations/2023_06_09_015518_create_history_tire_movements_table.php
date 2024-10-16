@@ -27,8 +27,8 @@ return new class extends Migration {
             $table->integer("hm_tire_install")->default(0);
             $table->integer("km_tire_remove")->default(0);
             $table->integer("hm_tire_remove")->default(0);
-            $table->string("pic");
-            $table->string("pic_man_power");
+            $table->string("pic")->nullable();
+            $table->string("pic_man_power")->nullable();
             $table->string("des");
             $table->dateTime("start_date");
             $table->dateTime("end_date");

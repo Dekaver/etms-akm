@@ -57,14 +57,14 @@
             }
 
             /* .droppableSwitch {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        width: 90px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius: 5%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 150px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px black solid;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    width: 90px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 5%;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 150px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border: 1px black solid;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
             .form-group {
                 margin-bottom: 10px;
@@ -617,14 +617,43 @@
                                         </select>
                                         <div class="invalid-feedback">Please fill a lokasi breakdown.</div>
                                     </div>
-                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+
+                                    <div class="form-group mb-3 col-12 col-sm-4 col-md-4 col-lg-4">
                                         <label for="">PIC Leader</label>
-                                        <input type="text" name="pic" class="form-control" required>
+                                        <select class="form-select" name="pic_id" required>
+                                            <option value=""></option>
+                                            @foreach ($teknisi as $item)
+                                                <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                                    {{ $item->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         <div class="invalid-feedback">Please fill a pic leader.</div>
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                        <label for="">Foreman</label>
+                                        {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                        <select class="js-example-basic-multiple" id="foreman" name="foreman[]"
+                                            multiple="multiple">
+                                            @foreach ($teknisi as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">Please fill a foreman.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                         <label for="">PIC Man Power</label>
-                                        <input type="text" name="pic_man_power" class="form-control" required>
+                                        {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                        <select class="js-example-basic-multiple" id="man_power" name="manpower[]"
+                                            multiple="multiple">
+                                            @foreach ($teknisi as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         <div class="invalid-feedback">Please fill a pic man power.</div>
                                     </div>
                                 </div>
@@ -723,7 +752,7 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Tire Damage</label>
-                                <select class="form-control" name="tire_damage_id" required>
+                                <select class="form-select" name="tire_damage_id" required>
                                     <option value="">Pilih Tire Damage</option>
                                     @foreach ($tire_damage as $item)
                                         <option value="{{ $item->id }}">{{ $item->damage }}</option>
@@ -755,7 +784,7 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Status Schedule</label>
-                                <select name="status_schedule" required class="form-control">
+                                <select name="status_schedule" required class="form-select">
                                     <option value="">Pilih Status Schedule</option>
                                     <option value="Schedule">Schedule</option>
                                     <option value="Unschedule">Unschedule</option>
@@ -764,7 +793,7 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Lokasi Breakdown</label>
-                                <select name="lokasi_breakdown" required class="form-control">
+                                <select name="lokasi_breakdown" required class="form-select">
                                     <option value="">Pilih Lokasi</option>
                                     <option value="Workshop">Workshop</option>
                                     <option value="Lapangan">Lapangan</option>
@@ -775,7 +804,7 @@
 
                             <div class="form-group mb-3 col-12 col-sm-4 col-md-4 col-lg-4">
                                 <label for="">Driver</label>
-                                <select class="form-control" name="driver_id" required>
+                                <select class="form-select" name="driver_id" required>
                                     <option value="">Pilih Driver</option>
                                     @foreach ($driver as $item)
                                         <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -784,12 +813,40 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-4 col-md-4 col-lg-4">
                                 <label for="">PIC Leader</label>
-                                <input type="text" name="pic" class="form-control" required>
+                                <select class="form-select" name="pic_id" required>
+                                    <option value=""></option>
+                                    @foreach ($teknisi as $item)
+                                        <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <div class="invalid-feedback">Please fill a pic leader.</div>
                             </div>
-                            <div class="form-group mb-3 col-12 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                <label for="">Foreman</label>
+                                {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                <select class="js-example-basic-multiple" id="foreman2" name="foreman[]"
+                                    multiple="multiple">
+                                    @foreach ($teknisi as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">Please fill a foreman.</div>
+                            </div>
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">PIC Man Power</label>
-                                <input type="text" name="pic_man_power" class="form-control" required>
+                                {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                <select class="js-example-basic-multiple" id="man_power2" name="manpower[]"
+                                    multiple="multiple">
+                                    @foreach ($teknisi as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <div class="invalid-feedback">Please fill a pic man power.</div>
                             </div>
                         </div>
@@ -906,14 +963,42 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group mb-3 col-12 col-sm-4 col-md-4 col-lg-4">
                                 <label for="">PIC Leader</label>
-                                <input type="text" name="pic" class="form-control" required>
+                                <select class="form-select" name="pic_id" required>
+                                    <option value=""></option>
+                                    @foreach ($teknisi as $item)
+                                        <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <div class="invalid-feedback">Please fill a pic leader.</div>
                             </div>
-                            <div class="form-group  col-md-4">
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
+                                <label for="">Foreman</label>
+                                {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                <select class="js-example-basic-multiple" id="foreman3" name="foreman[]"
+                                    multiple="multiple">
+                                    @foreach ($teknisi as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">Please fill a foreman.</div>
+                            </div>
+                            <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">PIC Man Power</label>
-                                <input type="text" name="pic_man_power" class="form-control" required>
+                                {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                <select class="js-example-basic-multiple" id="man_power3" name="manpower[]"
+                                    multiple="multiple">
+                                    @foreach ($teknisi as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <div class="invalid-feedback">Please fill a pic man power.</div>
                             </div>
                         </div>

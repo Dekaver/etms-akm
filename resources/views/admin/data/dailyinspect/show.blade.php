@@ -117,16 +117,24 @@
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
-                                    <label>Date</label>
+                                    {{-- <label>Date</label>
                                     <input type="date" name="date" class="form-control"
-                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required> --}}
+                                    <label for="">Start</label>
+                                    <input type="datetime-local" name="start_date" class="form-control"
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                    <div class="invalid-feedback">Please fill a time start.</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
-                                    <label>Time</label>
+                                    {{-- <label>Time</label>
                                     <input type="time" name="time" class="form-control"
-                                        value="{{ \Carbon\Carbon::now()->format('h:i') }}" required>
+                                        value="{{ \Carbon\Carbon::now()->format('h:i') }}" required> --}}
+                                    <label for="">End</label>
+                                    <input type="datetime-local" name="end_date" class="form-control"
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                    <div class="invalid-feedback">Please fill a time end.</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -143,16 +151,66 @@
                                         min="{{ $unit->km }}" required />
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-6">
+                            {{-- <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Tyre Man</label>
                                     <input type="text" name="pic" required>
                                 </div>
-                            </div>
+                            </div> --}}
+
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Driver</label>
-                                    <input type="text" name="driver" required>
+                                    <select class="form-select" name="driver_id" required>
+                                        <option value="">Pilih Driver</option>
+                                        @foreach ($driver as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label for="">PIC Leader</label>
+                                    <select class="form-select" name="pic_id" required>
+                                        <option value=""></option>
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                                {{ $item->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please fill a pic leader.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label for="">Foreman</label>
+                                    {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                    <select class="js-example-basic-multiple" id="foreman" name="foreman[]"
+                                        multiple="multiple">
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please fill a foreman.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label for="">PIC Man Power</label>
+                                    {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                    <select class="js-example-basic-multiple" id="man_power" name="manpower[]"
+                                        multiple="multiple">
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please fill a pic man power.</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -290,14 +348,22 @@
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
-                                    <label>Date</label>
-                                    <input type="date" name="date" class="form-control" required>
+                                    {{-- <label>Date</label>
+                                    <input type="date" name="date" class="form-control" required> --}}
+                                    <label for="">Start</label>
+                                    <input type="datetime-local" name="start_date" class="form-control"
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                    <div class="invalid-feedback">Please fill a time start.</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
-                                    <label>Time</label>
-                                    <input type="time" name="time" class="form-control" required>
+                                    {{-- <label>Time</label>
+                                    <input type="time" name="time" class="form-control" required> --}}
+                                    <label for="">End</label>
+                                    <input type="datetime-local" name="end_date" class="form-control"
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                    <div class="invalid-feedback">Please fill a time end.</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -314,16 +380,61 @@
                                         min="{{ $unit->km }}" required />
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-6">
+                            {{-- <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Tyre Man</label>
                                     <input class="form-control" type="text" name="pic" required>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Driver</label>
-                                    <input type="text" name="driver" required>
+                                    <select class="form-control" name="driver_id" required>
+                                        <option value="">Pilih Driver</option>
+                                        @foreach ($driver as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label for="">PIC Leader</label>
+                                    <select class="form-select" name="pic_id" required>
+                                        <option value=""></option>
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                                {{ $item->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please fill a pic leader.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label for="">Foreman</label>
+                                    {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                    <select class="js-example-basic-multiple" id="foreman3" name="foreman[]"
+                                        multiple="multiple">
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please fill a foreman.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="form-group">
+                                    <label for="">PIC Man Power</label>
+                                    {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
+                                    <select class="js-example-basic-multiple" id="man_power3" name="manpower[]"
+                                        multiple="multiple">
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please fill a pic man power.</div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -364,8 +475,14 @@
         </form>
     </div>
 
+
     @push('js')
+        <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
         <script type="text/javascript">
+            $(document).ready(function() {
+                $('#foreman3').select2();
+                $('#man_power3').select2();
+            });
             var id_unit = @json($unit->id);
             $(function() {
                 var table = $('table.data-table').DataTable({
@@ -429,15 +546,18 @@
             });
 
             $('#form-modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var post = button.data('post');
-                var modal = $(this)
-
+                var button = $(event.relatedTarget);
+                var modal = $(this);
                 var id = button.data('id');
+                $('#foreman3').select2('destroy').select2();
+                $('#man_power3').select2('destroy').select2();
+
+
                 $.ajax({
                     method: "GET",
                     url: `{{ route('dailyinspect.index') }}/${id}/edit`
                 }).done(function(response) {
+                    // Isi field form umum
                     modal.find("input[name='date']").val(response.date ?? '');
                     modal.find("input[name='time']").val(response.time ?? '');
                     modal.find("input[name='pic']").val(response.pic ?? '');
@@ -445,96 +565,114 @@
                     modal.find("input[name='shift']").val(response.shift ?? '');
                     modal.find("input[name='km']").val(response.updated_km_unit ?? '');
                     modal.find("input[name='hm']").val(response.updated_hm_unit ?? '');
-                    modal.find("input[name='km']").prop("min", response.km_unit)
-                    modal.find("input[name='hm']").prop("min", response.hm_unit)
-                    $('#table-tire-inspection-edit tbody').empty();
-                    var tire_damage = `
-                            <td>
-                                <select class="form-control">
-                                    <option value="">Tire damage</option>
-                                    @foreach ($tire_damages as $item)
-                                    <option value="{{ $item->id }}">{{ $item->damage }}</option>
-                                    @endforeach
-                                </select>
-                            </td>`;
-                    var condition = `
-                            <td>
-                                <select class="form-control">
-                                    <option>Good</option>
-                                    <option>Bad</option>
-                                </select>
-                            </td>`;
-                    var check = `
-                            <td class="text-center">
-                                <input type="checkbox" checked>
-                            </td>`;
-                    var text = `
-                            <td>
-                                <input class="form-control" type="text">
-                            </td>`;
-                    $.each(response.details, function(i, v) {
-                        // let tire_damage_new = $(tire_damage).clone();
-                        // tire_damage_new.find('select').val(v.tire_damage_id);
-                        // tire_damage_new.find('select').attr('name', `tire_damage_id[${v.position}]`)
+                    modal.find("input[name='km']").prop("min", response.km_unit);
+                    modal.find("input[name='hm']").prop("min", response.hm_unit);
 
+                    modal.find("input[name='start_date']").val(response.start_date ?? '');
+                    modal.find("input[name='end_date']").val(response.end_date ?? '');
+                    modal.find("select[name='driver_id']").val(response.driver_id ?? '');
+                    modal.find("select[name='pic_id']").val(response.pic_id ?? '');
+
+                    // Set selected options for foreman and manpower
+                    $('#foreman3').val(response.selectedForeman).select().trigger('change');
+                    $('#man_power3').val(response.selectedManPower).select().trigger('change');
+
+                    console.log('Selected Foreman:', response.selectedForeman);
+                    console.log('Selected Manpower:', response.selectedManPower);
+
+                    // Kosongkan tabel inspeksi ban sebelum menambahkan data baru
+                    $('#table-tire-inspection-edit tbody').empty();
+
+                    // Template elemen yang akan digunakan berulang
+                    var tire_damage = `
+            <td>
+                <select class="form-control">
+                    <option value="">Tire damage</option>
+                    @foreach ($tire_damages as $item)
+                    <option value="{{ $item->id }}">{{ $item->damage }}</option>
+                    @endforeach
+                </select>
+            </td>`;
+                    var condition = `
+            <td>
+                <select class="form-control">
+                    <option>Good</option>
+                    <option>Bad</option>
+                </select>
+            </td>`;
+                    var check = `
+            <td class="text-center">
+                <input type="checkbox" checked>
+            </td>`;
+                    var text = `
+            <td>
+                <input class="form-control" type="text">
+            </td>`;
+
+                    // Isi tabel dengan data detail inspeksi ban
+                    $.each(response.details, function(i, v) {
+                        // Generate elemen yang bisa diulang
                         let tire = $(condition).clone();
-                        // tube.find('select').val(v.tube);
-                        tire.find('select').attr('name', `tire_condition[${v.position}]`)
+                        tire.find('select').attr('name', `tire_condition[${v.position}]`);
 
                         let tube = $(condition).clone();
                         tube.find('select').val(v.tube);
-                        tube.find('select').attr('name', `tire_tube[${v.position}]`)
-
+                        tube.find('select').attr('name', `tire_tube[${v.position}]`);
 
                         let flap = $(condition).clone();
                         flap.find('select').val(v.flap);
-                        flap.find('select').attr('name', `tire_flap[${v.position}]`)
+                        flap.find('select').attr('name', `tire_flap[${v.position}]`);
 
                         let rim = $(condition).clone();
                         rim.find('select').val(v.rim);
-                        rim.find('select').attr('name', `tire_rim[${v.position}]`)
+                        rim.find('select').attr('name', `tire_rim[${v.position}]`);
 
                         let t_pentil = $(check).clone();
-
                         t_pentil.find('input').prop('checked', v.t_pentil == "1" ? true : false);
-                        t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`)
+                        t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`);
 
                         let remark = $(text).clone();
                         remark.find('input').val(v.remark);
-                        remark.find('input').attr('name', `remark[${v.position}]`)
+                        remark.find('input').attr('name', `remark[${v.position}]`);
 
+                        // Buat baris baru untuk setiap detail ban
                         var tr = $('<tr>').html(`
-                                <td ${$("#full_tire_edit").is(':checked')?'style="display: none;':'' }">
-                                                <input type="checkbox" ${v.is_selected == 1 ? 'checked' : ''}
-                                                    name="is_selected[${v.position}]">
-                                </td>
-                                <td>
-                                    ${v.position}
-                                    <input type="hidden" name="position[${v.position}]" value="${v.position}">
-                                    </td>
-                                <td>${v.tire.serial_number}
-                                    <input type="hidden" name="serial_number[${v.position}]" value="${v.tire.serial_number}">
-                                    </td>
-                                <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.pressure ?? 0 }"></td>
-                                <td><input class="form-control" type="number" name="rtd[${v.position}]" step="0.1" value="${v.rtd}"></td>
-                                `);
+                <td ${$("#full_tire_edit").is(':checked') ? 'style="display: none;"' : '' }>
+                    <input type="checkbox" ${v.is_selected == 1 ? 'checked' : ''}
+                        name="is_selected[${v.position}]">
+                </td>
+                <td>
+                    ${v.position}
+                    <input type="hidden" name="position[${v.position}]" value="${v.position}">
+                </td>
+                <td>${v.tire.serial_number}
+                    <input type="hidden" name="serial_number[${v.position}]" value="${v.tire.serial_number}">
+                </td>
+                <td><input class="form-control" type="number" name="pressure[${v.position}]" value="${v.pressure ?? 0}"></td>
+                <td><input class="form-control" type="number" name="rtd[${v.position}]" step="0.1" value="${v.rtd}"></td>
+            `);
+
+                        // Tambahkan elemen ke dalam baris
                         tire.appendTo(tr);
                         tube.appendTo(tr);
                         flap.appendTo(tr);
                         rim.appendTo(tr);
                         t_pentil.appendTo(tr);
                         remark.appendTo(tr);
-                        // tire_damage_new.appendTo(tr);
+
+                        // Tambahkan baris ke dalam tabel
                         tr.appendTo("#table-tire-inspection-edit tbody");
+
                         if (v.is_selected == false) {
-                            $("#full_tire_edit").prop('checked', false).trigger('change')
+                            $("#full_tire_edit").prop('checked', false).trigger('change');
                         }
                     });
+
+                    // Set form action untuk update
+                    modal.find('form').attr('action', `{{ route('dailyinspect.index') }}/${id}`);
                 });
-                modal.find('form').attr('action', `{{ route('dailyinspect.index') }}/${id}`)
-
-
             });
+
 
             $('#form-modal').on('hide.bs.modal', function(event) {
                 $(this).find('form')[0].reset();

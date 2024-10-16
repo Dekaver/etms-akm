@@ -23,6 +23,10 @@ class DailyInspect extends Model
         "driver",
         "date",
         "time",
+        "pic_id",
+        "driver_id",
+        "start_date",
+        "end_date",
     ];
 
     protected $casts = [
@@ -47,5 +51,14 @@ class DailyInspect extends Model
     function details()
     {
         return $this->hasMany(DailyInspectDetail::class);
+    }
+
+    function foremans()
+    {
+        return $this->hasMany(DailyInspectForeman::class);
+    }    
+    function manpowers()
+    {
+        return $this->hasMany(DailyInspectManPower::class);
     }
 }

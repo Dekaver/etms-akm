@@ -11,6 +11,11 @@ use App\Models\TireRunning;
 use App\Models\TireStatus;
 use App\Models\Unit;
 use App\Models\Driver;
+use App\Models\HistoryTireMovementForeman;
+use App\Models\HistoryTireMovementManPower;
+use App\Models\Teknisi;
+use App\Models\TireMovementForeman;
+use App\Models\TireMovementManPower;
 use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -80,8 +85,8 @@ class TireRunningController extends Controller
                 'hm' => "required",
                 'km' => "required",
                 'explanation' => "required",
-                'pic' => "required",
-                'pic_man_power' => "required",
+                // 'pic' => "required",
+                // 'pic_man_power' => "required",
             ],
         );
 
@@ -90,7 +95,7 @@ class TireRunningController extends Controller
                 $unit = Unit::find($request->unit_id);
                 $tire = TireMaster::findOrFail($request->tire_id);
 
-                HistoryTireMovement::create([
+                $dataHistoryTireMovement = HistoryTireMovement::create([
                     "user_id" => auth()->id(),
                     "company_id" => $company->id,
                     "site_id" => auth()->user()->site->id,
@@ -100,8 +105,8 @@ class TireRunningController extends Controller
                     "status" => $tire->tire_status->status,
                     "km_unit" => $unit->km,
                     "hm_unit" => $unit->hm,
-                    "pic" => $request->pic,
-                    "pic_man_power" => $request->pic_man_power,
+                    // "pic" => $request->pic,
+                    // "pic_man_power" => $request->pic_man_power,
                     "des" => $request->explanation,
                     "process" => "INSTALL",
                     "km_tire" => $tire->lifetime_km,
@@ -113,8 +118,23 @@ class TireRunningController extends Controller
                     "status_schedule" => $request->status_schedule,
                     "lokasi_breakdown" => $request->lokasi_breakdown,
                     "driver_id" => $request->driver_id,
+                    "pic_id" => $request->pic_id,
                 ]);
 
+
+                foreach ($request->foreman as $value) {
+                    HistoryTireMovementForeman::create([
+                        "history_tire_movement_id" => $dataHistoryTireMovement->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
+
+                foreach ($request->manpower as $value) {
+                    HistoryTireMovementManPower::create([
+                        "history_tire_movement_id" => $dataHistoryTireMovement->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
 
                 $tirerunning = TireRunning::create([
                     "unit_id" => $unit->id,
@@ -124,7 +144,7 @@ class TireRunningController extends Controller
                     "position" => $request->position,
                 ]);
 
-                TireMovement::create([
+                $dataTireMovement = TireMovement::create([
                     "tire_running_id" => $tirerunning->id,
                     "hm" => $request->hm,
                     "km" => $request->km,
@@ -135,11 +155,27 @@ class TireRunningController extends Controller
                     "rtd" => $tire->rtd,
                     "start_date" => $request->start_date,
                     "end_date" => $request->end_date,
-                    "pic" => $request->pic,
-                    "pic_man_power" => $request->pic_man_power,
+                    // "pic" => $request->pic,
+                    // "pic_man_power" => $request->pic_man_power,
                     "desc" => $request->explanation,
                     "driver_id" => $request->driver_id,
+                    "pic_id" => $request->pic_id,
                 ]);
+
+
+                foreach ($request->foreman as $value) {
+                    TireMovementForeman::create([
+                        "tire_movement_id" => $dataTireMovement->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
+
+                foreach ($request->manpower as $value) {
+                    TireMovementManPower::create([
+                        "tire_movement_id" => $dataTireMovement->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
             });
             // redirect the page
             return redirect()->back()->with('success', "install tire");
@@ -191,9 +227,10 @@ class TireRunningController extends Controller
         $tire_damage = TireDamage::where('company_id', $unit->company_id)->get();
         $tire_status = TireStatus::all();
 
+        $teknisi = Teknisi::where('company_id', $unit->company_id)->get();
         // $trailermovement = HistoryTrailerMovement::where('unit_install', $unit->unit_number)->orderBy('date_end', 'desc')->get();
 
-        return view("admin.data.tireMovementEdit", compact("driver", "tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
+        return view("admin.data.tireMovementEdit", compact('teknisi', "driver", "tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
     }
 
     /**
@@ -299,7 +336,7 @@ class TireRunningController extends Controller
                     "tire_damage_id" => $request->tire_damage_id_2,
                 ]);
 
-                HistoryTireMovement::create([
+                $dataHistoryTireMovement = HistoryTireMovement::create([
                     "user_id" => auth()->id(),
                     "company_id" => $company->id,
                     "site_id" => auth()->user()->site->id,
@@ -310,8 +347,8 @@ class TireRunningController extends Controller
                     "status" => $tire_1->tire_status->status,
                     "km_unit" => $unit->km,
                     "hm_unit" => $unit->hm,
-                    "pic" => $request->pic,
-                    "pic_man_power" => $request->pic_man_power,
+                    // "pic" => $request->pic,
+                    // "pic_man_power" => $request->pic_man_power,
                     "des" => $request->explanation,
                     "process" => "ROTATION",
                     "km_tire" => $tire_1->lifetime_km,
@@ -323,9 +360,24 @@ class TireRunningController extends Controller
                     "status_schedule" => $request->status_schedule,
                     "lokasi_breakdown" => $request->lokasi_breakdown,
                     "driver_id" => $request->driver_id,
+                    "pic_id" => $request->pic_id,
                 ]);
 
-                HistoryTireMovement::create([
+                foreach ($request->foreman as $value) {
+                    HistoryTireMovementForeman::create([
+                        "history_tire_movement_id" => $dataHistoryTireMovement->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
+
+                foreach ($request->manpower as $value) {
+                    HistoryTireMovementManPower::create([
+                        "history_tire_movement_id" => $dataHistoryTireMovement->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
+
+                $dataHistoryTireMovement2 = HistoryTireMovement::create([
                     "user_id" => auth()->id(),
                     "company_id" => $company->id,
                     "site_id" => auth()->user()->site->id,
@@ -336,8 +388,8 @@ class TireRunningController extends Controller
                     "status" => $tire_2->tire_status->status,
                     "km_unit" => $unit->km,
                     "hm_unit" => $unit->hm,
-                    "pic" => $request->pic,
-                    "pic_man_power" => $request->pic_man_power,
+                    // "pic" => $request->pic,
+                    // "pic_man_power" => $request->pic_man_power,
                     "des" => $request->explanation,
                     "process" => "ROTATION",
                     "km_tire" => $tire_2->lifetime_km,
@@ -349,7 +401,23 @@ class TireRunningController extends Controller
                     "status_schedule" => $request->status_schedule,
                     "lokasi_breakdown" => $request->lokasi_breakdown,
                     "driver_id" => $request->driver_id,
+                    "pic_id" => $request->pic_id,
                 ]);
+
+
+                foreach ($request->foreman as $value) {
+                    HistoryTireMovementForeman::create([
+                        "history_tire_movement_id" => $dataHistoryTireMovement2->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
+
+                foreach ($request->manpower as $value) {
+                    HistoryTireMovementManPower::create([
+                        "history_tire_movement_id" => $dataHistoryTireMovement2->id,
+                        "teknisi_id" => $value,
+                    ]);
+                }
 
                 // dd($tire_1->tire_running);
                 // dd($request);
@@ -380,10 +448,7 @@ class TireRunningController extends Controller
             "start_breakdown" => "required",
             "status_schedule" => "required",
             "lokasi_breakdown" => "required",
-            "pic" => "required",
-            "pic_man_power" => "required"
         ]);
-
         $company = auth()->user()->company;
         DB::beginTransaction();
         try {
@@ -436,7 +501,7 @@ class TireRunningController extends Controller
             $tire->tire_damage_id = $request->tire_damage_id;
             $tire->save();
 
-            HistoryTireMovement::create([
+            $dataHistoryTireMovement = HistoryTireMovement::create([
                 "user_id" => auth()->id(),
                 "company_id" => $company->id,
                 "site_id" => auth()->user()->site->id,
@@ -447,8 +512,8 @@ class TireRunningController extends Controller
                 "status" => $tire->tire_status->status,
                 "km_unit" => $unit->km,
                 "hm_unit" => $unit->hm,
-                "pic" => $request->pic,
-                "pic_man_power" => $request->pic_man_power,
+                // "pic" => $request->pic,
+                // "pic_man_power" => $request->pic_man_power,
                 "des" => $request->explanation,
                 "process" => "REMOVE",
                 "km_tire" => $tire->lifetime_km,
@@ -464,8 +529,22 @@ class TireRunningController extends Controller
                 "status_schedule" => $request->status_schedule,
                 "lokasi_breakdown" => $request->lokasi_breakdown,
                 "driver_id" => $request->driver_id,
+                "pic_id" => $request->pic_id,
             ]);
 
+            foreach ($request->foreman as $value) {
+                HistoryTireMovementForeman::create([
+                    "history_tire_movement_id" => $dataHistoryTireMovement->id,
+                    "teknisi_id" => $value,
+                ]);
+            }
+
+            foreach ($request->manpower as $value) {
+                HistoryTireMovementManPower::create([
+                    "history_tire_movement_id" => $dataHistoryTireMovement->id,
+                    "teknisi_id" => $value,
+                ]);
+            }
             // remove tire
             $tirerunning->delete();
             // redirect the page

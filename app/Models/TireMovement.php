@@ -29,6 +29,7 @@ class TireMovement extends Model
         "status_schedule",
         "lokasi_breakdown",
         "driver_id",
+        "pic_id"
     ];
 
 
@@ -37,4 +38,12 @@ class TireMovement extends Model
         return $this->belongsTo(Driver::class);
     }
 
+    function foremans()
+    {
+        return $this->hasMany(TireMovementForeman::class);
+    }    
+    function manpowers()
+    {
+        return $this->hasMany(TireMovementManPower::class);
+    }
 }
