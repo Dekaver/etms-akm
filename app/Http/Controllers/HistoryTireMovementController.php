@@ -56,6 +56,7 @@ class HistoryTireMovementController extends Controller
                     $actionBtn = "
                         <a href='" . route('historytiremovement.tiremovement', $row->id) . "' class='btn btn-sm btn-primary text-white'>MOVEMENT</a>
                         <a href='" . route('historytiremovement.tireinspect', $row->id) . "' class='btn btn-sm btn-warning text-white'>INSPECT</a>
+                        <a href='" . route('historytiremovement.tire', $row->id) . "' class='btn btn-sm btn-info text-white'>HISTORY</a>
                     ";
                     return $actionBtn;
                 })
@@ -212,6 +213,67 @@ class HistoryTireMovementController extends Controller
         }
 
         return view("admin.history.historyTireInspect", compact("tire"));
+    }
+
+    public function tireData(Request $request, TireMaster $tire)
+    {
+        $historyQuery = HistoryTireMovement::select(
+            'history_tire_movements.start_date as date',
+            'history_tire_movements.tire as tire',
+            'history_tire_movements.position',
+            'sites.name as site',
+            'history_tire_movements.unit as unit',
+            'history_tire_movements.hm_tire as lifetime_hm',
+            'history_tire_movements.km_tire as lifetime_km',
+            'history_tire_movements.rtd',
+            \DB::raw('NULL as pressure'),
+            \DB::raw('NULL as tube'),
+            \DB::raw('NULL as flap'),
+            \DB::raw('NULL as rim'),
+            \DB::raw('NULL as t_pentil'),
+            'history_tire_movements.des as remark'
+        )
+            ->join('tires', 'history_tire_movements.tire', '=', 'tires.serial_number')
+            ->join('sites', 'history_tire_movements.site_id', '=', 'sites.id')
+            ->where('history_tire_movements.tire', $tire->serial_number);
+
+        $inspectQuery = TireMaster::select(
+            'daily_inspects.date',
+            'tires.serial_number as tire',
+            'daily_inspect_details.position',
+            'sites.name as site',
+            'units.unit_number as unit',
+            'daily_inspect_details.lifetime_hm',
+            'daily_inspect_details.lifetime_km',
+            'daily_inspect_details.rtd',
+            'daily_inspect_details.pressure',
+            'daily_inspect_details.tube',
+            'daily_inspect_details.flap',
+            'daily_inspect_details.rim',
+            'daily_inspect_details.t_pentil',
+            'daily_inspect_details.remark'
+        )
+            ->join('daily_inspect_details', 'daily_inspect_details.tire_id', '=', 'tires.id')
+            ->join('daily_inspects', 'daily_inspect_details.daily_inspect_id', '=', 'daily_inspects.id')
+            ->join('sites', 'daily_inspects.site_id', '=', 'sites.id')
+            ->join('units', 'daily_inspects.unit_id', '=', 'units.id')
+            ->where('daily_inspect_details.is_selected', true)
+            ->where('tires.id', $tire->id);
+
+        // Gabungkan query
+        $data = $historyQuery->union($inspectQuery)->orderBy('date', 'desc')->get();
+
+        if ($request->ajax()) {
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn("tPentil", function ($row) {
+                    return $row->t_pentil ? '<input type="checkbox" checked disabled>' : '<input type="checkbox" disabled>';
+                })
+                ->rawColumns(['tPentil'])
+                ->make(true);
+        }
+
+        return view("admin.history.historyTireData", compact("tire"));
     }
 
     public function monthlytireconsumption(Request $request, TireMaster $tire)

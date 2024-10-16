@@ -33,10 +33,7 @@ class DailyInspectController extends Controller
         $tire_damages = TireDamage::where('company_id', $company->id)->get();
 
         if ($request->ajax()) {
-            $data = Unit::where('company_id', $company->id)
-                ->where('site_id', $site->id)
-                ->with(['dailyInspects.foremans', 'dailyInspects.manpowers']); // Load related data
-
+            $data = Unit::where('company_id', $company->id)->where('site_id', $site->id);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("last_update", function ($row) {
@@ -46,12 +43,9 @@ class DailyInspectController extends Controller
                     return $row->unit_status->status_code;
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = "<a class='me-3 text-warning' href='#' data-bs-toggle='modal' data-bs-target='#form-modal'
-                        data-id='{$row->id}'
-                        data-foremans='" . json_encode($row->dailyInspects->foremans->pluck('id')) . "'
-                        data-manpowers='" . json_encode($row->dailyInspects->manpowers->pluck('id')) . "'>
-                        <img src='assets/img/icons/edit.svg' alt='img'>
-                    </a>";
+                    $actionBtn = "<a class='me-3 text-warning' href='" . route('dailyinspect.show', $row->id) . "'>
+                                    <img src='assets/img/icons/edit.svg' alt='img'>
+                                </a>";
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

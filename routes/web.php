@@ -125,6 +125,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('tireinspect/{tire}/history', [HistoryTireMovementController::class, 'tireinspect'])
         ->name('historytiremovement.tireinspect')
         ->middleware('permission:HISTORY_TIRE_MOVEMENT');
+    Route::get('tire/{tire}/history', [HistoryTireMovementController::class, 'tireData'])
+        ->name('historytiremovement.tire')
+        ->middleware('permission:HISTORY_TIRE_MOVEMENT');
 
     Route::middleware(['permission:GRAFIK'])->group(function () {
         Route::get('grafik-check-pressure-hd', [GrafikController::class, 'checkPressureHd']);
