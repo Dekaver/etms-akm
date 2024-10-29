@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AktivitasPekerjaanController;
+use App\Http\Controllers\AreaPekerjaanController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\GrafikController;
@@ -31,6 +33,8 @@ use App\Http\Controllers\HistoryTireController;
 use App\Http\Controllers\HistoryTireRepairController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\TeknisiController;
+use App\Models\AktivitasPekerjaan;
+use App\Models\AreaPekerjaan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('department', DepartmentController::class)->middleware('permission:DEPARTMENT');
     Route::resource('teknisi', TeknisiController::class)->middleware('permission:TEKNISI');
     Route::resource('daily-activity', DailyActivityController::class)->middleware('permission:DAILY_ACTIVITY');
+    Route::resource('aktivitas-pekerjaan', AktivitasPekerjaanController::class)->middleware('permission:AKTIVITAS_PEKERJAAN');
+    Route::resource('area-pekerjaan', AreaPekerjaanController::class)->middleware('permission:AREA_PEKERJAAN');
 
 
 

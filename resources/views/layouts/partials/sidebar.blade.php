@@ -16,7 +16,8 @@
                                     class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
                             </li>
                             <li><a href="/tire-performance-scrap"
-                                    class="{{ Request::routeIs('tire-performance-scrap') ? 'active' : '' }}">Tire Scrap Performance</a>
+                                    class="{{ Request::routeIs('tire-performance-scrap') ? 'active' : '' }}">Tire Scrap
+                                    Performance</a>
                             </li>
                             <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
                                     Scrap</a></li>
@@ -124,21 +125,34 @@
                         @endcan
                         @can('DRIVER')
                             <li><a href="/driver" class="{{ Request::routeIs('driver.*') ? 'active' : '' }}">
-                                    Data Driver</a></li>
+                                    Driver</a></li>
                         @endcan
                         @can('JABATAN')
                             <li><a href="/jabatan" class="{{ Request::routeIs('jabatan.*') ? 'active' : '' }}">
-                                    Data Jabatan</a></li>
+                                    Jabatan</a></li>
                         @endcan
                         @can('DEPARTMENT')
                             <li><a href="/department" class="{{ Request::routeIs('department.*') ? 'active' : '' }}">
-                                    Data Department</a></li>
+                                    Department</a></li>
                         @endcan
                         @can('TEKNISI')
                             <li><a href="/teknisi" class="{{ Request::routeIs('teknisi.*') ? 'active' : '' }}">
-                                    Data Teknisi</a></li>
+                                    Teknisi</a></li>
+                        @endcan
+                        @can('AKTIVITAS_PEKERJAAN')
+                            <li><a href="/aktivitas-pekerjaan" class="{{ Request::routeIs('aktivitas-pekerjaan.*') ? 'active' : '' }}">
+                                Aktivitas Pekerjaan</a></li>
+                        @endcan
+                        @can('AREA_PEKERJAAN')
+                            <li><a href="/area-pekerjaan" class="{{ Request::routeIs('area-pekerjaan.*') ? 'active' : '' }}">
+                                Area Pekerjaan</a></li>
                         @endcan
                     </ul>
+                </li>
+
+                <li class="{{ Request::routeIs('daily-activity.*') ? 'active' : '' }}">
+                    <a href="/daily-activity"><img src="{{ asset('assets/img/icons/dashboard.svg') }}" alt="img"><span>
+                            Daily Activity</span> </a>
                 </li>
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="{{ asset('assets/img/icons/purchase1.svg') }}"
