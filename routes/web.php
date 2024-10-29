@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\GrafikController;
 use App\Http\Controllers\HistoryTireMovementController;
 use App\Http\Controllers\PermissionController;
@@ -80,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jabatan', JabatanController::class)->middleware('permission:JABATAN');
     Route::resource('department', DepartmentController::class)->middleware('permission:DEPARTMENT');
     Route::resource('teknisi', TeknisiController::class)->middleware('permission:TEKNISI');
+    Route::resource('daily-activity', DailyActivityController::class)->middleware('permission:DAILY_ACTIVITY');
 
 
 
