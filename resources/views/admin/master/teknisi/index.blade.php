@@ -216,10 +216,10 @@
                         modal.find('form').attr('action', `{{ route('teknisi.update', '') }}/${id}`);
                         modal.find('input[name="_method"]').val('PUT');
 
-                        // Set checkbox values based on response
-                        modal.find('input[name="is_leader"]').prop('checked', response.is_leader);
-                        modal.find('input[name="is_foreman"]').prop('checked', response.is_foreman);
-                        modal.find('input[name="is_manpower"]').prop('checked', response.is_manpower);
+                        // Set checkbox values based on response, enforcing boolean interpretation
+                        modal.find('input[name="is_leader"]').prop('checked', Boolean(response.is_leader));
+                        modal.find('input[name="is_foreman"]').prop('checked', Boolean(response.is_foreman));
+                        modal.find('input[name="is_manpower"]').prop('checked', Boolean(response.is_manpower));
                     });
                 }
             });
