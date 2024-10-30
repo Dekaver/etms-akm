@@ -216,13 +216,17 @@
                         modal.find('form').attr('action', `{{ route('teknisi.update', '') }}/${id}`);
                         modal.find('input[name="_method"]').val('PUT');
 
-                        // Set checkbox values based on response, enforcing boolean interpretation
-                        modal.find('input[name="is_leader"]').prop('checked', Boolean(response.is_leader));
-                        modal.find('input[name="is_foreman"]').prop('checked', Boolean(response.is_foreman));
-                        modal.find('input[name="is_manpower"]').prop('checked', Boolean(response.is_manpower));
+                        // Set checkbox values with explicit string check
+                        modal.find('input[name="is_leader"]').prop('checked', response.is_leader === true ||
+                            response.is_leader === "1" || response.is_leader === "true");
+                        modal.find('input[name="is_foreman"]').prop('checked', response.is_foreman === true ||
+                            response.is_foreman === "1" || response.is_foreman === "true");
+                        modal.find('input[name="is_manpower"]').prop('checked', response.is_manpower === true ||
+                            response.is_manpower === "1" || response.is_manpower === "true");
                     });
                 }
             });
+
 
             $('#form-modal').on('hide.bs.modal', function() {
                 $(this).find('form')[0].reset();
