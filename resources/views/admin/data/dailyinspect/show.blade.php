@@ -112,7 +112,10 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Shift</label>
-                                    <input type="text" name="shift" required>
+                                    <select name="shift" class="form-select" required>
+                                        <option value="SIANG">SIANG</option>
+                                        <option value="MALAM">MALAM</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -297,8 +300,12 @@
                                                     name="tire_t_pentil[{{ $tire_running->position }}]">
                                             </td>
                                             <td>
-                                                <input class="form-control" type="text"
+                                                <select class="form-control"
                                                     name="remark[{{ $tire_running->position }}]">
+                                                    <option value="INSPECTION">INSPECTION</option>
+                                                    <option value="ADJUST PRESURE">ADJUST PRESURE</option>
+                                                    <option value="PERIOD END">PERIOD END</option>
+                                                </select>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -343,7 +350,10 @@
                             <div class="col-lg-3 col-6">
                                 <div class="form-group">
                                     <label>Shift</label>
-                                    <input type="text" name="shift" required>
+                                    <select name="shift" class="form-select" required>
+                                        <option value="SIANG">SIANG</option>
+                                        <option value="MALAM">MALAM</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-6">
@@ -559,7 +569,7 @@
                     modal.find("input[name='time']").val(response.time ?? '');
                     modal.find("input[name='pic']").val(response.pic ?? '');
                     modal.find("input[name='driver']").val(response.driver ?? '');
-                    modal.find("input[name='shift']").val(response.shift ?? '');
+                    modal.find("select[name='shift']").val(response.shift);
                     modal.find("input[name='km']").val(response.updated_km_unit ?? '');
                     modal.find("input[name='hm']").val(response.updated_hm_unit ?? '');
                     modal.find("input[name='km']").prop("min", response.km_unit);
@@ -601,6 +611,15 @@
                 <input class="form-control" type="text">
             </td>`;
 
+            var selectedBoxRemark = `
+            <td>
+                <select class="form-control">
+                    <option value="INSPECTION">INSPECTION</option>
+                    <option value="ADJUST PRESURE">ADJUST PRESURE</option>
+                    <option value="PERIOD END">PERIOD END</option>
+                </select>
+            </td>`;
+
                     // Isi tabel dengan data detail inspeksi ban
                     $.each(response.details, function(i, v) {
                         // Generate elemen yang bisa diulang
@@ -623,9 +642,9 @@
                         t_pentil.find('input').prop('checked', v.t_pentil == "1" ? true : false);
                         t_pentil.find('input').attr('name', `tire_t_pentil[${v.position}]`);
 
-                        let remark = $(text).clone();
-                        remark.find('input').val(v.remark);
-                        remark.find('input').attr('name', `remark[${v.position}]`);
+                        let remark = $(selectedBoxRemark).clone();
+                        remark.find('select').val(v.remark); // set value from response data
+                        remark.find('select').attr('name', `remark[${v.position}]`);
 
                         // Buat baris baru untuk setiap detail ban
                         var tr = $('<tr>').html(`
