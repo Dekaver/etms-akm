@@ -101,14 +101,14 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Aktivitas Pekerjaan<span class="manitory">*</span></label>
-                                    <select class="form-select" name="aktivitas_pekerjaan_id" required>
+                                    <select class="form-select" name="aktivitas_pekerjaan_id" id="aktivitasPekerjaan"
+                                        required>
                                         <option value="">Choose Aktivitas Pekerjaan</option>
                                         @foreach ($aktivitasPekerjaan as $item)
-                                            <option value="{{ $item->id }}" @selected($item->id == ($aktivitasPekerjaan_id ?? ''))>
+                                            <option value="{{ $item->id }}" @selected($item->id == ($aktivitas_pekerjaan_id ?? ''))>
                                                 {{ $item->nama }}
                                             </option>
                                         @endforeach
@@ -118,8 +118,8 @@
 
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Unit Model<span class="manitory">*</span></label>
-                                    <select class="form-select" name="unit_model_id" required>
+                                    <label>Unit Model</label>
+                                    <select class="form-select" name="unit_model_id" id="unitModel" required>
                                         <option value="">Choose Model</option>
                                         @foreach ($unitModel as $item)
                                             <option value="{{ $item->id }}" @selected($item->id == ($unitModel_id ?? ''))>
@@ -131,8 +131,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Unit<span class="manitory">*</span></label>
-                                    <select class="form-select" name="unit_id" required>
+                                    <label>Unit</label>
+                                    <select class="form-select" name="unit_id" id="unit" required>
                                         <option value="">Choose Unit</option>
                                         @foreach ($unit as $item)
                                             <option value="{{ $item->id }}" @selected($item->id == ($unit_id ?? ''))>
@@ -160,7 +160,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Remark (Keterangan)<span class="manitory">*</span></label>
-                                    <textarea name="remark" rows="5"></textarea>
+                                    <textarea name="remark" required rows="5"></textarea>
                                 </div>
                             </div>
 
@@ -185,6 +185,21 @@
         </form>
     </div>
     @push('js')
+        <script>
+            document.getElementById('aktivitasPekerjaan').addEventListener('change', function() {
+                const selectedValue = parseInt(this.value);
+                const unitModel = document.getElementById('unitModel');
+                const unit = document.getElementById('unit');
+
+                if (selectedValue >= 1 && selectedValue <= 5) {
+                    unitModel.setAttribute('required', 'required');
+                    unit.setAttribute('required', 'required');
+                } else {
+                    unitModel.removeAttribute('required');
+                    unit.removeAttribute('required');
+                }
+            });
+        </script>
         <script>
             $(function() {
                 var table = $('table.data-table').DataTable({
@@ -276,8 +291,7 @@
                         modal.find('select[name="site_id"]').val(response.site_id);
                         modal.find('select[name="area_pekerjaan_id"]').val(response.area_pekerjaan_id);
                         modal.find('select[name="teknisi_id"]').val(response.teknisi_id);
-                        modal.find('select[name="aktivitas_pekerjaan_id"]').val(response
-                            .aktivitas_pekerjaan_id);
+                        modal.find('select[name="aktivitas_pekerjaan_id"]').val(response.aktivitas_pekerjaan_id);
                         modal.find('select[name="unit_model_id"]').val(response.unit_model_id);
                         modal.find('select[name="unit_id"]').val(response.unit_id);
                         modal.find('input[name="start_date"]').val(response.start_date);
@@ -287,6 +301,18 @@
                         // Set form action untuk update
                         modal.find('form').attr('action', `{{ route('daily-activity.update', '') }}/${id}`);
                         modal.find('input[name="_method"]').val('PUT');
+
+
+                        const unitModel = document.getElementById('unitModel');
+                        const unit = document.getElementById('unit');
+
+                        if (response.aktivitas_pekerjaan_id >= 1 && response.aktivitas_pekerjaan_id <= 5) {
+                            unitModel.setAttribute('required', 'required');
+                            unit.setAttribute('required', 'required');
+                        } else {
+                            unitModel.removeAttribute('required');
+                            unit.removeAttribute('required');
+                        }
                     });
                 }
             });

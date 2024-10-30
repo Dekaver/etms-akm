@@ -13,6 +13,7 @@ use App\Models\Unit;
 use App\Models\UnitModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class DailyActivityController extends Controller
@@ -86,11 +87,24 @@ class DailyActivityController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             "tanggal" => "required|date",
+            "site_id" => "required",
+            "teknisi_id" => "required",
+            "aktivitas_pekerjaan_id" => "required",
+            "unit_model_id" => "required_if:aktivitas_pekerjaan_id,1,2,3,4,5",
+            "unit_id" => "required_if:aktivitas_pekerjaan_id,1,2,3,4,5",
+            "start_date" => "required|date",
+            "end_date" => "required|date",
+            "area_pekerjaan_id" => "required",
+            "remark" => "required",
             "photos.*" => "image|mimes:jpeg,png,jpg,gif|max:2048"
         ]);
-
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        
         // Debugging untuk memastikan company_id
         $companyId = auth()->user()->company_id;
 

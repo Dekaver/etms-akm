@@ -227,10 +227,12 @@ class TireRunningController extends Controller
         $tire_damage = TireDamage::where('company_id', $unit->company_id)->get();
         $tire_status = TireStatus::all();
 
-        $teknisi = Teknisi::where('company_id', $unit->company_id)->get();
+        $leader = Teknisi::where('company_id', $unit->company_id)->where('is_leader', true)->get();
+        $foreman = Teknisi::where('company_id', $unit->company_id)->where('is_foreman', true)->get();
+        $manpower = Teknisi::where('company_id', $unit->company_id)->where('is_manpower', true)->get();
         // $trailermovement = HistoryTrailerMovement::where('unit_install', $unit->unit_number)->orderBy('date_end', 'desc')->get();
 
-        return view("admin.data.tireMovementEdit", compact('teknisi', "driver", "tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
+        return view("admin.data.tireMovementEdit", compact("leader", "foreman", "manpower", "driver", "tire_running", "unit", "unit_model", "tire_status", "tire_damage", "tire_inventory", "tirerunning"));
     }
 
     /**

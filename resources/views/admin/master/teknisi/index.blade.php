@@ -24,6 +24,7 @@
                         <tr>
                             <th>No</th>
                             <th>Kode</th>
+                            <th>NIK</th>
                             <th>Nama</th>
                             <th>Department</th>
                             <th>Jabatan</th>
@@ -48,6 +49,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>NIK</label>
+                                    <input type="text" class="form-control" name="nik">
+                                </div>
+                            </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Kode</label>
@@ -101,6 +108,25 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="inputcheck">PIC Leader
+                                    <input type="checkbox" name="is_leader">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="inputcheck">Foreman
+                                    <input type="checkbox" name="is_foreman">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="inputcheck">PIC Man Power
+                                    <input type="checkbox" name="is_manpower">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -127,6 +153,10 @@
                         {
                             data: 'kode',
                             name: 'kode'
+                        },
+                        {
+                            data: 'nik',
+                            name: 'nik'
                         },
                         {
                             data: 'nama',
@@ -168,6 +198,9 @@
                     modal.find('select[name="department_id"]').val('');
                     modal.find('select[name="jabatan_id"]').val('');
                     modal.find('select[name="company_id"]').val('');
+                    modal.find('input[name="is_leader"]').prop('checked', false);
+                    modal.find('input[name="is_foreman"]').prop('checked', false);
+                    modal.find('input[name="is_manpower"]').prop('checked', false);
                 } else {
                     // Fetch and fill data for editing
                     $.ajax({
@@ -176,11 +209,17 @@
                     }).done(function(response) {
                         modal.find('input[name="nama"]').val(response.nama);
                         modal.find('input[name="kode"]').val(response.kode);
+                        modal.find('input[name="nik"]').val(response.nik);
                         modal.find('select[name="department_id"]').val(response.department_id);
                         modal.find('select[name="jabatan_id"]').val(response.jabatan_id);
                         modal.find('select[name="company_id"]').val(response.company_id);
                         modal.find('form').attr('action', `{{ route('teknisi.update', '') }}/${id}`);
                         modal.find('input[name="_method"]').val('PUT');
+
+                        // Set checkbox values based on response
+                        modal.find('input[name="is_leader"]').prop('checked', response.is_leader);
+                        modal.find('input[name="is_foreman"]').prop('checked', response.is_foreman);
+                        modal.find('input[name="is_manpower"]').prop('checked', response.is_manpower);
                     });
                 }
             });
@@ -188,6 +227,7 @@
             $('#form-modal').on('hide.bs.modal', function() {
                 $(this).find('form')[0].reset();
                 $(this).find('select').val('');
+                $(this).find('input[type="checkbox"]').prop('checked', false);
             });
         </script>
     @endpush

@@ -174,7 +174,7 @@
                                     <label for="">PIC Leader</label>
                                     <select class="form-select" name="pic_id" required>
                                         <option value=""></option>
-                                        @foreach ($teknisi as $item)
+                                        @foreach ($leader as $item)
                                             <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
                                                 {{ $item->nama }}
                                             </option>
@@ -189,7 +189,7 @@
                                     {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                     <select class="js-example-basic-multiple" id="foreman" name="foreman[]"
                                         multiple="multiple">
-                                        @foreach ($teknisi as $item)
+                                        @foreach ($foreman as $item)
                                             <option value="{{ $item->id }}">
                                                 {{ $item->nama }}
                                             </option>
@@ -204,7 +204,7 @@
                                     {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                     <select class="js-example-basic-multiple" id="man_power" name="manpower[]"
                                         multiple="multiple">
-                                        @foreach ($teknisi as $item)
+                                        @foreach ($manpower as $item)
                                             <option value="{{ $item->id }}">
                                                 {{ $item->nama }}
                                             </option>
@@ -402,7 +402,7 @@
                                     <label for="">PIC Leader</label>
                                     <select class="form-select" name="pic_id" required>
                                         <option value=""></option>
-                                        @foreach ($teknisi as $item)
+                                        @foreach ($leader as $item)
                                             <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
                                                 {{ $item->nama }}
                                             </option>
@@ -417,7 +417,7 @@
                                     {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                     <select class="js-example-basic-multiple" id="foreman3" name="foreman[]"
                                         multiple="multiple">
-                                        @foreach ($teknisi as $item)
+                                        @foreach ($foreman as $item)
                                             <option value="{{ $item->id }}"
                                                 {{ in_array($item->id, $selectedForemans ?? []) ? 'selected' : '' }}>
                                                 {{ $item->nama }}</option>
@@ -432,7 +432,7 @@
                                     {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                     <select class="js-example-basic-multiple" id="man_power3" name="manpower[]"
                                         multiple="multiple">
-                                        @foreach ($teknisi as $item)
+                                        @foreach ($manpower as $item)
                                             <option value="{{ $item->id }}"
                                                 {{ in_array($item->id, $selectedManpowers ?? []) ? 'selected' : '' }}>
                                                 {{ $item->nama }}</option>

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId("site_id")->constrained("sites");
             $table->foreignId("teknisi_id")->constrained("teknisis");
             $table->foreignId("aktivitas_pekerjaan_id")->constrained("aktivitas_pekerjaans");
-            $table->foreignId("unit_model_id")->constrained("unit_models");
-            $table->foreignId("unit_id")->constrained("units");
+            $table->foreignId("unit_model_id")->nullable()->constrained("unit_models");
+            $table->foreignId("unit_id")->nullable()->constrained("units");
             $table->dateTime("start_date");
             $table->dateTime("end_date");
             $table->foreignId("area_pekerjaan_id")->constrained("area_pekerjaans");

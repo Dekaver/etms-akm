@@ -622,8 +622,8 @@
                                         <label for="">PIC Leader</label>
                                         <select class="form-select" name="pic_id" required>
                                             <option value=""></option>
-                                            @foreach ($teknisi as $item)
-                                                <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                            @foreach ($leader as $item)
+                                                <option value="{{ $item->id }}" @selected($item->id == ($leader_id ?? ''))>
                                                     {{ $item->nama }}
                                                 </option>
                                             @endforeach
@@ -635,7 +635,7 @@
                                         {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                         <select class="js-example-basic-multiple" id="foreman" name="foreman[]"
                                             multiple="multiple">
-                                            @foreach ($teknisi as $item)
+                                            @foreach ($foreman as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->nama }}
                                                 </option>
@@ -648,7 +648,7 @@
                                         {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                         <select class="js-example-basic-multiple" id="man_power" name="manpower[]"
                                             multiple="multiple">
-                                            @foreach ($teknisi as $item)
+                                            @foreach ($manpower as $item)
                                                 <option value="{{ $item->id }}">
                                                     {{ $item->nama }}
                                                 </option>
@@ -815,8 +815,8 @@
                                 <label for="">PIC Leader</label>
                                 <select class="form-select" name="pic_id" required>
                                     <option value=""></option>
-                                    @foreach ($teknisi as $item)
-                                        <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                    @foreach ($leader as $item)
+                                        <option value="{{ $item->id }}" @selected($item->id == ($leader_id ?? ''))>
                                             {{ $item->nama }}
                                         </option>
                                     @endforeach
@@ -828,7 +828,7 @@
                                 {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                 <select class="js-example-basic-multiple" id="foreman2" name="foreman[]"
                                     multiple="multiple">
-                                    @foreach ($teknisi as $item)
+                                    @foreach ($foreman as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->nama }}
                                         </option>
@@ -841,7 +841,7 @@
                                 {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                 <select class="js-example-basic-multiple" id="man_power2" name="manpower[]"
                                     multiple="multiple">
-                                    @foreach ($teknisi as $item)
+                                    @foreach ($manpower as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->nama }}
                                         </option>
@@ -967,8 +967,8 @@
                                 <label for="">PIC Leader</label>
                                 <select class="form-select" name="pic_id" required>
                                     <option value=""></option>
-                                    @foreach ($teknisi as $item)
-                                        <option value="{{ $item->id }}" @selected($item->id == ($pic_id ?? ''))>
+                                    @foreach ($leader as $item)
+                                        <option value="{{ $item->id }}" @selected($item->id == ($leader_id ?? ''))>
                                             {{ $item->nama }}
                                         </option>
                                     @endforeach
@@ -980,7 +980,7 @@
                                 {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                 <select class="js-example-basic-multiple" id="foreman3" name="foreman[]"
                                     multiple="multiple">
-                                    @foreach ($teknisi as $item)
+                                    @foreach ($foreman as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->nama }}
                                         </option>
@@ -993,7 +993,7 @@
                                 {{-- <input type="text" name="pic_man_power" class="form-control" required> --}}
                                 <select class="js-example-basic-multiple" id="man_power3" name="manpower[]"
                                     multiple="multiple">
-                                    @foreach ($teknisi as $item)
+                                    @foreach ($manpower as $item)
                                         <option value="{{ $item->id }}">
                                             {{ $item->nama }}
                                         </option>

@@ -255,7 +255,9 @@ class DailyInspectController extends Controller
         $site = auth()->user()->site;
         $sites = Site::where("company_id", $company->id)->get();
         $driver = Driver::where("company_id", $company->id)->get();
-        $teknisi = Teknisi::where("company_id", $company->id)->get();
+        $leader = Teknisi::where('company_id', $company->id)->where('is_leader', true)->get();
+        $foreman = Teknisi::where('company_id', $company->id)->where('is_foreman', true)->get();
+        $manpower = Teknisi::where('company_id', $company->id)->where('is_manpower', true)->get();
         $tire_damages = TireDamage::where("company_id", $company->id)->get();
         $unit = Unit::whereId($id)->with('tire_runnings.tire')->first();
         if ($request->ajax()) {
@@ -291,7 +293,7 @@ class DailyInspectController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.data.dailyinspect.show", compact("teknisi", "driver", "tire_damages", "sites", "unit"));
+        return view("admin.data.dailyinspect.show", compact("leader","foreman", "manpower", "driver", "tire_damages", "sites", "unit"));
     }
 
     /**

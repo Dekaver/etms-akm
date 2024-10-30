@@ -11,7 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TeknisiController extends Controller
 {
-  /**
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -19,27 +19,30 @@ class TeknisiController extends Controller
         $department = Department::all();
         $jabatan = Jabatan::all();
         $company = Company::all();
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $data = Teknisi::with(["jabatan", "department", "company"])->get();
             return DataTables::of($data)
                 ->addIndexColumn()
 
-                ->addColumn('nama', function($row){
+                ->addColumn('nik', function ($row) {
+                    return $row->nik;
+                })
+                ->addColumn('nama', function ($row) {
                     return $row->nama;
                 })
-                ->addColumn('kode', function($row){
+                ->addColumn('kode', function ($row) {
                     return $row->kode;
                 })
-                ->addColumn('department', function($row){
+                ->addColumn('department', function ($row) {
                     return $row->department ? $row->department->department : 'N/A';
                 })
-                ->addColumn('jabatan', function($row){
+                ->addColumn('jabatan', function ($row) {
                     return $row->jabatan ? $row->jabatan->jabatan : 'N/A';
                 })
-                ->addColumn('company', function($row){
+                ->addColumn('company', function ($row) {
                     return $row->company ? $row->company->name : 'N/A';
-                })                
-                ->addColumn('action', function($row){
+                })
+                ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>
@@ -77,15 +80,19 @@ class TeknisiController extends Controller
 
         $maxKode = Teknisi::max('kode');
         $kodeBaru = str_pad(($maxKode ? intval($maxKode) + 1 : 1), 5, '0', STR_PAD_LEFT);
-        
+
         Teknisi::create([
             "nama" => $request->nama,
             "kode" => $kodeBaru,
             "department_id" => $request->department_id,
             "jabatan_id" => $request->jabatan_id,
             "company_id" => $request->company_id,
+            "is_leader" => $request->is_leader == "on" ? true : false,
+            "is_foreman" => $request->is_foreman == "on" ? true : false,
+            "is_manpower" => $request->is_manpower == "on" ? true : false,
+            "nik" => $request->nik
         ]);
-        
+
         return redirect()->back()->with("success", "Created Teknisi");
     }
 
@@ -113,14 +120,18 @@ class TeknisiController extends Controller
         $request->validate([
             "nama" => "required",
         ]);
+        // dd($request->all());
         $teknisi->nama = $request->nama;
         $teknisi->department_id = $request->department_id;
         $teknisi->jabatan_id = $request->jabatan_id;
         $teknisi->company_id = $request->company_id;
+        $teknisi->is_leader = $request->is_leader == "on" ? true : false;
+        $teknisi->is_foreman = $request->is_foreman == "on" ? true : false;
+        $teknisi->is_manpower = $request->is_manpower == "on" ? true : false;
+        $teknisi->nik = $request->nik;
         $teknisi->save();
 
         return redirect()->back()->with("success", "Updated Teknisi");
-
     }
 
     /**

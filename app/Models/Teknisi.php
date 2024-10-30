@@ -16,6 +16,10 @@ class Teknisi extends Model
         "department_id",
         "jabatan_id",
         "company_id",
+        "is_leader",
+        "is_foreman",
+        "is_manpower",
+        "nik"
     ];
 
     public function department()
