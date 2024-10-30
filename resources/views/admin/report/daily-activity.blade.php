@@ -194,9 +194,15 @@
                 if (selectedValue >= 1 && selectedValue <= 5) {
                     unitModel.setAttribute('required', 'required');
                     unit.setAttribute('required', 'required');
+                    unitModel.parentElement.style.display = 'block'; // Tampilkan Unit Model
+                    unit.parentElement.style.display = 'block'; // Tampilkan Unit
                 } else {
                     unitModel.removeAttribute('required');
                     unit.removeAttribute('required');
+                    unitModel.parentElement.style.display = 'none'; // Sembunyikan Unit Model
+                    unit.parentElement.style.display = 'none'; // Sembunyikan Unit
+                    unitModel.value = ''; // Setel nilai ke kosong/null
+                    unit.value = ''; // Setel nilai ke kosong/null
                 }
             });
         </script>
@@ -291,7 +297,8 @@
                         modal.find('select[name="site_id"]').val(response.site_id);
                         modal.find('select[name="area_pekerjaan_id"]').val(response.area_pekerjaan_id);
                         modal.find('select[name="teknisi_id"]').val(response.teknisi_id);
-                        modal.find('select[name="aktivitas_pekerjaan_id"]').val(response.aktivitas_pekerjaan_id);
+                        modal.find('select[name="aktivitas_pekerjaan_id"]').val(response
+                            .aktivitas_pekerjaan_id);
                         modal.find('select[name="unit_model_id"]').val(response.unit_model_id);
                         modal.find('select[name="unit_id"]').val(response.unit_id);
                         modal.find('input[name="start_date"]').val(response.start_date);
@@ -309,9 +316,15 @@
                         if (response.aktivitas_pekerjaan_id >= 1 && response.aktivitas_pekerjaan_id <= 5) {
                             unitModel.setAttribute('required', 'required');
                             unit.setAttribute('required', 'required');
+                            unitModel.parentElement.style.display = 'block'; // Tampilkan Unit Model
+                            unit.parentElement.style.display = 'block'; // Tampilkan Unit
                         } else {
                             unitModel.removeAttribute('required');
                             unit.removeAttribute('required');
+                            unitModel.parentElement.style.display = 'none'; // Sembunyikan Unit Model
+                            unit.parentElement.style.display = 'none'; // Sembunyikan Unit
+                            unitModel.value = ''; // Setel nilai ke kosong/null
+                            unit.value = ''; // Setel nilai ke kosong/null
                         }
                     });
                 }
