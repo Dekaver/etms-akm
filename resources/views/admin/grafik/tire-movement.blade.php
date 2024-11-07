@@ -5,14 +5,14 @@
                 <div class="card-body">
                     <div class="search-set">
                         <div class="search-path">
-                            <a class="btn btn-filter {{ $tire_size || $tahun ? 'setclose' : '' }}"
+                            <a class="btn btn-filter {{ request('tire_size') && request('tahun') ? 'setclose' : '' }}"
                                 id="filter_search">
                                 <img src="assets/img/icons/filter.svg" alt="img">
                                 <span><img src="assets/img/icons/closes.svg" alt="img"></span>
                             </a>
                         </div>
                         <div class="search-path"
-                            {{ $tire_size || $tahun ? 'style=display:block' : 'style=display:none' }}>
+                            {{ request('tire_size') && request('tahun') ? 'style=display:block' : 'style=display:none' }}>
                             <a class="btn btn-filter bg-secondary" href="{{ Request::url() }}">
                                 <img src="assets/img/icons/filterclear.svg" alt="img">
                             </a>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="mt-3" id="filter_inputs"
-                        {{ $tire_size || $tahun ? 'style=display:block' : '' }}>
+                        {{ request('tire_size') && request('tahun') ? 'style=display:block' : '' }}>
                         <form action="" id="form-filter">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-6 col-12">
@@ -58,22 +58,25 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card o-hidden">
-                <div class="card-header pb-0">
-                    <h5>TIRE NEW MOVEMENT - {{ request('tire_size') }}
-                        <a class="float-end" href="#" onclick="toggleFullScreen(this)">
-                            <i data-feather="maximize"></i>
-                        </a>
-                    </h5>
-                </div>
-                <div class="bar-chart-widget">
-                    <div class="bottom-content card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="chart-tire-new-movement"
-                                    data-url="{{ str_replace(Request::url(), url('grafik-tire-new-movement'), Request::fullUrl()) }}">
+    {{-- Conditional display for the chart --}}
+    @if(request('tire_size') && request('tahun'))
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card o-hidden">
+                    <div class="card-header pb-0">
+                        <h5>MTD {{ request('tire_size') }} USSAGE
+                            <a class="float-end" href="#" onclick="toggleFullScreen(this)">
+                                <i data-feather="maximize"></i>
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="bar-chart-widget">
+                        <div class="bottom-content card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="chart-tire-new-movement"
+                                        data-url="{{ str_replace(Request::url(), url('grafik-tire-new-movement'), Request::fullUrl()) }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +84,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    @else
+        <div class="alert alert-warning mt-4" role="alert">
+            Please select both Tire Size and Year to display the chart.
+        </div>
+    @endif
 
     @push('js')
         <script src="{{ asset('assets/view/grafik-movement.js') }}"></script>

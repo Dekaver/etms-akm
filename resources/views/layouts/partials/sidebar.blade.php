@@ -40,6 +40,9 @@
                             <li><a href="/historytirerepair"
                                     class="{{ Request::routeIs('historytirerepair.*') ? 'active' : '' }}">Report After Tire
                                     Repair</a></li>
+                            <li><a href="/tire-new-movement"
+                                    class="{{ Request::routeIs('tire-new-movement') ? 'active' : '' }}">
+                                    Report Tire Ussage</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -57,6 +60,10 @@
                         @can('TIRE_PATTERN')
                             <li><a href="/tirepattern" class="{{ Request::routeIs('tirepattern.*') ? 'active' : '' }}">Tire
                                     Pattern</a></li>
+                        @endcan
+                        @can('TIRE_SIZE')
+                            <li><a href="/size" class="{{ Request::routeIs('size.*') ? 'active' : '' }}">
+                                    Master Tire Size</a></li>
                         @endcan
                         @can('TIRE_SIZE')
                             <li><a href="/tiresize" class="{{ Request::routeIs('tiresize.*') ? 'active' : '' }}">Tire
@@ -140,18 +147,21 @@
                                     Teknisi</a></li>
                         @endcan
                         @can('AKTIVITAS_PEKERJAAN')
-                            <li><a href="/aktivitas-pekerjaan" class="{{ Request::routeIs('aktivitas-pekerjaan.*') ? 'active' : '' }}">
-                                Aktivitas Pekerjaan</a></li>
+                            <li><a href="/aktivitas-pekerjaan"
+                                    class="{{ Request::routeIs('aktivitas-pekerjaan.*') ? 'active' : '' }}">
+                                    Aktivitas Pekerjaan</a></li>
                         @endcan
                         @can('AREA_PEKERJAAN')
-                            <li><a href="/area-pekerjaan" class="{{ Request::routeIs('area-pekerjaan.*') ? 'active' : '' }}">
-                                Area Pekerjaan</a></li>
+                            <li><a href="/area-pekerjaan"
+                                    class="{{ Request::routeIs('area-pekerjaan.*') ? 'active' : '' }}">
+                                    Area Pekerjaan</a></li>
                         @endcan
                     </ul>
                 </li>
 
                 <li class="{{ Request::routeIs('daily-activity.*') ? 'active' : '' }}">
-                    <a href="/daily-activity"><img src="{{ asset('assets/img/icons/dashboard.svg') }}" alt="img"><span>
+                    <a href="/daily-activity"><img src="{{ asset('assets/img/icons/dashboard.svg') }}"
+                            alt="img"><span>
                             Daily Activity</span> </a>
                 </li>
                 <li class="submenu">

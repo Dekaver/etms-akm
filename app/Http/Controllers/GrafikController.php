@@ -3027,13 +3027,13 @@ class GrafikController extends Controller
         // Base query to get monthly totals for each unit
         $query = HistoryTireMovement::select(
             'history_tire_movements.unit',
-            DB::raw("DATE_FORMAT(history_tire_movements.created_at, '%Y-%m') as month"),
+            DB::raw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') as month"),
             DB::raw("COUNT(*) as total")
         )
             ->join('units', 'history_tire_movements.unit', '=', 'units.unit_number')
             ->join('unit_models', 'unit_models.id', '=', 'units.unit_model_id') // Join to unit_model table
             ->join('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id') // Join to tire_size for filtering
-            ->whereYear('history_tire_movements.created_at', $year)
+            ->whereYear('history_tire_movements.start_date', $year)
             ->where('history_tire_movements.process', 'INSTALL')
             ->where('history_tire_movements.status', 'NEW')
             ->where('history_tire_movements.company_id', auth()->user()->company->id);

@@ -16,7 +16,7 @@ class SizeController extends Controller
         $company = auth()->user()->company;
 
         if($request->ajax()) {
-            $data = Size::all();
+            $data = Size::where('company_id', $company->id)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('name', function($row){
