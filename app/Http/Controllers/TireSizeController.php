@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Size;
 use App\Models\TireManufacture;
 use App\Models\TirePattern;
 use App\Models\TireSize;
@@ -22,6 +23,8 @@ class TireSizeController extends Controller
 
 
         $company = auth()->user()->company;
+
+        $size = Size::where('company_id', $company->id)->get();
         $tirepattern = TirePattern::with("manufacture")->where('company_id', $company->id)->get();
         $tire_patterns = TirePattern::select("pattern")->where('company_id', $company->id)->groupBy("pattern")->get();
         $tire_sizes = TireSize::select("size")->where('company_id', $company->id)->groupBy("size")->get();
@@ -59,7 +62,7 @@ class TireSizeController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view("admin.master.tireSize", compact('tirepattern', 'tire_manufactures', 'tire_sizes', 'tire_patterns', 'tire_pattern', 'tire_size', 'tire_manufacture'));
+        return view("admin.master.tireSize", compact('size', 'tirepattern', 'tire_manufactures', 'tire_sizes', 'tire_patterns', 'tire_pattern', 'tire_size', 'tire_manufacture'));
     }
 
     /**

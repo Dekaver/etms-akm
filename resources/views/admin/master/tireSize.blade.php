@@ -135,7 +135,13 @@
                             <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Size</label>
-                                    <input type="text" name="size" required>
+                                    <select class="select" name="size" required>
+                                        <option>Choose size</option>
+                                        @foreach ($size as $item)
+                                            <option value="{{ $item->name }}">
+                                                {{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-sm-6 col-12">
@@ -153,28 +159,29 @@
                             <div class="col-lg-2 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>OTD</label>
-                                    <input type="number" min="0" value="0" class="form-control" name="otd" required>
+                                    <input type="number" min="0" value="0" class="form-control"
+                                        name="otd" required>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>Rec. Pressure</label>
-                                    <input type="number" min="0" value="0" class="form-control" name="recomended_pressure"
-                                        required>
+                                    <input type="number" min="0" value="0" class="form-control"
+                                        name="recomended_pressure" required>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Target Lifetime HM</label>
-                                    <input type="number" min="0" value="0" class="form-control" name="target_lifetime_hm"
-                                        disabled>
+                                    <input type="number" min="0" value="0" class="form-control"
+                                        name="target_lifetime_hm" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Target Lifetime KM</label>
-                                    <input type="number" min="0" value="0" class="form-control" name="target_lifetime_km"
-                                        disabled>
+                                    <input type="number" min="0" value="0" class="form-control"
+                                        name="target_lifetime_km" disabled>
                                 </div>
                             </div>
                             {{-- <div class="col-lg-4 col-sm-6 col-6">
@@ -260,6 +267,8 @@
                     }).done(function(response) {
                         modal.find('input[name="size"]').val(response.size).trigger('change');
                         modal.find('select[name="tire_pattern_id"]').val(response.tire_pattern_id).trigger(
+                            'change');
+                        modal.find('select[name="size"]').val(response.size).trigger(
                             'change');
                         modal.find('input[name="otd"]').val(response.otd).trigger('change');
                         modal.find('input[name="recomended_pressure"]').val(response.recomended_pressure)
