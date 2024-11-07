@@ -3019,6 +3019,81 @@ class GrafikController extends Controller
 
         return $result;
     }
+    public function tireNewMovement(Request $request)
+    {
+        $year = $request->query('tahun') ?? date('Y');
+        $tireSize = $request->query('tire_size');
+
+        // Base query to get monthly totals for each unit
+        $query = HistoryTireMovement::select(
+            'history_tire_movements.unit',
+            DB::raw("DATE_FORMAT(history_tire_movements.created_at, '%Y-%m') as month"),
+            DB::raw("COUNT(*) as total")
+        )
+            ->join('units', 'history_tire_movements.unit', '=', 'units.unit_number')
+            ->join('unit_models', 'unit_models.id', '=', 'units.unit_model_id') // Join to unit_model table
+            ->join('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id') // Join to tire_size for filtering
+            ->whereYear('history_tire_movements.created_at', $year)
+            ->where('history_tire_movements.process', 'INSTALL')
+            ->where('history_tire_movements.status', 'NEW')
+            ->where('history_tire_movements.company_id', auth()->user()->company->id);
+
+        // Apply tire_size filter if specified
+        if ($tireSize) {
+            $query->where('tire_sizes.size', $tireSize);
+        }
+
+        // Execute the query with grouping by unit and month
+        $tireMovements = $query->groupBy('history_tire_movements.unit', 'month')
+            ->orderBy('month', 'ASC')
+            ->get();
+
+        // Prepare data structure for the chart
+        $data = [];
+        $units = $tireMovements->pluck('unit')->unique()->values()->all(); // Get unique units
+
+        $months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        // Initialize data for each month
+        $monthlyData = array_fill(0, 12, array_fill_keys($units, 0));
+
+        // Populate data for each unit and month
+        foreach ($tireMovements as $movement) {
+            $unitId = $movement->unit_id;
+            $monthIndex = date('n', strtotime($movement->month)) - 1;
+            $total = $movement->total;
+
+            // Set the total for the specific month and unit
+            $monthlyData[$monthIndex][$unitId] = $total;
+        }
+
+        // Reformat data for ApexCharts (each month as a series)
+        $series = [];
+        foreach ($months as $index => $month) {
+            $series[] = [
+                'name' => $month,
+                'data' => array_values($monthlyData[$index])
+            ];
+        }
+
+        return [
+            'data' => $series, // Series data with months as names
+            'xaxis' => array_map(function ($unit) {
+                return "$unit";
+            }, $units) // Unit names for x-axis
+        ];
+    }
 }
-
-

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HistoryTireMovement;
 use App\Models\Site;
+use App\Models\Size;
 use App\Models\TireManufacture;
 use App\Models\TireMaster;
 use App\Models\TirePattern;
@@ -106,7 +107,7 @@ class DashboardController extends Controller
                     $running_days["day3"] += 1;
                     break;
 
-                case $tire->count_day > 60 :
+                case $tire->count_day > 60:
                     $running_days["day3"] += 1;
                     break;
 
@@ -138,7 +139,7 @@ class DashboardController extends Controller
                     $stok_days["day3"] += 1;
                     break;
 
-                case $tire->count_day > 60 :
+                case $tire->count_day > 60:
                     $stok_days["day3"] += 1;
                     break;
 
@@ -257,7 +258,7 @@ class DashboardController extends Controller
         });
         $tire_new_install = $tire_new_install->whereHas('tire', function ($q) use ($brand_tire, $type_pattern, $tire_size) {
             if ($tire_size) {
-                $q->whereHas('tire_size', function ($z) use ($tire_size, $brand_tire, $type_pattern, ) {
+                $q->whereHas('tire_size', function ($z) use ($tire_size, $brand_tire, $type_pattern,) {
                     $z->where('size', $tire_size);
                     $z->whereHas("tire_pattern", function ($q) use ($brand_tire, $type_pattern) {
                         if ($type_pattern) {
@@ -271,7 +272,6 @@ class DashboardController extends Controller
                     });
                 });
             }
-
         });
 
 
@@ -465,9 +465,9 @@ class DashboardController extends Controller
             });
         }
 
-        $tire = $tire->whereExists(function($query){
-            $query->select(DB::raw(1))->from('history_tire_movements')->whereColumn('tires.serial_number' , 'history_tire_movements.tire')->where('history_tire_movements.status', 'SCRAP');
-        } );
+        $tire = $tire->whereExists(function ($query) {
+            $query->select(DB::raw(1))->from('history_tire_movements')->whereColumn('tires.serial_number', 'history_tire_movements.tire')->where('history_tire_movements.status', 'SCRAP');
+        });
 
         if ($tahun) {
             if ($month) {
@@ -841,4 +841,24 @@ class DashboardController extends Controller
 
         return view('admin.grafik.cause-damage', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
     }
+
+    public function tireNewMovement(Request $request)
+    {
+        $current_year = date('Y');
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_unique(array_merge($date_range1, $date_range2));
+        asort($date_range);
+    
+        // Query parameters
+        $tahun = $request->query('tahun');
+        $month = $request->query('month');
+        $tire_size = $request->query('tire_size'); // Including this for the title display
+    
+        // Company-specific size filtering
+        $size = Size::where("company_id", auth()->user()->company->id)->get();
+    
+        return view('admin.grafik.tire-movement', compact('tahun', 'size', 'month', 'date_range', 'tire_size'));
+    }
+    
 }

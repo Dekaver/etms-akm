@@ -32,6 +32,7 @@ use App\Http\Controllers\DriverController;
 use App\Http\Controllers\HistoryTireController;
 use App\Http\Controllers\HistoryTireRepairController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\TeknisiController;
 use App\Models\AktivitasPekerjaan;
 use App\Models\AreaPekerjaan;
@@ -95,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('unitstatus', UnitStatusController::class)->middleware('permission:UNIT_STATUS');
     Route::resource('unitmodel', UnitModelController::class)->middleware('permission:UNIT_MODEL');
     Route::resource('unit', UnitController::class)->middleware('permission:UNIT');
+    Route::resource('size', SizeController::class)->middleware('permission:SIZE');
 
     Route::resource('tirerepair', TireRepairController::class)->middleware('permission:TIRE_REPAIR');
 
@@ -161,8 +163,10 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('tire-maintenance', [DashboardController::class, 'tireMaintenance']);
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
         Route::get('tire-cause-damage', [DashboardController::class, 'tireCauseDamage'])->name('tire-cause-damage');
+        Route::get('tire-new-movement', [DashboardController::class, 'tireNewMovement'])->name('tire-new-movement');
 
         Route::get('grafik-tire-cause-damage', [GrafikController::class, 'tireCauseDamage']);
+        Route::get('grafik-tire-new-movement', [GrafikController::class, 'tireNewMovement']);
         Route::get('grafik-tire-cause-damage-injury', [GrafikController::class, 'tireCauseDamageInjury']);
         // AKM
         Route::get('grafik-tire-fitment', [GrafikController::class, 'tireFitment']);
