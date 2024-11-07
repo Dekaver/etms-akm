@@ -3048,6 +3048,7 @@ class GrafikController extends Controller
             ->orderBy('month', 'ASC')
             ->get();
 
+
         // Prepare data structure for the chart
         $data = [];
         $units = $tireMovements->pluck('unit')->unique()->values()->all(); // Get unique units
@@ -3072,14 +3073,13 @@ class GrafikController extends Controller
 
         // Populate data for each unit and month
         foreach ($tireMovements as $movement) {
-            $unitId = $movement->unit_id;
+            $unitId = $movement->unit;
             $monthIndex = date('n', strtotime($movement->month)) - 1;
             $total = $movement->total;
 
             // Set the total for the specific month and unit
             $monthlyData[$monthIndex][$unitId] = $total;
         }
-
         // Reformat data for ApexCharts (each month as a series)
         $series = [];
         foreach ($months as $index => $month) {
