@@ -45,7 +45,9 @@ class TireSizeController extends Controller
             }
             return DataTables::of($data)
                 ->addIndexColumn()
-
+                ->addColumn("price", function ($row) {
+                    return number_format($row->price, 0, ',', '.');
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
                                     data-bs-target='#form-modal'  data-bs-toggle='modal' data-id='$row->id'>
@@ -94,7 +96,8 @@ class TireSizeController extends Controller
             "otd" => "required",
             "recomended_pressure" => "required",
             "target_lifetime_hm" => "nullable",
-            "target_lifetime_km" => "nullable"
+            "target_lifetime_km" => "nullable",
+            "price" => "required"
         ]);
 
         TireSize::create([
@@ -103,6 +106,7 @@ class TireSizeController extends Controller
             'tire_pattern_id' => $request->tire_pattern_id,
             'otd' => $request->otd,
             'recomended_pressure' => $request->recomended_pressure,
+            'price' => $request->price,
             // 'target_lifetime_hm' => $request->target_lifetime_hm,
             // 'target_lifetime_km' => $request->target_lifetime_km,
         ]);
@@ -148,11 +152,13 @@ class TireSizeController extends Controller
             "recomended_pressure" => "required",
             "target_lifetime_hm" => "nullable",
             "target_lifetime_km" => "nullable",
+            "price" => "required",
         ]);
         $tiresize->size = $request->size;
         $tiresize->tire_pattern_id = $request->tire_pattern_id;
         $tiresize->otd = $request->otd;
         $tiresize->recomended_pressure = $request->recomended_pressure;
+        $tiresize->price = $request->price;
         // $tiresize->target_lifetime_hm = $request->target_lifetime_hm;
         // $tiresize->target_lifetime_km = $request->target_lifetime_km;
         $tiresize->save();

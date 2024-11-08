@@ -38,6 +38,7 @@ class HistoryTireMovement extends Model
         "lokasi_breakdown",
         "driver_id",
         "pic_id",
+        "price"
     ];
 
     public function tire_number()

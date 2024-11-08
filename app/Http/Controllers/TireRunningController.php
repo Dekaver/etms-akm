@@ -119,8 +119,8 @@ class TireRunningController extends Controller
                     "lokasi_breakdown" => $request->lokasi_breakdown,
                     "driver_id" => $request->driver_id,
                     "pic_id" => $request->pic_id,
+                    "price" => $tire->tire_status->status == "NEW" ? $unit->unit_model->tire_size->price : 0  //tire yang statusnya new saja
                 ]);
-
 
                 foreach ($request->foreman as $value) {
                     HistoryTireMovementForeman::create([

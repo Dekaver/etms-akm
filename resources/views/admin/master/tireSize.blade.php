@@ -110,6 +110,7 @@
                             <th>Type Pattern</th>
                             <th>OTD</th>
                             <th>Rec. Pressure</th>
+                            <th>Price</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -184,12 +185,12 @@
                                         name="target_lifetime_km" disabled>
                                 </div>
                             </div>
-                            {{-- <div class="col-lg-4 col-sm-6 col-6">
+                            <div class="col-lg-4 col-sm-6 col-6">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input type="text">
+                                    <input type="number" class="form-control" name="price">
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -241,6 +242,10 @@
                             name: 'recomended_pressure'
                         },
                         {
+                            data: 'price',
+                            name: 'price'
+                        },
+                        {
                             data: 'action',
                             name: 'action',
                             orderable: false,
@@ -271,6 +276,7 @@
                         modal.find('select[name="size"]').val(response.size).trigger(
                             'change');
                         modal.find('input[name="otd"]').val(response.otd).trigger('change');
+                        modal.find('input[name="price"]').val(response.price).trigger('change');
                         modal.find('input[name="recomended_pressure"]').val(response.recomended_pressure)
                             .trigger('change');
                         modal.find('input[name="target_lifetime_hm"]').val(response.target_lifetime_hm);

@@ -313,7 +313,7 @@
                             <div class="col-auto">
                                 <div class="pt-2 text-end">
                                     <p class=" mb-0 fw-bold">SN</p>
-                                    <p class=" mb-0 ">Lfetime HM|KM</p>
+                                    <p class=" mb-0 ">Lifetime HM|KM</p>
                                     <p class=" mb-0 ">REPAIR HM|KM</p>
                                     <p class=" mb-0 ">RTD</p>
                                 </div>
