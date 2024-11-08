@@ -579,4 +579,63 @@ class ReportController extends Controller
 
         return view("admin.report.tire-rtd-per-unit", compact('unitmodel_id', 'unitsite_id', 'unitstatus_id', 'unit_status', 'unit_model', 'sites', 'units'));
     }
+
+    public function reportTireCost(Request $request)
+    {
+        $tire_size = $request->query("tire_size");
+        $start_date = $request->query("start_date");
+        $end_date = $request->query("end_date");
+        $company = auth()->user()->company_id;
+    
+        // Mendapatkan daftar ukuran ban yang unik untuk perusahaan
+        $tire_sizes = TireSize::select("size")
+            ->where('company_id', $company)
+            ->groupBy("size")
+            ->get();
+    
+        if ($request->ajax()) {
+            // Query untuk mendapatkan total bulanan dari setiap unit berdasarkan kondisi tertentu
+            $query = HistoryTireMovement::select(
+                    'unit_models.brand',
+                    DB::raw("COUNT(*) as qty"),
+                    DB::raw("SUM(history_tire_movements.price) as price")
+                )
+                ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
+                ->leftJoin('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
+                ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
+                ->where('history_tire_movements.process', 'INSTALL')
+                ->where('history_tire_movements.status', 'NEW')
+                ->where('history_tire_movements.price', '>' , 0)
+                ->where('history_tire_movements.company_id', $company)
+                ->groupBy('unit_models.brand');
+    
+            if ($tire_size) {
+                $query->where('tire_sizes.size', $tire_size);
+            }
+    
+            if ($start_date) {
+                $query->whereDate('history_tire_movements.start_date', '>=', $start_date);
+            }
+    
+            if ($end_date) {
+                $query->whereDate('history_tire_movements.start_date', '<=', $end_date);
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('brand', function ($row) {
+                    return $row->brand ?? 'N/A'; // Menampilkan 'N/A' jika brand null
+                })
+                ->addColumn('qty', function ($row) {
+                    return number_format($row->qty, 0, ',', '.'); // Format dengan pemisah ribuan
+                })
+                ->addColumn('price', function ($row) {
+                    return number_format($row->price, 0, ',', '.'); // Format dengan pemisah ribuan
+                })
+                ->make(true);
+        }
+    
+        return view("admin.report.tireCost", compact('tire_sizes', 'tire_size'));
+    }
+    
 }

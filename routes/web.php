@@ -29,6 +29,7 @@ use App\Http\Controllers\TireRunningController;
 use App\Http\Controllers\DailyInspectController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\ForecastTireSizeController;
 use App\Http\Controllers\HistoryTireController;
 use App\Http\Controllers\HistoryTireRepairController;
 use App\Http\Controllers\JabatanController;
@@ -84,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tiretargetkm', TireTargetKmController::class)->middleware('permission:TIRE_TARGETKM');
     Route::resource('driver', DriverController::class)->middleware('permission:DRIVER');
     Route::resource('jabatan', JabatanController::class)->middleware('permission:JABATAN');
+    Route::resource('forecast', ForecastTireSizeController::class)->middleware('permission:FORECAST_TIRE_SIZE');
     Route::resource('department', DepartmentController::class)->middleware('permission:DEPARTMENT');
     Route::resource('teknisi', TeknisiController::class)->middleware('permission:TEKNISI');
     Route::resource('daily-activity', DailyActivityController::class)->middleware('permission:DAILY_ACTIVITY');
@@ -189,6 +191,7 @@ Route::middleware(['auth'])->group(function () {
 
     //REPORT
     Route::middleware(['permission:REPORT'])->group(function () {
+        Route::get('report-tire-cost', [ReportController::class, 'reportTireCost'])->name('report.tirecost');
         Route::get('report-tire-activity', [ReportController::class, 'tireActivity'])->name('report.activity');
         Route::get('report-tire-status', [ReportController::class, 'statusTireCount'])->name('report.tirestatus');
         Route::get('report-tire-scrap', [ReportController::class, 'scrapTireCount'])->name('report.tirescrap');

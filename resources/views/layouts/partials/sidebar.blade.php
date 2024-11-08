@@ -156,6 +156,10 @@
                                     class="{{ Request::routeIs('area-pekerjaan.*') ? 'active' : '' }}">
                                     Area Pekerjaan</a></li>
                         @endcan
+                        @can('FORECAST')
+                            <li><a href="/forecast" class="{{ Request::routeIs('forecast.*') ? 'active' : '' }}">
+                                    Forecast</a></li>
+                        @endcan
                     </ul>
                 </li>
 
@@ -182,6 +186,10 @@
                             <li><a href="/report-tire-target-km"
                                     class="{{ Request::routeIs('report.tiretargetkm') ? 'active' : '' }}">Report Tire
                                     Target KM</a></li>
+
+                            <li><a href="/report-tire-cost"
+                                    class="{{ Request::routeIs('report.tirecost') ? 'active' : '' }}">Report Tire Cost</a>
+                            </li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"
