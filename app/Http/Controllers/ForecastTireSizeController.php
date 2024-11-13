@@ -9,10 +9,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ForecastTireSizeController extends Controller
 {
+
     public function index(Request $request)
     {
         $company = auth()->user()->company;
-        $size = Size::where("company_id", auth()->user()->company->id)->get();
+        $size = Size::where("company_id", $company->id)->get();
+
         if ($request->ajax()) {
             $data = ForecastTireSize::with('size')->where('company_id', $company->id)->orderBy('year', 'desc')->get();
             return DataTables::of($data)
@@ -63,23 +65,17 @@ class ForecastTireSizeController extends Controller
                     return number_format($row->annual_forecast, 0, ',', '.');
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = "<a class='me-3 text-warning' href='#'
-                                    data-bs-target='#form-modal' data-bs-toggle='modal' data-id='$row->id'>
-                                    <img src='assets/img/icons/edit.svg' alt='img'>
-                                </a>
-                                <a class='confirm-text' href='javascript:void(0);' data-bs-toggle='modal'
-                                    data-bs-target='#deleteModal' data-id='$row->id'
-                                    data-action='" . route('forecast.destroy', $row->id) . "'
-                                    data-message='Forecast for " . $row->year . "'>
-                                    <img src='assets/img/icons/delete.svg' alt='img'>
-                                </a>";
-                    return $actionBtn;
+                    return "<button class='btn btn-sm btn-warning edit-row' data-id='$row->id'>Edit</button>
+                            <button class='btn btn-sm btn-success save-row d-none' data-id='$row->id'>Save</button>
+                            <button class='btn btn-sm btn-danger delete-row' data-id='$row->id' data-action='" . route('forecast.destroy', $row->id) . "'>Delete</button>";
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
+
         return view("admin.master.forecast.index", compact("size"));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -95,7 +91,6 @@ class ForecastTireSizeController extends Controller
     public function store(Request $request)
     {
         $company = auth()->user()->company;
-        // Bersihkan tanda koma untuk setiap input bulan
         $request->merge([
             'january' => str_replace(',', '', $request->january),
             'february' => str_replace(',', '', $request->february),
@@ -146,7 +141,7 @@ class ForecastTireSizeController extends Controller
             "december" => $request->december,
         ]);
 
-        return redirect()->back()->with("success", "Forecast Created");
+        return response()->json(['success' => 'Forecast created successfully.']);
     }
 
     /**
@@ -171,6 +166,7 @@ class ForecastTireSizeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Remove commas for numerical values
         $request->merge([
             'january' => str_replace(',', '', $request->january),
             'february' => str_replace(',', '', $request->february),
@@ -185,7 +181,8 @@ class ForecastTireSizeController extends Controller
             'november' => str_replace(',', '', $request->november),
             'december' => str_replace(',', '', $request->december),
         ]);
-        
+
+        // Validate the data
         $request->validate([
             "tire_size_id" => "required",
             "year" => "required|integer",
@@ -203,34 +200,35 @@ class ForecastTireSizeController extends Controller
             "december" => "required|numeric",
         ]);
 
-        $forecastTireSize = ForecastTireSize::find($id);
-        $forecastTireSize->update([
-            "tire_size_id" => $request->tire_size_id,
-            "year" => $request->year,
-            "january" => $request->january,
-            "february" => $request->february,
-            "march" => $request->march,
-            "april" => $request->april,
-            "may" => $request->may,
-            "june" => $request->june,
-            "july" => $request->july,
-            "august" => $request->august,
-            "september" => $request->september,
-            "october" => $request->october,
-            "november" => $request->november,
-            "december" => $request->december,
-        ]);
+        // Find the forecast entry and update
+        $forecastTireSize = ForecastTireSize::findOrFail($id);
+        $forecastTireSize->update($request->only([
+            "tire_size_id",
+            "year",
+            "january",
+            "february",
+            "march",
+            "april",
+            "may",
+            "june",
+            "july",
+            "august",
+            "september",
+            "october",
+            "november",
+            "december"
+        ]));
 
-        return redirect()->back()->with("success", "Forecast Updated");
+        // Return a JSON response for AJAX handling
+        return response()->json(['success' => 'Forecast updated successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ForecastTireSize $forecastTireSize)
+    public function destroy($id)
     {
-        $forecastTireSize->delete();
-
-        return redirect()->back()->with("success", "Forecast Deleted");
+        ForecastTireSize::findOrFail($id)->delete();
+        return response()->json(['success' => 'Forecast deleted successfully.']);
     }
 }

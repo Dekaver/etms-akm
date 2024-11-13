@@ -1,17 +1,33 @@
 <x-app-layout>
+    <style>
+        .data-table td input,
+        .data-table td select {
+            min-width: 120px;
+            width: 100%;
+            padding: 5px 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .data-table td input,
+            .data-table td select {
+                min-width: 150px;
+            }
+        }
+
+        .data-table td input[type="text"] {
+            text-align: right;
+        }
+    </style>
+
     <div class="page-header">
         <div class="page-title">
             <h4>Forecast</h4>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Data</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Forecast</li>
-                </ol>
-            </nav>
         </div>
         <div class="page-btn">
-            <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#form-modal" data-post="new"><img
-                    src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Forecast</a>
+            <!-- Button to add a new row at the bottom -->
+            <button id="addNewRowBtn" class="btn btn-primary">Add New Forecast</button>
         </div>
     </div>
 
@@ -24,6 +40,18 @@
                             <th>No</th>
                             <th>Tire Size</th>
                             <th>Year</th>
+                            <th>January</th>
+                            <th>February</th>
+                            <th>March</th>
+                            <th>April</th>
+                            <th>May</th>
+                            <th>June</th>
+                            <th>July</th>
+                            <th>August</th>
+                            <th>September</th>
+                            <th>October</th>
+                            <th>November</th>
+                            <th>December</th>
                             <th>Total Forecast</th>
                             <th>Action</th>
                         </tr>
@@ -32,143 +60,184 @@
             </div>
         </div>
     </div>
-    <!-- Add/Edit Modal -->
-    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <form method="POST">
-            @csrf
-            @method('PUT')
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Forecast</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Tire Size</label>
-                                    <select class="form-control" name="tire_size_id">
-                                        <option value="">Choose Size</option>
-                                        @foreach ($size as $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ $item->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Year<span class="manitory">*</span></label>
-                                    <input type="number" class="form-control" name="year" required>
-                                </div>
-                            </div>
-                            @foreach (['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'] as $month)
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label>{{ ucfirst($month) }} <span class="manitory">*</span></label>
-                                        <input type="text" step="0.01" class="form-control number-format"
-                                            name="{{ $month }}" required>
-                                    </div>
-                                </div>
-                            @endforeach
 
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-submit">Save</button>
-                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
     @push('js')
         <script>
             $(function() {
-                var table = $('table.data-table').DataTable({
+                var tireSizes = @json($size);
+                var currentYear = new Date().getFullYear();
+
+                var table = $('.data-table').DataTable({
                     processing: true,
-                    serverSide: false,
+                    serverSide: true,
                     ajax: "{{ route('forecast.index') }}",
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'tire_size',
-                            name: 'tire_size'
-                        },
-                        {
-                            data: 'year',
-                            name: 'year'
-                        },
-                        {
-                            data: 'total_forecast',
-                            name: 'total_forecast'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
+                    columns: [
+                        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                        { data: 'tire_size', name: 'tire_size' },
+                        { data: 'year', name: 'year' },
+                        { data: 'january', name: 'january' },
+                        { data: 'february', name: 'february' },
+                        { data: 'march', name: 'march' },
+                        { data: 'april', name: 'april' },
+                        { data: 'may', name: 'may' },
+                        { data: 'june', name: 'june' },
+                        { data: 'july', name: 'july' },
+                        { data: 'august', name: 'august' },
+                        { data: 'september', name: 'september' },
+                        { data: 'october', name: 'october' },
+                        { data: 'november', name: 'november' },
+                        { data: 'december', name: 'december' },
+                        { data: 'total_forecast', name: 'total_forecast' },
+                        { data: 'action', name: 'action', orderable: false, searchable: false }
                     ]
                 });
-            });
 
-            $('#form-modal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var post = button.data('post');
-                var modal = $(this);
+                // Add a new row for creating a new entry
+                $('#addNewRowBtn').click(function() {
+                    if ($('#newRow').length === 0) {
+                        let newRow = `<tr id="newRow">`;
+                        newRow += `<td></td>`;
+                        newRow += `<td>
+                            <select class="form-control" name="tire_size_id" required>
+                                <option value="">Choose Size</option>`;
+                        tireSizes.forEach(size => {
+                            newRow += `<option value="${size.id}">${size.name}</option>`;
+                        });
+                        newRow += `</select></td>`;
+                        newRow += `<td><input type="number" class="form-control" name="year" value="${currentYear}" required></td>`;
 
-                if (post == 'new') {
-                    modal.find('input[name="_method"]').val('POST');
-                    modal.find('form').attr('action', `{{ route('forecast.store') }}`);
-                } else {
-                    var id = button.data('id');
-                    $.ajax({
-                        method: "GET",
-                        url: `{{ url('forecast') }}/${id}/edit`
-                    }).done(function(response) {
-                        modal.find('input[name="year"]').val(response.year);
-                        modal.find('select[name="tire_size_id"]').val(response.tire_size_id).trigger("change");
-                        @foreach (['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'] as $month)
-                            modal.find('input[name="{{ $month }}"]').val(formatNumber(response
-                                .{{ $month }}));
-                        @endforeach
-                        modal.find('input[name="_method"]').val('PUT');
+                        ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'].forEach(month => {
+                            newRow += `<td><input type="number" class="form-control" name="${month}" value="0" required></td>`;
+                        });
+
+                        newRow += `<td></td>`;
+                        newRow += `<td><button class="btn btn-success btn-sm" id="saveNewRow">Save</button>
+                                       <button class="btn btn-danger btn-sm" id="cancelNewRow">Cancel</button></td>`;
+                        newRow += `</tr>`;
+
+                        $('.data-table tbody').append(newRow);
+                    }
+                });
+
+                $(document).on('click', '#cancelNewRow', function() {
+                    $('#newRow').remove();
+                });
+
+                $(document).on('click', '#saveNewRow', function() {
+                    var newData = {};
+                    var isValid = true;
+
+                    $('#newRow').find('input, select').each(function() {
+                        var name = $(this).attr('name');
+                        var value = $(this).val();
+                        newData[name] = value;
+
+                        if (!value) {
+                            isValid = false;
+                            $(this).addClass('is-invalid');
+                        } else {
+                            $(this).removeClass('is-invalid');
+                        }
                     });
-                    modal.find('form').attr('action', `{{ url('forecast') }}/${id}`);
-                }
-            });
 
-            $('#form-modal').on('hide.bs.modal', function(event) {
-                $(this).find('form')[0].reset();
-            });
+                    if (!isValid) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
 
-            // Function to format number with thousand separators
-            function formatNumber(value) {
-                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
+                    $.ajax({
+                        url: "{{ route('forecast.store') }}",
+                        method: 'POST',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            ...newData
+                        },
+                        success: function(response) {
+                            alert(response.success);
+                            table.ajax.reload();
+                            $('#newRow').remove();
+                        },
+                        error: function(xhr) {
+                            alert("Error adding data: " + xhr.responseJSON.message);
+                        }
+                    });
+                });
 
-            // Add 'input' event listener to format numbers as user types
-            $(document).on('input', '.number-format', function(e) {
-                // Remove non-numeric characters (except for decimal point)
-                let value = $(this).val().replace(/[^0-9.]/g, '');
-                $(this).val(formatNumber(value));
-            });
+                $('.data-table').on('click', '.edit-row', function() {
+                    var row = $(this).closest('tr');
+                    var rowData = table.row(row).data();
 
-            // Select all text when input is focused
-            $(document).on('focus', '.number-format', function() {
-                $(this).select();
+                    var tireSizeDropdown = `<select class="form-control" name="tire_size_id">`;
+                    tireSizeDropdown += `<option value="">Choose Size</option>`;
+                    tireSizes.forEach(size => {
+                        var selected = rowData.tire_size_id === size.id ? 'selected' : '';
+                        tireSizeDropdown += `<option value="${size.id}" ${selected}>${size.name}</option>`;
+                    });
+                    tireSizeDropdown += `</select>`;
+                    row.find('td').eq(1).html(tireSizeDropdown);
+
+                    row.find('td').each(function(index) {
+                        var column = table.column(index).dataSrc();
+                        if (column && column !== 'action' && column !== 'tire_size' && column !== 'total_forecast') {
+                            var cellValue = $(this).text().replace(/[,.]/g, '');
+                            $(this).html(`<input type="text" class="form-control" name="${column}" value="${cellValue}">`);
+                        }
+                    });
+
+                    row.find('.edit-row').addClass('d-none');
+                    row.find('.save-row').removeClass('d-none');
+                });
+
+                $('.data-table').on('click', '.save-row', function() {
+                    var row = $(this).closest('tr');
+                    var rowId = $(this).data('id');
+                    var updatedData = {};
+
+                    row.find('input, select').each(function() {
+                        var name = $(this).attr('name');
+                        var value = $(this).val();
+                        updatedData[name] = value.replace(/,/g, '');
+                    });
+
+                    $.ajax({
+                        url: `{{ route('forecast.update', '') }}/${rowId}`,
+                        method: 'PUT',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            ...updatedData
+                        },
+                        success: function(response) {
+                            alert(response.success);
+                            table.ajax.reload();
+                        },
+                        error: function(xhr) {
+                            alert("Error updating data: " + xhr.responseJSON.message);
+                        }
+                    });
+                });
+
+                $('.data-table').on('click', '.delete-row', function() {
+                    var rowId = $(this).data('id');
+                    var actionUrl = $(this).data('action');
+
+                    if (confirm("Are you sure you want to delete this record?")) {
+                        $.ajax({
+                            url: actionUrl,
+                            method: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}"
+                            },
+                            success: function(response) {
+                                alert(response.success);
+                                table.ajax.reload();
+                            },
+                            error: function(xhr) {
+                                alert("Error deleting data: " + xhr.responseJSON.message);
+                            }
+                        });
+                    }
+                });
             });
         </script>
     @endpush
-
-
 </x-app-layout>
