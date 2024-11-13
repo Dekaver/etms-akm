@@ -190,6 +190,9 @@
                             <li><a href="/report-tire-cost"
                                     class="{{ Request::routeIs('report.tirecost') ? 'active' : '' }}">Report Tire Cost</a>
                             </li>
+                            <li><a href="/report-tire-cost-comparation"
+                                    class="{{ Request::routeIs('report.tirecost') ? 'active' : '' }}">Report Tire Cost Comparation</a>
+                            </li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
                             <li><a href="/historytire"

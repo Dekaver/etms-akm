@@ -312,7 +312,8 @@ class HistoryTireMovementController extends Controller
                     DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.start_date) BETWEEN 15 AND 21 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap3'"),
                     DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.start_date) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.start_date)) AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new4'"),
                     DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.start_date) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.start_date)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
-                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.start_date) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.start_date)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(history_tire_movements.start_date) BETWEEN 22 AND DAY(LAST_DAY(history_tire_movements.start_date)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'"),
+                    DB::raw("SUM(CASE WHEN status = 'NEW' THEN price ELSE 0 END) AS 'price'")
                 )->leftJoin("drivers", "drivers.id", "=", "history_tire_movements.driver_id");
             } else {
                 $query = HistoryTireMovement::select(
@@ -328,7 +329,8 @@ class HistoryTireMovementController extends Controller
                     DB::raw("SUM(CASE WHEN DAYOFMONTH(start_date) BETWEEN 15 AND 21 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap3'"),
                     DB::raw("SUM(CASE WHEN DAYOFMONTH(start_date) BETWEEN 22 AND DAY(LAST_DAY(start_date)) AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new4'"),
                     DB::raw("SUM(CASE WHEN DAYOFMONTH(start_date) BETWEEN 22 AND DAY(LAST_DAY(start_date)) AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare4'"),
-                    DB::raw("SUM(CASE WHEN DAYOFMONTH(start_date) BETWEEN 22 AND DAY(LAST_DAY(start_date)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'")
+                    DB::raw("SUM(CASE WHEN DAYOFMONTH(start_date) BETWEEN 22 AND DAY(LAST_DAY(start_date)) AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap4'"),
+                    DB::raw("SUM(CASE WHEN status = 'NEW' THEN price ELSE 0 END) AS 'price'")
                 );
             }
 
@@ -422,6 +424,9 @@ class HistoryTireMovementController extends Controller
                     $totalScrap = $row->scrap1 + $row->scrap2 + $row->scrap3 + $row->scrap4;
                     return $totalNew + $totalSpare;
                 })
+                ->addColumn("price", function ($row) {
+                    return $row->price;
+                })
                 ->make(true);
         }
 
@@ -491,7 +496,8 @@ class HistoryTireMovementController extends Controller
                     DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 11 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap11'"),
                     DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new12'"),
                     DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare12'"),
-                    DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap12'")
+                    DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap12'"),
+                    DB::raw("SUM(CASE WHEN status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'price'")
                 )
                     ->leftJoin("drivers", "drivers.id", "=", "history_tire_movements.driver_id")
                     ->groupBy("drivers.nama"); // Grupkan hasil berdasarkan nama unit
@@ -537,7 +543,8 @@ class HistoryTireMovementController extends Controller
                     DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 11 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap11'"),
                     DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'NEW' THEN 1 ELSE 0 END) AS 'new12'"),
                     DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'SPARE' THEN 1 ELSE 0 END) AS 'spare12'"),
-                    DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap12'")
+                    DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'SCRAP' THEN 1 ELSE 0 END) AS 'scrap12'"),
+                    DB::raw("SUM(CASE WHEN status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'price'")
                 );
             }
 
@@ -702,6 +709,9 @@ class HistoryTireMovementController extends Controller
                     $totalSpare = $row->spare1 + $row->spare2 + $row->spare3 + $row->spare4 + $row->spare5 + $row->spare6 + $row->spare7 + $row->spare8 + $row->spare9 + $row->spare10 + $row->spare11 + $row->spare12;
                     $totalScrap = $row->scrap1 + $row->scrap2 + $row->scrap3 + $row->scrap4 + $row->scrap5 + $row->scrap6 + $row->scrap7 + $row->scrap8 + $row->scrap9 + $row->scrap10 + $row->scrap11 + $row->scrap12;
                     return $totalNew + $totalSpare;
+                })
+                ->addColumn("price", function ($row) {
+                    return $row->price;
                 })
                 ->make(true);
         }

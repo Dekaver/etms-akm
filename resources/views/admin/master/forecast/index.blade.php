@@ -10,7 +10,6 @@
         }
 
         @media (min-width: 768px) {
-
             .data-table td input,
             .data-table td select {
                 min-width: 150px;
@@ -38,7 +37,7 @@
                 <table class="table data-table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Action</th>
                             <th>Tire Size</th>
                             <th>Year</th>
                             <th>January</th>
@@ -53,7 +52,6 @@
                             <th>October</th>
                             <th>November</th>
                             <th>December</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -71,74 +69,22 @@
                     processing: true,
                     serverSide: true,
                     ajax: "{{ route('forecast.index') }}",
-                    columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex',
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: 'tire_size',
-                            name: 'tire_size'
-                        },
-                        {
-                            data: 'year',
-                            name: 'year'
-                        },
-                        {
-                            data: 'january',
-                            name: 'january'
-                        },
-                        {
-                            data: 'february',
-                            name: 'february'
-                        },
-                        {
-                            data: 'march',
-                            name: 'march'
-                        },
-                        {
-                            data: 'april',
-                            name: 'april'
-                        },
-                        {
-                            data: 'may',
-                            name: 'may'
-                        },
-                        {
-                            data: 'june',
-                            name: 'june'
-                        },
-                        {
-                            data: 'july',
-                            name: 'july'
-                        },
-                        {
-                            data: 'august',
-                            name: 'august'
-                        },
-                        {
-                            data: 'september',
-                            name: 'september'
-                        },
-                        {
-                            data: 'october',
-                            name: 'october'
-                        },
-                        {
-                            data: 'november',
-                            name: 'november'
-                        },
-                        {
-                            data: 'december',
-                            name: 'december'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        }
+                    columns: [
+                        { data: 'action', name: 'action', orderable: false, searchable: false },
+                        { data: 'tire_size', name: 'tire_size' },
+                        { data: 'year', name: 'year' },
+                        { data: 'january', name: 'january' },
+                        { data: 'february', name: 'february' },
+                        { data: 'march', name: 'march' },
+                        { data: 'april', name: 'april' },
+                        { data: 'may', name: 'may' },
+                        { data: 'june', name: 'june' },
+                        { data: 'july', name: 'july' },
+                        { data: 'august', name: 'august' },
+                        { data: 'september', name: 'september' },
+                        { data: 'october', name: 'october' },
+                        { data: 'november', name: 'november' },
+                        { data: 'december', name: 'december' }
                     ]
                 });
 
@@ -148,26 +94,25 @@
                         let newRow = `<tr id="newRow">`;
                         newRow += `<td></td>`; // Static "No" column, non-editable
                         newRow += `<td>
-                <select class="form-control" name="tire_size_id" required>
-                    <option value="">Choose Size</option>`;
+                            <select class="form-control" name="tire_size_id" required>
+                                <option value="">Choose Size</option>`;
                         tireSizes.forEach(size => {
                             newRow += `<option value="${size.id}">${size.name}</option>`;
                         });
                         newRow += `</select></td>`;
-                        newRow +=
-                            `<td><input type="number" class="form-control" name="year" value="${currentYear}" required></td>`;
+                        newRow += `<td><input type="number" class="form-control" name="year" value="${currentYear}" required></td>`;
 
                         // Generate input fields for each month with default value 0
-                        ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
-                            'october', 'november', 'december'
-                        ].forEach(month => {
-                            newRow +=
-                                `<td><input type="number" class="form-control" name="${month}" value="0" required></td>`;
+                        ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+                        .forEach(month => {
+                            newRow += `<td><input type="number" class="form-control" name="${month}" value="0" required></td>`;
                         });
 
                         newRow += `<td></td>`; // Empty cell for total_forecast
-                        newRow += `<td><button class="btn btn-success btn-sm d-none" id="saveNewRow">Save</button>
-                           <button class="btn btn-danger btn-sm" id="cancelNewRow">Cancel</button></td>`;
+                        newRow += `<td>
+                                        <button class="btn btn-success btn-sm" id="saveNewRow">Save</button>
+                                        <button class="btn btn-danger btn-sm" id="cancelNewRow">Cancel</button>
+                                   </td>`;
                         newRow += `</tr>`;
 
                         $('.data-table tbody').append(newRow);
@@ -245,20 +190,16 @@
                     tireSizeDropdown += `<option value="">Choose Size</option>`;
                     tireSizes.forEach(size => {
                         var selected = rowData.tire_size_id === size.id ? 'selected' : '';
-                        tireSizeDropdown +=
-                            `<option value="${size.id}" ${selected}>${size.name}</option>`;
+                        tireSizeDropdown += `<option value="${size.id}" ${selected}>${size.name}</option>`;
                     });
                     tireSizeDropdown += `</select>`;
                     row.find('td').eq(1).html(tireSizeDropdown);
 
                     row.find('td').each(function(index) {
                         var column = table.column(index).dataSrc();
-                        if (column && column !== 'action' && column !== 'tire_size' && column !==
-                            'total_forecast') {
+                        if (column && column !== 'action' && column !== 'tire_size' && column !== 'total_forecast') {
                             var cellValue = $(this).text().replace(/[,.]/g, '');
-                            $(this).html(
-                                `<input type="text" class="form-control" name="${column}" value="${cellValue}">`
-                                );
+                            $(this).html(`<input type="text" class="form-control" name="${column}" value="${cellValue}">`);
                         }
                     });
 

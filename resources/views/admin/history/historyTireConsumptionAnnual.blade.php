@@ -147,6 +147,7 @@
                             <th style="text-align: center" colspan="3">Desember</th>
                             <th style="text-align: center" colspan="3">Total</th>
                             <th style="text-align: center" rowspan="2">Total</th>
+                            <th style="text-align: center" rowspan="2">Cost</th>
 
                         </tr>
                         <tr>
@@ -341,6 +342,9 @@
                     }, {
                         data: 'total',
                         name: 'total'
+                    }, {
+                        data: 'price',
+                        name: 'price'
                     }],
                     columnDefs: [
                     {

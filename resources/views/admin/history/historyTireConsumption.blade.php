@@ -159,6 +159,7 @@
                             <th style="text-align: center" colspan="3">Week 4</th>
                             <th style="text-align: center" colspan="3">Total</th>
                             <th style="text-align: center;" rowspan="2">Total</th>
+                            <th style="text-align: center;" rowspan="2">Cost</th>
 
                         </tr>
                         <tr>
@@ -257,30 +258,35 @@
                     }, {
                         data: 'total',
                         name: 'total'
+                    }, {
+                        data: 'price',
+                        name: 'price'
                     }],
-                    columnDefs: [
-                    {
-                        targets: [13], // Indeks kolom yang ingin Anda beri warna
-                        render: function(data, type, row, meta) {
-                                return '<div class="text-center text-white" style="background-color: #0d6efd; margin: -10px!important; padding: 10px 0;">' + data +
-                                '</div>'; // Warna hijau\
+                    columnDefs: [{
+                            targets: [13], // Indeks kolom yang ingin Anda beri warna
+                            render: function(data, type, row, meta) {
+                                return '<div class="text-center text-white" style="background-color: #0d6efd; margin: -10px!important; padding: 10px 0;">' +
+                                    data +
+                                    '</div>'; // Warna hijau\
+                            }
+                        },
+                        {
+                            targets: [14], // Indeks kolom yang ingin Anda beri warna
+                            render: function(data, type, row, meta) {
+                                return '<div class="text-center text-dark" style="background-color: #ffc107; margin: -10px!important; padding: 10px 0;">' +
+                                    data +
+                                    '</div>'; // Warna hijau\
+                            }
+                        },
+                        {
+                            targets: [15], // Indeks kolom yang ingin Anda beri warna
+                            render: function(data, type, row, meta) {
+                                return '<div class="text-center text-white" style="background-color: #dc3545; margin: -10px!important; padding: 10px 0;">' +
+                                    data +
+                                    '</div>'; // Warna hijau\
+                            }
                         }
-                    },
-                    {
-                        targets: [14], // Indeks kolom yang ingin Anda beri warna
-                        render: function(data, type, row, meta) {
-                                return '<div class="text-center text-dark" style="background-color: #ffc107; margin: -10px!important; padding: 10px 0;">' + data +
-                                '</div>'; // Warna hijau\
-                        }
-                    },
-                    {
-                        targets: [15], // Indeks kolom yang ingin Anda beri warna
-                        render: function(data, type, row, meta) {
-                                return '<div class="text-center text-white" style="background-color: #dc3545; margin: -10px!important; padding: 10px 0;">' + data +
-                                '</div>'; // Warna hijau\
-                        }
-                    }
-                ]
+                    ]
                 });
             });
         </script>

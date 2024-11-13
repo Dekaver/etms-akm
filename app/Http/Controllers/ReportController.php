@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Driver;
 use App\Models\HistoryTireMovement;
 use App\Models\Site;
 use App\Models\TireManufacture;
@@ -16,9 +17,9 @@ use App\Models\UnitModel;
 use App\Models\UnitStatus;
 use Auth;
 use Carbon\Carbon;
-use DB;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class ReportController extends Controller
@@ -586,41 +587,41 @@ class ReportController extends Controller
         $start_date = $request->query("start_date");
         $end_date = $request->query("end_date");
         $company = auth()->user()->company_id;
-    
+
         // Mendapatkan daftar ukuran ban yang unik untuk perusahaan
         $tire_sizes = TireSize::select("size")
             ->where('company_id', $company)
             ->groupBy("size")
             ->get();
-    
+
         if ($request->ajax()) {
             // Query untuk mendapatkan total bulanan dari setiap unit berdasarkan kondisi tertentu
             $query = HistoryTireMovement::select(
-                    'unit_models.brand',
-                    DB::raw("COUNT(*) as qty"),
-                    DB::raw("SUM(history_tire_movements.price) as price")
-                )
+                'unit_models.brand',
+                DB::raw("COUNT(*) as qty"),
+                DB::raw("SUM(history_tire_movements.price) as price")
+            )
                 ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
                 ->leftJoin('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
                 ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
                 ->where('history_tire_movements.process', 'INSTALL')
                 ->where('history_tire_movements.status', 'NEW')
-                ->where('history_tire_movements.price', '>' , 0)
+                ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
                 ->groupBy('unit_models.brand');
-    
+
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
             }
-    
+
             if ($start_date) {
                 $query->whereDate('history_tire_movements.start_date', '>=', $start_date);
             }
-    
+
             if ($end_date) {
                 $query->whereDate('history_tire_movements.start_date', '<=', $end_date);
             }
-    
+
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->addColumn('brand', function ($row) {
@@ -634,8 +635,146 @@ class ReportController extends Controller
                 })
                 ->make(true);
         }
-    
+
         return view("admin.report.tireCost", compact('tire_sizes', 'tire_size'));
     }
-    
+
+    public function reportTireCostComparation(Request $request, TireMaster $tire)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        $company = auth()->user()->company;
+
+        if ($request->ajax()) {
+            $query = HistoryTireMovement::select(
+                'tire_sizes.size as unit',
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 1 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized1'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 2 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized2'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 3 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized3'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 4 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized4'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 5 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized5'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 6 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized6'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 7 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized7'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 8 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized8'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 9 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized9'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 10 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized10'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 11 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized11'"),
+                DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized12'"),
+                DB::raw("SUM(CASE WHEN status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'total_realized'"),
+
+                // Using MAX to retrieve forecast values per group
+                DB::raw("MAX(forecast_tire_sizes.january) AS 'forecast1'"),
+                DB::raw("MAX(forecast_tire_sizes.february) AS 'forecast2'"),
+                DB::raw("MAX(forecast_tire_sizes.march) AS 'forecast3'"),
+                DB::raw("MAX(forecast_tire_sizes.april) AS 'forecast4'"),
+                DB::raw("MAX(forecast_tire_sizes.may) AS 'forecast5'"),
+                DB::raw("MAX(forecast_tire_sizes.june) AS 'forecast6'"),
+                DB::raw("MAX(forecast_tire_sizes.july) AS 'forecast7'"),
+                DB::raw("MAX(forecast_tire_sizes.august) AS 'forecast8'"),
+                DB::raw("MAX(forecast_tire_sizes.september) AS 'forecast9'"),
+                DB::raw("MAX(forecast_tire_sizes.october) AS 'forecast10'"),
+                DB::raw("MAX(forecast_tire_sizes.november) AS 'forecast11'"),
+                DB::raw("MAX(forecast_tire_sizes.december) AS 'forecast12'"),
+                DB::raw("MAX(forecast_tire_sizes.january) + MAX(forecast_tire_sizes.february) + MAX(forecast_tire_sizes.march) + MAX(forecast_tire_sizes.april) + MAX(forecast_tire_sizes.may) + MAX(forecast_tire_sizes.june) + MAX(forecast_tire_sizes.july) + MAX(forecast_tire_sizes.august) + MAX(forecast_tire_sizes.september) + MAX(forecast_tire_sizes.october) + MAX(forecast_tire_sizes.november) + MAX(forecast_tire_sizes.december) AS 'total_forecast'")
+            )
+                ->join('units', 'history_tire_movements.unit', '=', 'units.unit_number')
+                ->join('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
+                ->join('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
+                ->leftJoin('sizes', 'sizes.name', '=', 'tire_sizes.size')
+                ->leftJoin("forecast_tire_sizes", function ($join) use ($year, $company) {
+                    $join->on("forecast_tire_sizes.tire_size_id", "=", "sizes.id")
+                        ->where("forecast_tire_sizes.year", "=", $year)
+                        ->where("forecast_tire_sizes.company_id", "=", $company->id);
+                })
+                ->whereYear("history_tire_movements.start_date", $year)
+                ->where("history_tire_movements.company_id", $company->id);
+            $query->groupBy('tire_sizes.size');
+
+            $result = $query->get();
+
+            // Pass data to DataTable with both realized and forecast columns
+            return DataTables::of($result)
+                ->addIndexColumn()
+                ->addColumn("forecast1", function ($row) {
+                    return $row->forecast1;
+                })
+                ->addColumn("realized1", function ($row) {
+                    return $row->realized1;
+                })
+                ->addColumn("forecast2", function ($row) {
+                    return $row->forecast2;
+                })
+                ->addColumn("realized2", function ($row) {
+                    return $row->realized2;
+                })
+                ->addColumn("forecast3", function ($row) {
+                    return $row->forecast3;
+                })
+                ->addColumn("realized3", function ($row) {
+                    return $row->realized3;
+                })
+                ->addColumn("forecast4", function ($row) {
+                    return $row->forecast4;
+                })
+                ->addColumn("realized4", function ($row) {
+                    return $row->realized4;
+                })
+                ->addColumn("forecast5", function ($row) {
+                    return $row->forecast5;
+                })
+                ->addColumn("realized5", function ($row) {
+                    return $row->realized5;
+                })
+                ->addColumn("forecast6", function ($row) {
+                    return $row->forecast6;
+                })
+                ->addColumn("realized6", function ($row) {
+                    return $row->realized6;
+                })
+                ->addColumn("forecast7", function ($row) {
+                    return $row->forecast7;
+                })
+                ->addColumn("realized7", function ($row) {
+                    return $row->realized7;
+                })
+                ->addColumn("forecast8", function ($row) {
+                    return $row->forecast8;
+                })
+                ->addColumn("realized8", function ($row) {
+                    return $row->realized8;
+                })
+                ->addColumn("forecast9", function ($row) {
+                    return $row->forecast9;
+                })
+                ->addColumn("realized9", function ($row) {
+                    return $row->realized9;
+                })
+                ->addColumn("forecast10", function ($row) {
+                    return $row->forecast10;
+                })
+                ->addColumn("realized10", function ($row) {
+                    return $row->realized10;
+                })
+                ->addColumn("forecast11", function ($row) {
+                    return $row->forecast11;
+                })
+                ->addColumn("realized11", function ($row) {
+                    return $row->realized11;
+                })
+                ->addColumn("forecast12", function ($row) {
+                    return $row->forecast12;
+                })
+                ->addColumn("realized12", function ($row) {
+                    return $row->realized12;
+                })
+                ->addColumn("total_forecast", function ($row) {
+                    return $row->total_forecast;
+                })
+                ->addColumn("total_realized", function ($row) {
+                    return $row->total_realized;
+                })
+                ->make(true);
+        }
+
+        return view("admin.report.tire-cost-comparation", compact('year'));
+    }
 }
