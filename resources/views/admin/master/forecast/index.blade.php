@@ -10,6 +10,7 @@
         }
 
         @media (min-width: 768px) {
+
             .data-table td input,
             .data-table td select {
                 min-width: 150px;
@@ -71,67 +72,137 @@
                     processing: true,
                     serverSide: true,
                     ajax: "{{ route('forecast.index') }}",
-                    columns: [
-                        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                        { data: 'tire_size', name: 'tire_size' },
-                        { data: 'year', name: 'year' },
-                        { data: 'january', name: 'january' },
-                        { data: 'february', name: 'february' },
-                        { data: 'march', name: 'march' },
-                        { data: 'april', name: 'april' },
-                        { data: 'may', name: 'may' },
-                        { data: 'june', name: 'june' },
-                        { data: 'july', name: 'july' },
-                        { data: 'august', name: 'august' },
-                        { data: 'september', name: 'september' },
-                        { data: 'october', name: 'october' },
-                        { data: 'november', name: 'november' },
-                        { data: 'december', name: 'december' },
-                        { data: 'total_forecast', name: 'total_forecast' },
-                        { data: 'action', name: 'action', orderable: false, searchable: false }
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'tire_size',
+                            name: 'tire_size'
+                        },
+                        {
+                            data: 'year',
+                            name: 'year'
+                        },
+                        {
+                            data: 'january',
+                            name: 'january'
+                        },
+                        {
+                            data: 'february',
+                            name: 'february'
+                        },
+                        {
+                            data: 'march',
+                            name: 'march'
+                        },
+                        {
+                            data: 'april',
+                            name: 'april'
+                        },
+                        {
+                            data: 'may',
+                            name: 'may'
+                        },
+                        {
+                            data: 'june',
+                            name: 'june'
+                        },
+                        {
+                            data: 'july',
+                            name: 'july'
+                        },
+                        {
+                            data: 'august',
+                            name: 'august'
+                        },
+                        {
+                            data: 'september',
+                            name: 'september'
+                        },
+                        {
+                            data: 'october',
+                            name: 'october'
+                        },
+                        {
+                            data: 'november',
+                            name: 'november'
+                        },
+                        {
+                            data: 'december',
+                            name: 'december'
+                        },
+                        {
+                            data: 'total_forecast',
+                            name: 'total_forecast'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        }
                     ]
                 });
 
                 // Add a new row for creating a new entry
                 $('#addNewRowBtn').click(function() {
-                    if ($('#newRow').length === 0) {
+                    if ($('#newRow').length === 0) { // Check if new row already exists
                         let newRow = `<tr id="newRow">`;
-                        newRow += `<td></td>`;
+                        newRow += `<td></td>`; // Static "No" column, non-editable
                         newRow += `<td>
-                            <select class="form-control" name="tire_size_id" required>
-                                <option value="">Choose Size</option>`;
+                <select class="form-control" name="tire_size_id" required>
+                    <option value="">Choose Size</option>`;
                         tireSizes.forEach(size => {
                             newRow += `<option value="${size.id}">${size.name}</option>`;
                         });
                         newRow += `</select></td>`;
-                        newRow += `<td><input type="number" class="form-control" name="year" value="${currentYear}" required></td>`;
+                        newRow +=
+                            `<td><input type="number" class="form-control" name="year" value="${currentYear}" required></td>`;
 
-                        ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'].forEach(month => {
-                            newRow += `<td><input type="number" class="form-control" name="${month}" value="0" required></td>`;
+                        // Generate input fields for each month with default value 0
+                        ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
+                            'october', 'november', 'december'
+                        ].forEach(month => {
+                            newRow +=
+                                `<td><input type="number" class="form-control" name="${month}" value="0" required></td>`;
                         });
 
-                        newRow += `<td></td>`;
-                        newRow += `<td><button class="btn btn-success btn-sm" id="saveNewRow">Save</button>
-                                       <button class="btn btn-danger btn-sm" id="cancelNewRow">Cancel</button></td>`;
+                        newRow += `<td></td>`; // Empty cell for total_forecast
+                        newRow += `<td><button class="btn btn-success btn-sm d-none" id="saveNewRow">Save</button>
+                           <button class="btn btn-danger btn-sm" id="cancelNewRow">Cancel</button></td>`;
                         newRow += `</tr>`;
 
                         $('.data-table tbody').append(newRow);
                     }
                 });
 
+                // Cancel new row creation
                 $(document).on('click', '#cancelNewRow', function() {
                     $('#newRow').remove();
+                });
+
+                // Save new row data on Enter key or by pressing Save button
+                $(document).on('keydown', '#newRow input, #newRow select', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        $('#saveNewRow').click();
+                    }
                 });
 
                 $(document).on('click', '#saveNewRow', function() {
                     var newData = {};
                     var isValid = true;
 
+                    // Gather data and validate
                     $('#newRow').find('input, select').each(function() {
                         var name = $(this).attr('name');
                         var value = $(this).val();
                         newData[name] = value;
 
+                        // Validation: ensure all fields are filled
                         if (!value) {
                             isValid = false;
                             $(this).addClass('is-invalid');
@@ -155,12 +226,20 @@
                         success: function(response) {
                             alert(response.success);
                             table.ajax.reload();
-                            $('#newRow').remove();
+                            $('#newRow').remove(); // Remove new row after saving
                         },
                         error: function(xhr) {
                             alert("Error adding data: " + xhr.responseJSON.message);
                         }
                     });
+                });
+
+                // Enter key save functionality for editing rows
+                $(document).on('keydown', 'input, select', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        $(this).closest('tr').find('.save-row').click();
+                    }
                 });
 
                 $('.data-table').on('click', '.edit-row', function() {
@@ -171,16 +250,20 @@
                     tireSizeDropdown += `<option value="">Choose Size</option>`;
                     tireSizes.forEach(size => {
                         var selected = rowData.tire_size_id === size.id ? 'selected' : '';
-                        tireSizeDropdown += `<option value="${size.id}" ${selected}>${size.name}</option>`;
+                        tireSizeDropdown +=
+                            `<option value="${size.id}" ${selected}>${size.name}</option>`;
                     });
                     tireSizeDropdown += `</select>`;
                     row.find('td').eq(1).html(tireSizeDropdown);
 
                     row.find('td').each(function(index) {
                         var column = table.column(index).dataSrc();
-                        if (column && column !== 'action' && column !== 'tire_size' && column !== 'total_forecast') {
+                        if (column && column !== 'action' && column !== 'tire_size' && column !==
+                            'total_forecast') {
                             var cellValue = $(this).text().replace(/[,.]/g, '');
-                            $(this).html(`<input type="text" class="form-control" name="${column}" value="${cellValue}">`);
+                            $(this).html(
+                                `<input type="text" class="form-control" name="${column}" value="${cellValue}">`
+                                );
                         }
                     });
 
