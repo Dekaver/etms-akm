@@ -61,9 +61,6 @@ class ForecastTireSizeController extends Controller
                 ->addColumn('december', function ($row) {
                     return number_format($row->december, 0, ',', '.');
                 })
-                ->addColumn('total_forecast', function ($row) {
-                    return number_format($row->annual_forecast, 0, ',', '.');
-                })
                 ->addColumn('action', function ($row) {
                     return "<button class='btn btn-sm btn-warning edit-row' data-id='$row->id'>Edit</button>
                             <button class='btn btn-sm btn-success save-row d-none' data-id='$row->id'>Save</button>

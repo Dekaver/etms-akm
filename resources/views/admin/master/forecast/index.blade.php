@@ -53,7 +53,6 @@
                             <th>October</th>
                             <th>November</th>
                             <th>December</th>
-                            <th>Total Forecast</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -133,10 +132,6 @@
                         {
                             data: 'december',
                             name: 'december'
-                        },
-                        {
-                            data: 'total_forecast',
-                            name: 'total_forecast'
                         },
                         {
                             data: 'action',
@@ -224,7 +219,7 @@
                             ...newData
                         },
                         success: function(response) {
-                            alert(response.success);
+                            // alert(response.success);
                             table.ajax.reload();
                             $('#newRow').remove(); // Remove new row after saving
                         },
@@ -290,7 +285,7 @@
                             ...updatedData
                         },
                         success: function(response) {
-                            alert(response.success);
+                            // alert(response.success);
                             table.ajax.reload();
                         },
                         error: function(xhr) {
@@ -311,7 +306,7 @@
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function(response) {
-                                alert(response.success);
+                                // alert(response.success);
                                 table.ajax.reload();
                             },
                             error: function(xhr) {
