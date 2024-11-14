@@ -52,6 +52,9 @@ class HistoryTireMovementController extends Controller
             }
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('lifetime_hm', function ($row) {
+                    return number_format($row->lifetime_hm, 0, ',', '.'); 
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "
                         <a href='" . route('historytiremovement.tiremovement', $row->id) . "' class='btn btn-sm btn-primary text-white'>MOVEMENT</a>

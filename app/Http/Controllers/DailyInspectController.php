@@ -42,6 +42,12 @@ class DailyInspectController extends Controller
                 ->addColumn("unit_status", function ($row) {
                     return $row->unit_status->status_code;
                 })
+                ->addColumn("hm", function ($row) {
+                    return number_format($row->hm, 0, ',', '.'); 
+                })
+                ->addColumn("km", function ($row) {
+                    return number_format($row->km, 0, ',', '.'); 
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='" . route('dailyinspect.show', $row->id) . "'>
                                     <img src='assets/img/icons/edit.svg' alt='img'>

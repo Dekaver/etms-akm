@@ -248,10 +248,10 @@ class ReportController extends Controller
                     return $row->unit_number;
                 })
                 ->addColumn('lifetime_hm', function ($row) {
-                    return $row->lifetime_hm;
+                    return number_format($row->lifetime_hm, 0, ',', '.'); 
                 })
                 ->addColumn('lifetime_km', function ($row) {
-                    return $row->lifetime_km;
+                    return number_format($row->lifetime_km, 0, ',', '.'); 
                 })
                 ->addColumn('rtd', function ($row) {
                     return number_format($row->rtd, 2, '.', ',');

@@ -25,6 +25,13 @@ class TireRepairController extends Controller
             $data = TireMaster::where('company_id', $company->id)->where('is_repairing', true);
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn("lifetime_km", function ($row) {
+                    return number_format($row->lifetime_km, 0, ',', '.'); 
+
+                })
+                ->addColumn("lifetime_hm", function ($row) {
+                    return number_format($row->lifetime_hm, 0, ',', '.'); 
+                })
                 ->addColumn("size", function ($row) {
                     return $row->tire_size->size;
                 })
