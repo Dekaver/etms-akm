@@ -425,7 +425,7 @@ class HistoryTireMovementController extends Controller
                     return $totalNew + $totalSpare;
                 })
                 ->addColumn("price", function ($row) {
-                    return $row->price;
+                    return number_format($row->price, 0, ',', '.');
                 })
                 ->make(true);
         }
@@ -711,7 +711,7 @@ class HistoryTireMovementController extends Controller
                     return $totalNew + $totalSpare;
                 })
                 ->addColumn("price", function ($row) {
-                    return $row->price;
+                    return number_format($row->price, 0, ',', '.');
                 })
                 ->make(true);
         }
