@@ -777,4 +777,63 @@ class ReportController extends Controller
 
         return view("admin.report.tire-cost-comparation", compact('year'));
     }
+
+
+    public function reportHistoryTireScrap(Request $request)
+    {
+        $company = auth()->user()->company;
+        $data = HistoryTireMovement::with(['site', 'tire_damage', 'driver'])
+            ->where('process', 'REMOVE')->where('company_id', $company->id)
+            ->orderBy('start_date', 'desc')
+            ->get()
+            ->map(function ($item) {
+                if (!empty($item->start_date) && !empty($item->end_date)) {
+                    $start = Carbon::parse($item->start_date);
+                    $end = Carbon::parse($item->end_date);
+                    $hours = $end->diffInHours($start);
+                    $minutes = $end->diffInMinutes($start) % 60;
+                    $item->duration = "{$hours} Hours {$minutes} Minutes";
+                } else {
+                    $item->duration = "0 Hours 0 Minutes";
+                }
+                return $item;
+            });
+    
+        if ($request->ajax()) {
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn("site", function ($row) {
+                    return $row->site->name;
+                })
+                ->addColumn("driver", function ($row) {
+                    return $row->driver->nama ?? null;
+                })
+                ->addColumn("damage", function ($row) {
+                    return $row->tire_damage->damage ?? null;
+                })
+                ->addColumn("hm_tire", function ($row) {
+                    return number_format($row->hm_tire, 0, ',', '.');
+                })
+                ->addColumn("km_tire", function ($row) {
+                    return number_format($row->km_tire, 0, ',', '.');
+                })
+                ->addColumn("hm_unit", function ($row) {
+                    return number_format($row->hm_unit, 0, ',', '.');
+                })
+                ->addColumn("km_unit", function ($row) {
+                    return number_format($row->km_unit, 0, ',', '.');
+                })
+                ->addColumn("photo", function ($row) {
+                    if ($row->photo) {
+                        $url = asset('storage/' . $row->photo);
+                        return "<a href='#' class='photo-link' data-photo-url='$url'>View Photo</a>";
+                    }
+                    return 'No Photo';
+                })
+                ->rawColumns(['photo']) // Allows HTML rendering in the photo column
+                ->make(true);
+        }
+    
+        return view("admin.history.historyTireScrap");
+    }    
 }

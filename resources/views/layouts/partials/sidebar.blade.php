@@ -204,6 +204,12 @@
                                     class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Report Tire
                                     Movement</a></li>
                         @endcan
+
+                        @can('HISTORY_TIRE')
+                            <li><a href="/report-history-tire-scrap"
+                                    class="{{ Request::routeIs('report.historytirescrap.*') ? 'active' : '' }}">Report History
+                                    Tire Scrap</a></li>
+                        @endcan
                     </ul>
                 </li>
                 <li class="submenu">
