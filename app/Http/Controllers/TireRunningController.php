@@ -443,65 +443,60 @@ class TireRunningController extends Controller
             'tire_id' => "required",
             'tire_status_id' => "required",
             'position' => "required",
-            'start_date' => "required",
-            'end_date' => "required",
-            'hm' => "required",
-            'rtd' => "required",
+            'start_date' => "required|date",
+            'end_date' => "required|date",
+            'hm' => "required|numeric",
+            'rtd' => "required|numeric",
             "start_breakdown" => "required",
             "status_schedule" => "required",
             "lokasi_breakdown" => "required",
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // validate photo file
         ]);
+
         $company = auth()->user()->company;
         DB::beginTransaction();
         try {
             $request->hm_actual = (int) filter_var($request->hm_actual, FILTER_SANITIZE_NUMBER_FLOAT);
             $request->km_actual = (int) filter_var($request->km_actual, FILTER_SANITIZE_NUMBER_FLOAT);
-            // start update lifetime
-            $unit = Unit::findOrFail($request->unit_id);
 
-            // update removed tire
+            // Start updating lifetime data
+            $unit = Unit::findOrFail($request->unit_id);
             $tire = TireMaster::findOrFail($request->tire_id);
-            // update HM Tire
+
+            // Update HM Tire
             if ($request->hm_actual > $tire->last_update_hm_unit) {
-                // get difference
                 $diff_smu = (int) $request->hm_actual - (int) $tire->last_update_hm_unit;
-                // add to lifetime HM
                 $tire->lifetime_hm += $diff_smu;
-                if ($tire->is_repair)
-                    $tire->lifetime_repair_hm += $diff_smu;
-                if ($tire->is_retread)
-                    $tire->lifetime_retread_hm += $diff_smu;
-                // update unit HM
+                if ($tire->is_repair) $tire->lifetime_repair_hm += $diff_smu;
+                if ($tire->is_retread) $tire->lifetime_retread_hm += $diff_smu;
                 $unit->hm = (int) $request->hm_actual;
             }
-            // update KM Tire
+
+            // Update KM Tire
             if ($request->km_actual > $tire->last_update_km_unit) {
-                // get difference
                 $diff_smu = (int) $request->km_actual - (int) $tire->last_update_km_unit;
-                // add to lifetime KM
                 $tire->lifetime_km += $diff_smu;
-                if ($tire->is_repair)
-                    $tire->lifetime_repair_km += $diff_smu;
-                if ($tire->is_retread)
-                    $tire->lifetime_retread_km += $diff_smu;
-                // update unit KM
+                if ($tire->is_repair) $tire->lifetime_repair_km += $diff_smu;
+                if ($tire->is_retread) $tire->lifetime_retread_km += $diff_smu;
                 $unit->km = (int) $request->km_actual;
             }
-            // save unit
+
+            // Save unit updates
             $unit->save();
 
-            // Update status
+            // Update Tire Status
             $tire->tire_status_id = $request->tire_status_id;
-            if ($request->tire_status_id == 3) { // repairing
-                $tire->is_repairing = true;
-            }
-            if ($request->tire_status_id == 4) { // retreading
-                $tire->is_retreading = true;
-            }
-
+            $tire->is_repairing = $request->tire_status_id == 3;
+            $tire->is_retreading = $request->tire_status_id == 4;
             $tire->rtd = $request->rtd;
             $tire->tire_damage_id = $request->tire_damage_id;
             $tire->save();
+
+            // File Upload Handling
+            $path = null;
+            if ($request->hasFile('photo')) {
+                $path = $request->file('photo')->store('photos', 'public'); // Save photo in 'public/photos'
+            }
 
             $dataHistoryTireMovement = HistoryTireMovement::create([
                 "user_id" => auth()->id(),
@@ -514,8 +509,6 @@ class TireRunningController extends Controller
                 "status" => $tire->tire_status->status,
                 "km_unit" => $unit->km,
                 "hm_unit" => $unit->hm,
-                // "pic" => $request->pic,
-                // "pic_man_power" => $request->pic_man_power,
                 "des" => $request->explanation,
                 "process" => "REMOVE",
                 "km_tire" => $tire->lifetime_km,
@@ -532,6 +525,7 @@ class TireRunningController extends Controller
                 "lokasi_breakdown" => $request->lokasi_breakdown,
                 "driver_id" => $request->driver_id,
                 "pic_id" => $request->pic_id,
+                "photo" => $path
             ]);
 
             foreach ($request->foreman as $value) {
@@ -547,15 +541,16 @@ class TireRunningController extends Controller
                     "teknisi_id" => $value,
                 ]);
             }
-            // remove tire
+
+            // Remove tire from running list
             $tirerunning->delete();
-            // redirect the page
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-        return redirect()->back()->with('success', "remove tire");
+
+        return redirect()->back()->with('success', "Tire removed successfully.");
     }
     public function adjustKmPasang(Request $request)
     {
