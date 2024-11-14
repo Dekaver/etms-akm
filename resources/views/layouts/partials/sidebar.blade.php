@@ -181,7 +181,7 @@
                                     class="{{ Request::routeIs('report.tirerunning') ? 'active' : '' }}">Report Tire
                                     Running</a></li>
                             <li><a href="/report-tire-activity"
-                                    class="{{ Request::routeIs('report.tireactivity') ? 'active' : '' }}">Report Tire
+                                    class="{{ Request::routeIs('report.activity') ? 'active' : '' }}">Report Tire
                                     Activity</a></li>
                             <li><a href="/report-tire-target-km"
                                     class="{{ Request::routeIs('report.tiretargetkm') ? 'active' : '' }}">Report Tire
@@ -191,7 +191,7 @@
                                     class="{{ Request::routeIs('report.tirecost') ? 'active' : '' }}">Report Tire Cost</a>
                             </li>
                             <li><a href="/report-tire-cost-comparation"
-                                    class="{{ Request::routeIs('report.tirecost') ? 'active' : '' }}">Report Tire Cost Comparation</a>
+                                    class="{{ Request::routeIs('report.tirecostcomparation') ? 'active' : '' }}">Report Tire Cost Comparation</a>
                             </li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
@@ -207,7 +207,7 @@
 
                         @can('HISTORY_TIRE')
                             <li><a href="/report-history-tire-scrap"
-                                    class="{{ Request::routeIs('report.historytirescrap.*') ? 'active' : '' }}">Report History
+                                    class="{{ Request::routeIs('report.historytirescrap') ? 'active' : '' }}">Report History
                                     Tire Scrap</a></li>
                         @endcan
                     </ul>

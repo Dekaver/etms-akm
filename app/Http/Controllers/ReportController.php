@@ -814,6 +814,9 @@ class ReportController extends Controller
                 ->addColumn("hm_tire", function ($row) {
                     return number_format($row->hm_tire, 0, ',', '.');
                 })
+                ->addColumn("rtd", function ($row) {
+                    return number_format($row->rtd, 0, ',', '.');
+                })
                 ->addColumn("km_tire", function ($row) {
                     return number_format($row->km_tire, 0, ',', '.');
                 })
