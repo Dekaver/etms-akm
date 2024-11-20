@@ -782,7 +782,7 @@ class ReportController extends Controller
     public function reportHistoryTireScrap(Request $request)
     {
         $company = auth()->user()->company;
-        $data = HistoryTireMovement::with(['site', 'tire_damage', 'driver'])
+        $data = HistoryTireMovement::with(['tire_number','site', 'tire_damage', 'driver'])
             ->where('process', 'REMOVE')->where('status', 'SCRAP')->where('company_id', $company->id)
             ->orderBy('start_date', 'desc')
             ->get()
@@ -802,6 +802,18 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn("size", function ($row) {
+                    return $row->tire_number->tire_size->size;
+                })
+                ->addColumn("manufaktur", function ($row) {
+                    return $row->tire_number->tire_size->tire_pattern->manufacture->name;
+                })
+                ->addColumn("pattern", function ($row) {
+                    return $row->tire_number->tire_size->tire_pattern->pattern;
+                })
+                ->addColumn("type_pattern", function ($row) {
+                    return $row->tire_number->tire_size->tire_pattern->type_pattern;
+                })
                 ->addColumn("site", function ($row) {
                     return $row->site->name;
                 })

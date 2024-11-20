@@ -109,6 +109,9 @@
                             <th>Site</th>
                             <th>Serial Number</th>
                             <th>Size</th>
+                            <th>Manufacture</th>
+                            <th>Pattern</th>
+                            <th>Type Pattern</th>
                             {{-- <th>Pattern</th> --}}
                             <th>Status</th>
                             <th>Lifetime KM</th>
@@ -470,6 +473,18 @@
                             {
                                 data: 'size',
                                 name: 'size'
+                            },
+                            {
+                                data: 'manufaktur',
+                                name: 'manufaktur'
+                            },
+                            {
+                                data: 'pattern',
+                                name: 'pattern'
+                            },
+                            {
+                                data: 'type_pattern',
+                                name: 'type_pattern'
                             },
                             {
                                 data: 'status',

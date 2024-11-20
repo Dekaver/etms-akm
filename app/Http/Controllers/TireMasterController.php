@@ -61,6 +61,15 @@ class TireMasterController extends Controller
                 ->addColumn("size", function ($row) {
                     return $row->size;
                 })
+                ->addColumn("manufaktur", function ($row) {
+                    return $row->tire_pattern->manufacture->name;
+                })
+                ->addColumn("pattern", function ($row) {
+                    return $row->tire_pattern->pattern;
+                })
+                ->addColumn("type_pattern", function ($row) {
+                    return $row->tire_pattern->type_pattern;
+                })
                 ->addColumn("site", function ($row) {
                     return $row->site_name;
                 })

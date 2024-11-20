@@ -21,6 +21,10 @@
                         <tr>
                             <th>Date</th>
                             <th>Serial Number</th>
+                            <th>Size</th>
+                            <th>Manufacture</th>
+                            <th>Pattern</th>
+                            <th>Type Pattern</th>
                             <th>Pos</th>
                             <th>Process</th>
                             <th>Status</th>
@@ -85,6 +89,10 @@
                     columns: [
                         { data: 'start_date', name: 'start_date' },
                         { data: 'tire', name: 'tire' },
+                        { data: 'size', name: 'size' },
+                        { data: 'manufaktur', name: 'manufaktur' },
+                        { data: 'pattern', name: 'pattern' },
+                        { data: 'type_pattern', name: 'type_pattern' },
                         { data: 'position', name: 'position' },
                         { data: 'process', name: 'process' },
                         { data: 'status', name: 'status' },
