@@ -44,17 +44,19 @@
                         <tr>
                             <th style="text-align: center" rowspan="2">Unit</th>
                             @foreach (range(1, 12) as $month)
-                                <th style="text-align: center" colspan="2">{{ DateTime::createFromFormat('!m', $month)->format('F') }}</th>
+                                <th style="text-align: center" colspan="2">
+                                    {{ DateTime::createFromFormat('!m', $month)->format('F') }}</th>
                             @endforeach
-                            <th style="text-align: center" colspan="2">Total</th>
+                            <th style="text-align: center" colspan="3">Total</th>
                         </tr>
                         <tr>
                             @foreach (range(1, 12) as $month)
                                 <th style="text-align: center">Forecast</th>
-                                <th style="text-align: center">Realized</th>
+                                <th style="text-align: center">Actual</th>
                             @endforeach
                             <th style="text-align: center; background-color: #0d6efd;" class="text-white">Forecast</th>
-                            <th style="text-align: center; background-color: #dc3545;" class="text-white">Realized</th>
+                            <th style="text-align: center; background-color: #dc3545;" class="text-white">Actual</th>
+                            <th style="text-align: center; background-color: #28a745;" class="text-white">Result</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,8 +84,7 @@
 
                 var table = $('.data-table').DataTable({
                     dom: 'Bfrtip',
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'excel',
                             text: 'Export Excel',
                             filename: `Tire Cost Comparison Report ${new Date().getFullYear()}`
@@ -98,25 +99,62 @@
                             d.year = $('select[name="year"]').val();
                         }
                     },
-                    columns: [
-                        { data: 'unit', name: 'unit' },
+                    columns: [{
+                            data: 'unit',
+                            name: 'unit'
+                        },
                         @foreach (range(1, 12) as $month)
-                            { data: 'forecast{{ $month }}', name: 'forecast{{ $month }}', render: $.fn.dataTable.render.number(',', '.', 0) },
-                            { data: 'realized{{ $month }}', name: 'realized{{ $month }}', render: $.fn.dataTable.render.number(',', '.', 0) },
-                        @endforeach
-                        { data: 'total_forecast', name: 'total_forecast', render: $.fn.dataTable.render.number(',', '.', 0) },
-                        { data: 'total_realized', name: 'total_realized', render: $.fn.dataTable.render.number(',', '.', 0) }
-                    ],
-                    columnDefs: [
-                        {
-                            targets: -2,
-                            className: 'text-center font-weight-bold',
-                            createdCell: function (td) { $(td).css('background-color', '#0d6efd').css('color', 'white'); }
+                            {
+                                data: 'forecast{{ $month }}',
+                                name: 'forecast{{ $month }}',
+                                render: $.fn.dataTable.render.number(',', '.', 0)
+                            }, {
+                                data: 'realized{{ $month }}',
+                                name: 'realized{{ $month }}',
+                                render: $.fn.dataTable.render.number(',', '.', 0)
+                            },
+                        @endforeach {
+                            data: 'total_forecast',
+                            name: 'total_forecast',
+                            render: $.fn.dataTable.render.number(',', '.', 0)
                         },
                         {
-                            targets: -1,
+                            data: 'total_realized',
+                            name: 'total_realized',
+                            render: $.fn.dataTable.render.number(',', '.', 0)
+                        },
+                        {
+                            data: 'result',
+                            name: 'result',
+                            render: $.fn.dataTable.render.number(',', '.', 0)
+                        }
+                    ],
+                    columnDefs: [{
+                            // Styling untuk kolom Total Forecast
+                            targets: -3, // Kolom ketiga dari belakang (total_forecast)
                             className: 'text-center font-weight-bold',
-                            createdCell: function (td) { $(td).css('background-color', '#dc3545').css('color', 'white'); }
+                            createdCell: function(td) {
+                                $(td).css('background-color', '#0d6efd').css('color',
+                                'white'); // Biru, teks putih
+                            }
+                        },
+                        {
+                            // Styling untuk kolom Total Realized
+                            targets: -2, // Kolom kedua dari belakang (total_realized)
+                            className: 'text-center font-weight-bold',
+                            createdCell: function(td) {
+                                $(td).css('background-color', '#dc3545').css('color',
+                                'white'); // Merah, teks putih
+                            }
+                        },
+                        {
+                            // Styling untuk kolom Result
+                            targets: -1, // Kolom terakhir (result)
+                            className: 'text-center font-weight-bold',
+                            createdCell: function(td) {
+                                $(td).css('background-color', '#28a745').css('color',
+                                'white'); // Hijau, teks hitam
+                            }
                         }
                     ]
                 });

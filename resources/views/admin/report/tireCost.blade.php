@@ -75,7 +75,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Unit Number</th>
                             <th>Brand</th>
+                            <th>Size</th>
+                            <th>Manufacture</th>
+                            <th>Pattern</th>
+                            <th>Type Pattern</th>
                             <th>Quantity</th>
                             <th>Price</th>
                         </tr>
@@ -107,8 +112,28 @@
                             searchable: false
                         },
                         {
+                            data: 'unit_number',
+                            name: 'unit_number'
+                        }, 
+                        {
                             data: 'brand',
                             name: 'brand'
+                        },
+                        {
+                            data: 'size',
+                            name: 'size'
+                        },
+                        {
+                            data: 'manufaktur',
+                            name: 'manufaktur'
+                        },
+                        {
+                            data: 'pattern',
+                            name: 'pattern'
+                        },
+                        {
+                            data: 'type_pattern',
+                            name: 'type_pattern'
                         },
                         {
                             data: 'qty',

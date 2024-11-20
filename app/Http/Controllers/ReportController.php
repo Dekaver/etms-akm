@@ -248,10 +248,10 @@ class ReportController extends Controller
                     return $row->unit_number;
                 })
                 ->addColumn('lifetime_hm', function ($row) {
-                    return number_format($row->lifetime_hm, 0, ',', '.'); 
+                    return number_format($row->lifetime_hm, 0, ',', '.');
                 })
                 ->addColumn('lifetime_km', function ($row) {
-                    return number_format($row->lifetime_km, 0, ',', '.'); 
+                    return number_format($row->lifetime_km, 0, ',', '.');
                 })
                 ->addColumn('rtd', function ($row) {
                     return number_format($row->rtd, 2, '.', ',');
@@ -597,18 +597,25 @@ class ReportController extends Controller
         if ($request->ajax()) {
             // Query untuk mendapatkan total bulanan dari setiap unit berdasarkan kondisi tertentu
             $query = HistoryTireMovement::select(
+                'units.unit_number',
                 'unit_models.brand',
+                'tire_sizes.size',
+                'tire_patterns.pattern',
+                'tire_patterns.type_pattern',
+                'tire_manufactures.name as manufaktur',
                 DB::raw("COUNT(*) as qty"),
                 DB::raw("SUM(history_tire_movements.price) as price")
             )
                 ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
                 ->leftJoin('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
                 ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
+                ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
+                ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
                 ->where('history_tire_movements.process', 'INSTALL')
                 ->where('history_tire_movements.status', 'NEW')
                 ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
-                ->groupBy('unit_models.brand');
+                ->groupBy('units.unit_number', 'unit_models.brand', 'tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
 
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
@@ -624,8 +631,23 @@ class ReportController extends Controller
 
             return DataTables::of($query)
                 ->addIndexColumn()
-                ->addColumn('brand', function ($row) {
-                    return $row->brand ?? 'N/A'; // Menampilkan 'N/A' jika brand null
+                ->addColumn('unit_number', function ($row) {
+                    return $row->unit_number ?? 'N/A'; // Menampilkan 'N/A' jika brand null
+                })
+                ->addColumn("brand", function ($row) {
+                    return $row->brand ?? 'N/A';
+                })
+                ->addColumn("size", function ($row) {
+                    return $row->size ?? 'N/A';
+                })
+                ->addColumn("manufaktur", function ($row) {
+                    return $row->manufaktur ?? 'N/A';
+                })
+                ->addColumn("pattern", function ($row) {
+                    return $row->pattern ?? 'N/A';
+                })
+                ->addColumn("type_pattern", function ($row) {
+                    return $row->type_pattern ?? 'N/A';
                 })
                 ->addColumn('qty', function ($row) {
                     return number_format($row->qty, 0, ',', '.'); // Format dengan pemisah ribuan
@@ -772,6 +794,13 @@ class ReportController extends Controller
                 ->addColumn("total_realized", function ($row) {
                     return $row->total_realized;
                 })
+                ->addColumn("result", function ($row) {    
+                    // Null safety: total_forecast dan total_realized dijamin tidak null
+                    $totalForecast = $row->total_forecast ?? 0;
+                    $totalRealized = $row->total_realized ?? 0;
+                    // Hitung hasil dengan penanganan null
+                    return $totalForecast - $totalRealized;
+                })
                 ->make(true);
         }
 
@@ -782,7 +811,7 @@ class ReportController extends Controller
     public function reportHistoryTireScrap(Request $request)
     {
         $company = auth()->user()->company;
-        $data = HistoryTireMovement::with(['tire_number','site', 'tire_damage', 'driver'])
+        $data = HistoryTireMovement::with(['tire_number', 'site', 'tire_damage', 'driver'])
             ->where('process', 'REMOVE')->where('status', 'SCRAP')->where('company_id', $company->id)
             ->orderBy('start_date', 'desc')
             ->get()
@@ -798,7 +827,7 @@ class ReportController extends Controller
                 }
                 return $item;
             });
-    
+
         if ($request->ajax()) {
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -848,7 +877,7 @@ class ReportController extends Controller
                 ->rawColumns(['photo']) // Allows HTML rendering in the photo column
                 ->make(true);
         }
-    
+
         return view("admin.history.historyTireScrap");
-    }    
+    }
 }
