@@ -41,10 +41,15 @@ class TireMasterController extends Controller
                 'tire_sizes.size',
                 'tire_statuses.status',
                 'sites.name as site_name',
+                'tire_patterns.pattern',
+                'tire_patterns.type_pattern',
+                'tire_manufactures.name as manufaktur',
             )
                 ->where('tires.company_id', $company->id)
                 ->join('sites', 'tires.site_id', '=', 'sites.id')
                 ->join('tire_sizes', 'tires.tire_size_id', '=', 'tire_sizes.id')
+                ->join('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
+                ->join('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
                 ->join('tire_statuses', 'tires.tire_status_id', '=', 'tire_statuses.id')
                 ->get();
             if ($tiresite_id) {
@@ -62,13 +67,13 @@ class TireMasterController extends Controller
                     return $row->size;
                 })
                 ->addColumn("manufaktur", function ($row) {
-                    return $row->tire_pattern->manufacture->name;
+                    return $row->manufaktur;
                 })
                 ->addColumn("pattern", function ($row) {
-                    return $row->tire_pattern->pattern;
+                    return $row->pattern;
                 })
                 ->addColumn("type_pattern", function ($row) {
-                    return $row->tire_pattern->type_pattern;
+                    return $row->type_pattern;
                 })
                 ->addColumn("site", function ($row) {
                     return $row->site_name;
