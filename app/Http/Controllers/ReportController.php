@@ -783,7 +783,7 @@ class ReportController extends Controller
     {
         $company = auth()->user()->company;
         $data = HistoryTireMovement::with(['site', 'tire_damage', 'driver'])
-            ->where('process', 'REMOVE')->where('company_id', $company->id)
+            ->where('process', 'REMOVE')->where('status', 'SCRAP')->where('company_id', $company->id)
             ->orderBy('start_date', 'desc')
             ->get()
             ->map(function ($item) {
