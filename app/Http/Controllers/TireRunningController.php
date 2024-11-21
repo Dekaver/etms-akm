@@ -94,7 +94,6 @@ class TireRunningController extends Controller
             $result = DB::transaction(function () use ($request, $company, $site) {
                 $unit = Unit::find($request->unit_id);
                 $tire = TireMaster::findOrFail($request->tire_id);
-
                 $dataHistoryTireMovement = HistoryTireMovement::create([
                     "user_id" => auth()->id(),
                     "company_id" => $company->id,
@@ -338,6 +337,10 @@ class TireRunningController extends Controller
                     "tire_damage_id" => $request->tire_damage_id_2,
                 ]);
 
+                //MENGAMBIL HARGA TIRE SEBELUMNYA
+                $dataTireMovement = HistoryTireMovement::where('tire', $tire_1->serial_number)->where('status', 'NEW')
+                    ->where('process', 'INSTALL')->first();
+
                 $dataHistoryTireMovement = HistoryTireMovement::create([
                     "user_id" => auth()->id(),
                     "company_id" => $company->id,
@@ -363,6 +366,7 @@ class TireRunningController extends Controller
                     "lokasi_breakdown" => $request->lokasi_breakdown,
                     "driver_id" => $request->driver_id,
                     "pic_id" => $request->pic_id,
+                    "price" => $dataTireMovement->price
                 ]);
 
                 foreach ($request->foreman as $value) {
@@ -378,6 +382,10 @@ class TireRunningController extends Controller
                         "teknisi_id" => $value,
                     ]);
                 }
+
+                //MENGAMBIL HARGA TIRE SEBELUMNYA
+                $dataTireMovement2 = HistoryTireMovement::where('tire', $tire_2->serial_number)->where('status', 'NEW')
+                    ->where('process', 'INSTALL')->first();
 
                 $dataHistoryTireMovement2 = HistoryTireMovement::create([
                     "user_id" => auth()->id(),
@@ -404,6 +412,7 @@ class TireRunningController extends Controller
                     "lokasi_breakdown" => $request->lokasi_breakdown,
                     "driver_id" => $request->driver_id,
                     "pic_id" => $request->pic_id,
+                    "price" => $dataTireMovement2->price
                 ]);
 
 
@@ -498,6 +507,10 @@ class TireRunningController extends Controller
                 $path = $request->file('photo')->store('photos', 'public'); // Save photo in 'public/photos'
             }
 
+            //MENGAMBIL HARGA TIRE SEBELUMNYA
+            $dataTireMovement = HistoryTireMovement::where('tire', $tire->serial_number)->where('status', 'NEW')
+                ->where('process', 'INSTALL')->first();
+
             $dataHistoryTireMovement = HistoryTireMovement::create([
                 "user_id" => auth()->id(),
                 "company_id" => $company->id,
@@ -525,7 +538,8 @@ class TireRunningController extends Controller
                 "lokasi_breakdown" => $request->lokasi_breakdown,
                 "driver_id" => $request->driver_id,
                 "pic_id" => $request->pic_id,
-                "photo" => $path
+                "photo" => $path,
+                "price" => $dataTireMovement->price
             ]);
 
             foreach ($request->foreman as $value) {

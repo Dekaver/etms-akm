@@ -581,11 +581,88 @@ class ReportController extends Controller
         return view("admin.report.tire-rtd-per-unit", compact('unitmodel_id', 'unitsite_id', 'unitstatus_id', 'unit_status', 'unit_model', 'sites', 'units'));
     }
 
-    public function reportTireCost(Request $request)
+    public function reportTireCostByBrand(Request $request)
     {
         $tire_size = $request->query("tire_size");
         $start_date = $request->query("start_date");
         $end_date = $request->query("end_date");
+        $company = auth()->user()->company_id;
+
+        // Mendapatkan daftar ukuran ban yang unik untuk perusahaan
+        $tire_sizes = TireSize::select("size")
+            ->where('company_id', $company)
+            ->groupBy("size")
+            ->get();
+
+        if ($request->ajax()) {
+            // Query untuk mendapatkan total bulanan dari setiap unit berdasarkan kondisi tertentu
+            $query = HistoryTireMovement::select(
+                'unit_models.brand',
+                'tire_sizes.size',
+                'tire_patterns.pattern',
+                'tire_patterns.type_pattern',
+                'tire_manufactures.name as manufaktur',
+                DB::raw("COUNT(*) as qty"),
+                DB::raw("SUM(history_tire_movements.price) as price")
+            )
+                ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
+                ->leftJoin('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
+                ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
+                ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
+                ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
+                // ->where('history_tire_movements.process', 'INSTALL')
+                ->where('history_tire_movements.status', 'SCRAP')
+                // ->where('history_tire_movements.price', '>', 0)
+                ->where('history_tire_movements.company_id', $company)
+                ->groupBy('unit_models.brand', 'tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
+
+            if ($tire_size) {
+                $query->where('tire_sizes.size', $tire_size);
+            }
+
+            if ($start_date) {
+                $query->whereDate('history_tire_movements.start_date', '>=', $start_date);
+            }
+
+            if ($end_date) {
+                $query->whereDate('history_tire_movements.start_date', '<=', $end_date);
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn("brand", function ($row) {
+                    return $row->brand ?? 'N/A';
+                })
+                ->addColumn("size", function ($row) {
+                    return $row->size ?? 'N/A';
+                })
+                ->addColumn("manufaktur", function ($row) {
+                    return $row->manufaktur ?? 'N/A';
+                })
+                ->addColumn("pattern", function ($row) {
+                    return $row->pattern ?? 'N/A';
+                })
+                ->addColumn("type_pattern", function ($row) {
+                    return $row->type_pattern ?? 'N/A';
+                })
+                ->addColumn('qty', function ($row) {
+                    return number_format($row->qty, 0, ',', '.'); // Format dengan pemisah ribuan
+                })
+                ->addColumn('price', function ($row) {
+                    return number_format($row->price, 0, ',', '.'); // Format dengan pemisah ribuan
+                })
+                ->make(true);
+        }
+
+        return view("admin.report.tireCost", compact('tire_sizes', 'tire_size'));
+    }
+
+    public function reportTireCostByUnit(Request $request)
+    {
+        $tire_size = $request->query("tire_size");
+        $start_date = $request->query("start_date");
+        $end_date = $request->query("end_date");
+        $status = $request->query("status");
         $company = auth()->user()->company_id;
 
         // Mendapatkan daftar ukuran ban yang unik untuk perusahaan
@@ -611,14 +688,17 @@ class ReportController extends Controller
                 ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
                 ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
-                ->where('history_tire_movements.process', 'INSTALL')
-                ->where('history_tire_movements.status', 'NEW')
+                // ->where('history_tire_movements.process', 'INSTALL')
                 ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
                 ->groupBy('units.unit_number', 'unit_models.brand', 'tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
 
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
+            }
+
+            if ($status) {
+                $query->where('history_tire_movements.status', $status);
             }
 
             if ($start_date) {
@@ -658,7 +738,7 @@ class ReportController extends Controller
                 ->make(true);
         }
 
-        return view("admin.report.tireCost", compact('tire_sizes', 'tire_size'));
+        return view("admin.report.tire-cost-unit", compact('tire_sizes', 'tire_size'));
     }
 
     public function reportTireCostComparation(Request $request, TireMaster $tire)

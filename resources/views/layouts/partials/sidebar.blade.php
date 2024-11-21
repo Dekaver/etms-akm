@@ -187,8 +187,12 @@
                                     class="{{ Request::routeIs('report.tiretargetkm') ? 'active' : '' }}">Report Tire
                                     Target KM</a></li>
 
-                            <li><a href="/report-tire-cost"
-                                    class="{{ Request::routeIs('report.tirecost') ? 'active' : '' }}">Report Tire Cost</a>
+                            <li><a href="/report-tire-cost-brand"
+                                    class="{{ Request::routeIs('report.tirecostbrand') ? 'active' : '' }}">Report Tire Cost By Brand</a>
+                            </li>
+
+                            <li><a href="/report-tire-cost-unit"
+                                    class="{{ Request::routeIs('report.tirecostunit') ? 'active' : '' }}">Report Tire Cost By Unit</a>
                             </li>
                             <li><a href="/report-tire-cost-comparation"
                                     class="{{ Request::routeIs('report.tirecostcomparation') ? 'active' : '' }}">Report Tire Cost Comparation</a>

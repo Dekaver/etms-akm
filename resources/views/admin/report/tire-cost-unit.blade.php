@@ -4,8 +4,8 @@
             <h4>Report</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Report Total Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Report Tire Status By Size</li>
+                    <li class="breadcrumb-item"><a href="#">Report</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Report Tire Cost By Unit</li>
                 </ol>
             </nav>
         </div>
@@ -75,6 +75,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Unit Number</th>
                             <th>Brand</th>
                             <th>Size</th>
                             <th>Manufacture</th>
@@ -110,6 +111,10 @@
                             orderable: false,
                             searchable: false
                         },
+                        {
+                            data: 'unit_number',
+                            name: 'unit_number'
+                        }, 
                         {
                             data: 'brand',
                             name: 'brand'

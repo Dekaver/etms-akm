@@ -192,7 +192,8 @@ Route::middleware(['auth'])->group(function () {
     //REPORT
     Route::middleware(['permission:REPORT'])->group(function () {
         Route::get('report-tire-cost-comparation', [ReportController::class, 'reportTireCostComparation'])->name('report.tirecostcomparation');
-        Route::get('report-tire-cost', [ReportController::class, 'reportTireCost'])->name('report.tirecost');
+        Route::get('report-tire-cost-brand', [ReportController::class, 'reportTireCostByBrand'])->name('report.tirecostbrand');
+        Route::get('report-tire-cost-unit', [ReportController::class, 'reportTireCostByUnit'])->name('report.tirecostunit');
         Route::get('report-tire-activity', [ReportController::class, 'tireActivity'])->name('report.activity');
         Route::get('report-tire-status', [ReportController::class, 'statusTireCount'])->name('report.tirestatus');
         Route::get('report-tire-scrap', [ReportController::class, 'scrapTireCount'])->name('report.tirescrap');
