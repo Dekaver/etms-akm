@@ -4,8 +4,8 @@
             <h4>Report</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Report Total Tire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Report Tire Status By Size</li>
+                    <li class="breadcrumb-item"><a href="#">Report</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Report Tire Cost By Brand</li>
                 </ol>
             </nav>
         </div>
@@ -82,6 +82,12 @@
                             <th>Type Pattern</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>CPK</th>
+                            <th>CPH</th>
+                            <th>Min CPK</th>
+                            <th>Min CPH</th>
+                            <th>Max CPK</th>
+                            <th>Max CPH</th>
                         </tr>
                     </thead>
                 </table>
@@ -137,7 +143,31 @@
                         {
                             data: 'price',
                             name: 'price'
-                        }
+                        },
+                        {
+                            data: 'cpk',
+                            name: 'cpk'
+                        },
+                        {
+                            data: 'cph',
+                            name: 'cph'
+                        },
+                        {
+                            data: 'min_cpk',
+                            name: 'min_cpk'
+                        },
+                        {
+                            data: 'min_cph',
+                            name: 'min_cph'
+                        },
+                        {
+                            data: 'max_cpk',
+                            name: 'max_cpk'
+                        },
+                        {
+                            data: 'max_cph',
+                            name: 'max_cph'
+                        },
                     ]
                 });
 

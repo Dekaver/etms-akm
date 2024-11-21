@@ -603,7 +603,13 @@ class ReportController extends Controller
                 'tire_patterns.type_pattern',
                 'tire_manufactures.name as manufaktur',
                 DB::raw("COUNT(*) as qty"),
-                DB::raw("SUM(history_tire_movements.price) as price")
+                DB::raw("SUM(history_tire_movements.price) as price"),
+                DB::raw("(SUM(history_tire_movements.price/history_tire_movements.km_tire))/COUNT(*) as cpk"),
+                DB::raw("(SUM(history_tire_movements.price/history_tire_movements.hm_tire))/COUNT(*) as cph"),
+                DB::raw("MIN(history_tire_movements.price/history_tire_movements.km_tire) as min_cpk"),
+                DB::raw("MIN(history_tire_movements.price/history_tire_movements.hm_tire) as min_cph"),
+                DB::raw("MAX(history_tire_movements.price/history_tire_movements.km_tire) as max_cpk"),
+                DB::raw("MAX(history_tire_movements.price/history_tire_movements.hm_tire) as max_cph")
             )
                 ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
                 ->leftJoin('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
@@ -646,10 +652,28 @@ class ReportController extends Controller
                     return $row->type_pattern ?? 'N/A';
                 })
                 ->addColumn('qty', function ($row) {
-                    return number_format($row->qty, 0, ',', '.'); // Format dengan pemisah ribuan
+                    return number_format($row->qty, 0, ',', '.');
+                })
+                ->addColumn('cpk', function ($row) {
+                    return number_format($row->cpk, 0, ',', '.');
+                })
+                ->addColumn('cph', function ($row) {
+                    return number_format($row->cph, 0, ',', '.');
+                })
+                ->addColumn('min_cpk', function ($row) {
+                    return number_format($row->min_cpk, 0, ',', '.');
+                })
+                ->addColumn('min_cph', function ($row) {
+                    return number_format($row->min_cph, 0, ',', '.');
+                })
+                ->addColumn('max_cpk', function ($row) {
+                    return number_format($row->max_cpk, 0, ',', '.');
+                })
+                ->addColumn('max_cph', function ($row) {
+                    return number_format($row->max_cph, 0, ',', '.');
                 })
                 ->addColumn('price', function ($row) {
-                    return number_format($row->price, 0, ',', '.'); // Format dengan pemisah ribuan
+                    return number_format($row->price, 0, ',', '.');
                 })
                 ->make(true);
         }
@@ -680,7 +704,7 @@ class ReportController extends Controller
                 'tire_patterns.pattern',
                 'tire_patterns.type_pattern',
                 'tire_manufactures.name as manufaktur',
-                DB::raw("COUNT(*) as qty"),
+                DB::raw("COUNT(*) as qty"), // Count distinct rows for each group
                 DB::raw("SUM(history_tire_movements.price) as price")
             )
                 ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
@@ -689,26 +713,29 @@ class ReportController extends Controller
                 ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
                 // ->where('history_tire_movements.process', 'INSTALL')
+                ->where('history_tire_movements.status', 'SCRAP')
                 ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
-                ->groupBy('units.unit_number', 'unit_models.brand', 'tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
-
+                ->groupBy(
+                    'units.unit_number',
+                    'unit_models.brand',
+                    'tire_sizes.size',
+                    'tire_patterns.pattern',
+                    'tire_patterns.type_pattern',
+                    'tire_manufactures.name'
+                );
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
             }
-
             if ($status) {
                 $query->where('history_tire_movements.status', $status);
             }
-
             if ($start_date) {
                 $query->whereDate('history_tire_movements.start_date', '>=', $start_date);
             }
-
             if ($end_date) {
                 $query->whereDate('history_tire_movements.start_date', '<=', $end_date);
             }
-
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->addColumn('unit_number', function ($row) {
@@ -737,7 +764,6 @@ class ReportController extends Controller
                 })
                 ->make(true);
         }
-
         return view("admin.report.tire-cost-unit", compact('tire_sizes', 'tire_size'));
     }
 
@@ -792,93 +818,150 @@ class ReportController extends Controller
             $query->groupBy('tire_sizes.size');
 
             $result = $query->get();
-
             // Pass data to DataTable with both realized and forecast columns
             return DataTables::of($result)
                 ->addIndexColumn()
                 ->addColumn("forecast1", function ($row) {
-                    return $row->forecast1;
+                    return $row->forecast1 ?? 0;
                 })
                 ->addColumn("realized1", function ($row) {
-                    return $row->realized1;
+                    return $row->realized1 ?? 0;
+                })
+                ->addColumn("result1", function ($row) {
+                    $forecast1 = $row->forecast1 ?? 0;
+                    $realized1 = $row->realized1 ?? 0;
+                    return $forecast1 - $realized1;
                 })
                 ->addColumn("forecast2", function ($row) {
-                    return $row->forecast2;
+                    return $row->forecast2 ?? 0;
                 })
                 ->addColumn("realized2", function ($row) {
-                    return $row->realized2;
+                    return $row->realized2 ?? 0;
+                })
+                ->addColumn("result2", function ($row) {
+                    $forecast2 = $row->forecast2 ?? 0;
+                    $realized2 = $row->realized2 ?? 0;
+                    return $forecast2 - $realized2;
                 })
                 ->addColumn("forecast3", function ($row) {
-                    return $row->forecast3;
+                    return $row->forecast3 ?? 0;
                 })
                 ->addColumn("realized3", function ($row) {
-                    return $row->realized3;
+                    return $row->realized3 ?? 0;
+                })
+                ->addColumn("result3", function ($row) {
+                    $forecast3 = $row->forecast3 ?? 0;
+                    $realized3 = $row->realized3 ?? 0;
+                    return $forecast3 - $realized3;
                 })
                 ->addColumn("forecast4", function ($row) {
-                    return $row->forecast4;
+                    return $row->forecast4 ?? 0;
                 })
                 ->addColumn("realized4", function ($row) {
-                    return $row->realized4;
+                    return $row->realized4 ?? 0;
+                })
+                ->addColumn("result4", function ($row) {
+                    $forecast4 = $row->forecast4 ?? 0;
+                    $realized4 = $row->realized4 ?? 0;
+                    return $forecast4 - $realized4;
                 })
                 ->addColumn("forecast5", function ($row) {
-                    return $row->forecast5;
+                    return $row->forecast5 ?? 0;
                 })
                 ->addColumn("realized5", function ($row) {
-                    return $row->realized5;
+                    return $row->realized5 ?? 0;
+                })
+                ->addColumn("result5", function ($row) {
+                    $forecast5 = $row->forecast5 ?? 0;
+                    $realized5 = $row->realized5 ?? 0;
+                    return $forecast5 - $realized5;
                 })
                 ->addColumn("forecast6", function ($row) {
-                    return $row->forecast6;
+                    return $row->forecast6 ?? 0;
                 })
                 ->addColumn("realized6", function ($row) {
-                    return $row->realized6;
+                    return $row->realized6 ?? 0;
+                })
+                ->addColumn("result6", function ($row) {
+                    $forecast6 = $row->forecast6 ?? 0;
+                    $realized6 = $row->realized6 ?? 0;
+                    return $forecast6 - $realized6;
                 })
                 ->addColumn("forecast7", function ($row) {
-                    return $row->forecast7;
+                    return $row->forecast7 ?? 0;
                 })
                 ->addColumn("realized7", function ($row) {
-                    return $row->realized7;
+                    return $row->realized7 ?? 0;
+                })
+                ->addColumn("result7", function ($row) {
+                    $forecast7 = $row->forecast7 ?? 0;
+                    $realized7 = $row->realized7 ?? 0;
+                    return $forecast7 - $realized7;
                 })
                 ->addColumn("forecast8", function ($row) {
-                    return $row->forecast8;
+                    return $row->forecast8 ?? 0;
                 })
                 ->addColumn("realized8", function ($row) {
-                    return $row->realized8;
+                    return $row->realized8 ?? 0;
+                })
+                ->addColumn("result8", function ($row) {
+                    $forecast8 = $row->forecast8 ?? 0;
+                    $realized8 = $row->realized8 ?? 0;
+                    return $forecast8 - $realized8;
                 })
                 ->addColumn("forecast9", function ($row) {
-                    return $row->forecast9;
+                    return $row->forecast9 ?? 0;
                 })
                 ->addColumn("realized9", function ($row) {
-                    return $row->realized9;
+                    return $row->realized9 ?? 0;
+                })
+                ->addColumn("result9", function ($row) {
+                    $forecast9 = $row->forecast9 ?? 0;
+                    $realized9 = $row->realized9 ?? 0;
+                    return $forecast9 - $realized9;
                 })
                 ->addColumn("forecast10", function ($row) {
-                    return $row->forecast10;
+                    return $row->forecast10 ?? 0;
                 })
                 ->addColumn("realized10", function ($row) {
-                    return $row->realized10;
+                    return $row->realized10 ?? 0;
+                })
+                ->addColumn("result10", function ($row) {
+                    $forecast10 = $row->forecast10 ?? 0;
+                    $realized10 = $row->realized10 ?? 0;
+                    return $forecast10 - $realized10;
                 })
                 ->addColumn("forecast11", function ($row) {
-                    return $row->forecast11;
+                    return $row->forecast11 ?? 0;
                 })
                 ->addColumn("realized11", function ($row) {
-                    return $row->realized11;
+                    return $row->realized11 ?? 0;
+                })
+                ->addColumn("result11", function ($row) {
+                    $forecast11 = $row->forecast11 ?? 0;
+                    $realized11 = $row->realized11 ?? 0;
+                    return $forecast11 - $realized11;
                 })
                 ->addColumn("forecast12", function ($row) {
-                    return $row->forecast12;
+                    return $row->forecast12 ?? 0;
                 })
                 ->addColumn("realized12", function ($row) {
-                    return $row->realized12;
+                    return $row->realized12 ?? 0;
+                })
+                ->addColumn("result12", function ($row) {
+                    $forecast12 = $row->forecast12 ?? 0;
+                    $realized12 = $row->realized12 ?? 0;
+                    return $forecast12 - $realized12;
                 })
                 ->addColumn("total_forecast", function ($row) {
-                    return $row->total_forecast;
+                    return $row->total_forecast ?? 0;
                 })
                 ->addColumn("total_realized", function ($row) {
-                    return $row->total_realized;
+                    return $row->total_realized ?? 0;
                 })
-                ->addColumn("result", function ($row) {    
-                    // Null safety: total_forecast dan total_realized dijamin tidak null
+                ->addColumn("result", function ($row) {
                     $totalForecast = $row->total_forecast ?? 0;
                     $totalRealized = $row->total_realized ?? 0;
-                    // Hitung hasil dengan penanganan null
                     return $totalForecast - $totalRealized;
                 })
                 ->make(true);
@@ -946,6 +1029,9 @@ class ReportController extends Controller
                 })
                 ->addColumn("km_unit", function ($row) {
                     return number_format($row->km_unit, 0, ',', '.');
+                })
+                ->addColumn("price", function ($row) {
+                    return number_format($row->price, 0, ',', '.');
                 })
                 ->addColumn("photo", function ($row) {
                     if ($row->photo) {

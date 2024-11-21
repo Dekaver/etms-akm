@@ -36,9 +36,8 @@
                             <th>Unit KM</th>
                             <th>RTD</th>
                             <th>Driver</th>
-                            <th>PIC</th>
-                            <th>Man Power</th>
                             <th>Damage</th>
+                            <th>Price</th>
                             <th>Photo</th>
                         </tr>
                     </thead>
@@ -104,9 +103,8 @@
                         { data: 'km_unit', name: 'km_unit' },
                         { data: 'rtd', name: 'rtd' },
                         { data: 'driver', name: 'driver' },
-                        { data: 'pic', name: 'pic' },
-                        { data: 'pic_man_power', name: 'pic_man_power' },
                         { data: 'damage', name: 'damage' },
+                        { data: 'price', name: 'price' },
                         { data: 'photo', name: 'photo', orderable: false, searchable: false }
                     ]
                 });

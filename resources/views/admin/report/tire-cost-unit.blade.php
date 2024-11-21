@@ -45,13 +45,11 @@
                             </div>
                             <div class="col-lg-3 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label>Size</label>
-                                    <select class="select" name="tire_size">
-                                        <option value="">Choose Size</option>
-                                        @foreach ($tire_sizes as $item)
-                                            <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
-                                                {{ $item->size }}</option>
-                                        @endforeach
+                                    <label>Status</label>
+                                    <select class="select" name="status">
+                                        <option value="">Choose Status</option>
+                                        <option value="SCRAP">SCRAP</option>
+                                        <option value="NEW">NEW</option>
                                     </select>
                                 </div>
                             </div>
@@ -100,7 +98,7 @@
                     ajax: {
                         url: window.location.href,
                         data: function(d) {
-                            d.tire_size = $('select[name=tire_size]').val();
+                            d.status = $('select[name=status]').val();
                             d.start_date = $('input[name=start_date]').val();
                             d.end_date = $('input[name=end_date]').val();
                         }

@@ -5,7 +5,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item" aria-current="page">Reports</li>
+                    <li class="breadcrumb-item">Reports</li>
                     <li class="breadcrumb-item active" aria-current="page">Tire Cost Comparison</li>
                 </ol>
             </nav>
@@ -17,16 +17,14 @@
             <h5>Filter Options</h5>
         </div>
         <div class="card-body">
-            <form action="">
+            <form id="filter-form">
                 <div class="row">
                     <div class="form-group col-lg-3 col-sm-3 col-6">
                         <label>Year</label>
                         <select class="form-control" name="year">
-                            <option value="">Choose Year</option>
+                            <option value="" disabled selected>Choose Year</option>
                             @for ($i = 2022; $i <= now()->year; $i++)
-                                <option value="{{ $i }}" {{ isset($year) && $year == $i ? 'selected' : '' }}>
-                                    {{ $i }}
-                                </option>
+                                <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
                     </div>
@@ -44,23 +42,29 @@
                         <tr>
                             <th style="text-align: center" rowspan="2">Unit</th>
                             @foreach (range(1, 12) as $month)
-                                <th style="text-align: center" colspan="2">
-                                    {{ DateTime::createFromFormat('!m', $month)->format('F') }}</th>
+                                <th style="text-align: center" colspan="3">
+                                    {{ DateTime::createFromFormat('!m', $month)->format('F') }}
+                                </th>
                             @endforeach
                             <th style="text-align: center" colspan="3">Total</th>
                         </tr>
                         <tr>
                             @foreach (range(1, 12) as $month)
-                                <th style="text-align: center">Forecast</th>
-                                <th style="text-align: center">Actual</th>
+                                <th style="text-align: center; background-color: #f8f9fa;">Forecast</th>
+                                <th style="text-align: center; background-color: #f8f9fa;">Actual</th>
+                                <th style="text-align: center;">Result</th>
                             @endforeach
-                            <th style="text-align: center; background-color: #0d6efd;" class="text-white">Forecast</th>
-                            <th style="text-align: center; background-color: #dc3545;" class="text-white">Actual</th>
-                            <th style="text-align: center; background-color: #28a745;" class="text-white">Result</th>
+                            <th style="text-align: center; background-color: #37474F; color: white;">Forecast</th>
+                            <!-- Blue-Grey -->
+                            <th style="text-align: center; background-color: #546E7A; color: white;">Actual</th>
+                            <!-- Light Blue-Grey -->
+                            <th style="text-align: center; background-color: #FFC107; color: black;">Result</th>
+                            <!-- Soft Yellow -->
+
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- DataTables will populate this section via AJAX -->
+                        <!-- DataTables will populate this section -->
                     </tbody>
                 </table>
             </div>
@@ -68,29 +72,22 @@
     </div>
 
     @push('css')
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/buttons.dataTables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/buttons.dataTables.min.css') }}">
     @endpush
 
     @push('js')
-        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
-        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
-        <script type="text/javascript" charset="utf8" src="{{ asset('assets/js/jszip.min.js') }}"></script>
-        <script type="text/javascript">
+        <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jszip.min.js') }}"></script>
+        <script>
             $(function() {
-                // Helper function to format numbers with commas as thousand separators
-                function formatNumber(num) {
-                    return num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0";
-                }
-
-                var table = $('.data-table').DataTable({
+                const table = $('.data-table').DataTable({
                     dom: 'Bfrtip',
                     buttons: [{
-                            extend: 'excel',
-                            text: 'Export Excel',
-                            filename: `Tire Cost Comparison Report ${new Date().getFullYear()}`
-                        },
-                        'copy', 'csv'
-                    ],
+                        extend: 'excel',
+                        text: 'Export Excel',
+                        filename: `Tire Cost Comparison Report ${new Date().getFullYear()}`
+                    }],
                     processing: true,
                     serverSide: true,
                     ajax: {
@@ -112,6 +109,28 @@
                                 data: 'realized{{ $month }}',
                                 name: 'realized{{ $month }}',
                                 render: $.fn.dataTable.render.number(',', '.', 0)
+                            }, {
+                                data: 'result{{ $month }}',
+                                name: 'result{{ $month }}',
+                                render: $.fn.dataTable.render.number(',', '.', 0),
+                                createdCell: function(td, cellData) {
+                                    if (cellData > 0) {
+                                        $(td).css({
+                                            backgroundColor: '#28a745',
+                                            color: 'white'
+                                        }); // Positive: Green
+                                    } else if (cellData < 0) {
+                                        $(td).css({
+                                            backgroundColor: '#dc3545',
+                                            color: 'white'
+                                        }); // Negative: Red
+                                    } else {
+                                        $(td).css({
+                                            backgroundColor: '#ffc107',
+                                            color: 'white'
+                                        }); // Neutral: Yellow
+                                    }
+                                }
                             },
                         @endforeach {
                             data: 'total_forecast',
@@ -126,41 +145,56 @@
                         {
                             data: 'result',
                             name: 'result',
-                            render: $.fn.dataTable.render.number(',', '.', 0)
+                            render: $.fn.dataTable.render.number(',', '.', 0),
+                            createdCell: function(td, cellData) {
+                                if (cellData > 0) {
+                                    $(td).css({
+                                        backgroundColor: '#28a745',
+                                        color: 'white'
+                                    }); // Positive: Green
+                                } else if (cellData < 0) {
+                                    $(td).css({
+                                        backgroundColor: '#dc3545',
+                                        color: 'white'
+                                    }); // Negative: Red
+                                } else {
+                                    $(td).css({
+                                        backgroundColor: '#6c757d',
+                                        color: 'white'
+                                    }); // Neutral: Gray
+                                }
+                            }
                         }
                     ],
                     columnDefs: [{
-                            // Styling untuk kolom Total Forecast
-                            targets: -3, // Kolom ketiga dari belakang (total_forecast)
+                            targets: -3,
                             className: 'text-center font-weight-bold',
-                            createdCell: function(td) {
-                                $(td).css('background-color', '#0d6efd').css('color',
-                                'white'); // Biru, teks putih
-                            }
+                            createdCell: (td) => $(td).css({
+                                backgroundColor: '#37474F',
+                                color: 'white'
+                            })
                         },
                         {
-                            // Styling untuk kolom Total Realized
-                            targets: -2, // Kolom kedua dari belakang (total_realized)
+                            targets: -2,
                             className: 'text-center font-weight-bold',
-                            createdCell: function(td) {
-                                $(td).css('background-color', '#dc3545').css('color',
-                                'white'); // Merah, teks putih
-                            }
+                            createdCell: (td) => $(td).css({
+                                backgroundColor: '#546E7A',
+                                color: 'white'
+                            })
                         },
                         {
-                            // Styling untuk kolom Result
-                            targets: -1, // Kolom terakhir (result)
+                            targets: -1,
                             className: 'text-center font-weight-bold',
-                            createdCell: function(td) {
-                                $(td).css('background-color', '#28a745').css('color',
-                                'white'); // Hijau, teks hitam
-                            }
-                        }
+                            createdCell: (td) => $(td).css({
+                                backgroundColor: '#06b2c8',
+                                color: 'white'
+                            })
+                        },
                     ]
                 });
 
-                // Refresh the table data when the filter form is submitted
-                $('form').on('submit', function(e) {
+                // Refresh table on filter submit
+                $('#filter-form').on('submit', function(e) {
                     e.preventDefault();
                     table.ajax.reload();
                 });
