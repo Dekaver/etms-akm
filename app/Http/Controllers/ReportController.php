@@ -712,6 +712,7 @@ class ReportController extends Controller
                 ->where('history_tire_movements.status', 'SCRAP')
                 ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
+                ->where('units.site_id', auth()->user()->site->id)
                 ->groupBy(
                     'units.unit_number',
                     'unit_models.brand',

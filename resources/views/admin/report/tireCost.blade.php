@@ -75,8 +75,8 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Size</th>
                             <th>Manufacture</th>
+                            <th>Size</th>
                             <th>Pattern</th>
                             <th>Type Pattern</th>
                             <th>Quantity</th>
@@ -116,12 +116,12 @@
                             searchable: false
                         },
                         {
-                            data: 'size',
-                            name: 'size'
-                        },
-                        {
                             data: 'manufaktur',
                             name: 'manufaktur'
+                        },
+                        {
+                            data: 'size',
+                            name: 'size'
                         },
                         {
                             data: 'pattern',
