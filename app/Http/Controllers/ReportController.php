@@ -619,6 +619,7 @@ class ReportController extends Controller
                 ->where('history_tire_movements.status', 'SCRAP')
                 // ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
+                ->where('units.site_id', auth()->user()->site->id)
                 ->groupBy('tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
 
             if ($tire_size) {
@@ -710,7 +711,6 @@ class ReportController extends Controller
                 ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
                 // ->where('history_tire_movements.process', 'INSTALL')
                 ->where('history_tire_movements.status', 'SCRAP')
-                ->where('units.site_id', auth()->user()->site->id)
                 ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
                 ->where('units.site_id', auth()->user()->site->id)
