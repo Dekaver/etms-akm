@@ -75,7 +75,6 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Brand</th>
                             <th>Size</th>
                             <th>Manufacture</th>
                             <th>Pattern</th>
@@ -115,10 +114,6 @@
                             name: 'DT_RowIndex',
                             orderable: false,
                             searchable: false
-                        },
-                        {
-                            data: 'brand',
-                            name: 'brand'
                         },
                         {
                             data: 'size',

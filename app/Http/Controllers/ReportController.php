@@ -597,7 +597,6 @@ class ReportController extends Controller
         if ($request->ajax()) {
             // Query untuk mendapatkan total bulanan dari setiap unit berdasarkan kondisi tertentu
             $query = HistoryTireMovement::select(
-                'unit_models.brand',
                 'tire_sizes.size',
                 'tire_patterns.pattern',
                 'tire_patterns.type_pattern',
@@ -620,7 +619,7 @@ class ReportController extends Controller
                 ->where('history_tire_movements.status', 'SCRAP')
                 // ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
-                ->groupBy('unit_models.brand', 'tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
+                ->groupBy('tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
 
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
@@ -636,9 +635,6 @@ class ReportController extends Controller
 
             return DataTables::of($query)
                 ->addIndexColumn()
-                ->addColumn("brand", function ($row) {
-                    return $row->brand ?? 'N/A';
-                })
                 ->addColumn("size", function ($row) {
                     return $row->size ?? 'N/A';
                 })
