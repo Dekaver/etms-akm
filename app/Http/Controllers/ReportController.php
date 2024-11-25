@@ -710,7 +710,7 @@ class ReportController extends Controller
                 ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
                 // ->where('history_tire_movements.process', 'INSTALL')
-                ->where('history_tire_movements.status', 'SCRAP')
+                // ->where('history_tire_movements.status', 'SCRAP')
                 ->where('history_tire_movements.price', '>', 0)
                 ->where('history_tire_movements.company_id', $company)
                 ->where('units.site_id', auth()->user()->site->id)
