@@ -459,9 +459,8 @@ class TireRunningController extends Controller
             "start_breakdown" => "required",
             "status_schedule" => "required",
             "lokasi_breakdown" => "required",
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // validate photo file
+            'photo' => 'required_if:tire_status_id,5|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         $company = auth()->user()->company;
         DB::beginTransaction();
         try {

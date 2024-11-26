@@ -722,9 +722,13 @@ class ReportController extends Controller
                     'tire_patterns.type_pattern',
                     'tire_manufactures.name'
                 );
+
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
+            } else {
+                $query->where('tire_sizes.size', '==', 'NEW');
             }
+
             if ($status) {
                 $query->where('history_tire_movements.status', $status);
             }

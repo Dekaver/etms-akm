@@ -804,7 +804,7 @@
 
                             <div class="form-group mb-3 col-12 col-sm-4 col-md-4 col-lg-4">
                                 <label for="">Foto</label>
-                                <input type="file" required class="foto-input" data-type="after" data-id="1"
+                                <input type="file" class="foto-input" data-type="after" data-id="1"
                                     name="photo">
                                 <div class="invalid-feedback">Please fill a photo.</div>
                             </div>
