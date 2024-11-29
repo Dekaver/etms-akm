@@ -93,7 +93,11 @@
                     ajax: {
                         url: "{{ route('report.tirecostcomparation') }}",
                         data: function(d) {
-                            d.year = $('select[name="year"]').val();
+                            d.year = $('select[name="year"]').val(); // Menambahkan parameter tahun
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("AJAX Error:", error);
+                            alert("Terjadi kesalahan saat memuat data.");
                         }
                     },
                     columns: [{
@@ -192,8 +196,7 @@
                         },
                     ]
                 });
-
-                // Refresh table on filter submit
+                
                 $('#filter-form').on('submit', function(e) {
                     e.preventDefault();
                     table.ajax.reload();

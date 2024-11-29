@@ -773,7 +773,7 @@ class ReportController extends Controller
     {
         $year = $request->query('year') ?? Carbon::now()->format("Y");
         $company = auth()->user()->company;
- 
+    
         if ($request->ajax()) {
             $query = HistoryTireMovement::select(
                 'tire_sizes.size as unit',
@@ -790,7 +790,7 @@ class ReportController extends Controller
                 DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 11 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized11'"),
                 DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized12'"),
                 DB::raw("SUM(CASE WHEN status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'total_realized'"),
-
+    
                 // Using MAX to retrieve forecast values per group
                 DB::raw("MAX(forecast_tire_sizes.january) AS 'forecast1'"),
                 DB::raw("MAX(forecast_tire_sizes.february) AS 'forecast2'"),
@@ -816,11 +816,11 @@ class ReportController extends Controller
                         ->where("forecast_tire_sizes.company_id", "=", $company->id);
                 })
                 ->whereYear("history_tire_movements.start_date", $year)
-                ->where("history_tire_movements.company_id", $company->id);
-            $query->groupBy('tire_sizes.size');
-
+                ->where("history_tire_movements.company_id", $company->id)
+                ->groupBy('tire_sizes.size');
+    
             $result = $query->get();
-            // Pass data to DataTable with both realized and forecast columns
+    
             return DataTables::of($result)
                 ->addIndexColumn()
                 ->addColumn("forecast1", function ($row) {
@@ -968,10 +968,9 @@ class ReportController extends Controller
                 })
                 ->make(true);
         }
-
+    
         return view("admin.report.tire-cost-comparation", compact('year'));
-    }
-
+    }        
 
     public function reportHistoryTireScrap(Request $request)
     {
