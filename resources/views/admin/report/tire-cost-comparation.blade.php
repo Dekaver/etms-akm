@@ -197,7 +197,7 @@
                 $('#filter-form').on('submit', function(e) {
                     e.preventDefault();
                     table.ajax.reload();
-                });
+                }); 
             });
         </script>
     @endpush

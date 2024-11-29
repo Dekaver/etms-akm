@@ -773,7 +773,7 @@ class ReportController extends Controller
     {
         $year = $request->query('year') ?? Carbon::now()->format("Y");
         $company = auth()->user()->company;
-
+ 
         if ($request->ajax()) {
             $query = HistoryTireMovement::select(
                 'tire_sizes.size as unit',
