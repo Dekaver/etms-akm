@@ -1214,23 +1214,31 @@
                                 $('#removeTireModal').find('input[name="tire_status_id"]').val(2);
                                 $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
                                     false);
+                                $('#removeTireModal').find(`input[name="photo"]`).attr('required',
+                                    false);
                                 break;
                             case 'REPAIR':
                                 $('#removeTireModal').find('input[name="tire_status"]').val(status);
                                 $('#removeTireModal').find('input[name="tire_status_id"]').val(3);
                                 $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
                                     true);
+                                $('#removeTireModal').find(`input[name="photo"]`).attr('required',
+                                    false);
                                 break;
                             case 'RETREAD':
                                 $('#removeTireModal').find('input[name="tire_status"]').val(status);
                                 $('#removeTireModal').find('input[name="tire_status_id"]').val(4);
                                 $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
                                     true);
+                                $('#removeTireModal').find(`input[name="photo"]`).attr('required',
+                                    false);
                                 break;
                             case 'SCRAP':
                                 $('#removeTireModal').find('input[name="tire_status"]').val(status);
                                 $('#removeTireModal').find('input[name="tire_status_id"]').val(5);
                                 $('#removeTireModal').find(`select[name="tire_damage_id"]`).attr('required',
+                                    true);
+                                $('#removeTireModal').find(`input[name="photo"]`).attr('required',
                                     true);
                                 break;
 
