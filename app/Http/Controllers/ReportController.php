@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DailyActivity;
 use App\Models\Driver;
 use App\Models\HistoryTireMovement;
 use App\Models\Site;
@@ -773,7 +774,7 @@ class ReportController extends Controller
     {
         $year = $request->query('year') ?? Carbon::now()->format("Y");
         $company = auth()->user()->company;
-    
+
         if ($request->ajax()) {
             $query = HistoryTireMovement::select(
                 'tire_sizes.size as unit',
@@ -790,7 +791,7 @@ class ReportController extends Controller
                 DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 11 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized11'"),
                 DB::raw("SUM(CASE WHEN MONTH(history_tire_movements.start_date) = 12 AND status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'realized12'"),
                 DB::raw("SUM(CASE WHEN status = 'NEW' THEN history_tire_movements.price ELSE 0 END) AS 'total_realized'"),
-    
+
                 // Using MAX to retrieve forecast values per group
                 DB::raw("MAX(forecast_tire_sizes.january) AS 'forecast1'"),
                 DB::raw("MAX(forecast_tire_sizes.february) AS 'forecast2'"),
@@ -818,9 +819,9 @@ class ReportController extends Controller
                 ->whereYear("history_tire_movements.start_date", $year)
                 ->where("history_tire_movements.company_id", $company->id)
                 ->groupBy('tire_sizes.size');
-    
+
             $result = $query->get();
-    
+
             return DataTables::of($result)
                 ->addIndexColumn()
                 ->addColumn("forecast1", function ($row) {
@@ -968,9 +969,9 @@ class ReportController extends Controller
                 })
                 ->make(true);
         }
-    
+
         return view("admin.report.tire-cost-comparation", compact('year'));
-    }        
+    }
 
     public function reportHistoryTireScrap(Request $request)
     {
@@ -1047,4 +1048,73 @@ class ReportController extends Controller
 
         return view("admin.history.historyTireScrap");
     }
+    public function reportTimeDailyActivity(Request $request, TireMaster $tire)
+    {
+        $year = $request->query('year') ?? Carbon::now()->format("Y");
+        $company = auth()->user()->company;
+    
+        if ($request->ajax()) {
+            // Query untuk mengambil data berdasarkan teknisi dan bulan
+            $queryActivity = DailyActivity::select(
+                'teknisis.nama as teknisi',
+                // Agregasi total waktu per bulan dengan menggunakan CASE WHEN
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 1 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total1"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 1 THEN 1 ELSE 0 END) as total_activities1"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 2 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total2"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 2 THEN 1 ELSE 0 END) as total_activities2"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 3 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total3"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 3 THEN 1 ELSE 0 END) as total_activities3"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 4 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total4"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 4 THEN 1 ELSE 0 END) as total_activities4"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 5 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total5"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 5 THEN 1 ELSE 0 END) as total_activities5"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 6 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total6"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 6 THEN 1 ELSE 0 END) as total_activities6"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 7 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total7"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 7 THEN 1 ELSE 0 END) as total_activities7"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 8 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total8"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 8 THEN 1 ELSE 0 END) as total_activities8"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 9 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total9"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 9 THEN 1 ELSE 0 END) as total_activities9"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 10 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total10"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 10 THEN 1 ELSE 0 END) as total_activities10"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 11 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total11"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 11 THEN 1 ELSE 0 END) as total_activities11"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 12 THEN TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date) ELSE 0 END) as total12"),
+                DB::raw("SUM(CASE WHEN MONTH(daily_activities.start_date) = 12 THEN 1 ELSE 0 END) as total_activities12")
+            )
+                ->join('teknisis', 'daily_activities.teknisi_id', '=', 'teknisis.id')
+                ->whereYear('daily_activities.start_date', $year)
+                ->where('daily_activities.company_id', auth()->user()->company->id)
+                ->groupBy('teknisis.nama')
+                ->orderBy('teknisis.nama', 'ASC') // Menyusun berdasarkan nama teknisi
+                ->get();
+    
+            // Group dan map data berdasarkan teknisi dan bulan
+            $result = $queryActivity->map(function ($activity) {
+                $data = [
+                    'teknisi' => $activity->teknisi,
+                ];
+    
+                // Set default total dan average untuk setiap bulan (1-12)
+                for ($i = 1; $i <= 12; $i++) {
+                    $data["total$i"] = $activity["total$i"] ?? 0;
+                    // Menghitung rata-rata per bulan (dalam detik)
+                    $data["average$i"] = $activity["total_activities$i"] > 0
+                        ? $activity["total$i"] / $activity["total_activities$i"] // Average per bulan
+                        : 0;
+                }
+    
+                return $data;
+            });
+    
+            // Return the data in DataTables format
+            return DataTables::of($result)
+                ->addIndexColumn()
+                ->make(true);
+        }
+    
+        // Return the main view with the selected year
+        return view("admin.report.time-daily-activity", compact('year'));
+    }    
 }

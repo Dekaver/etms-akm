@@ -861,4 +861,16 @@ class DashboardController extends Controller
         return view('admin.grafik.tire-movement', compact('tahun', 'size', 'month', 'date_range', 'tire_size'));
     }
     
+    public function leadTimeJob(Request $request)
+    {
+        $current_year = date('Y');
+        $date_range1 = range($current_year, $current_year + 3);
+        $date_range2 = range($current_year, $current_year - 3);
+        $date_range = array_unique(array_merge($date_range1, $date_range2));
+        asort($date_range);
+        $tahun = $request->query('tahun');
+    
+        return view('admin.grafik.lead-time-job', compact('tahun','date_range'));
+    }
+    
 }

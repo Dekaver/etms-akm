@@ -166,10 +166,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('tire-scrap', [DashboardController::class, 'tireScrap'])->name('tire-scrap');
         Route::get('tire-cause-damage', [DashboardController::class, 'tireCauseDamage'])->name('tire-cause-damage');
         Route::get('tire-new-movement', [DashboardController::class, 'tireNewMovement'])->name('tire-new-movement');
+        Route::get('lead-time-job', [DashboardController::class, 'leadTimeJob'])->name('lead-time-job');
 
         Route::get('grafik-tire-cause-damage', [GrafikController::class, 'tireCauseDamage']);
         Route::get('grafik-tire-new-movement', [GrafikController::class, 'tireNewMovement']);
         Route::get('grafik-tire-cause-damage-injury', [GrafikController::class, 'tireCauseDamageInjury']);
+
+        Route::get('grafik-lead-time-job', [GrafikController::class, 'leadTimeJob'])->name('grafik-lead-time-job');
         // AKM
         Route::get('grafik-tire-fitment', [GrafikController::class, 'tireFitment']);
         Route::get('grafik-tire-fitment-month', [GrafikController::class, 'tireFitmentMonth']);
@@ -202,6 +205,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('report-tire-inventory', [ReportController::class, 'tireInventory'])->name('report.tireinventory');
         Route::get('report-tire-rtd-per-unit', [ReportController::class, 'tireRtdPerUnit'])->name('report.tirertdperunit');
         Route::get('report-history-tire-scrap', [ReportController::class, 'reportHistoryTireScrap'])->name('report.historytirescrap');
+        Route::get('report-time-daily-activity', [ReportController::class, 'reportTimeDailyActivity'])->name('report.timedailyactivity');
     });
 
     Route::middleware(['permission:ADJUSTKMPASANG'])->group(function () {

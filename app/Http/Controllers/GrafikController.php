@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DailyActivity;
 use App\Models\HistoryTireMovement;
 use App\Models\Site;
 use App\Models\TireDamage;
 use App\Models\TireMaster as Tire;
 use App\Models\DailyInspect as TireInspection;
+use App\Models\DailyInspect;
 use App\Models\TireMovement;
 use App\Models\TireSize;
 use App\Models\TireStatus;
@@ -3096,4 +3098,80 @@ class GrafikController extends Controller
             }, $units) // Unit names for x-axis
         ];
     }
+
+    public function leadTimeJob(Request $request)
+    {
+        $year = $request->query('tahun') ?? date('Y');
+        
+        // Base query to get total time (start_date - end_date) from history_tire_movements
+        $queryHistory = HistoryTireMovement::select(
+            DB::raw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') as month"),
+            DB::raw("SUM(TIMESTAMPDIFF(SECOND, history_tire_movements.start_date, history_tire_movements.end_date)) as total_time")
+        )
+        ->whereYear('history_tire_movements.start_date', $year)
+        ->where('history_tire_movements.company_id', auth()->user()->company->id);
+        
+        // Base query to get total time from daily_activity
+        $queryActivity = DailyActivity::select(
+            DB::raw("DATE_FORMAT(daily_activities.start_date, '%Y-%m') as month"),
+            DB::raw("SUM(TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date)) as total_time")
+        )
+        ->whereYear('daily_activities.start_date', $year)
+        ->where('daily_activities.company_id', auth()->user()->company->id);
+        
+        // Base query to get total time from daily_monitoring
+        $queryMonitoring = DailyInspect::select(
+            DB::raw("DATE_FORMAT(daily_inspects.start_date, '%Y-%m') as month"),
+            DB::raw("SUM(TIMESTAMPDIFF(SECOND, daily_inspects.start_date, daily_inspects.end_date)) as total_time")
+        )
+        ->whereYear('daily_inspects.start_date', $year)
+        ->where('daily_inspects.company_id', auth()->user()->company->id);
+        
+        // Combine all queries and group by month
+        $tireMovements = $queryHistory->groupBy('month')
+            ->union($queryActivity->groupBy('month'))
+            ->union($queryMonitoring->groupBy('month'))
+            ->orderBy('month', 'ASC')
+            ->get();
+        
+        // Prepare data structure for the chart
+        $months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+    
+        $monthlyData = array_fill(0, 12, 0);  // Initialize data for each month
+        $averageData = array_fill(0, 12, 0);  // Initialize average data for each month
+    
+        // Populate data for each month
+        foreach ($tireMovements as $movement) {
+            $monthIndex = date('n', strtotime($movement->month)) - 1;
+            $totalTime = $movement->total_time;
+    
+            $monthlyData[$monthIndex] += $totalTime;
+            // Calculate average time (in minutes)
+            $averageData[$monthIndex] = $totalTime / 60;  // Convert to minutes
+        }
+    
+        // Convert total time (in seconds) to minutes for chart
+        $series = [
+            [
+                'name' => 'Total Time (minutes)',
+                'data' => array_map(function ($time) {
+                    return $time / 60; // Convert to minutes
+                }, $monthlyData)
+            ],
+            [
+                'name' => 'Average Time (minutes)',
+                'data' => array_map(function ($time) {
+                    return $time / 60; // Convert to minutes
+                }, $averageData)
+            ]
+        ];
+    
+        return [
+            'data' => $series,
+            'xaxis' => $months // Month names for x-axis
+        ];
+    }    
 }
