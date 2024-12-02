@@ -32,7 +32,8 @@ class DailyActivityController extends Controller
         $unit = Unit::where("company_id", $company->id)->get();
 
         if ($request->ajax()) {
-            $data = DailyActivity::with(["teknisi", "aktivitas_pekerjaan", "unit_model", "unit", "area_pekerjaan", "site"])->get();
+            $data = DailyActivity::with(["teknisi", "aktivitas_pekerjaan", "unit_model", "unit", "area_pekerjaan", "site"])
+                ->where("company_id", $company->id)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('tanggal', function ($row) {
@@ -100,11 +101,11 @@ class DailyActivityController extends Controller
             "remark" => "required",
             "photos.*" => "image|mimes:jpeg,png,jpg,gif|max:2048"
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
+
         // Debugging untuk memastikan company_id
         $companyId = auth()->user()->company_id;
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AktivitasPekerjaanController;
 use App\Http\Controllers\AreaPekerjaanController;
+use App\Http\Controllers\BreakDownUnitController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\GrafikController;
@@ -37,7 +38,9 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\TeknisiController;
 use App\Models\AktivitasPekerjaan;
 use App\Models\AreaPekerjaan;
+use App\Models\BreakDownUnit;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -217,6 +220,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Route::get('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
+
+    Route::get('breakdown-unit', [BreakDownUnitController::class, 'index'])->name('breakdown-unit.index');
+    Route::post('import', [BreakDownUnitController::class, 'import'])->name('import');
 });
 
 Route::get('aaaa', function () {

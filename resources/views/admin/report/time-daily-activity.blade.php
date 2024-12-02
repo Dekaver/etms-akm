@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="page-header">
         <div class="page-title">
-            <h4>Daily Activity Time Comparison Report</h4>
+            <h4>Daily Activity Time Report</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                     <li class="breadcrumb-item">Reports</li>
-                    <li class="breadcrumb-item active" aria-current="page">Daily Activity Time Comparison</li>
+                    <li class="breadcrumb-item active" aria-current="page">Daily Activity Time</li>
                 </ol>
             </nav>
         </div>
@@ -77,7 +77,7 @@
                     buttons: [{
                         extend: 'excel',
                         text: 'Export Excel',
-                        filename: `Daily Activity Time Comparison Report ${new Date().getFullYear()}`
+                        filename: `Daily Activity Time Report ${new Date().getFullYear()}`
                     }],
                     processing: true,
                     serverSide: true,
