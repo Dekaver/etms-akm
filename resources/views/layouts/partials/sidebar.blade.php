@@ -43,6 +43,9 @@
                             <li><a href="/tire-new-movement"
                                     class="{{ Request::routeIs('tire-new-movement') ? 'active' : '' }}">
                                     Report Tire Ussage</a></li>
+                            <li><a href="/lead-time-job"
+                                    class="{{ Request::routeIs('lead-time-job') ? 'active' : '' }}">
+                                    Report Lead Time Job</a></li>
                         @endcan
                     </ul>
                 </li>
@@ -188,14 +191,22 @@
                                     Target KM</a></li>
 
                             <li><a href="/report-tire-cost-brand"
-                                    class="{{ Request::routeIs('report.tirecostbrand') ? 'active' : '' }}">Report Tire Cost By Brand</a>
+                                    class="{{ Request::routeIs('report.tirecostbrand') ? 'active' : '' }}">Report Tire
+                                    Cost By Brand</a>
                             </li>
 
                             <li><a href="/report-tire-cost-unit"
-                                    class="{{ Request::routeIs('report.tirecostunit') ? 'active' : '' }}">Report Tire Cost By Unit</a>
+                                    class="{{ Request::routeIs('report.tirecostunit') ? 'active' : '' }}">Report Tire Cost
+                                    By Unit</a>
                             </li>
                             <li><a href="/report-tire-cost-comparation"
-                                    class="{{ Request::routeIs('report.tirecostcomparation') ? 'active' : '' }}">Report Tire Cost Comparation</a>
+                                    class="{{ Request::routeIs('report.tirecostcomparation') ? 'active' : '' }}">Report
+                                    Tire Cost Comparation</a>
+                            </li>
+
+                            <li><a href="/report-time-daily-activity"
+                                    class="{{ Request::routeIs('report.timedailyactivity') ? 'active' : '' }}">Report
+                                    Time Daily Activity</a>
                             </li>
                         @endcan
                         @can('HISTORY_TIRE_MOVEMENT')
@@ -207,11 +218,10 @@
                             <li><a href="/historytiremovement"
                                     class="{{ Request::routeIs('historytiremovement.*') ? 'active' : '' }}">Report Tire
                                     Movement</a></li>
-                        @endcan
 
-                        @can('HISTORY_TIRE')
                             <li><a href="/report-history-tire-scrap"
-                                    class="{{ Request::routeIs('report.historytirescrap') ? 'active' : '' }}">Report History
+                                    class="{{ Request::routeIs('report.historytirescrap') ? 'active' : '' }}">Report
+                                    History
                                     Tire Scrap</a></li>
                         @endcan
                     </ul>

@@ -53,7 +53,7 @@ class HistoryTireMovementController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('lifetime_hm', function ($row) {
-                    return number_format($row->lifetime_hm, 0, ',', '.'); 
+                    return number_format($row->lifetime_hm, 0, ',', '.');
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "
@@ -121,7 +121,7 @@ class HistoryTireMovementController extends Controller
 
     public function tiremovement(Request $request, TireMaster $tire)
     {
-        $data = HistoryTireMovement::with(['site', 'tire_damage', 'driver'])
+        $data = HistoryTireMovement::with(['site', 'pics', 'tire_damage', 'driver', 'foremans', 'manpowers'])
             ->where('tire', $tire->serial_number)
             ->get()
             ->map(function ($item) {
@@ -161,8 +161,21 @@ class HistoryTireMovementController extends Controller
                 ->addColumn("km_unit", function ($row) {
                     return number_format($row->km_unit, 0, ',', '.');
                 })
+                ->addColumn("drivers", function ($row) {
+                    return $row->driver->nama ?? null;
+                })
+                ->addColumn("pics", function ($row) {
+                    return $row->pics->nama ?? null;
+                })
+                ->addColumn("foremans", function ($row) {
+                    return $row->foremansList; 
+                })
+                ->addColumn("manpowers", function ($row) {
+                    return $row->manpowersList; 
+                })
                 ->make(true);
         }
+
         return view("admin.history.historyTireMovement", compact("tire"));
     }
 

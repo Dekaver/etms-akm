@@ -63,6 +63,7 @@
                             <th>Driver</th>
                             <th>PIC</th>
                             <th>Man Power</th>
+                            <th>Foreman</th>
                             <th>Damage</th>
                             <th>Duration</th>
                         </tr>
@@ -143,16 +144,20 @@
                             name: 'rtd'
                         },
                         {
-                            data: 'driver',
-                            name: 'driver'
+                            data: 'drivers',
+                            name: 'drivers'
                         },
                         {
-                            data: 'pic',
-                            name: 'pic'
+                            data: 'pics',
+                            name: 'pics'
                         },
                         {
-                            data: 'pic_man_power',
-                            name: 'pic_man_power'
+                            data: 'manpowers',
+                            name: 'manpowers'
+                        },
+                        {
+                            data: 'foremans',
+                            name: 'foremans'
                         },
                         {
                             data: 'damage',

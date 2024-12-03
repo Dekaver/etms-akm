@@ -65,12 +65,26 @@ class HistoryTireMovement extends Model
     {
         return $this->belongsTo(TireDamage::class);
     }
+    public function pics()
+    {
+        return $this->belongsTo(Teknisi::class, 'pic_id', 'id');
+    }
     function foremans()
     {
         return $this->hasMany(HistoryTireMovementForeman::class);
-    }    
+    }
     function manpowers()
     {
         return $this->hasMany(HistoryTireMovementManPower::class);
     }
+    public function getForemansListAttribute()
+    {
+        return $this->foremans->pluck('teknisi.nama')->implode(', ');
+    }
+    
+    public function getManpowersListAttribute()
+    {
+        return $this->manpowers->pluck('teknisi.nama')->implode(', ');
+    }
+    
 }
