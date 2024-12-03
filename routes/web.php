@@ -220,8 +220,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Route::get('tiremaster', TireMasterController::class)->middleware('permission:TIRE_MASTER');
-
-    Route::get('breakdown-unit', [BreakDownUnitController::class, 'index'])->name('breakdown-unit.index');
+    Route::resource('breakdown-unit', BreakDownUnitController::class)->middleware('permission:BREAKDOWN_UNIT');
     Route::post('import', [BreakDownUnitController::class, 'import'])->name('import');
 });
 

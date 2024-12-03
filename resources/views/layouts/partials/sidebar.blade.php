@@ -163,6 +163,10 @@
                             <li><a href="/forecast" class="{{ Request::routeIs('forecast.*') ? 'active' : '' }}">
                                     Forecast</a></li>
                         @endcan
+                        @can('BREAKDOWNUNIT')
+                            <li><a href="/breakdown-unit" class="{{ Request::routeIs('breakdown-unit.*') ? 'active' : '' }}">
+                                    Breakdown Unit</a></li>
+                        @endcan
                     </ul>
                 </li>
 

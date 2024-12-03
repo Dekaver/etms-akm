@@ -27,7 +27,7 @@ class DailyActivityController extends Controller
         $site = Site::where("company_id", $company->id)->get();
         $areaPekerjaan = AreaPekerjaan::where("company_id", $company->id)->get();
         $teknisi = Teknisi::where("company_id", $company->id)->get();
-        $aktivitasPekerjaan = AktivitasPekerjaan::where("company_id", $company->id)->get();
+        $aktivitasPekerjaan = AktivitasPekerjaan::all();
         $unitModel = UnitModel::where("company_id", $company->id)->get();
         $unit = Unit::where("company_id", $company->id)->get();
 

@@ -38,8 +38,21 @@ class BreakDownUnit extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function unit_number(){
+        return $this->belongsTo(Unit::class, 'unit');
+    }
+
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+    function manpowers()
+    {
+        return $this->hasMany(BreakDownUnitPic::class);
+    }
+    
+    public function getManpowersListAttribute()
+    {
+        return $this->manpowers->pluck('teknisi.nama')->implode(', ');
     }
 }
