@@ -507,7 +507,7 @@ class TireRunningController extends Controller
             }
 
             //MENGAMBIL HARGA TIRE SEBELUMNYA
-            $dataTireMovement = HistoryTireMovement::where('tire', $tire->serial_number)->where('status', 'NEW')
+            $dataTireMovement = HistoryTireMovement::where('tire', $tire->serial_number)
                 ->where('process', 'INSTALL')->first();
 
             $dataHistoryTireMovement = HistoryTireMovement::create([
