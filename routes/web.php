@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('forecast', ForecastTireSizeController::class)->middleware('permission:FORECAST_TIRE_SIZE');
     Route::resource('department', DepartmentController::class)->middleware('permission:DEPARTMENT');
     Route::resource('teknisi', TeknisiController::class)->middleware('permission:TEKNISI');
-    Route::resource('daily-activity', DailyActivityController::class)->middleware('permission:DAILY_ACTIVITY');
+    Route::resource('daily-activity', DailyActivityController::class);
     Route::resource('aktivitas-pekerjaan', AktivitasPekerjaanController::class)->middleware('permission:AKTIVITAS_PEKERJAAN');
     Route::resource('area-pekerjaan', AreaPekerjaanController::class)->middleware('permission:AREA_PEKERJAAN');
 
