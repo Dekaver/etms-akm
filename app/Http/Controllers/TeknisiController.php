@@ -20,7 +20,7 @@ class TeknisiController extends Controller
         $jabatan = Jabatan::all();
         $company = Company::all();
         if ($request->ajax()) {
-            $data = Teknisi::with(["jabatan", "department", "company"])->get();
+            $data = Teknisi::with(["jabatan", "department", "company"])->where('company_id', auth()->user()->company_id)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
 
