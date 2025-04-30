@@ -3102,99 +3102,76 @@ class GrafikController extends Controller
     public function leadTimeJob(Request $request)
     {
         $year = $request->query('tahun') ?? date('Y');
-        $companyId = auth()->user()->company->id;
-
-        // Query 1: HistoryTireMovement
+        
+        // Base query to get total time (start_date - end_date) from history_tire_movements
         $queryHistory = HistoryTireMovement::select(
-            DB::raw("'history' as source"),
-            DB::raw("DATE_FORMAT(start_date, '%Y-%m') as month"),
-            DB::raw("YEAR(start_date) as year"),
-            DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_date, end_date)) as total_time")
+            DB::raw("DATE_FORMAT(history_tire_movements.start_date, '%Y-%m') as month"),
+            DB::raw("SUM(TIMESTAMPDIFF(SECOND, history_tire_movements.start_date, history_tire_movements.end_date)) as total_time")
         )
-            ->whereYear('start_date', $year)
-            ->where('company_id', $companyId)
-            ->whereColumn('start_date', '<=', 'end_date')
-            ->groupBy('month', 'year');
-
-        // Query 2: DailyActivity
+        ->whereYear('history_tire_movements.start_date', $year)
+        ->where('history_tire_movements.company_id', auth()->user()->company->id);
+        
+        // Base query to get total time from daily_activity
         $queryActivity = DailyActivity::select(
-            DB::raw("'activity' as source"),
-            DB::raw("DATE_FORMAT(start_date, '%Y-%m') as month"),
-            DB::raw("YEAR(start_date) as year"),
-            DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_date, end_date)) as total_time")
+            DB::raw("DATE_FORMAT(daily_activities.start_date, '%Y-%m') as month"),
+            DB::raw("SUM(TIMESTAMPDIFF(SECOND, daily_activities.start_date, daily_activities.end_date)) as total_time")
         )
-            ->whereYear('start_date', $year)
-            ->where('company_id', $companyId)
-            ->whereColumn('start_date', '<=', 'end_date')
-            ->groupBy('month', 'year');
-
-        // Query 3: DailyInspect
+        ->whereYear('daily_activities.start_date', $year)
+        ->where('daily_activities.company_id', auth()->user()->company->id);
+        
+        // Base query to get total time from daily_monitoring
         $queryMonitoring = DailyInspect::select(
-            DB::raw("'monitoring' as source"),
-            DB::raw("DATE_FORMAT(start_date, '%Y-%m') as month"),
-            DB::raw("YEAR(start_date) as year"),
-            DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_date, end_date)) as total_time")
+            DB::raw("DATE_FORMAT(daily_inspects.start_date, '%Y-%m') as month"),
+            DB::raw("SUM(TIMESTAMPDIFF(SECOND, daily_inspects.start_date, daily_inspects.end_date)) as total_time")
         )
-            ->whereYear('start_date', $year)
-            ->where('company_id', $companyId)
-            ->whereColumn('start_date', '<=', 'end_date')
-            ->groupBy('month', 'year');
-
-        // Combine with UNION
-        $unionQuery = $queryHistory
-            ->unionAll($queryActivity)
-            ->unionAll($queryMonitoring);
-
-        // Execute query and filter by year just in case
-        $results = DB::table(DB::raw("({$unionQuery->toSql()}) as combined"))
-            ->mergeBindings($unionQuery) // required to bind parameters
-            ->where('year', $year)
+        ->whereYear('daily_inspects.start_date', $year)
+        ->where('daily_inspects.company_id', auth()->user()->company->id);
+        
+        // Combine all queries and group by month
+        $tireMovements = $queryHistory->groupBy('month')
+            ->union($queryActivity->groupBy('month'))
+            ->union($queryMonitoring->groupBy('month'))
+            ->orderBy('month', 'ASC')
             ->get();
-
-        // Initialize months and data containers
+        
+        // Prepare data structure for the chart
         $months = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
         ];
-
-        $monthlyData = array_fill(0, 12, 0);  // Total seconds
-        $monthlyCount = array_fill(0, 12, 0); // For average
-
-        foreach ($results as $row) {
-            $monthIndex = date('n', strtotime($row->month)) - 1;
-            $monthlyData[$monthIndex] += $row->total_time;
-            $monthlyCount[$monthIndex]++;
+    
+        $monthlyData = array_fill(0, 12, 0);  // Initialize data for each month
+        $averageData = array_fill(0, 12, 0);  // Initialize average data for each month
+    
+        // Populate data for each month
+        foreach ($tireMovements as $movement) {
+            $monthIndex = date('n', strtotime($movement->month)) - 1;
+            $totalTime = $movement->total_time;
+    
+            $monthlyData[$monthIndex] += $totalTime;
+            // Calculate average time (in minutes)
+            $averageData[$monthIndex] = $totalTime / 60;  // Convert to minutes
         }
-
-        // Prepare average (total_time / count) in minutes
-        $averageData = array_map(function ($i) use ($monthlyData, $monthlyCount) {
-            return $monthlyCount[$i] > 0 ? ($monthlyData[$i] / $monthlyCount[$i]) / 60 : 0;
-        }, range(0, 11));
-
+    
+        // Convert total time (in seconds) to minutes for chart
         $series = [
             [
                 'name' => 'Total Time (minutes)',
-                'data' => array_map(fn($sec) => $sec / 60, $monthlyData)
+                'data' => array_map(function ($time) {
+                    return $time / 60; // Convert to minutes
+                }, $monthlyData)
             ],
             [
                 'name' => 'Average Time (minutes)',
-                'data' => $averageData
+                'data' => array_map(function ($time) {
+                    return $time / 60; // Convert to minutes
+                }, $averageData)
             ]
         ];
-
+    
         return [
             'data' => $series,
-            'xaxis' => $months
+            'xaxis' => $months // Month names for x-axis
         ];
-    }
+    }    
 }
