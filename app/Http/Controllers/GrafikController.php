@@ -3104,60 +3104,97 @@ class GrafikController extends Controller
         $year = $request->query('tahun') ?? date('Y');
         $companyId = auth()->user()->company->id;
 
-        // Query 1: history_tire_movements
-        $queryHistory = DB::table('history_tire_movements')->select(
+        // Query 1: HistoryTireMovement
+        $queryHistory = HistoryTireMovement::select(
             DB::raw("'history' as source"),
             DB::raw("DATE_FORMAT(start_date, '%Y-%m') as month"),
             DB::raw("YEAR(start_date) as year"),
             DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_date, end_date)) as total_time")
         )
-        ->whereYear('start_date', $year)
-        ->where('company_id', $companyId)
-        ->whereColumn('start_date', '<=', 'end_date')
-        ->groupBy('month', 'year');
+            ->whereYear('start_date', $year)
+            ->where('company_id', $companyId)
+            ->whereColumn('start_date', '<=', 'end_date')
+            ->groupBy('month', 'year');
 
-        // Query 2: daily_activities
-        $queryActivity = DB::table('daily_activities')->select(
+        // Query 2: DailyActivity
+        $queryActivity = DailyActivity::select(
             DB::raw("'activity' as source"),
             DB::raw("DATE_FORMAT(start_date, '%Y-%m') as month"),
             DB::raw("YEAR(start_date) as year"),
             DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_date, end_date)) as total_time")
         )
-        ->whereYear('start_date', $year)
-        ->where('company_id', $companyId)
-        ->whereColumn('start_date', '<=', 'end_date')
-        ->groupBy('month', 'year');
+            ->whereYear('start_date', $year)
+            ->where('company_id', $companyId)
+            ->whereColumn('start_date', '<=', 'end_date')
+            ->groupBy('month', 'year');
 
-        // Query 3: daily_inspects
-        $queryMonitoring = DB::table('daily_inspects')->select(
+        // Query 3: DailyInspect
+        $queryMonitoring = DailyInspect::select(
             DB::raw("'monitoring' as source"),
             DB::raw("DATE_FORMAT(start_date, '%Y-%m') as month"),
             DB::raw("YEAR(start_date) as year"),
             DB::raw("SUM(TIMESTAMPDIFF(SECOND, start_date, end_date)) as total_time")
         )
-        ->whereYear('start_date', $year)
-        ->where('company_id', $companyId)
-        ->whereColumn('start_date', '<=', 'end_date')
-        ->groupBy('month', 'year');
+            ->whereYear('start_date', $year)
+            ->where('company_id', $companyId)
+            ->whereColumn('start_date', '<=', 'end_date')
+            ->groupBy('month', 'year');
 
-        // Gabungkan query
+        // Combine with UNION
         $unionQuery = $queryHistory
             ->unionAll($queryActivity)
             ->unionAll($queryMonitoring);
 
-        // Eksekusi dengan filter tahun dan penggabungan binding
+        // Execute query and filter by year just in case
         $results = DB::table(DB::raw("({$unionQuery->toSql()}) as combined"))
-            ->mergeBindings($unionQuery)
+            ->mergeBindings($unionQuery) // required to bind parameters
             ->where('year', $year)
             ->get();
 
-        // Inisialisasi array bulan dan data
+        // Initialize months and data containers
         $months = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
         ];
 
-        $monthlyTotal = array_fill(0, 12, 0); // Total waktu per bulan (detik)
-        $monthlyCount = array_fill(0, 12, 0); // Jumlah_
+        $monthlyData = array_fill(0, 12, 0);  // Total seconds
+        $monthlyCount = array_fill(0, 12, 0); // For average
 
+        foreach ($results as $row) {
+            $monthIndex = date('n', strtotime($row->month)) - 1;
+            $monthlyData[$monthIndex] += $row->total_time;
+            $monthlyCount[$monthIndex]++;
+        }
+
+        // Prepare average (total_time / count) in minutes
+        $averageData = array_map(function ($i) use ($monthlyData, $monthlyCount) {
+            return $monthlyCount[$i] > 0 ? ($monthlyData[$i] / $monthlyCount[$i]) / 60 : 0;
+        }, range(0, 11));
+
+        $series = [
+            [
+                'name' => 'Total Time (minutes)',
+                'data' => array_map(fn($sec) => $sec / 60, $monthlyData)
+            ],
+            [
+                'name' => 'Average Time (minutes)',
+                'data' => $averageData
+            ]
+        ];
+
+        return [
+            'data' => $series,
+            'xaxis' => $months
+        ];
+    }
 }
