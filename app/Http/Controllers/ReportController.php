@@ -810,8 +810,8 @@ class ReportController extends Controller
                 ->join('units', 'history_tire_movements.unit', '=', 'units.unit_number')
                 ->join('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
                 ->join('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
-                ->leftJoin('sizes', 'sizes.name', '=', 'tire_sizes.size')
-                ->leftJoin("forecast_tire_sizes", function ($join) use ($year, $company) {
+                ->join('sizes', 'sizes.name', '=', 'tire_sizes.size')
+                ->join("forecast_tire_sizes", function ($join) use ($year, $company) {
                     $join->on("forecast_tire_sizes.tire_size_id", "=", "sizes.id")
                         ->where("forecast_tire_sizes.year", "=", $year)
                         ->where("forecast_tire_sizes.company_id", "=", $company->id);
@@ -1052,7 +1052,7 @@ class ReportController extends Controller
     {
         $year = $request->query('year') ?? Carbon::now()->format("Y");
         $company = auth()->user()->company;
-    
+
         if ($request->ajax()) {
             // Query untuk mengambil data berdasarkan teknisi dan bulan
             $queryActivity = DailyActivity::select(
@@ -1089,13 +1089,13 @@ class ReportController extends Controller
                 ->groupBy('teknisis.nama')
                 ->orderBy('teknisis.nama', 'ASC') // Menyusun berdasarkan nama teknisi
                 ->get();
-    
+
             // Group dan map data berdasarkan teknisi dan bulan
             $result = $queryActivity->map(function ($activity) {
                 $data = [
                     'teknisi' => $activity->teknisi,
                 ];
-    
+
                 // Set default total dan average untuk setiap bulan (1-12)
                 for ($i = 1; $i <= 12; $i++) {
                     $data["total$i"] = $activity["total$i"] ?? 0;
@@ -1104,17 +1104,17 @@ class ReportController extends Controller
                         ? $activity["total$i"] / $activity["total_activities$i"] // Average per bulan
                         : 0;
                 }
-    
+
                 return $data;
             });
-    
+
             // Return the data in DataTables format
             return DataTables::of($result)
                 ->addIndexColumn()
                 ->make(true);
         }
-    
+
         // Return the main view with the selected year
         return view("admin.report.time-daily-activity", compact('year'));
-    }    
+    }
 }
