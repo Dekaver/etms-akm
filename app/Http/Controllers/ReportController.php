@@ -706,7 +706,8 @@ class ReportController extends Controller
             )
                 ->leftJoin('units', 'history_tire_movements.unit', '=', 'units.unit_number')
                 ->leftJoin('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
-                ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
+                ->leftJoin('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+                ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
                 ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
                 // ->where('history_tire_movements.process', 'INSTALL')
@@ -806,11 +807,12 @@ class ReportController extends Controller
                 DB::raw("MAX(forecast_tire_sizes.december) AS 'forecast12'"),
                 DB::raw("MAX(forecast_tire_sizes.january) + MAX(forecast_tire_sizes.february) + MAX(forecast_tire_sizes.march) + MAX(forecast_tire_sizes.april) + MAX(forecast_tire_sizes.may) + MAX(forecast_tire_sizes.june) + MAX(forecast_tire_sizes.july) + MAX(forecast_tire_sizes.august) + MAX(forecast_tire_sizes.september) + MAX(forecast_tire_sizes.october) + MAX(forecast_tire_sizes.november) + MAX(forecast_tire_sizes.december) AS 'total_forecast'")
             )
-                ->join('units', 'history_tire_movements.unit', '=', 'units.unit_number')
-                ->join('unit_models', 'unit_models.id', '=', 'units.unit_model_id')
-                ->join('tire_sizes', 'tire_sizes.id', '=', 'unit_models.tire_size_id')
-                ->join('sizes', 'sizes.name', '=', 'tire_sizes.size')
-                ->join("forecast_tire_sizes", function ($join) use ($year, $company) {
+                ->leftJoin('tires', 'tires.serial_number', '=', 'history_tire_movements.tire')
+                ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
+                ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
+                ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
+                ->leftJoin('sizes', 'sizes.name', '=', 'tire_sizes.size')
+                ->leftJoin("forecast_tire_sizes", function ($join) use ($year, $company) {
                     $join->on("forecast_tire_sizes.tire_size_id", "=", "sizes.id")
                         ->where("forecast_tire_sizes.year", "=", $year)
                         ->where("forecast_tire_sizes.company_id", "=", $company->id);
