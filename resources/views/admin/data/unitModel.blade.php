@@ -59,7 +59,7 @@
                                             <select class="select" name="tiresize">
                                                 <option value="">Choose Size</option>
                                                 @foreach ($tiresize as $item)
-                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>{{ $item->size }}</option>
+                                                    <option value="{{ $item->id }}" @selected($item->id == $tiresize_id)>{{ $item->size }} | {{ $item->tire_pattern->pattern }} | {{ $item->tire_pattern->type_pattern }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -86,6 +86,9 @@
                             <th>Unit Model</th>
                             <th>Model Type</th>
                             <th>Tire Size</th>
+                            <th>Tire Pattern</th>
+                            <th>Type Pattern</th>
+                            <th>Tire Manufacture</th>
                             <th>Tire Quantity</th>
                             <th>Axle 2 Tire</th>
                             <th>Axle 4 Tire</th>
@@ -136,7 +139,7 @@
                                     <select class="select" name="tire_size_id">
                                         <option value="">Choose Size</option>
                                         @foreach ($tiresize as $item)
-                                            <option value="{{ $item->id }}">{{ $item->size }} </option>
+                                            <option value="{{ $item->id }}">{{ $item->size }} {{ $item->size }} | {{ $item->tire_pattern->pattern }} | {{ $item->tire_pattern->type_pattern }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -222,6 +225,18 @@
                         {
                             data: 'tire_size',
                             name: 'tire_size'
+                        },
+                        {
+                            data: 'tire_pattern',
+                            name: 'tire_pattern'
+                        },
+                        {
+                            data: 'type_pattern',
+                            name: 'type_pattern'
+                        },
+                        {
+                            data: 'tire_manufacture',
+                            name: 'tire_manufacture'
                         },
                         {
                             data: 'tire_qty',

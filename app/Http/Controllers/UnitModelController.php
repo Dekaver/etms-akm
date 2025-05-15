@@ -19,18 +19,7 @@ class UnitModelController extends Controller
         $tiresize_id = $request->query("tiresize");
 
         $company = auth()->user()->company;
-        $tiresize = TireSize::select('id', 'size', 'company_id')
-            ->from(DB::raw('(SELECT id, size, company_id, ROW_NUMBER() OVER (PARTITION BY size,company_id ORDER BY id) as row_num FROM tire_sizes) as ranked'))
-            ->where('row_num', 1)
-            ->where('company_id', $company->id)
-            ->orWhere(function ($query) {
-                $query->whereNotExists(function ($subquery) {
-                    $subquery->select(DB::raw(1))
-                        ->from('tire_sizes as t2')
-                        ->whereRaw('t2.size = ranked.size AND t2.id < ranked.id');
-                });
-            })
-            ->where('company_id', $company->id)
+        $tiresize = TireSize::where('company_id', $company->id)
             ->get();
 
         if ($request->ajax()) {
@@ -42,6 +31,15 @@ class UnitModelController extends Controller
                 ->addIndexColumn()
                 ->addColumn('tire_size', function ($row) {
                     return $row->tire_size->size;
+                })
+                ->addColumn('tire_pattern', function ($row) {
+                    return $row->tire_size->tire_pattern->pattern;
+                })
+                ->addColumn('type_pattern', function ($row) {
+                    return $row->tire_size->tire_pattern->type_pattern;
+                })
+                ->addColumn('tire_manufacture', function ($row) {
+                    return $row->tire_size->tire_pattern->manufacture->name;
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = "<a class='me-3 text-warning' href='#'
