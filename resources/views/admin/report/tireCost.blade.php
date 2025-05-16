@@ -29,21 +29,21 @@
                 <div class="card-body pb-0">
                     <form action="">
                         <div class="row">
-                            <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Start Date</label>
                                     <input type="date" class="form-control" name="start_date"
                                         value="{{ request('start_date') }}">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>End Date</label>
                                     <input type="date" class="form-control" name="end_date"
                                         value="{{ request('end_date') }}">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="col-lg-2 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Size</label>
                                     <select class="select" name="tire_size">
@@ -52,6 +52,17 @@
                                             <option value="{{ $item->size }}" @selected($item->size == $tire_size)>
                                                 {{ $item->size }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="select" name="status">
+                                        <option value="">Choose Status</option>
+                                        <option value="SCRAP">SCRAP</option>
+                                        <option value="NEW">NEW</option>
                                     </select>
                                 </div>
                             </div>
@@ -107,6 +118,7 @@
                             d.tire_size = $('select[name=tire_size]').val();
                             d.start_date = $('input[name=start_date]').val();
                             d.end_date = $('input[name=end_date]').val();
+                            d.status = $('select[name=status]').val();
                         }
                     },
                     columns: [{

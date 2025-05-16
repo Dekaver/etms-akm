@@ -588,7 +588,9 @@ class ReportController extends Controller
         $start_date = $request->query("start_date");
         $end_date = $request->query("end_date");
         $company = auth()->user()->company_id;
+        $status = $request->query("status");
 
+        // dd($status);
         // Mendapatkan daftar ukuran ban yang unik untuk perusahaan
         $tire_sizes = TireSize::select("size")
             ->where('company_id', $company)
@@ -617,11 +619,13 @@ class ReportController extends Controller
                 ->leftJoin('tire_sizes', 'tire_sizes.id', '=', 'tires.tire_size_id')
                 ->leftJoin('tire_patterns', 'tire_sizes.tire_pattern_id', '=', 'tire_patterns.id')
                 ->leftJoin('tire_manufactures', 'tire_patterns.tire_manufacture_id', '=', 'tire_manufactures.id')
-                ->where('history_tire_movements.status', 'SCRAP')
                 ->where('history_tire_movements.company_id', $company)
                 ->where('units.site_id', auth()->user()->site->id)
                 ->groupBy('tire_sizes.size', 'tire_patterns.pattern', 'tire_patterns.type_pattern', 'tire_manufactures.name');
 
+            if ($status) {
+                $query->where('history_tire_movements.status', $status);
+            }
             if ($tire_size) {
                 $query->where('tire_sizes.size', $tire_size);
             }
