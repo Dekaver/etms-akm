@@ -131,6 +131,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('history-tire-consumption/monthly', [HistoryTireMovementController::class, 'monthlytireconsumption'])
         ->name('tireconsumption')->middleware('permission:HISTORY_TIRE_MOVEMENT');
 
+    Route::get('last-tire-movement', [HistoryTireMovementController::class, 'lastTireMovement'])
+        ->name('lastTireMovement')->middleware('permission:HISTORY_TIRE_MOVEMENT');
+
     Route::get('history-tire-consumption/annual', [HistoryTireMovementController::class, 'annualtireconsumption'])
         ->name('tireconsumption.annual')->middleware('permission:HISTORY_TIRE_MOVEMENT');
 

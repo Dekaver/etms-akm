@@ -88,6 +88,10 @@
                             <li><a href="/tiremaster" class="{{ Request::routeIs('tiremaster.*') ? 'active' : '' }}">Tire
                                     Data Master</a></li>
                         @endcan
+                        @can('LAST_TIRE_MOVEMENT')
+                            <li><a href="/last-tire-movement" class="{{ Request::routeIs('lastTireMovement.*') ? 'active' : '' }}">Last Tire
+                                    Movement</a></li>
+                        @endcan
                     </ul>
                 </li>
                 <li class="submenu">

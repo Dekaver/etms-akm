@@ -98,9 +98,10 @@ class HistoryTireMovementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HistoryTireMovement $historyTireMovement)
+    public function edit(HistoryTireMovement $historyTireMovement, $id)
     {
-        //
+        $historyTireMovement = HistoryTireMovement::find($id);
+        return $historyTireMovement;
     }
 
     /**
@@ -108,7 +109,18 @@ class HistoryTireMovementController extends Controller
      */
     public function update(Request $request, HistoryTireMovement $historyTireMovement)
     {
-        //
+        $historyTireMovement = HistoryTireMovement::find($request->id);
+        $historyTireMovement->rtd = $request->rtd;
+        $historyTireMovement->hm_tire = $request->hm_tire;
+        $historyTireMovement->km_tire = $request->km_tire;
+        $historyTireMovement->hm_unit = $request->hm_unit;
+        $historyTireMovement->km_unit = $request->km_unit;
+        $historyTireMovement->price = $request->price;
+        $historyTireMovement->start_date = $request->start_date;
+        $historyTireMovement->end_date = $request->end_date;
+        $historyTireMovement->save();
+
+        return redirect()->back()->with("success", "tire data updated successfully.");
     }
 
     /**
@@ -168,10 +180,10 @@ class HistoryTireMovementController extends Controller
                     return $row->pics->nama ?? null;
                 })
                 ->addColumn("foremans", function ($row) {
-                    return $row->foremansList; 
+                    return $row->foremansList;
                 })
                 ->addColumn("manpowers", function ($row) {
-                    return $row->manpowersList; 
+                    return $row->manpowersList;
                 })
                 ->make(true);
         }
@@ -733,5 +745,68 @@ class HistoryTireMovementController extends Controller
         }
 
         return view("admin.history.historyTireConsumptionAnnual", compact('grup', 'unit', 'driver', 'units', 'drivers', 'brand_tire', 'type_pattern', 'tire_sizes', 'tire_size', 'manufacturer', 'type_patterns', 'tire_patterns', 'tire_pattern', 'tire', 'month', 'year'));
+    }
+
+    public function lastTireMovement(Request $request)
+    {
+        $company = auth()->user()->company;
+        $latestIds = DB::table('history_tire_movements')
+            ->select(DB::raw('MAX(id) as id'))
+            ->groupBy('tire');
+
+        $data = DB::table('history_tire_movements as htm')
+            ->joinSub($latestIds, 'latest', function ($join) {
+                $join->on('htm.id', '=', 'latest.id');
+            })
+            ->leftJoin('tires as tm', 'htm.tire', '=', 'tm.serial_number')
+            ->leftJoin('tire_sizes as ts', 'tm.tire_size_id', '=', 'ts.id')
+            ->leftJoin('tire_patterns as tp', 'ts.tire_pattern_id', '=', 'tp.id')
+            ->leftJoin('tire_manufactures as m', 'tp.tire_manufacture_id', '=', 'm.id')
+            ->leftJoin('sites as s', 'htm.site_id', '=', 's.id')
+            ->leftJoin('drivers as d', 'htm.driver_id', '=', 'd.id')
+            ->leftJoin('tire_damages as td', 'htm.tire_damage_id', '=', 'td.id')
+            ->where('htm.company_id', $company->id)
+            ->where('htm.process', '!=', 'ROTATION')
+            ->orderBy('htm.start_date', 'desc')
+            ->select(
+                'htm.*',
+                'ts.size as size',
+                'tp.pattern as pattern',
+                'tp.type_pattern as type_pattern',
+                'm.name as manufacture',
+                's.name as site',
+                'd.nama as driver',
+                'td.damage as damage'
+            )
+            ->get();
+
+
+        if ($request->ajax()) {
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn("size", fn($row) => $row->size ?? '-')
+                ->addColumn("manufaktur", fn($row) => $row->manufacture ?? '-')
+                ->addColumn("pattern", fn($row) => $row->pattern ?? '-')
+                ->addColumn("type_pattern", fn($row) => $row->type_pattern ?? '-')
+                ->addColumn("site", fn($row) => $row->site ?? '-')
+                ->addColumn("driver", fn($row) => $row->driver ?? '-')
+                ->addColumn("damage", fn($row) => $row->damage ?? '-')
+                ->addColumn("hm_tire", fn($row) => number_format($row->hm_tire ?? 0, 0, ',', '.'))
+                ->addColumn("rtd", fn($row) => number_format($row->rtd ?? 0, 0, ',', '.'))
+                ->addColumn("km_tire", fn($row) => number_format($row->km_tire ?? 0, 0, ',', '.'))
+                ->addColumn("hm_unit", fn($row) => number_format($row->hm_unit ?? 0, 0, ',', '.'))
+                ->addColumn("km_unit", fn($row) => number_format($row->km_unit ?? 0, 0, ',', '.'))
+                ->addColumn("price", fn($row) => number_format($row->price ?? 0, 0, ',', '.'))
+                ->addColumn("photo", function ($row) {
+                    if ($row->photo) {
+                        $url = asset('storage/' . $row->photo);
+                        return "<a href='#' class='photo-link' data-photo-url='$url'>View Photo</a>";
+                    }
+                    return 'No Photo';
+                })
+                ->rawColumns(['photo'])
+                ->make(true);
+        }
+        return view("admin.master.tireHistory");
     }
 }
