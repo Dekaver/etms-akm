@@ -12,18 +12,28 @@
                             Grafik</span> <span class="menu-arrow"></span></a>
                     <ul>
                         @can('GRAFIK')
-                            <li><a href="/tire-performance"
-                                    class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
-                            </li>
-                            <li><a href="/tire-performance-scrap"
-                                    class="{{ Request::routeIs('tire-performance-scrap') ? 'active' : '' }}">Tire Scrap
-                                    Performance</a>
-                            </li>
-                            <li><a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
-                                    Scrap</a></li>
-                            <li><a href="/tire-cause-damage"
-                                    class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
-                                    Cause Damage</a></li>
+                            @can('GRAFIK_TIRE_PERFORMANCE')
+                                <li><a href="/tire-performance"
+                                        class="{{ Request::routeIs('tire-performance') ? 'active' : '' }}">Tire Performance</a>
+                                </li>
+                            @endcan
+                            @can('GRAFIK_TIRE_PERFORMANCE_SCRAP')
+                                <li><a href="/tire-performance-scrap"
+                                        class="{{ Request::routeIs('tire-performance-scrap') ? 'active' : '' }}">Tire Scrap
+                                        Performance</a>
+                                </li>
+                            @endcan
+                            @can('GRAFIK_TIRE_SCRAP')
+                                <li>
+                                    <a href="/tire-scrap" class="{{ Request::routeIs('tire-scrap') ? 'active' : '' }}">Tire
+                                        Scrap</a>
+                                </li>
+                            @endcan
+                            @can('GRAFIK_TIRE_CAUSE_DAMAGE')
+                                <li><a href="/tire-cause-damage"
+                                        class="{{ Request::routeIs('tire-cause-damage') ? 'active' : '' }}">Tire
+                                        Cause Damage</a></li>
+                            @endcan
                         @endcan
 
 
@@ -43,8 +53,7 @@
                             <li><a href="/tire-new-movement"
                                     class="{{ Request::routeIs('tire-new-movement') ? 'active' : '' }}">
                                     Report Tire Ussage</a></li>
-                            <li><a href="/lead-time-job"
-                                    class="{{ Request::routeIs('lead-time-job') ? 'active' : '' }}">
+                            <li><a href="/lead-time-job" class="{{ Request::routeIs('lead-time-job') ? 'active' : '' }}">
                                     Report Lead Time Job</a></li>
                         @endcan
                     </ul>
@@ -89,7 +98,8 @@
                                     Data Master</a></li>
                         @endcan
                         @can('LAST_TIRE_MOVEMENT')
-                            <li><a href="/last-tire-movement" class="{{ Request::routeIs('lastTireMovement.*') ? 'active' : '' }}">Last Tire
+                            <li><a href="/last-tire-movement"
+                                    class="{{ Request::routeIs('lastTireMovement.*') ? 'active' : '' }}">Last Tire
                                     Movement</a></li>
                         @endcan
                     </ul>
@@ -168,7 +178,8 @@
                                     Forecast</a></li>
                         @endcan
                         @can('BREAKDOWNUNIT')
-                            <li><a href="/breakdown-unit" class="{{ Request::routeIs('breakdown-unit.*') ? 'active' : '' }}">
+                            <li><a href="/breakdown-unit"
+                                    class="{{ Request::routeIs('breakdown-unit.*') ? 'active' : '' }}">
                                     Breakdown Unit</a></li>
                         @endcan
                     </ul>
