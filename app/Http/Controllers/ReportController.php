@@ -981,8 +981,53 @@ class ReportController extends Controller
     public function reportHistoryTireScrap(Request $request)
     {
         $company = auth()->user()->company;
-        $data = HistoryTireMovement::with(['tire_number', 'site', 'tire_damage', 'driver'])
-            ->where('process', 'REMOVE')->where('status', 'SCRAP')->where('company_id', $company->id)
+        $data = HistoryTireMovement::select([
+                'history_tire_movements.*',
+                'tires.serial_number as tire_number',
+                'sites.name as site',
+                'tire_sizes.size as tire_size',
+                'tire_patterns.pattern',
+                'tire_patterns.type_pattern',
+                'units.unit_number as unit',
+                'tire_damages.damage as damage',
+                'tire_manufactures.name as nama_manufacture',
+                'drivers.nama as driver',
+            ])
+            ->join('tires', function ($join) use ($company) {
+                $join->on('history_tire_movements.tire', '=', 'tires.serial_number')
+                    ->where('tires.company_id', $company->id);
+            })
+            ->join('tire_sizes', function ($join) use ($company) {
+                $join->on('tire_sizes.id', '=', 'tires.tire_size_id')
+                    ->where('tire_sizes.company_id', $company->id);
+            })
+            ->join('tire_patterns', function ($join) use ($company) {
+                $join->on('tire_patterns.id', '=', 'tire_sizes.tire_pattern_id')
+                    ->where('tire_patterns.company_id', $company->id);
+            })
+            ->join('tire_manufactures', function ($join) use ($company) {
+                $join->on('tire_manufactures.id', '=', 'tire_patterns.tire_manufacture_id')
+                    ->where('tire_manufactures.company_id', $company->id);
+            })
+            ->join('tire_damages', function ($join) use ($company) {
+                $join->on('tire_damages.id', '=', 'tires.tire_damage_id')
+                    ->where('tire_damages.company_id', $company->id);
+            })
+            ->join('units', function ($join) use ($company) {
+                $join->on('history_tire_movements.unit', '=', 'units.unit_number')
+                    ->where('units.company_id', $company->id);
+            })
+            ->join('sites', function ($join) use ($company) {
+                $join->on('history_tire_movements.site_id', '=', 'sites.id')
+                    ->where('sites.company_id', $company->id);
+            })
+            ->join('drivers', function ($join) use ($company) {
+                $join->on('history_tire_movements.driver_id', '=', 'drivers.id')
+                    ->where('drivers.company_id', $company->id);
+            })
+            ->where('process', 'REMOVE')
+            ->where('status', 'SCRAP')
+            ->where('history_tire_movements.company_id', $company->id)
             ->orderBy('start_date', 'desc')
             ->get()
             ->map(function ($item) {
@@ -1002,25 +1047,25 @@ class ReportController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn("size", function ($row) {
-                    return $row->tire_number->tire_size->size;
+                    return $row->tire_size;
                 })
                 ->addColumn("manufaktur", function ($row) {
-                    return $row->tire_number->tire_size->tire_pattern->manufacture->name;
+                    return $row->nama_manufacture;
                 })
                 ->addColumn("pattern", function ($row) {
-                    return $row->tire_number->tire_size->tire_pattern->pattern;
+                    return $row->pattern;
                 })
                 ->addColumn("type_pattern", function ($row) {
-                    return $row->tire_number->tire_size->tire_pattern->type_pattern;
+                    return $row->type_pattern;
                 })
                 ->addColumn("site", function ($row) {
-                    return $row->site->name;
+                    return $row->site;
                 })
                 ->addColumn("driver", function ($row) {
-                    return $row->driver->nama ?? null;
+                    return $row->driver ?? null;
                 })
                 ->addColumn("damage", function ($row) {
-                    return $row->tire_damage->damage ?? null;
+                    return $row->damage ?? null;
                 })
                 ->addColumn("hm_tire", function ($row) {
                     return number_format($row->hm_tire, 0, ',', '.');

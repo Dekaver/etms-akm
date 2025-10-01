@@ -73,8 +73,7 @@
             $(function() {
                 var table = $('table.data-table').DataTable({
                     dom: 'Bfrtip',
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'excel',
                             text: 'Export Excel',
                             filename: `History Tire Movement ${new Date().getTime()}`
@@ -82,33 +81,96 @@
                         'copy', 'csv'
                     ],
                     processing: true,
-                    serverSide: true,
+                    serverSide: false,
                     ajax: "{{ route('report.historytirescrap') }}",
-                    order: [[0, 'desc']], // Sorts by first column (start_date) in descending order
-                    columns: [
-                        { data: 'start_date', name: 'start_date' },
-                        { data: 'tire', name: 'tire' },
-                        { data: 'size', name: 'size' },
-                        { data: 'manufaktur', name: 'manufaktur' },
-                        { data: 'pattern', name: 'pattern' },
-                        { data: 'type_pattern', name: 'type_pattern' },
-                        { data: 'position', name: 'position' },
-                        { data: 'process', name: 'process' },
-                        { data: 'status', name: 'status' },
-                        { data: 'site', name: 'site' },
-                        { data: 'unit', name: 'unit' },
-                        { data: 'hm_tire', name: 'hm_tire' },
-                        { data: 'km_tire', name: 'km_tire' },
-                        { data: 'hm_unit', name: 'hm_unit' },
-                        { data: 'km_unit', name: 'km_unit' },
-                        { data: 'rtd', name: 'rtd' },
-                        { data: 'driver', name: 'driver' },
-                        { data: 'damage', name: 'damage' },
-                        { data: 'price', name: 'price' },
-                        { data: 'photo', name: 'photo', orderable: false, searchable: false }
+                    order: [
+                        [0, 'desc']
+                    ], // Sorts by first column (start_date) in descending order
+                    columns: [{
+                            data: 'start_date',
+                            name: 'start_date'
+                        },
+                        {
+                            data: 'tire',
+                            name: 'tire'
+                        },
+                        {
+                            data: 'size',
+                            name: 'size'
+                        },
+                        {
+                            data: 'manufaktur',
+                            name: 'manufaktur'
+                        },
+                        {
+                            data: 'pattern',
+                            name: 'pattern'
+                        },
+                        {
+                            data: 'type_pattern',
+                            name: 'type_pattern'
+                        },
+                        {
+                            data: 'position',
+                            name: 'position'
+                        },
+                        {
+                            data: 'process',
+                            name: 'process'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
+                        },
+                        {
+                            data: 'site',
+                            name: 'site'
+                        },
+                        {
+                            data: 'unit',
+                            name: 'unit'
+                        },
+                        {
+                            data: 'hm_tire',
+                            name: 'hm_tire'
+                        },
+                        {
+                            data: 'km_tire',
+                            name: 'km_tire'
+                        },
+                        {
+                            data: 'hm_unit',
+                            name: 'hm_unit'
+                        },
+                        {
+                            data: 'km_unit',
+                            name: 'km_unit'
+                        },
+                        {
+                            data: 'rtd',
+                            name: 'rtd'
+                        },
+                        {
+                            data: 'driver',
+                            name: 'driver'
+                        },
+                        {
+                            data: 'damage',
+                            name: 'damage'
+                        },
+                        {
+                            data: 'price',
+                            name: 'price'
+                        },
+                        {
+                            data: 'photo',
+                            name: 'photo',
+                            orderable: false,
+                            searchable: false
+                        }
                     ]
                 });
-        
+
                 // Photo link handling to show the modal with the image
                 $(document).on('click', '.photo-link', function(e) {
                     e.preventDefault();
@@ -117,6 +179,6 @@
                     $('#photoModal').modal('show');
                 });
             });
-        </script>        
+        </script>
     @endpush
 </x-app-layout>
