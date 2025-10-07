@@ -135,8 +135,7 @@
                     var button = $(event.relatedTarget)
                     var post = button.data('post');
                     var modal = $(this)
-                    var damage = table.rows().data().toArray().map(k => k.cause);
-                    let causes = [...new Set(damage)];
+                    let causes = ["MAINTENANCE", "NORMAL", "OPERATIONAL"];
                     causes.forEach(cause => {
                         modal.find('select[name="cause"]').append($('<option>', {
                             value: cause.toUpperCase(),
