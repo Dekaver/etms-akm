@@ -179,7 +179,7 @@ class DashboardController extends Controller
         $month = $request->query('month');
         $week = $request->query('week');
         $tire_sizes = TireSize::select('size')->groupBy('size')->get();
-        $site = Site::all();
+        $site = Site::where('company_id', auth()->user()->company_id)->get();
         $type = UnitModel::select("type")->groupby('type')->get();
         $result_passing = [
             'tahun' => $tahun,
@@ -207,7 +207,7 @@ class DashboardController extends Controller
                 $ranges[4] = [22, $days];
             }
         }
-        $manufacturer = TireManufacture::all();
+        $manufacturer = TireManufacture::where('company_id', auth()->user()->company_id)->get();
         $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
         $tire_patterns = TirePattern::select('pattern')->groupBy('pattern')->get();
         $tires = TireMaster::select('tire_statuses.status')
@@ -598,7 +598,7 @@ class DashboardController extends Controller
         $site = Site::where("company_id", $company->id)->get();
         $tire_sizes = TireSize::select('size')->groupBy('size')->get();
         $type = UnitModel::select("type")->groupby('type')->get();
-        $manufacturer = TireManufacture::all();
+        $manufacturer = TireManufacture::where('company_id', auth()->user()->company_id)->get();
         $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
         $ranges_week = [
             1 => [1, 7],
@@ -802,10 +802,10 @@ class DashboardController extends Controller
         $week = $request->query('week');
         $tire_pattern = $request->query('tire_pattern');
         $tire_patterns = TirePattern::select('pattern')->groupBy('pattern')->get();
-        $site = Site::all();
+        $site = Site::where('company_id', auth()->user()->company_id)->get();
         $tire_sizes = TireSize::select('size')->groupBy('size')->get();
         $type = UnitModel::select("type")->groupby('type')->get();
-        $manufacturer = TireManufacture::all();
+        $manufacturer = TireManufacture::where('company_id', auth()->user()->company_id)->get();
         $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
 
         return view('admin.grafik.scrap', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));
@@ -833,10 +833,10 @@ class DashboardController extends Controller
         $week = $request->query('week');
         $tire_pattern = $request->query('tire_pattern');
         $tire_patterns = TirePattern::select('pattern')->groupBy('pattern')->get();
-        $site = Site::all();
+        $site = Site::where('company_id', auth()->user()->company_id)->get();
         $tire_sizes = TireSize::select('size')->groupBy('size')->get();
         $type = UnitModel::select("type")->groupby('type')->get();
-        $manufacturer = TireManufacture::all();
+        $manufacturer = TireManufacture::where('company_id', auth()->user()->company_id)->get();
         $type_patterns = TirePattern::select('type_pattern')->groupBy('type_pattern')->get();
 
         return view('admin.grafik.cause-damage', compact('site', 'tahun', 'site_name', 'month', 'week', 'tire_sizes', 'tire_size', 'brand_tire', 'model_type', 'type', 'manufacturer', 'type_pattern', 'type_patterns', 'tire_pattern', 'tire_patterns', 'date_range'));

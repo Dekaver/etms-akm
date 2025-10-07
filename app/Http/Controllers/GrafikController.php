@@ -730,7 +730,7 @@ class GrafikController extends Controller
         if ($name) {
             $site = Site::where('name', $name)->get();
         } else {
-            $site = Site::all();
+            $site = Site::where('company_id', auth()->user()->company_id)->get();
         }
         $arr_unit_model = UnitModel::select('type')
             ->groupBy('type')
@@ -906,7 +906,7 @@ class GrafikController extends Controller
         if ($name) {
             $site = Site::where('name', $name)->get();
         } else {
-            $site = Site::all();
+            $site = Site::where('company_id', auth()->user()->company_id)->get();
         }
 
         $arr_unit_model = UnitModel::select('type')
@@ -1035,7 +1035,7 @@ class GrafikController extends Controller
         if ($name) {
             $site = Site::where('name', $name)->get();
         } else {
-            $site = Site::all();
+            $site = Site::where('company_id', auth()->user()->company_id)->get();
         }
         $arr_unit_model = UnitModel::select('type')
             ->groupBy('type')
@@ -1163,7 +1163,7 @@ class GrafikController extends Controller
         if ($name) {
             $site = Site::where('name', $name)->get();
         } else {
-            $site = Site::all();
+            $site = Site::where('company_id', auth()->user()->company_id)->get();
         }
         $tire = Tire::where('serial_number', 'A19')->first();
 
@@ -1274,7 +1274,7 @@ class GrafikController extends Controller
         if ($name) {
             $site = Site::where('name', $name)->get();
         } else {
-            $site = Site::all();
+            $site = Site::where('company_id', auth()->user()->company_id)->get();
         }
 
         $ranges = [
@@ -1387,7 +1387,7 @@ class GrafikController extends Controller
         $month = $request->query('month');
         $week = $request->query('week');
 
-        $site = Site::all();
+        $site = Site::where('company_id', auth()->user()->company_id)->get();
 
         $ranges = [
             1 => [1, 7],
@@ -1497,7 +1497,7 @@ class GrafikController extends Controller
         $month = $request->query('month');
         $week = $request->query('week');
 
-        $site = Site::all();
+        $site = Site::where('company_id', auth()->user()->company_id)->get();
 
         $ranges = [
             1 => [1, 7],
