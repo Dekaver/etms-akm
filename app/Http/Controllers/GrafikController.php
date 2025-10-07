@@ -1646,7 +1646,7 @@ class GrafikController extends Controller
 
 
         if ($tire_size) {
-            $tire = $tire->where('tire_sizes.sizes', $tire_size);
+            $tire = $tire->where('tire_sizes.size', $tire_size);
         }
         if ($type_pattern) {
             $tire = $tire->where('tire_patterns.type_pattern', $type_pattern);
@@ -1748,7 +1748,7 @@ class GrafikController extends Controller
 
 
         if ($tire_size) {
-            $tire = $tire->where('tire_sizes.sizes', $tire_size);
+            $tire = $tire->where('tire_sizes.size', $tire_size);
         }
         if ($type_pattern) {
             $tire = $tire->where('tire_patterns.type_pattern', $type_pattern);
