@@ -135,7 +135,7 @@ class UnitModelController extends Controller
     {
 
         $request->validate([
-            "name" =>
+            "model" =>
                 [
                     "required",
                     "string",
@@ -160,7 +160,7 @@ class UnitModelController extends Controller
         $unitmodel->tire_qty = $request->tire_qty;
         $unitmodel->axle_2_tire = $request->axle_2_tire;
         $unitmodel->axle_4_tire = $request->axle_4_tire;
-        $unitmodel->axle_8_tire = $request->axle_8_tire;
+        $unitmodel->axle_8_tire = 0;
         $unitmodel->distribusi_beban = $request->distribusi_beban;
         $unitmodel->informasi_berat_kosong = $request->informasi_berat_kosong;
         $unitmodel->standar_load_capacity = $request->standar_load_capacity;
