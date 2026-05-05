@@ -583,19 +583,22 @@
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                         <label for="">Start time</label>
-                                        <input type="datetime-local" name="start_date" class="form-control" required
-                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
+                                        <input type="datetime-local" name="start_date" class="form-control date-cascade" data-role="start" required
+                                            max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                                         <div class="invalid-feedback">Please fill a time Start.</div>
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                         <label for="">End time</label>
-                                        <input type="datetime-local" name="end_date" class="form-control"
-                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                        <input type="datetime-local" name="end_date" class="form-control date-cascade" data-role="end"
+                                            max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                            value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                         <div class="invalid-feedback">Please fill a time end.</div>
                                     </div>
                                     <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                         <label for="">Date Breakdown</label>
-                                        <input type="date" name="start_breakdown" class="form-control"
+                                        <input type="date" name="start_breakdown" class="form-control date-cascade" data-role="breakdown"
+                                            max="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}"
                                             value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
                                         <div class="invalid-feedback">Please fill a start breakdown.</div>
                                     </div>
@@ -766,19 +769,22 @@
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">Start time</label>
-                                <input type="datetime-local" name="start_date" class="form-control" required
-                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
+                                <input type="datetime-local" name="start_date" class="form-control date-cascade" data-role="start" required
+                                    max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                                 <div class="invalid-feedback">Please fill a time Start.</div>
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-6">
                                 <label for="">End time</label>
-                                <input type="datetime-local" name="end_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                <input type="datetime-local" name="end_date" class="form-control date-cascade" data-role="end"
+                                    max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
                             <div class="form-group mb-3 col-12 col-sm-6 col-md-6 col-lg-4">
                                 <label for="">Date Breakdown</label>
-                                <input type="date" name="start_breakdown" class="form-control"
+                                <input type="date" name="start_breakdown" class="form-control date-cascade" data-role="breakdown"
+                                    max="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}"
                                     value="{{ \Carbon\Carbon::now(8)->format('Y-m-d') }}" required>
                                 <div class="invalid-feedback">Please fill a start breakdown.</div>
                             </div>
@@ -928,14 +934,16 @@
                         <div class="row">
                             <div class="form-group col">
                                 <label for="">Start Install</label>
-                                <input type="datetime-local" name="start_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                <input type="datetime-local" name="start_date" class="form-control date-cascade" data-role="start"
+                                    max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time start.</div>
                             </div>
                             <div class="form-group col">
                                 <label for="">End Install</label>
-                                <input type="datetime-local" name="end_date" class="form-control"
-                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                <input type="datetime-local" name="end_date" class="form-control date-cascade" data-role="end"
+                                    max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                    value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                 <div class="invalid-feedback">Please fill a time end.</div>
                             </div>
                         </div>
@@ -1438,6 +1446,50 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1);
                 });
             });
+
+            (function() {
+                function pad(n) { return String(n).padStart(2, '0'); }
+                function nowDateTimeLocal() {
+                    var d = new Date();
+                    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+                        'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+                }
+                function nowDate() {
+                    var d = new Date();
+                    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+                }
+                function dtToDate(v) { return v ? v.substring(0, 10) : ''; }
+
+                function applyCascade(form) {
+                    var $form = $(form);
+                    var $bd = $form.find('input[data-role="breakdown"]');
+                    var $start = $form.find('input[data-role="start"]');
+                    var $end = $form.find('input[data-role="end"]');
+                    var nowDt = nowDateTimeLocal();
+                    var nowD = nowDate();
+
+                    if ($end.length) {
+                        $end.attr('max', nowDt);
+                        if ($end.val() > nowDt) $end.val(nowDt);
+                    }
+                    if ($start.length) {
+                        var startMax = $end.length && $end.val() ? $end.val() : nowDt;
+                        $start.attr('max', startMax);
+                        if ($start.val() > startMax) $start.val(startMax);
+                    }
+                    if ($bd.length) {
+                        var bdMax = $start.length && $start.val() ? dtToDate($start.val()) : nowD;
+                        if (bdMax > nowD) bdMax = nowD;
+                        $bd.attr('max', bdMax);
+                        if ($bd.val() > bdMax) $bd.val(bdMax);
+                    }
+                }
+
+                $(document).on('change input', '.date-cascade', function() {
+                    applyCascade($(this).closest('form'));
+                });
+                $('form').each(function() { applyCascade(this); });
+            })();
         </script>
     @endpush
 
