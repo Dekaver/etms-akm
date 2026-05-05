@@ -447,8 +447,33 @@ if ($("#chart-tire-lifetime-scrap-km").length > 0) {
                           10 ** (parseInt(dynamicMaxKM).toString().length - 2)
                   ) *
                   10 ** (parseInt(dynamicMaxKM).toString().length - 2);
+
+        const qty = response.qty_tyre || [];
+        const pointAnnotations = response.xaxis.map((cat, idx) => {
+            const stackTop =
+                (Number(response.value[0].data[idx]) || 0) +
+                (Number(response.value[2].data[idx]) || 0);
+            return {
+                x: cat,
+                y: stackTop,
+                marker: { size: 0 },
+                label: {
+                    borderWidth: 0,
+                    offsetY: -8,
+                    style: {
+                        background: "#000",
+                        color: "#fff",
+                        fontSize: "11px",
+                        fontWeight: 700,
+                    },
+                    text: "Qty: " + (qty[idx] || 0),
+                },
+            };
+        });
+
         tire_lifetime_average.updateOptions({
             series: response.value,
+            annotations: { points: pointAnnotations },
             yaxis: [
                 {
                     seriesName: "KM",
@@ -855,8 +880,33 @@ if ($("#chart-tire-lifetime-scrap-hm").length > 0) {
                           10 ** (parseInt(dynamicMaxKM).toString().length - 2)
                   ) *
                   10 ** (parseInt(dynamicMaxKM).toString().length - 2);
+
+        const qty = response.qty_tyre || [];
+        const pointAnnotations = response.xaxis.map((cat, idx) => {
+            const stackTop =
+                (Number(response.value[0].data[idx]) || 0) +
+                (Number(response.value[2].data[idx]) || 0);
+            return {
+                x: cat,
+                y: stackTop,
+                marker: { size: 0 },
+                label: {
+                    borderWidth: 0,
+                    offsetY: -8,
+                    style: {
+                        background: "#000",
+                        color: "#fff",
+                        fontSize: "11px",
+                        fontWeight: 700,
+                    },
+                    text: "Qty: " + (qty[idx] || 0),
+                },
+            };
+        });
+
         tire_lifetime_average.updateOptions({
             series: response.value,
+            annotations: { points: pointAnnotations },
             yaxis: [
                 {
                     seriesName: "KM",
