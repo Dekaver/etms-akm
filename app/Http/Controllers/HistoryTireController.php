@@ -20,18 +20,13 @@ class HistoryTireController extends Controller
     public function index(Request $request)
     {
         $site = $request->query("site");
-        $year = $request->query("year");
-        $month = $request->query("month");
+        $year = $request->query("year", Carbon::now()->format('Y'));
+        $month = $request->query("month", Carbon::now()->format('n'));
 
         $company = auth()->user()->company;
-        if ($month && $year) {
-            $date = "$year-$month-1";
-            $start = Carbon::parse($date)->startOfMonth();
-            $end = Carbon::parse($date)->endOfMonth();
-        } else {
-            $start = Carbon::now()->startOfMonth();
-            $end = Carbon::now()->endOfMonth();
-        }
+        $date = "$year-$month-1";
+        $start = Carbon::parse($date)->startOfMonth();
+        $end = Carbon::parse($date)->endOfMonth();
 
         $period = CarbonPeriod::create($start, $end);
         $total_hari = $period->count();
