@@ -9,14 +9,13 @@ if ($("#chart-tire-cause-damage").length > 0) {
             type: "bar",
             height: 460,
             stacked: true,
-            stackType: "100%",
         },
         plotOptions: {
             bar: {
                 horizontal: false,
                 columnWidth: "55%",
                 dataLabels: {
-                    position: "top",
+                    position: "center",
                 },
                 // endingShape: 'rounded'
             },
@@ -81,8 +80,31 @@ if ($("#chart-tire-cause-damage").length > 0) {
     const url = $("#chart-tire-cause-damage").data("url");
 
     $.getJSON(url, (response) => {
+        const totals = response.xaxis.map((_, idx) =>
+            response.data.reduce((sum, s) => sum + (Number(s.data[idx]) || 0), 0)
+        );
+        const pointAnnotations = response.xaxis.map((cat, idx) => ({
+            x: cat,
+            y: totals[idx],
+            marker: { size: 0 },
+            label: {
+                borderWidth: 0,
+                offsetY: 0,
+                style: {
+                    background: "transparent",
+                    color: "#000",
+                    fontSize: "14px",
+                    fontWeight: 700,
+                },
+                text: "Total: " + totals[idx],
+            },
+        }));
+
         tire_scrap_injury.updateOptions({
             series: [...response.data],
+            annotations: {
+                points: pointAnnotations,
+            },
             yaxis: [
                 {
                     // seriesName: '27.00R49',
