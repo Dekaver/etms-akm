@@ -56,18 +56,15 @@ class Unit extends Model
     {
         return Attribute::make(
             get: function () {
-                $date = $this->daily_inspect
-                    ->sortByDesc('id')
-                    ->pluck('date')
-                    ->first()?->format("Y-m-d");
-                    $time = $this->daily_inspect
-                    ->sortByDesc('id')
-                    ->pluck('time')
-                    ->first();
-                if ($date == null) {
+                $inspect = $this->daily_inspect->sortByDesc('id')->first();
+                if (!$inspect) {
                     return null;
                 }
-                return Carbon::parse("$date $time")->format('Y-m-d H:i');
+                $date = $inspect->date ?? $inspect->start_date;
+                if (!$date) {
+                    return null;
+                }
+                return Carbon::parse($date)->format('Y-m-d H:i');
             }
         );
     }
