@@ -109,6 +109,14 @@ class HistoryTireMovementController extends Controller
      */
     public function update(Request $request, HistoryTireMovement $historyTireMovement)
     {
+        $request->validate([
+            'start_date' => 'required|date|before_or_equal:now',
+            'end_date' => 'required|date|after_or_equal:start_date|before_or_equal:now',
+        ], [
+            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
+            'end_date.after_or_equal' => 'End harus setelah atau sama dengan Start.',
+            'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
+        ]);
         $historyTireMovement = HistoryTireMovement::find($request->id);
         $historyTireMovement->rtd = $request->rtd;
         $historyTireMovement->hm_tire = $request->hm_tire;
@@ -577,11 +585,17 @@ class HistoryTireMovementController extends Controller
             }
 
             // dd($query);
-            $query = $query->whereHas('tire_number.tire_size', function ($q) use ($brand_tire, $type_pattern, $tire_pattern, $tire_size) {
+            $query = $query->where('history_tire_movements.company_id', $company->id);
+            $query = $query->whereHas('tire_number', function ($q) use ($company) {
+                $q->where('company_id', $company->id);
+            });
+            $query = $query->whereHas('tire_number.tire_size', function ($q) use ($company, $brand_tire, $type_pattern, $tire_pattern, $tire_size) {
+                $q->where('company_id', $company->id);
                 if ($tire_size) {
                     $q->where('size', $tire_size);
                 }
-                $q->whereHas('tire_pattern', function ($q) use ($brand_tire, $type_pattern, $tire_pattern) {
+                $q->whereHas('tire_pattern', function ($q) use ($company, $brand_tire, $type_pattern, $tire_pattern) {
+                    $q->where('company_id', $company->id);
                     if ($type_pattern) {
                         $q->where('type_pattern', $type_pattern);
                     }
@@ -589,8 +603,8 @@ class HistoryTireMovementController extends Controller
                         $q->where('pattern', $tire_pattern);
                     }
                     if ($brand_tire) {
-                        $q->whereHas('manufacture', function ($q) use ($brand_tire) {
-                            $q->where('name', $brand_tire);
+                        $q->whereHas('manufacture', function ($q) use ($company, $brand_tire) {
+                            $q->where('company_id', $company->id)->where('name', $brand_tire);
                         });
                     }
                 });
@@ -607,7 +621,7 @@ class HistoryTireMovementController extends Controller
             if ($grup == 'driver') {
                 $queryAkhir = $query->whereYear("drivers.created_at", $year)->where('drivers.company_id', $company->id)->groupBy('drivers.id', 'drivers.nama')->get();
             } else {
-                $queryAkhir = $query->whereYear("created_at", $year)->where('company_id', $company->id)->groupBy('unit')->get();
+                $queryAkhir = $query->whereYear("history_tire_movements.created_at", $year)->groupBy('unit')->get();
             }
             // dd($queryAkhir->get());
             return DataTables::of($queryAkhir)
