@@ -78,15 +78,18 @@ class DailyInspectController extends Controller
             'unit_id' => 'required',
             'hm' => 'required|numeric|min:0',
             'km' => 'required|numeric|min:0',
-            // 'date' => 'required',
-            // 'pic' => 'required',
-            // 'driver' => 'required',
+            'start_date' => 'required|date|before_or_equal:now',
+            'end_date' => 'required|date|after:start_date|before_or_equal:now',
             'position' => 'required|array',
             'serial_number' => 'required|array',
             'pressure' => 'required|array',
             'rtd' => 'required|array',
             'pic_id' => 'required',
             'driver_id' => 'required',
+        ], [
+            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
+            'end_date.after' => 'End harus lebih besar dari Start.',
+            'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
         // Ubah menjadi number from format number eg: 1.000 to 1000
         $request->hm = filter_var($request->hm, FILTER_SANITIZE_NUMBER_FLOAT);
@@ -121,14 +124,14 @@ class DailyInspectController extends Controller
             ]);
 
 
-            foreach ($request->foreman as $value) {
+            foreach ($request->foreman ?? [] as $value) {
                 DailyInspectForeman::create([
                     "daily_inspect_id" => $daily_inspect->id,
                     "teknisi_id" => $value,
                 ]);
             }
 
-            foreach ($request->manpower as $value) {
+            foreach ($request->manpower ?? [] as $value) {
                 DailyInspectManPower::create([
                     "daily_inspect_id" => $daily_inspect->id,
                     "teknisi_id" => $value,
@@ -326,13 +329,16 @@ class DailyInspectController extends Controller
             'unit_id' => 'required',
             'hm' => 'required|numeric|min:0',
             'km' => 'required|numeric|min:0',
-            // 'date' => 'required',
-            // 'pic' => 'required',
-            // 'driver' => 'required',
+            'start_date' => 'required|date|before_or_equal:now',
+            'end_date' => 'required|date|after:start_date|before_or_equal:now',
             'position' => 'required|array',
             'serial_number' => 'required|array',
             'pressure' => 'required|array',
             'rtd' => 'required|array',
+        ], [
+            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
+            'end_date.after' => 'End harus lebih besar dari Start.',
+            'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
 
         // Ubah menjadi number from format number eg: 1.000 to 1000
@@ -371,14 +377,14 @@ class DailyInspectController extends Controller
 
             DailyInspectForeman::where('daily_inspect_id', $dailyinspect->id)->delete();
             DailyInspectManPower::where('daily_inspect_id', $dailyinspect->id)->delete();
-            foreach ($request->foreman as $value) {
+            foreach ($request->foreman ?? [] as $value) {
                 DailyInspectForeman::create([
                     "daily_inspect_id" => $dailyinspect->id,
                     "teknisi_id" => $value,
                 ]);
             }
 
-            foreach ($request->manpower as $value) {
+            foreach ($request->manpower ?? [] as $value) {
                 DailyInspectManPower::create([
                     "daily_inspect_id" => $dailyinspect->id,
                     "teknisi_id" => $value,

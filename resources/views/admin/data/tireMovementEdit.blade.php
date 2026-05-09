@@ -1,6 +1,7 @@
 <x-app-layout>
 
     @push('css')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
         <link rel="stylesheet" href="{{ asset('assets/css/scrollable.css') }}">
         <style>
             .invalid-data {
@@ -1141,6 +1142,7 @@
     </div>
 
     @push('js')
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
         <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
         <script>
             $(function() {
@@ -1448,6 +1450,27 @@
             });
 
             (function() {
+                if (typeof flatpickr !== 'undefined') {
+                    document.querySelectorAll('input[type="datetime-local"]').forEach(function(el) {
+                        flatpickr(el, {
+                            enableTime: true,
+                            time_24hr: true,
+                            dateFormat: 'Y-m-d\\TH:i',
+                            altInput: true,
+                            altFormat: 'Y-m-d, H:i',
+                            allowInput: true,
+                        });
+                    });
+                    document.querySelectorAll('input[type="date"]').forEach(function(el) {
+                        flatpickr(el, {
+                            dateFormat: 'Y-m-d',
+                            altInput: true,
+                            altFormat: 'Y-m-d',
+                            allowInput: true,
+                        });
+                    });
+                }
+
                 function pad(n) { return String(n).padStart(2, '0'); }
                 function nowDateTimeLocal() {
                     var d = new Date();

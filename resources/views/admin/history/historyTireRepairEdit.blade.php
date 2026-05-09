@@ -111,15 +111,17 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label>Start Date</label>
-                            <input type="datetime-local" class="form-control" name="start_date"
-                                value="{{ $tire_repair->start_date??null }}">
+                            <input type="datetime-local" class="form-control" name="start_date" required
+                                value="{{ $tire_repair->start_date ? \Carbon\Carbon::parse($tire_repair->start_date)->format('Y-m-d\TH:i') : '' }}"
+                                max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>End Date</label>
-                            <input type="datetime-local" class="form-control" name="end_date"
-                                value="{{ $tire_repair->end_date??null }}">
+                            <input type="datetime-local" class="form-control" name="end_date" required
+                                value="{{ $tire_repair->end_date ? \Carbon\Carbon::parse($tire_repair->end_date)->format('Y-m-d\TH:i') : '' }}"
+                                max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                         </div>
                     </div>
                     <div class="col-6">

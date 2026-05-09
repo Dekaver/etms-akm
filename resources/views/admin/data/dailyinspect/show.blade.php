@@ -125,7 +125,8 @@
                                         value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required> --}}
                                     <label for="">Start</label>
                                     <input type="datetime-local" name="start_date" class="form-control"
-                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                     <div class="invalid-feedback">Please fill a time start.</div>
                                 </div>
                             </div>
@@ -136,7 +137,8 @@
                                         value="{{ \Carbon\Carbon::now()->format('h:i') }}" required> --}}
                                     <label for="">End</label>
                                     <input type="datetime-local" name="end_date" class="form-control"
-                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                     <div class="invalid-feedback">Please fill a time end.</div>
                                 </div>
                             </div>
@@ -362,7 +364,8 @@
                                     <input type="date" name="date" class="form-control" required> --}}
                                     <label for="">Start</label>
                                     <input type="datetime-local" name="start_date" class="form-control"
-                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                     <div class="invalid-feedback">Please fill a time start.</div>
                                 </div>
                             </div>
@@ -372,7 +375,8 @@
                                     <input type="time" name="time" class="form-control" required> --}}
                                     <label for="">End</label>
                                     <input type="datetime-local" name="end_date" class="form-control"
-                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}" required>
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}" required>
                                     <div class="invalid-feedback">Please fill a time end.</div>
                                 </div>
                             </div>

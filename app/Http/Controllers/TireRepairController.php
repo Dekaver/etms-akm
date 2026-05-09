@@ -108,10 +108,14 @@ class TireRepairController extends Controller
      */
     public function update(Request $request, TireMaster $tirerepair)
     {
-        // $request->validate([
-        //     "man_power" => "required",
-        //     "pic" => "required"
-        // ]);
+        $request->validate([
+            'start_date' => 'required|date|before_or_equal:now',
+            'end_date' => 'required|date|after:start_date|before_or_equal:now',
+        ], [
+            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
+            'end_date.after' => 'End harus lebih besar dari Start.',
+            'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
+        ]);
         try {
             // dd($request->tire_damage);
             DB::transaction(function () use ($tirerepair, $request) {

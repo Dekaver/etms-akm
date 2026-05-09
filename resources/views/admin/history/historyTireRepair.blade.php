@@ -228,15 +228,17 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Start Date</label>
-                                    <input type="datetime-local" class="form-control" name="start_date"
-                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}">
+                                    <input type="datetime-local" class="form-control" name="start_date" required
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>End Date</label>
-                                    <input type="datetime-local" class="form-control" name="end_date"
-                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d h:i') }}">
+                                    <input type="datetime-local" class="form-control" name="end_date" required
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                                 </div>
                             </div>
                             <div class="col-6">

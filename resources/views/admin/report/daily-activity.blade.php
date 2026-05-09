@@ -146,14 +146,16 @@
                                 <div class="form-group">
                                     <label>Mulai Pekerjaan<span class="manitory">*</span></label>
                                     <input type="datetime-local" name="start_date" class="form-control" required
-                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Selesai Pekerjaan<span class="manitory">*</span></label>
                                     <input type="datetime-local" name="end_date" class="form-control" required
-                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d h:i') }}">
+                                        value="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}"
+                                        max="{{ \Carbon\Carbon::now(8)->format('Y-m-d\TH:i') }}">
                                 </div>
                             </div>
 
