@@ -81,7 +81,7 @@ class TireRunningController extends Controller
                 'tire_id' => "required",
                 'position' => "required",
                 'start_date' => "required|date|before_or_equal:end_date",
-                'end_date' => "required|date|after_or_equal:start_date|before_or_equal:now",
+                'end_date' => "required|date|after_or_equal:start_date",
                 'start_breakdown' => "nullable|date|before_or_equal:start_date",
                 'hm' => "required",
                 'km' => "required",
@@ -247,7 +247,7 @@ class TireRunningController extends Controller
             "tire_id_2" => "required",
             "unit_id" => "required",
             'start_date' => "required|date|before_or_equal:end_date",
-            'end_date' => "required|date|after_or_equal:start_date|before_or_equal:now",
+            'end_date' => "required|date|after_or_equal:start_date",
             'start_breakdown' => "nullable|date|before_or_equal:start_date",
         ]);
         $company = auth()->user()->company;
@@ -459,7 +459,7 @@ class TireRunningController extends Controller
             'tire_status_id' => "required",
             'position' => "required",
             'start_date' => "required|date|before_or_equal:end_date",
-            'end_date' => "required|date|after_or_equal:start_date|before_or_equal:now",
+            'end_date' => "required|date|after_or_equal:start_date",
             'hm' => "required|numeric",
             'rtd' => "required|numeric",
             "start_breakdown" => "required|date|before_or_equal:start_date",

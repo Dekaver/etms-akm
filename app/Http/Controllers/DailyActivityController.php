@@ -95,15 +95,14 @@ class DailyActivityController extends Controller
             "aktivitas_pekerjaan_id" => "required",
             "unit_model_id" => "required_if:aktivitas_pekerjaan_id,1,2,3,4,5",
             "unit_id" => "required_if:aktivitas_pekerjaan_id,1,2,3,4,5",
-            "start_date" => "required|date|before_or_equal:end_date|before_or_equal:now",
-            "end_date" => "required|date|after_or_equal:start_date|before_or_equal:now",
+            "start_date" => "required|date|before_or_equal:end_date",
+            "end_date" => "required|date|after_or_equal:start_date",
             "area_pekerjaan_id" => "required",
             "remark" => "required",
             "photos.*" => "image|mimes:jpeg,png,jpg,gif|max:2048"
         ], [
-            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End dan tidak boleh di masa depan.',
+            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End.',
             'end_date.after_or_equal' => 'End harus lebih atau sama dengan Start.',
-            'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
 
         if ($validator->fails()) {
@@ -167,13 +166,12 @@ class DailyActivityController extends Controller
     {
         $request->validate([
             "tanggal" => "required|date",
-            "start_date" => "required|date|before_or_equal:end_date|before_or_equal:now",
-            "end_date" => "required|date|after_or_equal:start_date|before_or_equal:now",
+            "start_date" => "required|date|before_or_equal:end_date",
+            "end_date" => "required|date|after_or_equal:start_date",
             "photos.*" => "image|mimes:jpeg,png,jpg,gif|max:2048"
         ], [
-            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End dan tidak boleh di masa depan.',
+            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End.',
             'end_date.after_or_equal' => 'End harus lebih atau sama dengan Start.',
-            'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
 
         $dailyActivity->update([
