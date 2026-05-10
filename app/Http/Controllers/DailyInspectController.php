@@ -78,8 +78,8 @@ class DailyInspectController extends Controller
             'unit_id' => 'required',
             'hm' => 'required|numeric|min:0',
             'km' => 'required|numeric|min:0',
-            'start_date' => 'required|date|before_or_equal:now',
-            'end_date' => 'required|date|after:start_date|before_or_equal:now',
+            'start_date' => 'required|date|before_or_equal:end_date|before_or_equal:now',
+            'end_date' => 'required|date|after_or_equal:start_date|before_or_equal:now',
             'position' => 'required|array',
             'serial_number' => 'required|array',
             'pressure' => 'required|array',
@@ -87,8 +87,8 @@ class DailyInspectController extends Controller
             'pic_id' => 'required',
             'driver_id' => 'required',
         ], [
-            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
-            'end_date.after' => 'End harus lebih besar dari Start.',
+            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End dan tidak boleh di masa depan.',
+            'end_date.after_or_equal' => 'End harus lebih atau sama dengan Start.',
             'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
         // Ubah menjadi number from format number eg: 1.000 to 1000
@@ -329,15 +329,15 @@ class DailyInspectController extends Controller
             'unit_id' => 'required',
             'hm' => 'required|numeric|min:0',
             'km' => 'required|numeric|min:0',
-            'start_date' => 'required|date|before_or_equal:now',
-            'end_date' => 'required|date|after:start_date|before_or_equal:now',
+            'start_date' => 'required|date|before_or_equal:end_date|before_or_equal:now',
+            'end_date' => 'required|date|after_or_equal:start_date|before_or_equal:now',
             'position' => 'required|array',
             'serial_number' => 'required|array',
             'pressure' => 'required|array',
             'rtd' => 'required|array',
         ], [
-            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
-            'end_date.after' => 'End harus lebih besar dari Start.',
+            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End dan tidak boleh di masa depan.',
+            'end_date.after_or_equal' => 'End harus lebih atau sama dengan Start.',
             'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
 

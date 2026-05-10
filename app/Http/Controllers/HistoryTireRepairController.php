@@ -123,11 +123,11 @@ class HistoryTireRepairController extends Controller
         $request->validate([
             "man_power" => "required",
             "pic" => "required",
-            'start_date' => 'required|date|before_or_equal:now',
-            'end_date' => 'required|date|after:start_date|before_or_equal:now',
+            'start_date' => 'required|date|before_or_equal:end_date|before_or_equal:now',
+            'end_date' => 'required|date|after_or_equal:start_date|before_or_equal:now',
         ], [
-            'start_date.before_or_equal' => 'Start tidak boleh di masa depan.',
-            'end_date.after' => 'End harus lebih besar dari Start.',
+            'start_date.before_or_equal' => 'Start harus kurang atau sama dengan End dan tidak boleh di masa depan.',
+            'end_date.after_or_equal' => 'End harus lebih atau sama dengan Start.',
             'end_date.before_or_equal' => 'End tidak boleh di masa depan.',
         ]);
 
