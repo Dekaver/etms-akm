@@ -106,29 +106,31 @@
                             @for ($i = 0; $i < $total_hari; $i++)
                                 <th>{{ 1 + $i }}</th>
                             @endfor
-                            <th>Total</th>
+                            <th>Total R</th>
+                            <th>Total V</th>
+                            <th>Total I</th>
+                            <th>Tgl Last R</th>
+                            <th>Tgl Last V</th>
+                            <th>Tgl Last I</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($data as $key => $item)
                             <tr>
                                 <td>{{ $key }}</td>
-                                @php
-                                    $total = 0;
-                                @endphp
                                 @foreach ($item as $v)
-                                    @php
-                                        if ($v != '-') {
-                                            $total += 1;
-                                        }
-                                    @endphp
                                     <td>{{ $v }}</td>
                                 @endforeach
-                                <td>{{ $total }}</td>
+                                <td>{{ $totals[$key]['R'] ?? 0 }}</td>
+                                <td>{{ $totals[$key]['V'] ?? 0 }}</td>
+                                <td>{{ $totals[$key]['I'] ?? 0 }}</td>
+                                <td>{{ !empty($lastInspect[$key]['R']) ? $lastInspect[$key]['R']->format('Y-m-d') : '-' }}</td>
+                                <td>{{ !empty($lastInspect[$key]['V']) ? $lastInspect[$key]['V']->format('Y-m-d') : '-' }}</td>
+                                <td>{{ !empty($lastInspect[$key]['I']) ? $lastInspect[$key]['I']->format('Y-m-d') : '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td align="center" colspan="{{ $total_hari + 2 }}">No Data</td>
+                                <td align="center" colspan="{{ $total_hari + 7 }}">No Data</td>
                             </tr>
                         @endforelse
                     </tbody>

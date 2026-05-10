@@ -49,18 +49,60 @@ class HistoryTireController extends Controller
         }
         $tire_movement = $tire_movement->groupBy("unit", "date", "status")->get();
 
-        $data = [];
-        foreach ($period as $date) {
-            foreach ($tire_movement as $key => $unit) {
-                $data[$unit->unit][$date->format('d')] = $unit->date == $date->format("Y-m-d") ?
-                    ($unit->status == "RUNNING" ? "I" : "R") : "-";
-            }
+        $units = [];
+        foreach ($tire_inspect as $row) {
+            $units[$row->unit->unit_number] = true;
+        }
+        foreach ($tire_movement as $row) {
+            $units[$row->unit] = true;
+        }
 
-            foreach ($tire_inspect as $key => $unit) {
-                $data[$unit->unit->unit_number][$date->format('d')] = $unit->date == $date ? "V" : "-";
+        $data = [];
+        $totals = [];
+        $lastInspect = [];
+        foreach (array_keys($units) as $unitNumber) {
+            $totals[$unitNumber] = ["V" => 0, "R" => 0, "I" => 0];
+            $lastInspect[$unitNumber] = ["V" => null, "R" => null, "I" => null];
+            foreach ($period as $date) {
+                $data[$unitNumber][$date->format('d')] = "-";
             }
         }
-        return view("admin.history.historydailyInspect", compact("data", "total_hari", "sites", "site", "year", "month"));
+
+        foreach ($tire_movement as $row) {
+            $rowDate = Carbon::parse($row->date);
+            $d = $rowDate->format('d');
+            $code = $row->status == "RUNNING" ? "I" : "R";
+            $cell = $data[$row->unit][$d] ?? "-";
+            $set = $cell == "-" ? [] : explode(",", $cell);
+            if (!in_array($code, $set)) {
+                $set[] = $code;
+                $totals[$row->unit][$code] += 1;
+            }
+            $data[$row->unit][$d] = implode(",", $set);
+
+            if (!$lastInspect[$row->unit][$code] || $rowDate->gt($lastInspect[$row->unit][$code])) {
+                $lastInspect[$row->unit][$code] = $rowDate;
+            }
+        }
+
+        foreach ($tire_inspect as $row) {
+            $unitNumber = $row->unit->unit_number;
+            $rowDate = Carbon::parse($row->date);
+            $d = $rowDate->format('d');
+            $cell = $data[$unitNumber][$d] ?? "-";
+            $set = $cell == "-" ? [] : explode(",", $cell);
+            if (!in_array("V", $set)) {
+                array_unshift($set, "V");
+                $totals[$unitNumber]["V"] += 1;
+            }
+            $data[$unitNumber][$d] = implode(",", $set);
+
+            if (!$lastInspect[$unitNumber]["V"] || $rowDate->gt($lastInspect[$unitNumber]["V"])) {
+                $lastInspect[$unitNumber]["V"] = $rowDate;
+            }
+        }
+
+        return view("admin.history.historydailyInspect", compact("data", "total_hari", "sites", "site", "year", "month", "totals", "lastInspect"));
     }
 
     /**

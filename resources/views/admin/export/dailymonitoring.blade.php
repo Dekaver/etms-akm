@@ -2,8 +2,10 @@
     <colgroup width="145"></colgroup>
     <colgroup span="{{ $total_days }}" width="35"></colgroup>
     <colgroup width="101"></colgroup>
+    <colgroup span="3" width="55"></colgroup>
+    <colgroup span="3" width="90"></colgroup>
     <tr>
-        <td height="45" colspan="{{ $total_days + 2 }}" align="left" valign=top><b>
+        <td height="45" colspan="{{ $total_days + 8 }}" align="left" valign=top><b>
                 <font size=6 color="#4B180E">DAILY INSPECTION REPORT</font>
             </b></td>
 
@@ -50,7 +52,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="{{ $total_days + 2 }}">
+        <td colspan="{{ $total_days + 8 }}">
 
         </td>
     </tr>
@@ -76,6 +78,24 @@
         @endforeach
         <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
                 <font size=4 color="#7C271A">Total Days</font>
+            </b></td>
+        <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
+                <font size=4 color="#7C271A">Total R</font>
+            </b></td>
+        <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
+                <font size=4 color="#7C271A">Total V</font>
+            </b></td>
+        <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
+                <font size=4 color="#7C271A">Total I</font>
+            </b></td>
+        <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
+                <font size=4 color="#7C271A">Tgl Last R</font>
+            </b></td>
+        <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
+                <font size=4 color="#7C271A">Tgl Last V</font>
+            </b></td>
+        <td rowspan="2" align="center" valign=middle bgcolor="#F1F2E8"><b>
+                <font size=4 color="#7C271A">Tgl Last I</font>
             </b></td>
     </tr>
     <tr>
@@ -114,10 +134,28 @@
             <td align="center" valign=middle sdval="0" sdnum="1033;0;0">
                 <font color="#000000">{{ $total }}</font>
             </td>
+            <td align="center" valign=middle>
+                <font color="#000000">{{ $totals[$key]['R'] ?? 0 }}</font>
+            </td>
+            <td align="center" valign=middle>
+                <font color="#000000">{{ $totals[$key]['V'] ?? 0 }}</font>
+            </td>
+            <td align="center" valign=middle>
+                <font color="#000000">{{ $totals[$key]['I'] ?? 0 }}</font>
+            </td>
+            <td align="center" valign=middle>
+                <font color="#000000">{{ !empty($lastInspect[$key]['R']) ? $lastInspect[$key]['R']->format('Y-m-d') : '-' }}</font>
+            </td>
+            <td align="center" valign=middle>
+                <font color="#000000">{{ !empty($lastInspect[$key]['V']) ? $lastInspect[$key]['V']->format('Y-m-d') : '-' }}</font>
+            </td>
+            <td align="center" valign=middle>
+                <font color="#000000">{{ !empty($lastInspect[$key]['I']) ? $lastInspect[$key]['I']->format('Y-m-d') : '-' }}</font>
+            </td>
         </tr>
     @empty
         <tr>
-            <td colspan="{{ $total_days + 2 }}" align="center">No Data</td>
+            <td colspan="{{ $total_days + 8 }}" align="center">No Data</td>
         </tr>
     @endforelse
     <tr>
@@ -137,6 +175,24 @@
         @endforelse
         <td align="center" valign=middle sdval="9" sdnum="1033;0;0;0;;" bgcolor="#F1F2E8">
             <font color="#000000">{{ array_sum($jumlah) }}</font>
+        </td>
+        <td align="center" valign=middle bgcolor="#F1F2E8">
+            <font color="#000000">{{ array_sum(array_column($totals, 'R')) }}</font>
+        </td>
+        <td align="center" valign=middle bgcolor="#F1F2E8">
+            <font color="#000000">{{ array_sum(array_column($totals, 'V')) }}</font>
+        </td>
+        <td align="center" valign=middle bgcolor="#F1F2E8">
+            <font color="#000000">{{ array_sum(array_column($totals, 'I')) }}</font>
+        </td>
+        <td align="center" valign=middle bgcolor="#F1F2E8">
+            <font color="#000000"></font>
+        </td>
+        <td align="center" valign=middle bgcolor="#F1F2E8">
+            <font color="#000000"></font>
+        </td>
+        <td align="center" valign=middle bgcolor="#F1F2E8">
+            <font color="#000000"></font>
         </td>
     </tr>
 </table>

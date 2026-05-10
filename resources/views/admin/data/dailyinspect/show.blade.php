@@ -495,6 +495,23 @@
 
 
     @push('js')
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+        <script>
+            (function() {
+                if (typeof flatpickr !== 'undefined') {
+                    document.querySelectorAll('input[type="datetime-local"]').forEach(function(el) {
+                        flatpickr(el, {
+                            enableTime: true,
+                            time_24hr: true,
+                            dateFormat: 'Y-m-d\\TH:i',
+                            altInput: true,
+                            altFormat: 'Y-m-d, H:i',
+                            allowInput: true,
+                        });
+                    });
+                }
+            })();
+        </script>
         <script src="{{ asset('assets/js/dragable/jquery-ui.min.js') }}"></script>
         <script type="text/javascript">
             var id_unit = @json($unit->id);
@@ -735,6 +752,7 @@
     @endpush
 
     @push('css')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
         <style>
             /* Chrome, Safari, Edge, Opera */
             input::-webkit-outer-spin-button,

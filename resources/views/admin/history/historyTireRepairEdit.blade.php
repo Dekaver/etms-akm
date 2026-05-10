@@ -256,7 +256,28 @@
     </div>
 
 
+    @push('css')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+    @endpush
+
     @push('js')
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+        <script>
+            (function() {
+                if (typeof flatpickr !== 'undefined') {
+                    document.querySelectorAll('input[type="datetime-local"]').forEach(function(el) {
+                        flatpickr(el, {
+                            enableTime: true,
+                            time_24hr: true,
+                            dateFormat: 'Y-m-d\\TH:i',
+                            altInput: true,
+                            altFormat: 'Y-m-d, H:i',
+                            allowInput: true,
+                        });
+                    });
+                }
+            })();
+        </script>
         <script>
             document.querySelectorAll('.foto-input').forEach(input => {
                 input.addEventListener('change', function() {
