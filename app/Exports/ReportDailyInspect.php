@@ -31,7 +31,7 @@ class ReportDailyInspect implements FromView
         $end = Carbon::parse($month)->endOfMonth();
         $period = CarbonPeriod::create($start, $end);
         $total_days = $period->count();
-        $tire_inspect = DailyInspect::select("unit_id", "date")->with("unit")->whereBetween("date", [$start, $end]);
+        $tire_inspect = DailyInspect::select("unit_id", DB::raw('DATE(start_date) as date'))->with("unit")->whereBetween("start_date", [$start, $end]);
 
         if ($this->site) {
             $tire_inspect = $tire_inspect->where("site_id", $this->site);

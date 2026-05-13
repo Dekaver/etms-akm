@@ -30,10 +30,10 @@ class HistoryTireController extends Controller
 
         $period = CarbonPeriod::create($start, $end);
         $total_hari = $period->count();
-        $tire_inspect = DailyInspect::select("unit_id", "date")
+        $tire_inspect = DailyInspect::select("unit_id", DB::raw('DATE(start_date) as date'))
             ->with("unit")
             ->where('company_id', $company->id)
-            ->whereBetween("date", [$start, $end]);
+            ->whereBetween("start_date", [$start, $end]);
         if ($site) {
             $tire_inspect = $tire_inspect->where("site_id", $site);
         }
