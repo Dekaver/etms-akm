@@ -37,7 +37,7 @@ class HistoryTireController extends Controller
         if ($site) {
             $tire_inspect = $tire_inspect->where("site_id", $site);
         }
-        $tire_inspect = $tire_inspect->groupBy("unit_id", "date")->get();
+        $tire_inspect = $tire_inspect->groupBy("unit_id", DB::raw('DATE(start_date)'))->get();
 
         $sites = Site::where("company_id", $company->id)->get();
 
@@ -47,7 +47,7 @@ class HistoryTireController extends Controller
         if ($site) {
             $tire_movement = $tire_movement->where("site_id", $site);
         }
-        $tire_movement = $tire_movement->groupBy("unit", "date", "process")->get();
+        $tire_movement = $tire_movement->groupBy("unit", DB::raw('DATE(start_date)'), "process")->get();
 
         $units = [];
         foreach ($tire_inspect as $row) {

@@ -36,11 +36,11 @@ class ReportDailyInspect implements FromView
         if ($this->site) {
             $tire_inspect = $tire_inspect->where("site_id", $this->site);
         }
-        $tire_inspect = $tire_inspect->groupBy("unit_id", "date")->get();
+        $tire_inspect = $tire_inspect->groupBy("unit_id", DB::raw('DATE(start_date)'))->get();
 
         $tire_movement = HistoryTireMovement::select("unit", "process", DB::raw('DATE(start_date) as date'))
             ->where('company_id', auth()->user()->company->id)
-            ->whereBetween("start_date", [$start, $end])->groupBy("unit", "date", "process");
+            ->whereBetween("start_date", [$start, $end])->groupBy("unit", DB::raw('DATE(start_date)'), "process");
         if ($this->site) {
             $tire_movement = $tire_movement->where('site_id', $this->site);
         }
