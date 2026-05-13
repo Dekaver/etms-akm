@@ -41,13 +41,13 @@ class HistoryTireController extends Controller
 
         $sites = Site::where("company_id", $company->id)->get();
 
-        $tire_movement = HistoryTireMovement::select("unit", "status", DB::raw('DATE(created_at) as date'))
+        $tire_movement = HistoryTireMovement::select("unit", "process", DB::raw('DATE(start_date) as date'))
             ->where("company_id", $company->id)
             ->whereBetween("start_date", [$start, $end]);
         if ($site) {
             $tire_movement = $tire_movement->where("site_id", $site);
         }
-        $tire_movement = $tire_movement->groupBy("unit", "date", "status")->get();
+        $tire_movement = $tire_movement->groupBy("unit", "date", "process")->get();
 
         $units = [];
         foreach ($tire_inspect as $row) {
@@ -71,7 +71,7 @@ class HistoryTireController extends Controller
         foreach ($tire_movement as $row) {
             $rowDate = Carbon::parse($row->date);
             $d = $rowDate->format('d');
-            $code = $row->status == "RUNNING" ? "I" : "R";
+            $code = $row->process == "INSTALL" ? "I" : "R";
             $cell = $data[$row->unit][$d] ?? "-";
             $set = $cell == "-" ? [] : explode(",", $cell);
             if (!in_array($code, $set)) {

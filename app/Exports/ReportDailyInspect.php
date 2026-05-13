@@ -38,9 +38,9 @@ class ReportDailyInspect implements FromView
         }
         $tire_inspect = $tire_inspect->groupBy("unit_id", "date")->get();
 
-        $tire_movement = HistoryTireMovement::select("unit", "status", DB::raw('DATE(created_at) as date'))
+        $tire_movement = HistoryTireMovement::select("unit", "process", DB::raw('DATE(start_date) as date'))
             ->where('company_id', auth()->user()->company->id)
-            ->whereBetween("start_date", [$start, $end])->groupBy("unit", "date", "status");
+            ->whereBetween("start_date", [$start, $end])->groupBy("unit", "date", "process");
         if ($this->site) {
             $tire_movement = $tire_movement->where('site_id', $this->site);
         }
@@ -68,7 +68,7 @@ class ReportDailyInspect implements FromView
         foreach ($tire_movement as $row) {
             $rowDate = Carbon::parse($row->date);
             $d = $rowDate->format('d');
-            $code = $row->status == "RUNNING" ? "I" : "R";
+            $code = $row->process == "INSTALL" ? "I" : "R";
             $cell = $data[$row->unit][$d] ?? "-";
             $set = $cell == "-" ? [] : explode(",", $cell);
             if (!in_array($code, $set)) {
